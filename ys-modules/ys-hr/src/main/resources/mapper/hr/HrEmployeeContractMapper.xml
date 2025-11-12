@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrEmployeeContractMapper">
+
+    <resultMap type="com.ys.hr.domain.HrEmployeeContract" id="HrEmployeeContractResult">
+        <result property="id"    column="id"    />
+        <result property="isSign"    column="is_sign"    />
+        <result property="salary"    column="salary"    />
+        <result property="trySalary"    column="try_salary"    />
+        <result property="contractType"    column="contract_type"    />
+        <result property="contractForm"    column="contract_form"    />
+        <result property="contractStartTime"    column="contract_start_time"    />
+        <result property="contractEndTime"    column="contract_end_time"    />
+        <result property="tryStartDate"    column="try_start_date"    />
+        <result property="tryEndDate"    column="try_end_date"    />
+        <result property="contractCode"    column="contract_code"    />
+        <result property="accessory"    column="accessory"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="signDate"    column="sign_date"    />
+        <result property="signFlowId"    column="sign_flow_id"    />
+        <result property="fileId"    column="file_id"    />
+        <result property="signStatu"    column="sign_statu"    />
+        <result property="userSign"    column="user_sign"    />
+        <result property="enterpriseSign"    column="enterprise_sign"    />
+        <result property="hasProbationPeriod"    column="has_probation_period"    />
+        <result property="paymentDate"    column="payment_date"    />
+        <result property="signType"    column="sign_type"    />
+        <result property="companyEmail"    column="company_email"    />
+        <result property="email"    column="email"    />
+        <result property="platformType"    column="platform_type"    />
+        <result property="socialSecurityCost"    column="social_security_cost"    />
+        <result property="comInsuIdCost"    column="com_insu_id_cost"    />
+        <result property="accuFundIdCost"    column="accu_fund_id_cost"    />
+        <result property="openingBank"    column="opening_bank"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="isNotify"    column="is_notify"    />
+        <result property="isMaturity"    column="is_maturity"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="postId"    column="post_id"    />
+        <result property="companyAddress"    column="company_address"    />
+        <result property="payRate"    column="pay_rate"    />
+        <result property="signaturePlatformId"    column="signature_platform_id"    />
+    </resultMap>
+
+    <sql id="selectTbEmpContractVo">
+        select id, a_user_id, b_user_id, user_sign, enterprise_sign, post, company_id, company_name, sign_type,company_email, email,
+               company_address, company_phone, corporation_name, corporation_id_card, name, id_number, relation_address, permanent_address,
+               social_security_cost, com_insu_id_cost, accu_fund_id_cost, opening_bank, bank_name,is_notify, is_maturity,template_id, signature_platform_id,
+               bank_number, phone, template_content, is_sign, salary, try_salary, contract_type, contract_form, payment_date,platform_type,
+               contract_start_time, contract_end_time, try_start_date, try_end_date, contract_code, accessory, update_by,post_id,
+               create_by, pay_rate, remark, create_time, update_time, has_probation_period, sign_date, sign_flow_id, file_id, sign_statu, sign_url1, sign_url2
+        <if test="userId != null  and userId != ''">,if(a_user_id = #{userId},1,2) user_type,if(a_user_id = #{userId},sign_url2,sign_url1) sign_url</if>
+        from hr_employee_contract
+    </sql>
+
+    <select id="selectTbEmpContractList" parameterType="com.ys.hr.domain.HrEmployeeContract" resultMap="HrEmployeeContractResult">
+        <include refid="selectTbEmpContractVo"/>
+        <where>
+            <if test="userId != null  and userId != ''"> and (a_user_id = #{userId} or b_user_id = #{userId})</if>
+            <if test="isSign != null  and isSign != ''"> and is_sign = #{isSign}</if>
+            <if test="salary != null "> and salary = #{salary}</if>
+            <if test="trySalary != null "> and try_salary = #{trySalary}</if>
+            <if test="contractType != null  and contractType != ''"> and contract_type = #{contractType}</if>
+            <if test="contractForm != null  and contractForm != ''"> and contract_form = #{contractForm}</if>
+            <if test="contractStartTime != null "> and contract_start_time = #{contractStartTime}</if>
+            <if test="contractEndTime != null "> and contract_end_time = #{contractEndTime}</if>
+            <if test="tryStartDate != null "> and try_start_date = #{tryStartDate}</if>
+            <if test="tryEndDate != null "> and try_end_date = #{tryEndDate}</if>
+            <if test="contractCode != null  and contractCode != ''"> and contract_code = #{contractCode}</if>
+            <if test="accessory != null  and accessory != ''"> and accessory = #{accessory}</if>
+            <if test="signFlowId != null  and signFlowId != ''"> and sign_flow_id = #{signFlowId}</if>
+            <if test="fileId != null  and fileId != ''"> and file_id = #{fileId}</if>
+            <if test="signStatu != null  and signStatu != '' and signStatu != '-1'"> and sign_statu = #{signStatu}</if>
+            <if test="signStatu == '-1'"> and sign_statu != '2'</if>
+            <if test="aUserId != null"> and a_user_id = #{aUserId}</if>
+            <if test="bUserId != null "> and b_user_id = #{bUserId}</if>
+            <if test="companyId != null and companyId != ''"> and company_id = #{companyId}</if>
+        </where>
+    </select>
+
+    <select id="selectTbEmpContractList1" parameterType="com.ys.hr.domain.HrEmployeeContract" resultMap="HrEmployeeContractResult">
+        select tec.id,
+        tec.a_user_id,
+        tec.b_user_id,
+        tec.user_sign,
+        tec.enterprise_sign,
+        tec.post,
+        tec.company_id,
+        tec.company_name,
+        tec.company_address,
+        tec.company_phone,
+        tec.corporation_name,
+        tec.corporation_id_card,
+        tec.name,
+        tec.id_number,
+        tec.relation_address,
+        tec.permanent_address,
+        tec.bank_number,
+        tec.phone,
+        tec.template_content,
+        tec.is_sign,
+        tec.salary,
+        tec.try_salary,
+        tec.contract_type,
+        tec.contract_form,
+        tec.contract_start_time,
+        tec.contract_end_time,
+        tec.try_start_date,
+        tec.try_end_date,
+        tec.contract_code, accessory,
+        tec.update_by,
+        tec.create_by,
+        tec.remark,
+        tec.create_time,
+        tec.update_time,
+        tec.has_probation_period,
+        tec.sign_date,
+        tec.sign_flow_id,
+        tec.file_id,
+        tec.sign_statu,
+        tec.sign_url2,
+        tec.sign_url1,
+        tec.sign_type,
+        tec.company_email,
+        tec.email,
+        tec.platform_type,
+        tec.signature_platform_id,
+        tec.payment_date,
+        tec.social_security_cost,
+        tec.com_insu_id_cost,
+        tec.accu_fund_id_cost,
+        tec.opening_bank,
+        tec.bank_name,
+        tec.is_notify,
+        tec.is_maturity,
+        tec.post_id,
+        tec.pay_rate,
+        tec.template_id
+        <if test="userId != null  and userId != ''">,if(tec.a_user_id = #{userId},1,2) user_type,if(tec.a_user_id = #{userId},tec.sign_url2,tec.sign_url1) sign_url</if>
+        from hr_employee_contract tec
+        <where>
+            <if test="userId != null  and userId != ''"> and (tec.a_user_id = #{userId} or tec.b_user_id = #{userId})</if>
+            <if test="isSign != null  and isSign != ''"> and tec.is_sign = #{isSign}</if>
+            <if test="salary != null "> and tec.salary = #{salary}</if>
+            <if test="trySalary != null "> and tec.try_salary = #{trySalary}</if>
+            <if test="contractType != null  and contractType != ''"> and tec.contract_type = #{contractType}</if>
+            <if test="contractForm != null  and contractForm != ''"> and tec.contract_form = #{contractForm}</if>
+            <if test="contractStartTime != null "> and tec.contract_start_time = #{contractStartTime}</if>
+            <if test="contractEndTime != null "> and tec.contract_end_time = #{contractEndTime}</if>
+            <if test="tryStartDate != null "> and tec.try_start_date = #{tryStartDate}</if>
+            <if test="tryEndDate != null "> and tec.try_end_date = #{tryEndDate}</if>
+            <if test="contractCode != null  and contractCode != ''"> and tec.contract_code = #{contractCode}</if>
+            <if test="accessory != null  and accessory != ''"> and tec.accessory = #{accessory}</if>
+            <if test="signFlowId != null  and signFlowId != ''"> and tec.sign_flow_id = #{signFlowId}</if>
+            <if test="fileId != null  and fileId != ''"> and tec.file_id = #{fileId}</if>
+            <if test="signStatu != null  and signStatu != '' and signStatu != '-1'"> and tec.sign_statu = #{signStatu}</if>
+            <if test="signStatu == '-1'"> and tec.sign_statu != '2'</if>
+            <if test="aUserId != null "> and tec.a_user_id = #{aUserId}</if>
+            <if test="bUserId != null "> and tec.b_user_id = #{bUserId}</if>
+        </where>
+    </select>
+
+    <select id="selectUserCountByRid" resultType="Long">
+        SELECT
+            COUNT( tec.id )
+        FROM
+            hr_employee_contract tec
+        <where>
+            tec.a_user_id = #{uid}
+            <if test="status != null and status != '' and status != '-1'"> and tec.sign_statu = #{status}</if>
+            <if test="status == '-1'"> and tec.sign_statu != '2'</if>
+        </where>
+    </select>
+
+    <select id="selectByFileId" parameterType="String" resultMap="HrEmployeeContractResult">
+        <include refid="selectTbEmpContractVo"/>
+        where file_id = #{contractNo}
+    </select>
+
+    <select id="selectEmpContractInfo" parameterType="com.ys.hr.domain.HrEmployeeContract" resultMap="HrEmployeeContractResult">
+        <include refid="selectTbEmpContractVo"/>
+        <where>
+            <if test="aUserId != null"> and a_user_id = #{aUserId}</if>
+            <if test="bUserId != null"> and b_user_id = #{bUserId}</if>
+        </where>
+    </select>
+
+    <select id="selectTbEmpContracts" parameterType="com.ys.hr.domain.HrEmployeeContract" resultMap="HrEmployeeContractResult">
+        <include refid="selectTbEmpContractVo"/>
+        <where>
+            <if test="aUserId != null"> and a_user_id = #{aUserId}</if>
+            <if test="companyId != null  and companyId != ''"> and company_id = #{companyId}</if>
+            <if test="bUserId != null"> and b_user_id = #{bUserId}</if>
+            <if test="isMaturity != null and isMaturity != ''"> and is_maturity = #{isMaturity}</if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectExpiringContracts" resultMap="HrEmployeeContractResult">
+        SELECT
+            id,
+            a_user_id,
+            b_user_id,
+            post,
+            name,
+            company_name
+        FROM
+            hr_employee_contract hec
+        WHERE
+            current_date >= contract_end_time::date
+            AND is_notify = '1'
+    </select>
+</mapper>

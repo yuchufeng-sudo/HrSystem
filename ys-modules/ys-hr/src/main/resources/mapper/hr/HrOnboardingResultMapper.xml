@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrOnboardingResultMapper">
+
+    <resultMap type="HrOnboardingResult" id="HrOnboardingResultResult">
+        <result property="id"    column="id"    />
+        <result property="onboardingId"    column="onboarding_id"    />
+        <result property="step"    column="step"    />
+        <result property="result"    column="result"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="employeesId"    column="employees_id"    />
+    </resultMap>
+
+    <sql id="selectHrOnboardingResultVo">
+        select id, onboarding_id, step, result, create_by, create_time, update_by, update_time, remark, enterprise_id, employees_id from hr_onboarding_result
+    </sql>
+
+    <select id="selectHrOnboardingResultList" parameterType="HrOnboardingResult" resultMap="HrOnboardingResultResult">
+        <include refid="selectHrOnboardingResultVo"/>
+        <where>
+            <if test="onboardingId != null  and onboardingId != ''"> and onboarding_id = #{onboardingId}</if>
+            <if test="step != null  and step != ''"> and step = #{step}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="employeesId != null  and employeesId != ''"> and employees_id = #{employeesId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrOnboardingResultById" parameterType="String" resultMap="HrOnboardingResultResult">
+        <include refid="selectHrOnboardingResultVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

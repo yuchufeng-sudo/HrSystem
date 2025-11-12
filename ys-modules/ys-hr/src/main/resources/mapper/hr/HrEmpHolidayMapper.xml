@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrEmpHolidayMapper">
+
+    <resultMap type="HrEmpHoliday" id="HrEmpHolidayResult">
+        <result property="empleHolidayId"    column="emple_holiday_id"    />
+        <result property="holidayName"    column="holiday_name"    />
+        <result property="carrayForward"    column="carray_forward"    />
+        <result property="paidLeave"    column="paid_leave"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="holidayType"    column="holiday_type"    />
+        <result property="stateTime"    column="state_time"    />
+        <result property="endTime"    column="end_time"    />
+    </resultMap>
+
+    <sql id="selectHrEmpHolidayVo">
+        SELECT
+            eh.emple_holiday_id,
+            eh.holiday_name,
+            eh.carray_forward,
+            eh.paid_leave,
+            eh.enterprise_id,
+            eh.create_by,
+            eh.create_time,
+            eh.update_by,
+            eh.update_time,
+            eh.remark,
+            eh.holiday_type,
+            eh.state_time,
+            eh.end_time,
+            su.nick_name
+        FROM
+            hr_emp_holiday eh
+                LEFT JOIN sys_user su on su.user_id = eh.user_id
+    </sql>
+    <update id="updateByHrEmpHolidayById" parameterType="com.ys.hr.domain.HrEmpHoliday">
+        UPDATE hr_emp_holiday
+        <set>
+            <if test="holidayName != null and holidayName != ''">
+                holiday_name = #{holidayName},
+            </if>
+            <if test="carrayForward != null">
+                carray_forward = #{carrayForward},
+            </if>
+            <if test="paidLeave != null">
+                paid_leave = #{paidLeave},
+            </if>
+            <if test="holidayType != null and holidayType != ''">
+                holiday_type = #{holidayType},
+            </if>
+            <if test="searchTime != null">
+                state_time = #{searchTime, jdbcType=DATE},
+            </if>
+            <if test="searchTime != null">
+                end_time = #{searchTime, jdbcType=DATE},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        WHERE emple_holiday_id = #{empleHolidayId}
+    </update>
+
+    <select id="selectHrEmpHolidayList" parameterType="HrEmpHoliday" resultMap="HrEmpHolidayResult">
+        <include refid="selectHrEmpHolidayVo"/>
+        <where>
+            <if test="holidayName != null  and holidayName != ''"> and eh.holiday_name ILIKE concat('%', #{holidayName}, '%')</if>
+            <if test="carrayForward != null  and carrayForward != ''"> and eh.carray_forward = #{carrayForward}</if>
+            <if test="paidLeave != null  and paidLeave != ''"> and eh.paid_leave = #{paidLeave}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and eh.enterprise_id = #{enterpriseId}</if>
+            <if test="holidayType != null  and holidayType != ''"> and eh.holiday_type = #{holidayType}</if>
+            <if test="time != null  and time != ''"> and eh.state_time::date = #{time}::date </if>
+            <if test="endTime != null  and endTime != ''"> and eh.end_time = #{endTime}</if>
+            <if test="params.beginCreateTime != null and params.endCreateTime != null">
+                AND eh.state_time BETWEEN
+                TO_TIMESTAMP(#{params.beginCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{params.endCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectHrEmpHolidayByEmpleHolidayId" parameterType="Long" resultMap="HrEmpHolidayResult">
+        <include refid="selectHrEmpHolidayVo"/>
+        where eh.emple_holiday_id = #{empleHolidayId}
+    </select>
+    <select id="selectHrEmpHolidayById" resultType="com.ys.hr.domain.HrEmpHoliday"
+            parameterType="java.lang.Long">
+        select
+            *
+        from hr_emp_holiday
+        where emple_holiday_id = #{empleHolidayId}
+    </select>
+    <select id="getCount" resultType="java.util.Map">
+        SELECT
+        COUNT(emple_holiday_id) AS total
+        FROM
+        hr_emp_holiday
+        <where>
+            <if test="holidayType != null  and holidayType != ''"> and holiday_type = #{holidayType}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <select id="selectHolidayByUserId" resultMap="HrEmpHolidayResult">
+        SELECT
+            heh.*,
+            hh.holiday_name as holiday_name
+        FROM
+            hr_emp_holiday heh
+        LEFT JOIN hr_holiday hh on heh.holiday_type::INTEGER = hh.holiday_id
+        WHERE
+            to_timestamp( #{ attendanceTime }, 'YYYY-mm-dd' ) &gt;= to_timestamp( to_char( heh.state_time, 'YYYY-mm-dd' ), 'YYYY-mm-dd' )
+          AND to_timestamp( #{ attendanceTime }, 'YYYY-mm-dd' ) &lt;= to_timestamp( to_char( heh.end_time, 'YYYY-mm-dd' ), 'YYYY-mm-dd' )
+          AND user_id = #{ userId}
+    </select>
+
+    <select id="selectHolidayByLastDay" parameterType="String" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            hr_emp_holiday
+        WHERE
+            enterprise_id = #{userEnterpriseId}
+          AND end_time::date >= CURRENT_DATE - INTERVAL '1 day'
+          AND CURRENT_DATE - INTERVAL '1 day' >=  state_time::date
+    </select>
+
+    <select id="selectHolidayByThisDay" parameterType="String" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            hr_emp_holiday
+        WHERE
+            enterprise_id = #{userEnterpriseId}
+        AND end_time::date >= CURRENT_DATE
+        AND CURRENT_DATE >= state_time::date
+    </select>
+
+    <select id="selectHrEmpHolidayListBYToday" parameterType="String" resultMap="HrEmpHolidayResult">
+        SELECT *
+        FROM hr_emp_holiday h
+        WHERE h.enterprise_id = #{enterpriseId}
+        AND current_date >= h.state_time::date
+        AND h.end_time::date >= current_date
+    </select>
+
+    <select id="selectByUserIdAndDate" resultMap="HrEmpHolidayResult">
+        SELECT
+            *
+        FROM
+            hr_emp_holiday
+        WHERE
+            enterprise_id = #{enterpriseId}
+          AND ( date_trunc( 'month', #{ searchData }:: DATE ) + INTERVAL '1 month' ) > state_time
+          AND end_time >= date_trunc( 'month', #{ searchData }:: DATE )
+    </select>
+</mapper>

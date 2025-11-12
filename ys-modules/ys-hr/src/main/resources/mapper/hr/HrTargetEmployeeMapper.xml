@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTargetEmployeeMapper">
+
+    <resultMap type="com.ys.hr.domain.HrTargetEmployee" id="HrTargetEmployeeResult">
+        <result property="id"    column="id"    />
+        <result property="targetId"    column="target_id"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="type"    column="type"    />
+        <result property="employeeName"    column="full_name"    />
+        <result property="employeeAvatar"    column="avatar_url"    />
+        <result property="employeePosition"    column="position"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="isStart"    column="is_start"    />
+        <result property="executionTime"    column="execution_time"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="targetName"    column="target_name"    />
+        <result property="description"    column="description"    />
+        <result property="targetCreateTime"    column="target_create_time"    />
+        <result property="executionSecond"    column="execution_second"    />
+        <result property="isAssigned"    column="is_assigned"    />
+    </resultMap>
+
+    <sql id="selectHrTargetEmployeeVo">
+        select a.id, a.target_id, a.employee_id, a.type, a.create_by, a.create_time, a.update_by, a.update_time, a.remark,
+               a.is_start, a.execution_time, a.execution_second, b.full_name, b.avatar_url, b.position
+            <if test="userId != null">,(select count(1) from hr_target_feedback c where c.target_id = a.target_id and c.feedback_by = #{userId} and c.feedback_to = a.employee_id) isNotFeedback</if>
+            from hr_target_employee a
+            left  join hr_employees b on a.employee_id = b.employee_id
+    </sql>
+
+    <select id="selectHrTargetEmployeeList" parameterType="com.ys.hr.domain.HrTargetEmployee" resultMap="HrTargetEmployeeResult">
+        <include refid="selectHrTargetEmployeeVo"/>
+        <where>
+            <if test="targetId != null  and targetId != ''"> and a.target_id = #{targetId}</if>
+            <if test="employeeId != null  and employeeId != ''"> and a.employee_id = #{employeeId}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="isStart != null  and isStart != ''"> and a.is_start = #{isStart}</if>
+        </where>
+    </select>
+
+    <select id="selectHrTargetEmployeeById" parameterType="Long" resultMap="HrTargetEmployeeResult">
+        <include refid="selectHrTargetEmployeeVo"/>
+        where a.id = #{id}
+    </select>
+
+    <select id="selectByUserIdAndTargetId" resultMap="HrTargetEmployeeResult">
+        select * from hr_target_employee
+        where employee_id = #{employeeId} and target_id = #{targetId}
+    </select>
+
+    <update id="updateByEmployeeId" parameterType="Long">
+        UPDATE hr_target_employee set is_start = '0', execution_time = NULL
+        WHERE employee_id = #{employee_id} and is_start != '3'
+    </update>
+
+    <select id="selectExecutionTarget" parameterType="Long" resultMap="HrTargetEmployeeResult">
+        select * from hr_target_employee
+        where employee_id = #{employeeId} and is_start != '0' and is_start != '3'
+    </select>
+
+    <update id="stopPause" parameterType="Long">
+        UPDATE hr_target_employee set is_start = '0', execution_time = NULL
+        where id = #{id}
+    </update>
+
+    <update id="finish" parameterType="com.ys.hr.domain.HrTargetEmployee">
+        update hr_target_employee
+        <set>
+            <if test="isStart != null and isStart != ''">is_start = #{isStart},</if>
+            <if test="completeTime != null and completeTime != ''">complete_time = #{completeTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectEmployeeTargets" parameterType="com.ys.hr.domain.HrTargets" resultMap="HrTargetEmployeeResult">
+        SELECT
+            hre.*,
+            ht.name as target_name,
+            ht.description,
+            ht.create_time as target_create_time,
+            1 AS is_assigned
+        FROM
+            hr_target_employee hre
+                LEFT JOIN hr_targets ht ON hre.target_id = ht.id
+        WHERE
+            hre.employee_id = #{userId}
+            and ht.status != 'Complete' and ht.status != 'Confirm'
+        ORDER BY ht.create_time DESC
+    </select>
+
+    <select id="selectEmployeeTargetsByAdmin" parameterType="com.ys.hr.domain.HrTargets" resultMap="HrTargetEmployeeResult">
+        SELECT
+            hre.id,
+            hre.employee_id,
+            hre.type,
+            hre.create_by,
+            hre.create_time,
+            hre.update_by,
+            hre.update_time,
+            hre.remark,
+            hre.is_start,
+            hre.execution_time,
+            hre.complete_time,
+            hre.execution_second,
+            ht.name AS target_name,
+            ht.description,
+            ht.create_time AS target_create_time,
+            ht.id as target_id,
+            CASE
+                WHEN hre.employee_id IS NOT NULL THEN
+                    1 ELSE 0
+                END AS is_assigned
+        FROM
+            hr_targets ht
+                LEFT JOIN hr_target_employee hre ON ht.id = hre.target_id
+                AND hre.employee_id = #{userId}
+        WHERE
+            ht.status != 'Complete'
+            AND ht.status != 'Confirm'
+            AND ht.enterprise_id = #{enterpriseId}
+        ORDER BY
+            ht.create_time DESC
+    </select>
+
+    <insert id="saveBatchEmployees">
+        insert into hr_target_employee(target_id, employee_id, create_time) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.targetId},#{item.employeeId},now())
+        </foreach>
+        ON CONFLICT DO NOTHING
+    </insert>
+</mapper>

@@ -1,0 +1,44 @@
+# Tomcat
+server:
+  port: 8080
+
+# Spring
+spring:
+  application:
+    # Application Name
+    name: ys-gateway
+  main:
+    web-application-type: reactive #使用响应式编程模型
+  profiles:
+    # Environment Configuration
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        #  ServiceRegisterAddress
+        server-addr: localhost:8848
+        username: nacos  # Default USER Name
+        password: nacos  # Default Password
+      config:
+        # Configuration Center Address
+        server-addr: localhost:8848
+        # Configuration File Format
+        file-extension: yml
+        # Shared Configuration
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+    sentinel:
+      # Cancel控制台懒加载
+      eager: true
+      transport:
+        # 控制台Address
+        dashboard: localhost:8718
+      # nacos配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            dataId: sentinel-ys-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: gw-flow

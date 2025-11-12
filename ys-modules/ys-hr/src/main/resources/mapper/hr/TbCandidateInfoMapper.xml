@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.TbCandidateInfoMapper">
+
+    <resultMap type="com.ys.hr.domain.HrCandidateInfo" id="TbCandidateInfoResult">
+        <result property="candidateId"    column="candidate_id"    />
+        <result property="candidateName"    column="candidate_name"    />
+        <result property="tags"    column="tags"    />
+        <result property="phoneCode"    column="phone_code"    />
+        <result property="age"    column="age"    />
+        <result property="birthDate"    column="birth_date"    />
+        <result property="gender"    column="gender"    />
+        <result property="contactEmail"    column="contact_email"    />
+        <result property="phone"    column="phone"    />
+        <result property="jobStatus"    column="job_status"    />
+        <result property="source"    column="source"    />
+        <result property="candidateStatus"    column="candidate_status"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="jobInformation"    column="job_information"    />
+        <result property="address"    column="address"    />
+        <result property="jobExpectations"    column="job_expectations"    />
+        <result property="personalStrengths"    column="personal_strengths"    />
+        <result property="lastWorkTime"    column="last_work_time"    />
+        <result property="industryType"    column="industry_type"    />
+        <result property="otherSkills"    column="other_skills"    />
+        <result property="hobbies"    column="hobbies"    />
+        <result property="businessTrip"    column="business_trip"    />
+        <result property="isOvertime"    column="is_overtime"    />
+        <result property="enterpriseId" column="enterprise_id" />
+        <result property="shortlistReason" column="shortlist_reason" />
+        <result property="interviewType" column="interview_type" />
+        <result property="employmentType" column="employment_type" />
+        <result property="interviewTime" column="interview_time" />
+        <result property="interviewLocation" column="interview_location" />
+        <result property="rejectedReason" column="rejected_reason" />
+        <result property="probationStartTime" column="probation_start_time" />
+        <result property="probationEndTime" column="probation_end_time" />
+        <result property="probationSalary" column="probation_salary" />
+        <result property="postName" column="postName" />
+        <result property="swiftOrBsb" column="swift_or_bsb" />
+        <result property="filesJson" column="files_json" />
+        <result property="jobListingsId" column="job_listings_id" />
+    </resultMap>
+
+    <sql id="selectTbCandidateInfoVo">
+        SELECT
+            hci.*,hjl.title as postName
+        FROM
+            hr_candidate_info hci
+                LEFT JOIN hr_job_listings hjl ON hjl.id = hci.job_listings_id
+    </sql>
+
+    <select id="selectTbCandidateInfoList" parameterType="com.ys.hr.domain.HrCandidateInfo" resultMap="TbCandidateInfoResult">
+        <include refid="selectTbCandidateInfoVo"/>
+        <where>
+            <if test="jobStatus != null  and jobStatus != ''"> and hci.job_status = #{jobStatus}</if>
+            <if test="candidateId != null  and candidateId != ''"> and hci.candidate_id = #{candidateId}</if>
+            <if test="jobInformation != null  and jobInformation != ''"> and hci.job_information = #{jobInformation}</if>
+            <if test="candidateName != null and candidateName != ''">
+                AND hci.candidate_name LIKE CONCAT('%', #{candidateName}, '%')
+            </if>
+            <if test="enterpriseId != null and enterpriseId != 0">
+                AND hci.enterprise_id = #{enterpriseId}
+            </if>
+            <if test="source != null  and source != ''"> and hci.source = #{source}</if>
+            <if test="candidateStatus != null  and candidateStatus != ''"> and hci.candidate_status = #{candidateStatus}</if>
+        </where>
+    </select>
+
+    <select id="candidateCount" resultType="java.util.Map" parameterType="com.ys.hr.domain.HrCandidateInfo">
+        SELECT
+            COUNT(*) AS candidateCount,
+            COUNT(CASE WHEN candidate_status = '2' THEN 1 END) AS interviewCount,
+            COUNT(CASE WHEN candidate_status = '3' THEN 1 END) AS hiredCount,
+            COUNT(CASE WHEN candidate_status = '0' THEN 1 END) AS screeningCount
+        FROM hr_candidate_info
+        <where>
+            <if test="enterpriseId != null and enterpriseId != 0">
+                AND enterprise_id = #{enterpriseId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="candidateCountByLastMonth" resultType="java.util.Map">
+        SELECT
+        COUNT(*) AS candidateCount,
+        COUNT(CASE WHEN candidate_status = '2' THEN 1 END) AS interviewCount,
+        COUNT(CASE WHEN candidate_status = '3' THEN 1 END) AS hiredCount,
+        COUNT(CASE WHEN candidate_status = '0' THEN 1 END) AS screeningCount
+        FROM hr_candidate_info
+        <where>
+            <if test="enterpriseId != null and enterpriseId != 0">
+                AND enterprise_id = #{enterpriseId}
+            </if>
+            <if test="startTime != null and endTime != null">
+                AND create_time BETWEEN
+                TO_TIMESTAMP(#{startTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{endTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </select>
+
+
+    <resultMap type="HrCandidateInfo" id="CandidateStatusResult">
+        <result property="candidateStatus" column="status_key"/>
+        <result property="count" column="status_count"/>
+    </resultMap>
+
+    <select id="selectTbCandidateInfoListByStatus" resultMap="CandidateStatusResult">
+        WITH status_sequence AS (
+            SELECT '0' AS status_key UNION ALL
+            SELECT '1' UNION ALL
+            SELECT '2' UNION ALL
+            SELECT '3' UNION ALL
+            SELECT '4'
+        )
+        SELECT
+            ss.status_key,
+            COUNT(hci.candidate_status) AS status_count
+        FROM status_sequence ss
+                 LEFT JOIN hr_candidate_info hci
+                           ON ss.status_key::varchar = hci.candidate_status
+            AND hci.enterprise_id = #{enterpriseId}
+        GROUP BY ss.status_key
+        ORDER BY ss.status_key
+    </select>
+
+    <select id="selectCandidateInfoList" parameterType="String" resultMap="CandidateStatusResult">
+        SELECT
+            c.candidate_id,
+            c.candidate_name
+        FROM hr_candidate_info c
+        WHERE c.enterprise_id = #{userEnterpriseId}
+
+    </select>
+    <select id="seleEid" resultType="com.ys.hr.domain.HrEnterprise">
+        SELECT *
+        FROM sys_enterprise
+        where id = #{userEnterpriseId}
+    </select>
+</mapper>

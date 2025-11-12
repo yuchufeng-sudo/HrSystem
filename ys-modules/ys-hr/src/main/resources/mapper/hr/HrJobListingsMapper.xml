@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrJobListingsMapper">
+
+    <resultMap type="com.ys.hr.domain.HrJobListings" id="HrJobListingsResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="employmentType"    column="employment_type"    />
+        <result property="currency"    column="currency"    />
+        <result property="salaryType"    column="salary_type"    />
+        <result property="location"    column="location"    />
+        <result property="experience"    column="experience"    />
+        <result property="payMin"    column="pay_min"    />
+        <result property="payMax"    column="pay_max"    />
+        <result property="payType"    column="pay_type"    />
+        <result property="details"    column="details"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="enterpriseLogo"    column="logo"    />
+        <result property="enterpriseName"    column="careers_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="showPay"    column="show_pay"    />
+        <result property="showExperience"    column="show_experience"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectHrJobListingsVo">
+        select id, title, employment_type, currency, salary_type, location, experience, pay_min, pay_max, pay_type, details, enterprise_id, create_by, create_time, update_by, update_time, remark, show_pay, show_experience, status from hr_job_listings
+    </sql>
+
+    <select id="selectHrJobListingsList" parameterType="HrJobListings" resultMap="HrJobListingsResult">
+        <include refid="selectHrJobListingsVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="employmentType != null  and employmentType != ''"> and employment_type = #{employmentType}</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectHrJobListingsById" parameterType="String" resultMap="HrJobListingsResult">
+        select a.*,b.careers_name,b.logo,b.id careersId
+            from hr_job_listings a
+            left join hr_careers b on a.enterprise_id = b.enterprise_id
+        where a.id = #{id}
+    </select>
+
+
+</mapper>

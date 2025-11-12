@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrQuestionAnswerMapper">
+
+    <resultMap type="com.ys.hr.domain.HrQuestionAnswer" id="HrQuestionAnswerResult">
+        <result property="id"    column="id"    />
+        <result property="candidateId"    column="candidate_id"    />
+        <result property="questionId"    column="question_id"    />
+        <result property="questionMsg"    column="question_msg"    />
+        <result property="questionMsg"    column="question_msg"    />
+        <result property="questionType"    column="question_type"    />
+        <result property="answerOptions"    column="answer_options"    />
+        <result property="isAnswerVideo"    column="is_answer_video"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+    </resultMap>
+
+    <sql id="selectHrQuestionAnswerVo">
+        select a.id,b.question_msg,b.question_type,b.answer_options,b.is_answer_video
+        from hr_question_answer a
+            left join hr_job_listings_question b on a.question_id = b.question_index
+    </sql>
+
+    <select id="selectHrQuestionAnswerList" parameterType="HrQuestionAnswer" resultMap="HrQuestionAnswerResult">
+        <include refid="selectHrQuestionAnswerVo"/>
+        <where>
+            <if test="candidateId != null "> and a.candidate_id = #{candidateId}</if>
+            <if test="questionId != null  and questionId != ''"> and a.question_id = #{questionId}</if>
+            <if test="questionAnswer != null  and questionAnswer != ''"> and a.question_answer = #{questionAnswer}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and a.enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrQuestionAnswerById" parameterType="String" resultMap="HrQuestionAnswerResult">
+        <include refid="selectHrQuestionAnswerVo"/>
+        where a.id = #{id}
+    </select>
+    <select id="selectHrList" resultType="com.ys.system.api.domain.SysUser">
+        SELECT
+            su.*
+        FROM
+            sys_user su
+                LEFT JOIN sys_user_role sur ON sur.user_id = su.user_id
+                LEFT JOIN sys_role sr ON sr.role_id = sur.role_id
+        WHERE
+            su.enterprise_id = #{enterpriseId} AND sr.role_key = 'admin'
+    </select>
+
+
+</mapper>

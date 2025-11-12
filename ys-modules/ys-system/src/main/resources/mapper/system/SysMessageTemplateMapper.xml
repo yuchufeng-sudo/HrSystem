@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.system.mapper.SysMessageTemplateMapper">
+
+    <resultMap type="com.ys.system.domain.SysMessageTemplate" id="SysMessageTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="contentCn"    column="content_cn"    />
+        <result property="contentEn"    column="content_en"    />
+        <result property="pathConfig"    column="path_config"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="icon"    column="icon"    />
+    </resultMap>
+
+    <sql id="selectSysMessageTemplateVo">
+        select id, name, content_cn, content_en, path_config, create_by, create_time, update_by, update_time, remark, icon from sys_message_template
+    </sql>
+
+    <select id="selectSysMessageTemplateList" parameterType="com.ys.system.domain.SysMessageTemplate" resultMap="SysMessageTemplateResult">
+        <include refid="selectSysMessageTemplateVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectSysMessageTemplateById" parameterType="Integer" resultMap="SysMessageTemplateResult">
+        <include refid="selectSysMessageTemplateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysMessageTemplate" parameterType="com.ys.system.domain.SysMessageTemplate">
+        insert into sys_message_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="contentCn != null">content_cn,</if>
+            <if test="contentEn != null">content_en,</if>
+            <if test="pathConfig != null">path_config,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="contentCn != null">#{contentCn},</if>
+            <if test="contentEn != null">#{contentEn},</if>
+            <if test="pathConfig != null">#{pathConfig},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysMessageTemplate" parameterType="com.ys.system.domain.SysMessageTemplate">
+        update sys_message_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="contentCn != null">content_cn = #{contentCn},</if>
+            <if test="contentEn != null">content_en = #{contentEn},</if>
+            <if test="pathConfig != null">path_config = #{pathConfig},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="icon != null">icon = #{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysMessageTemplateById" parameterType="Integer">
+        delete from sys_message_template where id = #{id}
+    </delete>
+
+    <delete id="deleteSysMessageTemplateByIds" parameterType="String">
+        delete from sys_message_template where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

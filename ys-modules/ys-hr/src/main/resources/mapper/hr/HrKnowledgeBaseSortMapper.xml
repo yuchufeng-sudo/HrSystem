@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrKnowledgeBaseSortMapper">
+
+  <!-- Basic ResultMap: Contains mappings for public fields and knowledge titles -->
+<resultMap type="HrKnowledgeBaseSort" id="BaseHrKnowledgeBaseSortResult">
+    <result property="id" column="id"/>
+    <result property="parentId" column="parent_id"/>
+    <result property="sortName" column="sort_name"/>
+    <result property="level" column="level"/>
+    <result property="orderNum" column="order_num"/>
+    <result property="ancestors" column="ancestors"/>
+    <result property="status" column="status"/>
+    <result property="delFlag" column="del_flag"/>
+    <result property="createBy" column="create_by"/>
+    <result property="createTime" column="create_time"/>
+    <result property="updateBy" column="update_by"/>
+    <result property="updateTime" column="update_time"/>
+
+    <!-- List of knowledge titles associated with child nodes (only select is retained) -->
+    <collection
+            property="knowledgeTitles"
+            ofType="HrKnowledgeBaseSort$KnowledgeTitle"
+            column="id"
+            select="selectKnowledgeTitlesById"/>
+</resultMap>
+
+<!-- Main ResultMap: Inherits from the basic ResultMap and includes nested mapping for children -->
+<resultMap type="HrKnowledgeBaseSort" id="HrKnowledgeBaseSortResult" extends="BaseHrKnowledgeBaseSortResult">
+    <!-- List of child classifications (delete the resultMap attribute, only retain select) -->
+    <collection
+            property="children"
+            ofType="HrKnowledgeBaseSort"
+            column="id"
+            select="childrenListById"/>  <!-- Only retain select -->
+</resultMap>
+
+<!-- Query the list of child classifications (use the basic ResultMap) -->
+    <select id="childrenListById" parameterType="long" resultMap="BaseHrKnowledgeBaseSortResult">
+        SELECT
+            id,
+            parent_id,
+            level,
+            order_num,
+            ancestors,
+            sort_name,
+            status,
+            del_flag,
+            create_by,
+            create_time,
+            update_by,
+            update_time
+        FROM hr_knowledge_base_sort
+        WHERE parent_id = #{id}
+        ORDER BY order_num
+    </select>
+
+    <select id="selectKnowledgeTitlesById" parameterType="long" resultType="HrKnowledgeBase">
+        SELECT
+        kt.id as title_id,
+        kt.*
+--             kt.knowledge_title,
+--             kt.knowledge_contents
+        FROM
+            hr_knowledge_base kt
+        WHERE
+            kt.parent_id = #{id}
+    </select>
+    <sql id="selectHrKnowledgeBaseSortVo">
+        select hr_knowledge_base_sort.* from hr_knowledge_base_sort
+    </sql>
+
+    <select id="selectHrKnowledgeBaseSortList" parameterType="HrKnowledgeBaseSort" resultMap="HrKnowledgeBaseSortResult">
+        <include refid="selectHrKnowledgeBaseSortVo"/>
+        <where>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="sortName != null  and sortName != ''"> and sort_name ILIKE concat('%', #{sortName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by order_num
+    </select>
+
+    <select id="selectHrKnowledgeBaseSortById" parameterType="Long" resultMap="HrKnowledgeBaseSortResult">
+        <include refid="selectHrKnowledgeBaseSortVo"/>
+        where id = #{id}
+    </select>
+
+<!--    <select id="selectChildrenByParentId" parameterType="Long" resultMap="HrKnowledgeBaseSortResult">-->
+<!--        SELECT hr_knowledge_base_sort.*-->
+<!--        FROM hr_knowledge_base_sort-->
+<!--        WHERE parent_id = #{parentId}-->
+<!--    </select>-->
+
+    <select id="selectChildrenByParentId"  resultMap="HrKnowledgeBaseSortResult">
+        SELECT
+            hkb.id,
+            hkb.parent_id,
+            hkb.level,
+            hkb.order_num,
+            hkb.ancestors,
+            hkb.sort_name,
+            hkb.status,
+            hkb.del_flag
+        FROM hr_knowledge_base_sort hkb
+        WHERE hkb.parent_id = #{parentId}
+          AND enterprise_id = #{enterpriseId}
+        ORDER BY hkb.order_num
+    </select>
+    <select id="searchTree" resultMap="HrKnowledgeBaseSortResult">
+        SELECT
+            s.id,
+            s.parent_id,
+            s.level,
+            s.order_num,
+            s.ancestors,
+            s.sort_name,
+            s.status,
+            s.del_flag,
+            s.create_by,
+            s.create_time,
+            s.update_by,
+            s.update_time
+        FROM
+            hr_knowledge_base_sort s
+        WHERE
+                s.id IN (
+                SELECT DISTINCT
+                    CAST(SPLIT_PART(k.ancestors, ',', 2) AS INTEGER)
+                FROM hr_knowledge_base k
+                WHERE
+                    enterprise_id = #{enterpriseId}
+                  AND (
+                            LOWER(k.knowledge_title) LIKE LOWER(CONCAT('%', #{searchKey}, '%'))
+                        OR LOWER(k.knowledge_contents) LIKE LOWER(CONCAT('%', #{searchKey}, '%'))
+                        OR LOWER(k.knowledge_label) LIKE LOWER(CONCAT('%', #{searchKey}, '%'))
+                    )
+            )
+        ORDER BY
+            s.order_num;
+    </select>
+    <select id="selectAllSorts" resultMap="HrKnowledgeBaseSortResult">
+        SELECT
+            id,
+            parent_id,
+            level,
+            order_num,
+            ancestors,
+            sort_name,
+            status,
+            del_flag,
+            create_by,
+            create_time,
+            update_by,
+            update_time
+        FROM
+            hr_knowledge_base_sort
+    </select>
+    <select id="searchTree2" resultMap="HrKnowledgeBaseSortResult">
+        SELECT
+            s.id,
+            s.parent_id,
+            s.level,
+            s.order_num,
+            s.ancestors,
+            s.sort_name,
+            s.status,
+            s.del_flag,
+            s.create_by,
+            s.create_time,
+            s.update_by,
+            s.update_time
+        FROM
+            hr_knowledge_base_sort s
+        WHERE
+            s.id = #{sortId, jdbcType=INTEGER}
+            AND enterprise_id = #{enterpriseId}
+        ORDER BY
+            s.order_num;
+    </select>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrEmailTemplateMapper">
+
+    <resultMap type="HrEmailTemplate" id="HrEmailTemplateResult">
+        <result property="templateId"    column="template_id"    />
+        <result property="templateName"    column="template_name"    />
+        <result property="templateSubject"    column="template_subject"    />
+        <result property="templateCategories"    column="template_categories"    />
+        <result property="templateBody"    column="template_body"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="templateAttachment"    column="template_attachment"    />
+        <result property="templateKey"    column="template_key"    />
+    </resultMap>
+
+    <sql id="selectHrEmailTemplateVo">
+        select template_id, template_name, template_subject, template_categories, template_body, enterprise_id, create_by, create_time, update_by, update_time, remark, template_attachment,template_key from hr_email_template
+    </sql>
+
+    <select id="selectHrEmailTemplateList" parameterType="HrEmailTemplate" resultMap="HrEmailTemplateResult">
+        <include refid="selectHrEmailTemplateVo"/>
+        <where>
+            <if test="templateId != null  and templateId != ''"> and template_id = #{templateId}</if>
+            <if test="templateName != null  and templateName != ''"> and template_name like concat('%', #{templateName}, '%')</if>
+            <if test="templateSubject != null  and templateSubject != ''"> and template_subject = #{templateSubject}</if>
+            <if test="templateCategories != null  and templateCategories != ''"> and template_categories = #{templateCategories}</if>
+            <if test="templateBody != null  and templateBody != ''"> and template_body = #{templateBody}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="templateAttachment != null  and templateAttachment != ''"> and template_attachment = #{templateAttachment}</if>
+        </where>
+    </select>
+
+    <select id="selectHrEmailTemplateByTemplateId" parameterType="Long" resultMap="HrEmailTemplateResult">
+        <include refid="selectHrEmailTemplateVo"/>
+        where template_id = #{templateId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrProbationEvaluationMapper">
+
+    <resultMap type="HrProbationEvaluation" id="HrProbationEvaluationResult">
+        <result property="id"    column="id"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="score"    column="score"    />
+        <result property="evaluator"    column="evaluator"    />
+        <result property="evaluationContent"    column="evaluation_content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrProbationEvaluationVo">
+        select id, employee_id, score, evaluator, evaluation_content, create_by, create_time, update_by, update_time, remark from hr_probation_evaluation
+    </sql>
+
+    <select id="selectHrProbationEvaluationList" parameterType="HrProbationEvaluation" resultMap="HrProbationEvaluationResult">
+        <include refid="selectHrProbationEvaluationVo"/>
+        <where>
+            <if test="employeeId != null  and employeeId != ''"> and employee_id = #{employeeId}</if>
+            <if test="score != null  and score != ''"> and score = #{score}</if>
+            <if test="evaluator != null  and evaluator != ''"> and evaluator = #{evaluator}</if>
+            <if test="evaluationContent != null  and evaluationContent != ''"> and evaluation_content = #{evaluationContent}</if>
+        </where>
+    </select>
+
+    <select id="selectHrProbationEvaluationById" parameterType="Long" resultMap="HrProbationEvaluationResult">
+        <include refid="selectHrProbationEvaluationVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrPositionMapper">
+
+    <resultMap type="HrPosition" id="HrPositionResult">
+        <result property="id"    column="id"    />
+        <result property="positionCode"    column="position_code"    />
+        <result property="positionName"    column="position_name"    />
+        <result property="positionDuty"    column="position_duty"    />
+        <result property="salaryMin"    column="salary_min"    />
+        <result property="salaryMax"    column="salary_max"    />
+        <result property="currency"    column="currency"    />
+        <result property="jobId"    column="job_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrPositionVo">
+        select id, job_id, position_code, position_name, position_duty, salary_min, salary_max, currency, create_by, create_time, update_by, update_time, remark from hr_position
+    </sql>
+
+    <select id="selectHrPositionList" parameterType="HrPosition" resultMap="HrPositionResult">
+        <include refid="selectHrPositionVo"/>
+        <where>
+            <if test="enterpriseId != null"> and enterprise_id = #{enterpriseId}</if>
+            <if test="jobId != null"> and job_id = #{jobId}</if>
+            <if test="positionCode != null  and positionCode != ''"> and position_code ILIKE concat('%', #{positionCode}, '%')</if>
+            <if test="positionName != null  and positionName != ''"> and position_name ILIKE concat('%', #{positionName}, '%')</if>
+            <if test="positionDuty != null  and positionDuty != ''"> and position_duty = #{positionDuty}</if>
+            <if test="salaryMin != null"> and salary_min = #{salaryMin}</if>
+            <if test="salaryMax != null"> and salary_max = #{salaryMax}</if>
+            <if test="currency != null  and currency != ''"> and currency = #{currency}</if>
+        </where>
+    </select>
+
+    <select id="selectHrPositionById" parameterType="Long" resultMap="HrPositionResult">
+        <include refid="selectHrPositionVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrSignPlatformTypeMapper">
+
+    <resultMap type="com.ys.hr.domain.HrSignPlatformType" id="HrSignPlatformTypeResult">
+        <result property="id"    column="id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="typeValue"    column="type_value"    />
+        <result property="apiUrl"    column="api_url"    />
+        <result property="isDisabled"    column="is_disabled"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrSignPlatformTypeVo">
+        select id, type_name, type_value, api_url, is_disabled, create_by, create_time, update_by, update_time, remark from hr_sign_platform_type
+    </sql>
+
+    <select id="selectHrSignPlatformTypeList" parameterType="com.ys.hr.domain.HrSignPlatformType" resultMap="HrSignPlatformTypeResult">
+        <include refid="selectHrSignPlatformTypeVo"/>
+        <where>
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="typeValue != null  and typeValue != ''"> and type_value = #{typeValue}</if>
+            <if test="apiUrl != null  and apiUrl != ''"> and api_url = #{apiUrl}</if>
+            <if test="isDisabled != null"> and is_disabled = #{isDisabled}</if>
+        </where>
+    </select>
+
+    <select id="selectHrSignPlatformTypeById" parameterType="Integer" resultMap="HrSignPlatformTypeResult">
+        <include refid="selectHrSignPlatformTypeVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Interview Invitation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            color: #262626;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .content {
+            color: #4c4c4c;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #286dbd;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .footer {
+            color: #4c4c4c;
+            font-size: 14px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .brand {
+            color: #262626;
+            font-weight: bold;
+        }
+        .subject {
+            color: #262626;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .company-name {
+            font-weight: bold;
+        }
+        .interview-details {
+            background-color: #f5f7fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .detail-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+        }
+        .confirm-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="subject">Interview Invitation from <span class="company-name" th:text="${CompanyName}"></span></p>
+
+    <p class="content">Hi <span th:text="${FirstName}"></span>,</p>
+
+    <p class="content">
+        We're pleased to invite you to interview for the role of
+        <span class="brand" th:text="${JobTitle}"></span> at
+        <span class="brand" th:text="${CompanyName}"></span>.
+    </p>
+
+    <div class="interview-details">
+        <p class="content"><strong>Interview Details:</strong></p>
+        <p class="content"><span class="detail-label">Date:</span> <span th:text="${InterviewDate}"></span></p>
+        <p class="content"><span class="detail-label">Time:</span> <span th:text="${InterviewTime}"></span></p>
+        <p class="content"><span class="detail-label">Location/Link:</span>
+            <a href="#" th:text="${InterviewLocation}">[Interview Location or Video Link]</a>
+        </p>
+        <p class="content"><span class="detail-label">Contact Email:</span> <span th:text="${InterviewEmail}"></span></p>
+    </div>
+
+    <p class="content">
+        If you need to reschedule, please reply to this email.
+    </p>
+
+    <p class="content">
+        We look forward to speaking with you!
+    </p>
+
+    <div class="footer">
+        <p>Best regards,</p>
+        <p><span class="brand" th:text="${CompanyName}"></span> Recruitment Team</p>
+    </div>
+</div>
+</body>
+</html>

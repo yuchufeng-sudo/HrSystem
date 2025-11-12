@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--  LOG Storage Path -->
+	<property name="log.path" value="logs/ys-auth" />
+   <!--  LOG Output Format -->
+	<property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
+
+    <!--Output Format -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+
+    <!--  System LOG Output  -->
+	<appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${log.path}/info.log</file>
+        <!-- Cycle Policy: Create LOG File based on TIME. -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--  LOG FileName Format -->
+			<fileNamePattern>${log.path}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--  The maximum history of LOG is 60 days. -->
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- Filter Level -->
+            <level>INFO</level>
+            <!-- OPERATION during matching: Record (Receive) -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- OPERATION when not matching: Reject (Do not Record) -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+	</appender>
+
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${log.path}/error.log</file>
+        <!-- Cycle Policy: Create LOG File based on TIME. -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--  LOG FileName Format -->
+            <fileNamePattern>${log.path}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!--  The maximum history of LOG is 60 days. -->
+			<maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- Filter Level -->
+            <level>ERROR</level>
+			<!-- OPERATION during matching: Record (Receive) -->
+            <onMatch>ACCEPT</onMatch>
+			<!-- OPERATION when not matching: Reject (Do not Record) -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--  System Module LOG Level Control  -->
+	<logger name="com.ys" level="info" />
+	<!--Spring LOG Level Control -->
+	<logger name="org.springframework" level="warn" />
+
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+	
+	<!-- SystemOPERATION LOG -->
+    <root level="info">
+        <appender-ref ref="file_info" />
+        <appender-ref ref="file_error" />
+    </root>
+</configuration>

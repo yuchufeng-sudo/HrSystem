@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.system.mapper.SysNoticeMapper">
+
+    <resultMap type="com.ys.system.domain.SysNotice" id="SysNoticeResult">
+        <result property="noticeId"       column="notice_id"       />
+        <result property="noticeTitle"    column="notice_title"    />
+        <result property="noticeType"     column="notice_type"     />
+        <result property="noticeContent"  column="notice_content"  />
+        <result property="status"         column="status"          />
+        <result property="createBy"       column="create_by"       />
+        <result property="createTime"     column="create_time"     />
+        <result property="updateBy"       column="update_by"       />
+        <result property="updateTime"     column="update_time"     />
+        <result property="remark"         column="remark"          />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="sendTos"    column="send_tos"    />
+    </resultMap>
+
+    <select id="selectNoticeById" resultMap="SysNoticeResult">
+        WITH liked_users AS (
+            SELECT
+                nu.notice_id,
+                e.avatar_url,
+                e.full_name,
+                COUNT(*) OVER() AS total_likes
+            FROM sys_notice_read nu
+                     JOIN hr_employees e ON e.user_id = nu.user_id
+            WHERE nu.is_liked = '1'
+              AND nu.notice_id = #{noticeId}
+            ORDER BY nu.like_time desc
+            LIMIT 3
+        )
+        SELECT n.notice_id, n.notice_title, n.notice_type, n.notice_content,  n.publish_time, n.create_by, n.create_time,
+               n.update_by, n.update_time, n.remark, array_to_string(array_agg(lu.avatar_url), ',') AS avatars,
+               array_to_string(array_agg(lu.full_name), ',') AS names,MAX(lu.total_likes) AS likeNum,
+            EXISTS (
+                SELECT 1
+                FROM sys_notice_read
+                WHERE notice_id = n.notice_id
+                  AND user_id = #{userId}
+                  AND is_liked = '1'
+            )::INT AS isLiked
+        FROM sys_notice n
+                 LEFT JOIN liked_users lu ON lu.notice_id = n.notice_id
+        WHERE n.notice_id = #{noticeId}
+          AND n.status = '1'
+        GROUP BY n.notice_id
+    </select>
+
+    <select id="selectNoticeList" parameterType="com.ys.system.domain.SysNotice" resultMap="SysNoticeResult">
+        SELECT
+        n.notice_id,
+        n.notice_title,
+        n.notice_type,
+        n.notice_content,
+        n.status,
+        n.publish_time,
+        n.create_by,
+        n.create_time,
+        n.update_by,
+        n.update_time,
+        n.remark,
+        liked_users.avatars,
+        liked_users.names
+        FROM sys_notice n
+        LEFT JOIN LATERAL (
+        SELECT
+        STRING_AGG(e.avatar_url, ',') AS avatars,
+        STRING_AGG(e.full_name, ',') AS names
+        FROM (
+        SELECT user_id
+        FROM sys_notice_read nu
+        WHERE nu.notice_id = n.notice_id
+        AND nu.is_liked = '1'
+        LIMIT 3  -- 仅取前3个点赞用户
+        ) nu
+        INNER JOIN hr_employees e ON nu.user_id = e.user_id
+        ) liked_users ON TRUE
+        <where>
+            and n.status = '1'
+			<if test="enterpriseId != null and enterpriseId != ''">
+				AND n.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="noticeTitle != null and noticeTitle != ''">
+				AND n.notice_title like concat('%', #{noticeTitle}, '%')
+			</if>
+			<if test="noticeType != null and noticeType != ''">
+				AND n.notice_type = #{noticeType}
+			</if>
+			<if test="createBy != null and createBy != ''">
+				AND n.create_by like concat('%', #{createBy}, '%')
+			</if>
+            <if test="uid != null and uid != ''">
+                AND n.notice_id in (select notice_id from sys_notice_user where user_id = #{uid})
+            </if>
+            <if test="isRead != null and isRead != ''">
+                AND (case when (select is_read from sys_notice_read where notice_id = n.notice_id and user_id = #{userId} limit 1) = '1' THEN '1' ELSE '0' END) =  #{isRead}
+            </if>
+		</where>
+        order by n.create_time desc
+    </select>
+
+    <insert id="insertNotice" parameterType="com.ys.system.domain.SysNotice" useGeneratedKeys="true" keyProperty="noticeId">
+        insert into sys_notice (
+			<if test="enterpriseId != null and enterpriseId != '' ">enterprise_id, </if>
+			<if test="noticeTitle != null and noticeTitle != '' ">notice_title, </if>
+			<if test="noticeType != null and noticeType != '' ">notice_type, </if>
+			<if test="noticeContent != null and noticeContent != '' ">notice_content, </if>
+			<if test="status != null and status != '' ">status, </if>
+			<if test="remark != null and remark != ''">remark,</if>
+ 			<if test="createBy != null and createBy != ''">create_by,</if>
+ 			<if test="publishTime != null">publish_time,</if>
+ 			create_time
+ 		)values(
+			<if test="enterpriseId != null and enterpriseId != ''">#{enterpriseId}, </if>
+			<if test="noticeTitle != null and noticeTitle != ''">#{noticeTitle}, </if>
+			<if test="noticeType != null and noticeType != ''">#{noticeType}, </if>
+			<if test="noticeContent != null and noticeContent != ''">#{noticeContent}, </if>
+			<if test="status != null and status != ''">#{status}, </if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+ 			<if test="createBy != null and createBy != ''">#{createBy},</if>
+ 			<if test="publishTime != null">#{publishTime},</if>
+ 			now()
+		)
+    </insert>
+
+    <update id="updateNotice" parameterType="com.ys.system.domain.SysNotice">
+        update sys_notice
+        <set>
+            <if test="noticeTitle != null and noticeTitle != ''">notice_title = #{noticeTitle}, </if>
+            <if test="noticeType != null and noticeType != ''">notice_type = #{noticeType}, </if>
+            <if test="noticeContent != null">notice_content = #{noticeContent}, </if>
+            <if test="status != null and status != ''">status = #{status}, </if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+ 			update_time = now()
+        </set>
+        where notice_id = #{noticeId}
+    </update>
+
+    <delete id="deleteNoticeById" parameterType="Long">
+        delete from sys_notice where notice_id = #{noticeId}
+    </delete>
+
+    <delete id="deleteNoticeByIds" parameterType="Long">
+        delete from sys_notice where notice_id in
+        <foreach item="noticeId" collection="array" open="(" separator="," close=")">
+            #{noticeId}
+        </foreach>
+    </delete>
+
+    <select id="selectUserNoticeList" parameterType="com.ys.system.domain.SysNotice" resultMap="SysNoticeResult">
+        SELECT
+            sn.notice_title,
+            sn.notice_content,
+            sn.notice_id
+        FROM
+            sys_notice_user snu
+                INNER JOIN sys_notice sn ON snu.notice_id = sn.notice_id
+        WHERE
+            snu.user_id = #{userId}
+    </select>
+
+    <select id="seleEmpByEmpid" resultType="com.ys.system.domain.SysNotice" parameterType="java.lang.Long">
+        SELECT
+            e.user_id,e.full_name
+        FROM
+            hr_employees e
+        WHERE
+            e.user_id = #{send}
+    </select>
+
+</mapper>

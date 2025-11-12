@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrAgreementMapper">
+
+    <resultMap type="HrAgreement" id="HrAgreementResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="agreements"    column="agreements"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrAgreementVo">
+        select id, title, agreements, create_by, create_time, update_by, update_time, remark from hr_agreement
+    </sql>
+
+    <select id="selectHrAgreementList" parameterType="HrAgreement" resultMap="HrAgreementResult">
+        <include refid="selectHrAgreementVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="agreements != null  and agreements != ''"> and agreements = #{agreements}</if>
+        </where>
+    </select>
+
+    <select id="selectHrAgreementById" parameterType="Long" resultMap="HrAgreementResult">
+        <include refid="selectHrAgreementVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrQuotaMapper">
+
+    <resultMap type="HrQuota" id="HrQuotaResult">
+        <result property="quotaId"    column="quota_id"    />
+        <result property="postId"    column="post_id"    />
+        <result property="quotaContent"    column="quota_content"    />
+        <result property="quotaNumber"    column="quota_number"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrQuotaVo">
+        SELECT
+            hq.quota_id,
+            hq.post_id,
+            hq.quota_content,
+            hq.quota_number,
+            hq.enterprise_id,
+            hq.create_by,
+            hq.create_time,
+            hq.update_by,
+            hq.update_time,
+            hq.remark,
+            hp.position_name as postName
+        FROM
+            hr_quota hq
+                LEFT JOIN hr_position hp ON hp.id = hq.post_id
+    </sql>
+
+    <select id="selectHrQuotaList" parameterType="HrQuota" resultMap="HrQuotaResult">
+        <include refid="selectHrQuotaVo"/>
+        <where>
+            <if test="postId != null  and postId != ''"> and hq.post_id = #{postId}</if>
+            <if test="postName != null  and postName != ''"> and hp.position_name LIKE CONCAT('%', #{postName}, '%')</if>
+            <if test="quotaContent != null  and quotaContent != ''"> and hq.quota_content = #{quotaContent}</if>
+            <if test="quotaNumber != null  and quotaNumber != ''"> and hq.quota_number = #{quotaNumber}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and hq.enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrQuotaByQuotaId" parameterType="Long" resultMap="HrQuotaResult">
+        <include refid="selectHrQuotaVo"/>
+        where hq.quota_id = #{quotaId}
+    </select>
+
+
+</mapper>

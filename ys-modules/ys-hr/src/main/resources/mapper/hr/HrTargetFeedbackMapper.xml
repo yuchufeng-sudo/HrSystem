@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTargetFeedbackMapper">
+
+    <resultMap type="HrTargetFeedback" id="HrTargetFeedbackResult">
+        <result property="id"    column="id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="targetId"    column="target_id"    />
+        <result property="feedbackBy"    column="feedback_by"    />
+        <result property="feedbackTo"    column="feedback_to"    />
+        <result property="feedbackTime"    column="feedback_time"    />
+        <result property="category"    column="category"    />
+        <result property="rating"    column="rating"    />
+        <result property="feedbackContent"    column="feedback_content"    />
+        <result property="anonymously"    column="anonymously"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="feedbackByName"    column="full_name"    />
+        <result property="feedbackByAvatar"    column="avatar_url"    />
+        <result property="feedbackToName"    column="full_name1"    />
+        <result property="feedbackToAvatar"    column="avatar_url1"    />
+    </resultMap>
+
+    <sql id="selectHrTargetFeedbackVo">
+        select a.id, a.enterprise_id, a.target_id, a.feedback_by, a.feedback_to, a.feedback_time, a.category, a.rating, a.feedback_content,
+               a.anonymously, a.create_by, a.create_time, a.update_by, a.update_time, a.remark,
+                b.full_name,b.avatar_url,c.full_name full_name1,c.avatar_url avatar_url1
+            from hr_target_feedback a
+            left join hr_employees b on a.feedback_by = b.user_id
+            left join hr_employees c on a.feedback_to = c.employee_id
+    </sql>
+
+    <select id="selectHrTargetFeedbackList" parameterType="HrTargetFeedback" resultMap="HrTargetFeedbackResult">
+        <include refid="selectHrTargetFeedbackVo"/>
+        <where>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="targetId != null  and targetId != ''"> and target_id = #{targetId}</if>
+            <if test="feedbackBy != null  and feedbackBy != ''"> and feedback_by = #{feedbackBy}</if>
+            <if test="feedbackTo != null  and feedbackTo != ''"> and feedback_to = #{feedbackTo}</if>
+            <if test="feedbackTime != null  and feedbackTime != ''"> and feedback_time = #{feedbackTime}</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="rating != null  and rating != ''"> and rating = #{rating}</if>
+            <if test="feedbackContent != null  and feedbackContent != ''"> and feedback_content = #{feedbackContent}</if>
+            <if test="anonymously != null  and anonymously != ''"> and anonymously = #{anonymously}</if>
+        </where>
+    </select>
+
+    <select id="selectHrTargetFeedbackById" parameterType="Long" resultMap="HrTargetFeedbackResult">
+        <include refid="selectHrTargetFeedbackVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

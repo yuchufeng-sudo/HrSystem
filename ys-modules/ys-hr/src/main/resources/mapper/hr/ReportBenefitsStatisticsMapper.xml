@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.ReportBenefitsStatisticsMapper">
+
+    <select id="selectTotalBenefitCost" resultType="Double">
+        select sum(b.benefit_emp_money) from hr_emp_benefit a left join hr_benefit b on a.benefit_id = b.benefit_id
+            where b.enterprise_id = #{enterpriseId} and a.benefit_status = '2' and b.benefit_id is not null
+            <if test="userId!=null and userId!=0">and a.user_id = #{userId}</if>
+            <if test="deptId!=null and deptId!=0">and a.user_id in
+                (
+                select he.user_id from hr_employees he left join hr_dept_employees hde on he.employee_id = hde.employee_id
+                where dept_id = #{deptId}
+                )
+            </if>
+            <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+            <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+    </select>
+
+    <select id="selectEmployeesEnrolled" resultType="java.lang.Integer">
+        select count(1) from hr_employees where enterprise_id = #{enterpriseId} and status = '1'
+        <if test="userId!=null and userId!=0">and user_id = #{userId}</if>
+        <if test="deptId!=null and deptId!=0">and user_id in
+            (
+            select he.user_id from hr_employees he left join hr_dept_employees hde on he.employee_id = hde.employee_id
+            where dept_id = #{deptId}
+            )
+        </if>
+        <if test="startDate!=null">and to_timestamp(to_char(create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+        <if test="endDate!=null">and to_timestamp(to_char(create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+    </select>
+
+    <select id="selectMostEnrolledBenefit" resultType="java.lang.String">
+        select b.benefit_name from hr_emp_benefit a left join hr_benefit b on a.benefit_id = b.benefit_id
+        where b.enterprise_id = #{enterpriseId} and a.benefit_status = '2' and b.benefit_id is not null
+        <if test="userId!=null and userId!=0">and a.user_id = #{userId}</if>
+        <if test="deptId!=null and deptId!=0">and a.user_id in
+            (
+            select he.user_id from hr_employees he left join hr_dept_employees hde on he.employee_id = hde.employee_id
+            where dept_id = #{deptId}
+            )
+        </if>
+        <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+        <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+        group by b.benefit_id,b.benefit_name
+        order by count(1) desc limit 1
+    </select>
+
+    <select id="selectAvgCostPerEmployee" resultType="java.lang.Double">
+        select ROUND(avg(b.benefit_emp_money)::NUMERIC, 2) from hr_emp_benefit a left join hr_benefit b on a.benefit_id = b.benefit_id
+        where b.enterprise_id = #{enterpriseId} and a.benefit_status = '2' and b.benefit_id is not null
+        <if test="userId!=null and userId!=0">and a.user_id = #{userId}</if>
+        <if test="deptId!=null and deptId!=0">and a.user_id in
+            (
+            select he.user_id from hr_employees he left join hr_dept_employees hde on he.employee_id = hde.employee_id
+            where dept_id = #{deptId}
+            )
+        </if>
+        <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+        <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+    </select>
+
+    <select id="selectBenefitCostBreakdown" resultType="com.ys.hr.domain.vo.ReportChartDataVo">
+        select b.benefit_name name,sum(b.benefit_emp_money) value from hr_emp_benefit a left join hr_benefit b on a.benefit_id = b.benefit_id
+        where b.enterprise_id = #{enterpriseId} and a.benefit_status = '2' and b.benefit_id is not null
+        <if test="userId!=null and userId!=0">and a.user_id = #{userId}</if>
+        <if test="deptId!=null and deptId!=0">and a.user_id in
+            (
+            select he.user_id from hr_employees he left join hr_dept_employees hde on he.employee_id = hde.employee_id
+            where dept_id = #{deptId}
+            )
+        </if>
+        <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+        <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+        group by b.benefit_name
+    </select>
+
+    <select id="selectEnrollmentByCountry" resultType="com.ys.hr.domain.vo.ReportChartDataVo">
+        select country name,count(1) value from hr_employees
+        where enterprise_id = #{enterpriseId} and status = '1'
+        <if test="userId!=null and userId!=0">and user_id = #{userId}</if>
+        <if test="deptId!=null and deptId!=0">and user_id in
+            (
+            select he.user_id from hr_employees he left join hr_dept_employees hde on he.employee_id = hde.employee_id
+            where dept_id = #{deptId}
+            )
+        </if>
+        <if test="startDate!=null">and to_timestamp(to_char(benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+        <if test="endDate!=null">and to_timestamp(to_char(benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+        group by country
+    </select>
+
+    <resultMap type="com.ys.hr.domain.vo.ReportBenefitsListVo" id="ReportBenefitsListVoResult">
+        <result property="employeeName"    column="full_name"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="country"    column="country"    />
+        <result property="email"    column="email"    />
+        <result property="position"    column="position_name"    />
+        <result property="benefitName"    column="benefit_name"    />
+        <result property="benefitAmount"    column="benefit_emp_money"    />
+        <result property="startDate"    column="default_start_time"    />
+        <result property="endDate"    column="default_end_time"    />
+    </resultMap>
+
+    <select id="selectBenefitsReportList" resultMap="ReportBenefitsListVoResult">
+        select c.full_name,e.dept_name,c.country,c.email,hp.position_name,b.benefit_name,b.benefit_emp_money,b.default_start_time,b.default_end_time
+        from hr_emp_benefit a left join hr_benefit b on a.benefit_id = b.benefit_id
+        left join hr_employees c on a.user_id = c.user_id
+        left join hr_dept_employees d on d.employee_id = c.employee_id
+        left join hr_dept e on e.dept_id = d.dept_id
+        left join hr_position hp on c.position = hp.id
+        where b.enterprise_id = #{enterpriseId} and a.benefit_status = '2' and c.status = '1' and b.benefit_id is not null
+        <if test="userId!=null and userId!=0">and a.user_id = #{userId}</if>
+        <if test="deptId!=null and deptId!=0">and e.dept_id = #{deptId}</if>
+        <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
+        <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+    </select>
+</mapper>

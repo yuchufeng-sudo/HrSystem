@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.system.mapper.SysEnterpriseMapper">
+
+    <resultMap type="com.ys.system.api.domain.SysEnterprise" id="SysEnterpriseResult">
+        <result property="id"    column="id"    />
+        <result property="logoUrl"    column="logo_url"    />
+        <result property="industryType"    column="industry_type"    />
+        <result property="enterpriseName"    column="enterprise_name"    />
+        <result property="country"    column="country"    />
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="postCode" column="post_code"/>
+        <result property="timeZone"    column="time_zone"    />
+        <result property="contactEmail"    column="contact_email"    />
+        <result property="currency"    column="currency"    />
+        <result property="phoneCode"    column="phone_code"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="isPlan" column="is_plan" />
+        <result property="planId" column="plan_id" />
+        <result property="planEndTime" column="plan_end_time" />
+        <result property="planTimeNums" column="plan_time_nums" />
+        <result property="planOrderId" column="plan_order_id" />
+     </resultMap>
+
+    <sql id="selectSysEnterpriseVo">
+        select id, logo_url, industry_type, enterprise_name, country,address1,address2,city,province,post_code, time_zone, contact_email, phone_code, contact_phone, currency, status, create_by, create_time, update_by, update_time, remark, is_plan, plan_id, plan_end_time, plan_time_nums,plan_order_id from sys_enterprise
+    </sql>
+    <update id="updataByApplicationId" parameterType="com.ys.system.api.domain.SysEnterprise">
+        update hr_application set business_id = #{id} where application_id = #{applicationId}
+    </update>
+
+    <select id="selectSysEnterpriseList" parameterType="com.ys.system.api.domain.SysEnterprise" resultMap="SysEnterpriseResult">
+        <include refid="selectSysEnterpriseVo"/>
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="enterpriseName != null  and enterpriseName != ''"> and enterprise_name like concat('%', #{enterpriseName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectSysEnterpriseById" parameterType="String" resultMap="SysEnterpriseResult">
+        <include refid="selectSysEnterpriseVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectEnterpriseList" resultType="com.ys.system.api.domain.SysEnterprise">
+<!--        SELECT sys_enterprise.*,hr_payplan.level AS level,hr_order_detail.order_type,hr_order_detail.is_free_order,-->
+<!--               (select count(1) from sys_user where enterprise_id = sys_enterprise.id) AS user_count-->
+<!--        FROM sys_enterprise-->
+<!--                 LEFT JOIN sys_user ON sys_enterprise.id = sys_user.enterprise_id-->
+<!--                 LEFT JOIN hr_payplan on hr_payplan.pay_id = sys_enterprise.plan_id-->
+<!--                 LEFT JOIN hr_order_detail on hr_order_detail.paypal_order_id = sys_enterprise.plan_order_id-->
+<!--        <if test="id != null">where sys_enterprise.id = #{id}</if>-->
+        SELECT se.*,
+        hpp.level AS level,
+        hod.order_type,
+        hod.is_free_order,
+        (SELECT COUNT(1) FROM sys_user WHERE enterprise_id = se.id) AS user_count
+        FROM sys_enterprise se
+        LEFT JOIN (
+        SELECT pay_id, level FROM hr_payplan
+        ) hpp ON hpp.pay_id = se.plan_id
+        LEFT JOIN (
+        SELECT paypal_order_id, order_type, is_free_order FROM hr_order_detail
+        ) hod ON hod.paypal_order_id = se.plan_order_id
+        <if test="id != null">WHERE se.id = #{id}</if>
+    </select>
+    <select id="selectSysEnterpriseByInviteCode" resultMap="SysEnterpriseResult">
+        select a.enterprise_name from sys_enterprise a left join hr_invite_code b on a.id = b.enterprise_id where b.code = #{code}
+    </select>
+
+</mapper>

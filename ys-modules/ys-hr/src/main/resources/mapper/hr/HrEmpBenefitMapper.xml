@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrEmpBenefitMapper">
+
+    <resultMap type="HrEmpBenefit" id="HrEmpBenefitResult">
+        <result property="benefitEmpId"    column="benefit_emp_id"    />
+        <result property="benefitId"    column="benefit_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="benefitStatus"    column="benefit_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="coverage"    column="coverage"    />
+    </resultMap>
+
+    <sql id="selectHrEmpBenefitVo">
+        SELECT
+            heb.benefit_emp_id,
+            heb.benefit_id,
+            heb.user_id,
+            heb.benefit_status,
+            heb.remark,
+            heb.benefit_data,
+            heb.coverage,
+            hb.benefit_name,
+            he.full_name as fullName,
+            hb.default_start_time,
+            hb.default_end_time,
+            hb.benefit_emp_money,
+            sy.nick_name
+        FROM
+            hr_emp_benefit heb
+                LEFT JOIN hr_benefit hb ON heb.benefit_id = hb.benefit_id
+                LEFT JOIN hr_employees he ON he.user_id = heb.user_id
+                LEFT JOIN sys_user sy ON sy.user_id = heb.user_id
+    </sql>
+
+    <select id="selectHrEmpBenefitList" parameterType="HrEmpBenefit" resultMap="HrEmpBenefitResult">
+        <include refid="selectHrEmpBenefitVo"/>
+        <where>
+            <if test="benefitId != null  and benefitId != ''"> and heb.benefit_id = #{benefitId}</if>
+            <if test="fullName != null  and fullName != ''"> and LOWER(he.full_name) LIKE LOWER(CONCAT('%', #{fullName}, '%'))</if>
+            <if test="userId != null  and userId != ''"> and heb.user_id = #{userId}</if>
+            <if test="benefitStatus != null  and benefitStatus != ''"> and heb.benefit_status = #{benefitStatus}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and hb.enterprise_id = #{enterpriseId}</if>
+            <if test="params.beginCreateTime != null and params.endCreateTime != null">
+                AND heb.benefit_data BETWEEN
+                TO_TIMESTAMP(#{params.beginCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{params.endCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectHrEmpBenefitByBenefitEmpId" parameterType="String" resultMap="HrEmpBenefitResult">
+        <include refid="selectHrEmpBenefitVo"/>
+        where heb.benefit_emp_id = #{benefitEmpId}
+    </select>
+
+
+</mapper>

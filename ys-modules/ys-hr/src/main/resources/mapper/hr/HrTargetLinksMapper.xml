@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTargetLinksMapper">
+
+    <resultMap type="HrTargetLinks" id="HrTargetLinksResult">
+        <result property="id"    column="id"    />
+        <result property="sourceTargetId"    column="source_target_id"    />
+        <result property="linkedTargetId"    column="linked_target_id"    />
+        <result property="linkedTargetName"    column="linked_target_name"    />
+        <result property="relationType"    column="relation_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrTargetLinksVo">
+        select a.id, a.source_target_id, a.linked_target_id, a.relation_type, a.create_by, a.create_time, a.update_by, a.update_time, a.remark
+            ,b.name linked_target_name
+            from hr_target_links a
+        left join hr_targets b on a.linked_target_id = b.id
+    </sql>
+
+    <select id="selectHrTargetLinksList" parameterType="HrTargetLinks" resultMap="HrTargetLinksResult">
+        <include refid="selectHrTargetLinksVo"/>
+        <where>
+            <if test="sourceTargetId != null "> and a.source_target_id = #{sourceTargetId}</if>
+            <if test="linkedTargetId != null "> and a.linked_target_id = #{linkedTargetId}</if>
+            <if test="relationType != null  and relationType != ''"> and a.relation_type = #{relationType}</if>
+        </where>
+    </select>
+</mapper>

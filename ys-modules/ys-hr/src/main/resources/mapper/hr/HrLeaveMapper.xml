@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrLeaveMapper">
+
+    <resultMap type="com.ys.hr.domain.HrLeave" id="HrLeaveResult">
+        <result property="leaveId" column="leave_id"/>
+        <result property="stateTime" column="state_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="leaveStatus" column="leave_status"/>
+        <result property="leaveType" column="leave_type"/>
+        <result property="managerId" column="manager_id"/>
+        <result property="leaveReason" column="leave_reason"/>
+        <result property="rejectReason" column="reject_reason"/>
+        <result property="userId" column="user_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="leaveDuration" column="leave_duration"/>
+        <result property="syncId" column="sync_id"/>
+    </resultMap>
+
+    <resultMap type="com.ys.hr.domain.vo.EmployeeLeaveCountVo" id="EmployeeLeaveCountResult">
+        <result property="totalDays" column="total_leave_days"/>
+        <result property="thisMonthDays" column="this_month_leave_days"/>
+        <result property="lastMonthDays" column="last_month_leave_days"/>
+    </resultMap>
+
+    <sql id="selectHrLeaveVo">
+        SELECT hl.leave_id,
+               hl.state_time,
+               hl.end_time,
+               hl.leave_status,
+               hl.leave_type,
+               hl.manager_id,
+               hl.leave_reason,
+               hl.reject_reason,
+               hl.user_id,
+               hl.enterprise_id,
+               hl.create_by,
+               hl.create_time,
+               hl.update_by,
+               hl.update_time,
+               hl.leave_duration,
+               hl.sync_id,
+               he.full_name as nickName,
+               he.avatar_url as avatar,
+               suu.nick_name as leaderNickName,
+               suu.avatar    as leaderAvatar,
+               sd.dept_name,
+               he.email
+        FROM hr_leave hl
+                 LEFT JOIN hr_employees he on he.user_id = hl.user_id
+                 LEFT JOIN sys_user su on su.user_id = hl.user_id
+                 LEFT JOIN hr_dept_employees hde on hde.employee_id = he.employee_id
+                 LEFT JOIN hr_dept sd on sd.dept_id = hde.dept_id
+                 LEFT JOIN sys_user suu on suu.user_id = sd.leader
+    </sql>
+    <update id="updateByLeaveId" parameterType="com.ys.hr.domain.HrLeave">
+        UPDATE hr_leave
+        <set>
+            <!-- 动态Update 字段 -->
+            <if test="leaveStatus != null">
+                leave_status = #{leaveStatus},
+            </if>
+            <if test="rejectReason != null">
+                reject_reason = #{rejectReason}
+            </if>
+        </set>
+        <where>
+            <!-- 固定条件：必须提供 leave_id -->
+            leave_id = #{leaveId}
+        </where>
+    </update>
+
+    <select id="selectHrLeaveList" parameterType="com.ys.hr.domain.HrLeave" resultMap="HrLeaveResult">
+        <include refid="selectHrLeaveVo"/>
+        <where>
+            <if test="leaveStatus != null  and leaveStatus != ''">and hl.leave_status = #{leaveStatus}</if>
+            <if test="leaveType != null  and leaveType != ''">and hl.leave_type = #{leaveType}</if>
+            <if test="userId != null ">and hl.user_id = #{userId}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''">and hl.enterprise_id = #{enterpriseId}</if>
+            <if test="deptId != null  and deptId != ''">and sd.dept_id = #{deptId}</if>
+            <if test="nickName != null and nickName != ''">
+                and LOWER(he.full_name) LIKE LOWER(CONCAT('%', #{nickName}, '%'))
+            </if>
+            <if test="params.beginCreateTime != null and params.endCreateTime != null">
+                AND hl.state_time BETWEEN
+                TO_TIMESTAMP(#{params.beginCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{params.endCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+            <if test="stateTime !=null and endTime != null">AND hl.state_time BETWEEN
+                TO_TIMESTAMP(#{stateTime},'YYY-MM-DD HH24:MI:SS')AND TO_TIMESTAMP(#{endTime},'YYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+        ORDER BY hl.create_time DESC
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="HrLeaveResult">
+        <include refid="selectHrLeaveVo"/>
+        where hl.leave_id = #{leaveId}
+    </select>
+    <select id="selectHrLeaveLastTime" resultType="com.ys.hr.domain.HrLeave" parameterType="java.lang.Long">
+        SELECT *
+        FROM hr_leave
+        where leave_status = '1'
+          and user_id = #{userId}
+        ORDER BY create_time DESC LIMIT 1
+    </select>
+    <select id="leaveCount" resultType="java.util.Map" parameterType="com.ys.hr.domain.HrLeave">
+        SELECT
+        COUNT(leave_id) AS total,
+        COUNT(CASE WHEN leave_status = '1' THEN 1 END) AS Approved,
+        COUNT(CASE WHEN leave_status = '3' THEN 1 END) AS Pending,
+        COUNT(CASE WHEN leave_status = '4' THEN 1 END) AS Refuse
+        FROM
+        hr_leave
+        <where>
+            <if test="enterpriseId != null  and enterpriseId != ''">and enterprise_id = #{enterpriseId}</if>
+            <if test="userId != null ">and hl.user_id = #{userId}</if>
+            <if test="params.beginCreateTime != null and params.endCreateTime != null">
+                AND state_time BETWEEN
+                TO_TIMESTAMP(#{params.beginCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{params.endCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </select>
+    <select id="selectLeader" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+            hd.leader
+        FROM
+            sys_user su
+                LEFT JOIN hr_employees he ON he.user_id = su.user_id
+                LEFT JOIN  hr_dept_employees hde ON hde.employee_id = he.employee_id
+                left join hr_dept hd ON hd.dept_id = hde.dept_id
+        WHERE su.user_id = #{userId}
+    </select>
+    <select id="leaveCountByUser" resultType="java.util.Map" parameterType="com.ys.hr.domain.HrLeave">
+        SELECT
+        COUNT(leave_id) AS total,
+        COUNT(CASE WHEN leave_status = '3' THEN 1 END) AS pending,
+        COUNT(CASE WHEN leave_status = '1' THEN 1 END) AS approved,
+        COUNT(CASE WHEN leave_status = '5' THEN 1 END) AS paid,
+        SUM(
+        CASE
+        WHEN leave_status = '1' THEN (end_time::date - state_time::date + 1)
+        ELSE 0
+        END
+        ) AS totaldays
+        FROM
+        hr_leave
+        <where>
+            <if test="leaveType != null and leaveType != ''">and leave_type = #{leaveType}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+        </where>
+    </select>
+    <select id="selectLeaveDaysByEid" resultType="com.ys.hr.domain.HrHoliday" parameterType="java.lang.String">
+        SELECT
+        *
+        FROM
+        hr_holiday
+        <where>
+            <if test="enterpriseId != null  and enterpriseId != ''">and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectLeaveByUserId" resultMap="HrLeaveResult">
+        SELECT *
+        FROM hr_leave
+        WHERE to_timestamp(#{ attendanceTime }, 'YYYY-mm-dd') &gt;=
+              to_timestamp(to_char(state_time, 'YYYY-mm-dd'), 'YYYY-mm-dd')
+          AND to_timestamp(#{ attendanceTime }, 'YYYY-mm-dd') &lt;=
+              to_timestamp(to_char(end_time, 'YYYY-mm-dd'), 'YYYY-mm-dd')
+          AND user_id = #{ userId}
+         AND leave_status = '1'
+    </select>
+
+
+    <select id="selectLeaveByLastDay" parameterType="Long" resultType="Integer">
+        SELECT COUNT(*)
+        FROM hr_leave
+        WHERE user_id = 30
+          AND leave_status = '1'
+          AND (current_date - interval '1 day') + interval '1 day' - interval '1 second' >= state_time
+          AND end_time >= (current_date - interval '1 day')
+    </select>
+
+    <select id="selectLeaveByThisDay" parameterType="Long" resultType="Integer">
+        SELECT COUNT(*)
+        FROM hr_leave
+        WHERE user_id = #{userId}
+          AND leave_status = '1' -- 如果有 LEAVE APPLICATION Status字段
+          AND current_date + interval '1 day' - interval '1 second' >= state_time
+          AND end_time >= current_date;
+
+    </select>
+
+    <select id="selectLeaveByUserIdAndDate" resultMap="HrLeaveResult">
+        SELECT
+            *
+        FROM
+            hr_leave
+        WHERE
+            user_id = #{ userId }
+          AND leave_status = '1'
+          AND ( date_trunc( 'month', #{ searchData }:: DATE ) + INTERVAL '1 month' ) > state_time
+          AND end_time >= date_trunc( 'month', #{ searchData }:: DATE )
+    </select>
+</mapper>

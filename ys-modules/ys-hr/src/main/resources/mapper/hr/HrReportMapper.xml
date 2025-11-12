@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrReportMapper">
+
+    <select id="selectEmployeeBirthdayReportVo" resultType="com.ys.hr.domain.vo.EmployeeBirthdayReportVo">
+        select employee_id,full_name,date_of_birth from hr_employees
+    </select>
+
+    <select id="selectEmployeeContactsReportVo" resultType="com.ys.hr.domain.vo.EmployeeContactsReportVo">
+        select employee_id,full_name,contact_phone from hr_employees
+    </select>
+</mapper>

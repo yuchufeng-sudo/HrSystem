@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTargetTasksMapper">
+
+    <resultMap type="HrTargetTasks" id="HrTargetTasksResult">
+        <result property="id"    column="id"    />
+        <result property="targetId"    column="target_id"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="dueTime"    column="due_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="priority"    column="priority"    />
+        <result property="progress"    column="progress"    />
+        <result property="completeProgress"    column="complete_progress"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="attachment"    column="attachment"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="configTime"    column="config_time"    />
+    </resultMap>
+
+    <sql id="selectHrTargetTasksVo">
+        select id, target_id, attachment, name, description, progress, complete_progress, status, start_time, due_time, priority,complete_time,config_time, create_by, create_time, update_by, update_time, remark from hr_target_tasks
+    </sql>
+
+    <select id="selectHrTargetTasksList" parameterType="HrTargetTasks" resultMap="HrTargetTasksResult">
+        <include refid="selectHrTargetTasksVo"/>
+        <where>
+            <if test="targetId != null "> and target_id = #{targetId}</if>
+            <if test="name != null  and name != ''"> and name ILIKE concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="dueTime != null "> and due_time = #{dueTime}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+        </where>
+        order by due_time desc
+    </select>
+
+    <select id="selectHrTargetTasksById" parameterType="Long" resultMap="HrTargetTasksResult">
+        <include refid="selectHrTargetTasksVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

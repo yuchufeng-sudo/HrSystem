@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrCareersMapper">
+
+    <resultMap type="HrCareers" id="HrCareersResult">
+        <result property="id"    column="id"    />
+        <result property="careersName"    column="careers_name"    />
+        <result property="logo"    column="logo"    />
+        <result property="label"    column="label"    />
+        <result property="about"    column="about"    />
+        <result property="description"    column="description"    />
+        <result property="introImages"    column="intro_images"    />
+        <result property="socials"    column="socials"    />
+        <result property="showPreviewLogo"    column="show_preview_logo"    />
+        <result property="showPreviewAbout"    column="show_preview_about"    />
+        <result property="showPreviewImages"    column="show_preview_images"    />
+        <result property="showPreviewSocials"    column="show_preview_socials"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+    </resultMap>
+
+    <sql id="selectHrCareersVo">
+        select id, careers_name, logo, label, about, description, intro_images, socials, show_preview_logo, show_preview_about, show_preview_images, show_preview_socials, create_by, create_time, update_by, update_time, remark, enterprise_id from hr_careers
+    </sql>
+
+    <select id="selectHrCareersList" parameterType="HrCareers" resultMap="HrCareersResult">
+        <include refid="selectHrCareersVo"/>
+        <where>
+            <if test="careersName != null  and careersName != ''"> and careers_name like concat('%', #{careersName}, '%')</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrCareersById" parameterType="String" resultMap="HrCareersResult">
+        <include refid="selectHrCareersVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrEmployeesMapper">
+
+    <resultMap type="com.ys.hr.domain.HrEmployees" id="HrEmployeesResult">
+        <result property="employeeId" column="employee_id"/>
+        <result property="fullName" column="full_name"/>
+        <result property="gender" column="gender"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="avatarUrl" column="avatar_url"/>
+        <result property="status" column="status"/>
+        <result property="dateOfBirth" column="date_of_birth"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="emergencyContact" column="emergency_contact"/>
+        <result property="country" column="country"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="postCode" column="post_code"/>
+        <result property="position" column="position"/>
+        <result property="hireDate" column="hire_date"/>
+        <result property="employmentType" column="employment_type"/>
+        <result property="payrollId" column="payroll_id"/>
+        <result property="payRate" column="pay_rate"/>
+        <result property="workPeriod" column="work_period"/>
+        <result property="hoursPerPeriod" column="hours_per_period"/>
+        <result property="daysPerPeriod" column="days_per_period"/>
+        <result property="stressProfile" column="stress_profile"/>
+        <result property="accessLevel" column="access_level"/>
+        <result property="phoneCode" column="phone_code"/>
+        <result property="leaveEntitlements" column="leave_entitlements"/>
+        <result property="swiftOrBsb" column="swift_or_bsb"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="userId" column="user_id"/>
+        <result property="baseSalary" column="base_salary"/>
+        <result property="socialSecurityCost" column="social_security_cost"/>
+        <result property="comInsuIdCost" column="com_insu_id_cost"/>
+        <result property="accuFundIdCost" column="accu_fund_id_cost"/>
+        <result property="jobnumber" column="jobnumber"/>
+        <result property="resignationAttachment" column="resignation_attachment"/>
+        <result property="resignationDate" column="resignation_date"/>
+        <result property="resignationReason" column="resignation_reason"/>
+        <result property="rehireEligibility" column="rehire_eligibility"/>
+        <result property="systemAccess" column="system_access"/>
+        <result property="resignationHrUserId" column="resignation_hr_user_id"/>
+        <result property="probationStatus" column="probation_status"/>
+        <result property="probationStartTime" column="probation_start_time"/>
+        <result property="probationEndTime" column="probation_end_time"/>
+        <result property="probationSalary" column="probation_salary"/>
+        <result property="worksAt" column="works_at" />
+        <result property="positionName" column="position_name" />
+        <result property="salaryPayPeriod" column="salary_pay_period" />
+        <result property="perPeriodHours" column="per_period_hours" />
+        <result property="payFrequency" column="pay_frequency" />
+        <result property="bankName" column="bank_name" />
+        <result property="openingBank" column="opening_bank" />
+        <result property="bankNumber" column="bank_number" />
+    </resultMap>
+
+    <resultMap type="com.ys.hr.domain.vo.EmployeementStatusVo" id="EmployeementStatusResult">
+        <result property="fullTime" column="full_time"/>
+        <result property="partTime" column="part_time"/>
+        <result property="internShip" column="internship"/>
+    </resultMap>
+
+    <resultMap type="com.ys.hr.domain.vo.EmployeeCountVo" id="EmployeeCountVoResult">
+        <result property="totalCount" column="total_count"/>
+        <result property="lastMonthCount" column="last_month_count"/>
+    </resultMap>
+
+    <resultMap type="com.ys.hr.domain.vo.BirthdayReportVo" id="BirthdayReportResult">
+        <result property="employeeId" column="employee_id"/>
+        <result property="fullName" column="full_name"/>
+        <result property="dateOfBirth" column="date_of_birth"/>
+        <result property="avatarUrl" column="avatar_url"/>
+    </resultMap>
+
+    <sql id="selectHrEmployeesVo">
+        SELECT he.employee_id,
+               he.full_name,
+               he.gender,
+               he.user_id,
+               he.access_level,
+               he.username,
+               he.email,
+               he.avatar_url,
+               he.status,
+               he.date_of_birth,
+               he.leave_entitlements,
+               he.phone_code,
+               he.contact_phone,
+               he.emergency_contact,
+               he.country,
+               he.address1,
+               he.address2,
+               he.city,
+               he.province,
+               he.post_code,
+               he.position,
+               he.works_at,
+               he.hire_date,
+               he.employment_type,
+               he.payroll_id,
+               he.pay_rate,
+               he.work_period,
+               he.hours_per_period,
+               he.days_per_period,
+               he.stress_profile,
+               he.create_by,
+               he.create_time,
+               he.update_by,
+               he.update_time,
+               he.remark,
+               he.base_salary,
+               he.social_security_cost,
+               he.com_insu_id_cost,
+               he.accu_fund_id_cost,
+               he.jobnumber,
+               he.enterprise_id,
+               hde.dept_id,
+               he.resignation_date,
+               he.resignation_reason,
+               he.rehire_eligibility,
+               he.system_access,
+               he.resignation_hr_user_id,
+               he.probation_start_time,
+               he.probation_end_time,
+               he.probation_salary,
+               he.probation_status,
+               he.swift_or_bsb,
+               he.resignation_attachment,
+               he.google,
+               he.salary_pay_period,
+               he.per_period_hours,
+               he.pay_frequency,
+               he.bank_name,
+               he.opening_bank,
+               he.bank_number,
+               hp.position_name
+        FROM hr_employees he
+                 LEFT JOIN hr_emp_scheduling hes on hes.user_id = he.user_id
+                 left join hr_settings hs on hs.enterprise_id = he.enterprise_id
+                 left join hr_dept_employees hde on he.employee_id = hde.employee_id
+                 left join hr_position hp on he.position = hp.id
+    </sql>
+    <sql id="selectHrEmployeesVo2">
+        SELECT he.employee_id,
+               he.full_name,
+               he.gender,
+               he.user_id,
+               he.access_level,
+               he.username,
+               he.email,
+               he.avatar_url,
+               he.status,
+               he.date_of_birth,
+               he.leave_entitlements,
+               he.phone_code,
+               he.contact_phone,
+               he.emergency_contact,
+               he.country,
+               he.address1,
+               he.address2,
+               he.city,
+               he.province,
+               he.post_code,
+               he.position,
+               he.works_at,
+               he.hire_date,
+               he.employment_type,
+               he.payroll_id,
+               he.pay_rate,
+               he.work_period,
+               he.hours_per_period,
+               he.days_per_period,
+               he.stress_profile,
+               he.create_by,
+               he.create_time,
+               he.update_by,
+               he.update_time,
+               he.remark,
+               he.base_salary,
+               he.social_security_cost,
+               he.com_insu_id_cost,
+               he.accu_fund_id_cost,
+               he.jobnumber,
+               he.enterprise_id,
+               he.resignation_date,
+               he.resignation_reason,
+               he.rehire_eligibility,
+               he.system_access,
+               he.resignation_hr_user_id,
+               he.probation_start_time,
+               he.probation_end_time,
+               he.probation_salary,
+               he.probation_status,
+               he.resignation_attachment,
+               he.swift_or_bsb,
+               he.google,
+               hp.position_name,
+               he.salary_pay_period,
+               he.per_period_hours,
+               he.pay_frequency,
+               he.bank_name,
+               he.opening_bank,
+               he.bank_number,
+               hd.dept_id,
+               hd.dept_name AS deptName,
+               hd.leader    AS leaderId
+        FROM hr_employees he
+                 LEFT JOIN hr_dept_employees hde ON hde.employee_id = he.employee_id
+                 LEFT JOIN hr_dept hd ON hd.dept_id = hde.dept_id
+                 left join hr_position hp on he.position = hp.id
+    </sql>
+
+    <select id="selectHrEmployeesList" parameterType="HrEmployees" resultMap="HrEmployeesResult">
+        <include refid="selectHrEmployeesVo"/>
+        <where>
+            <if test="status == null">and he.status = '1'</if>
+            <if test="status != null">and he.status = #{status}</if>
+            <if test="resignationDate != null">and he.resignation_date = #{resignationDate}</if>
+            <if test="noDept != null">and (hde.dept_id is null
+                <if test="noDeptId != null">or hde.dept_id = #{noDeptId}</if>
+                )
+            </if>
+            <if test="fullName != null  and fullName != ''">and he.full_name ILIKE concat('%', #{fullName}, '%')</if>
+            <if test="email != null">and he.email = #{email}</if>
+            <if test="accessLevel != null and accessLevel != ''">and he.access_level = #{accessLevel}</if>
+            <if test="phoneCode != null and phoneCode != ''">and he.phone_code = #{phoneCode}</if>
+            <if test="avatarUrl != null  and avatarUrl != ''">and he.avatar_url = #{avatarUrl}</if>
+            <if test="status != null  and status != ''">and he.status = #{status}</if>
+            <if test="dateOfBirth != null ">and he.date_of_birth = #{dateOfBirth}</if>
+            <if test="contactPhone != null  and contactPhone != ''">and he.contact_phone = #{contactPhone}</if>
+            <if test="emergencyContact != null  and emergencyContact != ''">and he.emergency_contact =
+                #{emergencyContact}
+            </if>
+            <if test="position != null  and position != ''">and he.position = #{position}</if>
+            <if test="hireDate != null ">and he.hire_date = #{hireDate}</if>
+            <if test='employmentType != null and employmentType != "0"'>and he.employment_type = #{employmentType}</if>
+            <if test="payrollId != null  and payrollId != ''">and he.payroll_id = #{payrollId}</if>
+            <if test="payRate != null  and payRate != ''">and he.pay_rate = #{payRate}</if>
+            <if test="workPeriod != null  and workPeriod != ''">and he.work_period = #{workPeriod}</if>
+            <if test="hoursPerPeriod != null ">and he.hours_per_period = #{hoursPerPeriod}</if>
+            <if test="daysPerPeriod != null ">and he.days_per_period = #{daysPerPeriod}</if>
+            <if test="stressProfile != null  and stressProfile != ''">and he.stress_profile = #{stressProfile}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''">and he.enterprise_id = #{enterpriseId}</if>
+            <if test="deptId != null">and hde.dept_id = #{deptId}</if>
+            <if test="schedulingId != null  and schedulingId != ''">and (
+                hes.scheduling_id = #{schedulingId}
+                OR
+                (hes.scheduling_id IS NULL AND hs.scheduling_id = #{schedulingId})
+                )
+            </if>
+
+            <if test="employeeIds != null and employeeIds.length > 0">
+                and he.employee_id in
+                <foreach collection="employeeIds" item="employeeId" open="(" separator="," close=")">
+                    #{employeeId}
+                </foreach>
+            </if>
+
+            <if test="userIds != null and userIds.length > 0">
+                and he.user_id in
+                <foreach collection="userIds" item="employeeId" open="(" separator="," close=")">
+                    #{employeeId}
+                </foreach>
+            </if>
+        </where>
+        order by
+        <if test="topEmployeeIds != null and topEmployeeIds.length > 0">
+            if(he.employee_id in
+            <foreach collection="topEmployeeIds" item="topEmployeeId" open="(" separator="," close=")">
+                #{topEmployeeId}
+            </foreach>
+            ,1,2),
+        </if>
+        he.create_time desc
+    </select>
+
+    <select id="selectHrEmployeesExcelList" parameterType="HrEmployees" resultMap="HrEmployeesResult">
+        SELECT
+        he.employee_id,
+        he.full_name,
+        he.gender,
+        he.user_id,
+        sr.role_name access_level,
+        he.username,
+        he.email,
+        he.avatar_url,
+        he.status,
+        he.date_of_birth,
+        he.leave_entitlements,
+        he.phone_code,
+        he.contact_phone,
+        he.emergency_contact,
+        he.country,
+        he.address1,
+        he.address2,
+        he.city,
+        he.province,
+        he.post_code,
+        he.position,
+        he.works_at,
+        he.hire_date,
+        he.employment_type,
+        he.payroll_id,
+        he.pay_rate,
+        he.work_period,
+        he.hours_per_period,
+        he.days_per_period,
+        he.stress_profile,
+        he.create_by,
+        he.create_time,
+        he.update_by,
+        he.update_time,
+        he.remark,
+        he.base_salary,
+        he.social_security_cost,
+        he.com_insu_id_cost,
+        he.accu_fund_id_cost,
+        he.jobnumber,
+        hde.dept_id,
+        he.resignation_date,
+        he.resignation_reason,
+        he.rehire_eligibility,
+        he.system_access,
+        he.resignation_hr_user_id,
+        he.probation_start_time,
+        he.probation_end_time,
+        he.probation_salary,
+        he.probation_status,
+        he.swift_or_bsb,
+        hp.position_name,
+        he.salary_pay_period,
+        he.per_period_hours,
+        he.pay_frequency,
+        he.resignation_attachment
+        FROM
+        hr_employees he
+        LEFT JOIN hr_emp_scheduling hes on hes.user_id = he.user_id
+        left join hr_settings hs on hs.enterprise_id = he.enterprise_id
+        left join hr_dept_employees hde on he.employee_id = hde.employee_id
+        left join sys_role sr on sr.role_id = he.access_level
+        left join hr_position hp on he.position = hp.id
+        <where>
+            <if test="status == null">and he.status = '1'</if>
+            <if test="status != null">and he.status = #{status}</if>
+            <if test="noDept != null">and (hde.dept_id is null
+                <if test="noDeptId != null">or hde.dept_id = #{noDeptId}</if>
+                )
+            </if>
+            <if test="fullName != null  and fullName != ''">and he.full_name ILIKE concat('%', #{fullName}, '%')</if>
+            <if test="email != null">and he.email = #{email}</if>
+            <if test="accessLevel != null and accessLevel != ''">and he.access_level = #{accessLevel}</if>
+            <if test="phoneCode != null and phoneCode != ''">and he.phone_code = #{phoneCode}</if>
+            <if test="avatarUrl != null  and avatarUrl != ''">and he.avatar_url = #{avatarUrl}</if>
+            <if test="status != null  and status != ''">and he.status = #{status}</if>
+            <if test="dateOfBirth != null ">and he.date_of_birth = #{dateOfBirth}</if>
+            <if test="contactPhone != null  and contactPhone != ''">and he.contact_phone = #{contactPhone}</if>
+            <if test="emergencyContact != null  and emergencyContact != ''">and he.emergency_contact =
+                #{emergencyContact}
+            </if>
+            <if test="position != null  and position != ''">and he.position = #{position}</if>
+            <if test="hireDate != null ">and he.hire_date = #{hireDate}</if>
+            <if test='employmentType != null and employmentType != "0"'>and he.employment_type = #{employmentType}</if>
+            <if test="payrollId != null  and payrollId != ''">and he.payroll_id = #{payrollId}</if>
+            <if test="payRate != null  and payRate != ''">and he.pay_rate = #{payRate}</if>
+            <if test="workPeriod != null  and workPeriod != ''">and he.work_period = #{workPeriod}</if>
+            <if test="hoursPerPeriod != null ">and he.hours_per_period = #{hoursPerPeriod}</if>
+            <if test="daysPerPeriod != null ">and he.days_per_period = #{daysPerPeriod}</if>
+            <if test="stressProfile != null  and stressProfile != ''">and he.stress_profile = #{stressProfile}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''">and he.enterprise_id = #{enterpriseId}</if>
+            <if test="deptId != null">and hde.dept_id = #{deptId}</if>
+            <if test="schedulingId != null  and schedulingId != ''">and (
+                hes.scheduling_id = #{schedulingId}
+                OR
+                (hes.scheduling_id IS NULL AND hs.scheduling_id = #{schedulingId})
+                )
+            </if>
+
+            <if test="employeeIds != null and employeeIds.length > 0">
+                and he.employee_id in
+                <foreach collection="employeeIds" item="employeeId" open="(" separator="," close=")">
+                    #{employeeId}
+                </foreach>
+            </if>
+        </where>
+        order by he.create_time desc
+    </select>
+
+    <select id="selectSysUserCountByUsername" resultType="com.ys.system.api.domain.SysUser" parameterType="String">
+        select user_id from sys_user where user_name = #{username} FOR UPDATE
+    </select>
+
+    <select id="selectSysUserCountByEmail" resultType="com.ys.system.api.domain.SysUser" parameterType="String">
+        select user_id from sys_user where email = #{email} FOR UPDATE
+    </select>
+
+    <select id="selectEmployeeCountByWorkNo" resultType="java.lang.Integer" parameterType="String">
+        select count(1) from hr_employees where jobnumber = #{jobnumber} and enterprise_id = #{enterpriseId}
+    </select>
+
+    <select id="selectHrEmployeesByUserId" resultMap="HrEmployeesResult">
+        <include refid="selectHrEmployeesVo"/>
+        where he.user_id = #{userId}
+    </select>
+
+    <select id="selectHrEmployeesById" resultMap="HrEmployeesResult">
+        <include refid="selectHrEmployeesVo2"/>
+        where he.employee_id = #{id}
+    </select>
+
+    <select id="getCount" resultType="java.util.Map">
+        SELECT
+        COUNT(employee_id) AS Total
+        FROM
+        hr_employees ha
+        <where>
+            ha.status = '1'
+            <if test="enterpriseId != null  and enterpriseId != ''">and ha.enterprise_id = #{enterpriseId}</if>
+            <if test="userId != null ">and ha.user_id = #{userId}</if>
+            <if test="params.beginCreateTime != null and params.endCreateTime != null">
+                AND ha.create_time BETWEEN
+                TO_TIMESTAMP(#{params.beginCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{params.endCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </select>
+    <select id="selectHrEmployeesListByEid" resultType="com.ys.hr.domain.HrEmployees">
+        SELECT he.*, hd.dept_name
+        FROM hr_employees he
+                 LEFT JOIN hr_dept_employees hde ON hde.employee_id = he.employee_id
+                 LEFT JOIN hr_dept hd ON hd.dept_id = hde.dept_id
+        WHERE he.enterprise_id = #{enterpriseId}
+          and he.status = '1'
+    </select>
+
+    <select id="selectHrEmployeesListByUserId2" resultType="com.ys.hr.domain.HrEmployees">
+        SELECT he.*, hd.dept_name
+        FROM hr_employees he
+                 LEFT JOIN hr_dept_employees hde ON hde.employee_id = he.employee_id
+                 LEFT JOIN hr_dept hd ON hd.dept_id = hde.dept_id
+        where he.user_id = #{userId}
+          and he.status = '1'
+    </select>
+    <select id="getCountByWeekly" resultType="java.util.Map">
+        SELECT
+        COUNT(CASE WHEN employment_type = '1' THEN 1 END) AS fullTime,
+        COUNT(CASE WHEN employment_type = '2' THEN 1 END) AS partTime
+        FROM
+        hr_employees ha
+        <where>
+            ha.status = '1'
+            <if test="enterpriseId != null  and enterpriseId != ''">and ha.enterprise_id = #{enterpriseId}</if>
+            <if test="params.beginCreateTime != null and params.endCreateTime != null">
+                AND ha.hire_date BETWEEN
+                TO_TIMESTAMP(#{params.beginCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND
+                TO_TIMESTAMP(#{params.endCreateTime}, 'YYYY-MM-DD HH24:MI:SS')
+            </if>
+        </where>
+    </select>
+    <select id="selectRoleByKey" resultType="java.lang.Long">
+        select role_id
+        from sys_role
+        where role_key = #{roleKey}
+          and enterprise_id = #{enterpriseId}
+          and del_flag = '0' limit 1
+    </select>
+    <select id="selectEmergencyContactsReportVo" resultType="com.ys.hr.domain.vo.EmergencyContactsReportVo">
+        SELECT
+        he.employee_id,
+        he.full_name,
+        he.emergency_contact,
+        he.emergency_contact_name,
+        he.avatar_url
+        FROM
+        hr_employees he
+        <where>
+            he.status = '1'
+            <if test="enterpriseId != null  and enterpriseId != ''">and he.enterprise_id = #{enterpriseId}</if>
+            <if test="userId != null ">and he.user_id = #{userId}</if>
+            <if test="fullName != null  and fullName != ''">and full_name ILIKE concat('%', #{fullName}, '%')</if>
+            <if test="emergencyContact != null  and emergencyContact != ''">and emergency_contact ILIKE concat('%',
+                #{emergencyContact}, '%')
+            </if>
+        </where>
+        order by he.create_time desc
+    </select>
+    <select id="selectHrEmployeesByPhone" resultType="com.ys.hr.domain.HrEmployees">
+        select *
+        from hr_employees
+        where jobnumber = #{jobnumber}
+          and enterprise_id = #{enterpriseId}
+          and status = '1'
+    </select>
+
+    <!-- EMPLOYEE 生日  LISTQUERY-->
+    <select id="selectBirthdayReportVoReportVo" resultType="com.ys.hr.domain.vo.BirthdayReportVo">
+        SELECT
+        he.employee_id,
+        he.full_name,
+        he.date_of_birth,
+        he.avatar_url,
+        hd.dept_name
+        FROM
+        hr_employees he
+        left join hr_dept_employees hde on hde.employee_id = he.employee_id
+        left join hr_dept hd on hd.dept_id = hde.dept_id
+        <where>
+            he.status = '1'
+            <if test="enterpriseId != null  and enterpriseId != ''">and he.enterprise_id = #{enterpriseId}</if>
+            <if test="fullName != null and fullName != ''">and full_name ILIKE concat('%', #{fullName}, '%')</if>
+        </where>
+    </select>
+
+    <!--        where he.birthday between to_date(to_char(sysdate,'yyyy-mm')||'-01','yyyy-mm-dd') and to_date(to_char(sysdate,'yyyy-mm')||'-31','yyyy-mm-dd')
+    -->
+    <insert id="insertSysUser" parameterType="com.ys.system.api.domain.SysUser" useGeneratedKeys="true"
+            keyProperty="userId">
+        insert into sys_user(
+        <if test="userId != null and userId != 0">user_id,</if>
+        <if test="userType != null and userType != ''">user_type,</if>
+        <if test="enterpriseId != null and enterpriseId != ''">enterprise_id,</if>
+        <if test="userName != null and userName != ''">user_name,</if>
+        <if test="nickName != null and nickName != ''">nick_name,</if>
+        <if test="avatar != null and avatar != ''">avatar,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="phoneCode != null and phoneCode != ''">phone_code,</if>
+        <if test="phonenumber != null and phonenumber != ''">phonenumber,</if>
+        <if test="password != null and password != ''">password,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="userId != null and userId != ''">#{userId},</if>
+        <if test="userType != null and userType != ''">#{userType},</if>
+        <if test="enterpriseId != null and enterpriseId != ''">#{enterpriseId},</if>
+        <if test="userName != null and userName != ''">#{userName},</if>
+        <if test="nickName != null and nickName != ''">#{nickName},</if>
+        <if test="avatar != null and avatar != ''">#{avatar},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="phoneCode != null and phoneCode != ''">#{phoneCode},</if>
+        <if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
+        <if test="password != null and password != ''">#{password},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        now()
+        )
+    </insert>
+
+
+    <update id="updateSysUser">
+        update sys_user
+        <set>
+            <if test="enterpriseId != null and enterpriseId != ''">enterprise_id = #{enterpriseId},</if>
+            <if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
+            <if test="userType != null and userType != ''">user_type = #{userType},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="email != null ">email = #{email},</if>
+            <if test="phonenumber != null ">phonenumber = #{phonenumber},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isFirst != null">is_first = #{isFirst},</if>
+            update_time = now()
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <select id="selectSysRoleById" parameterType="String" resultMap="EmployeementStatusResult">
+        select *
+        from sys_role
+        where role_id = #{roleId}
+    </select>
+
+    <insert id="insertUserRole" parameterType="com.ys.system.api.domain.SysUserRole">
+        insert into sys_user_role(user_id, role_id)
+        values (#{userId}, #{roleId})
+    </insert>
+
+    <insert id="deleteUserRoleByUserId">
+        delete
+        from sys_user_role
+        where user_id = #{userId}
+    </insert>
+
+    <select id="selectEmployeeStatusCount" parameterType="String" resultMap="EmployeementStatusResult">
+        SELECT COUNT
+               (employee_id) FILTER ( WHERE employment_type = '1' ) AS full_time, COUNT(employee_id) FILTER ( WHERE employment_type = '2' ) AS part_time, COUNT(employee_id) FILTER ( WHERE employment_type = '3' ) AS internship
+        FROM hr_employees
+        WHERE enterprise_id = #{userEnterpriseId}
+          and status = '1'
+    </select>
+
+    <select id="selectEmployeeCount" parameterType="String" resultMap="EmployeeCountVoResult">
+        SELECT COUNT(*) AS total_count,
+               COUNT(*)    FILTER (
+        WHERE hire_date >= date_trunc('month', CURRENT_DATE) - INTERVAL '1 month'
+        AND hire_date &lt; date_trunc('month', CURRENT_DATE)
+        ) AS last_month_count
+        FROM hr_employees
+        WHERE enterprise_id = #{userEnterpriseId}
+          and status = '1'
+    </select>
+
+    <select id="selectEmployeeBirthday" parameterType="com.ys.hr.domain.HrEmployees" resultMap="BirthdayReportResult">
+        SELECT employee_id,
+               full_name,
+               date_of_birth,
+               avatar_url
+        FROM hr_employees
+        WHERE enterprise_id = #{enterpriseId}
+          AND status = '1'
+          AND to_char(date_of_birth, 'MM-DD') >= to_char(CURRENT_DATE, 'MM-DD')
+        ORDER BY to_char(date_of_birth, 'MM-DD')
+    </select>
+
+    <select id="selectEmployeesListByEid" parameterType="String" resultMap="HrEmployeesResult">
+        SELECT employee_id,
+               full_name,
+               date_of_birth,
+               avatar_url
+        FROM hr_employees
+        where enterprise_id = #{userEnterpriseId}
+          and status = '1'
+    </select>
+
+    <!-- EMPLOYEE 生日  LISTQUERY-->
+    <select id="selectHrEmployeesListByBeforeHireDate" parameterType="String" resultMap="HrEmployeesResult">
+        SELECT employee_id,
+               full_name,
+               date_of_birth,
+               avatar_url,
+               user_id,
+               hire_date
+        FROM hr_employees
+        where enterprise_id = #{userEnterpriseId}
+          and status = '1'
+          and CURRENT_DATE > hire_date
+    </select>
+
+    <select id="selectEmployeeByJobnumber" parameterType="String" resultMap="HrEmployeesResult">
+        SELECT *
+        FROM hr_employees
+        where jobnumber = #{jobnumber}
+          and status = '1'
+    </select>
+
+    <select id="selectEmployeeList" parameterType="String" resultMap="HrEmployeesResult">
+        SELECT e.employee_id,
+               e.full_name
+        FROM hr_employees e
+                 LEFT JOIN hr_background_check_info b
+                           ON e.employee_id = b.user_id AND e.enterprise_id = b.enterprise_id
+        WHERE e.enterprise_id = #{userEnterpriseId}
+          and e.status = '1'
+        ORDER BY e.employee_id
+    </select>
+    <select id="selectAddressReportVo" resultType="com.ys.hr.domain.vo.AddressReportVo">
+        SELECT
+        he.employee_id,
+        he.full_name,
+        he.country,
+        he.address1,
+        he.address2,
+        he.city,
+        he.province,
+        he.post_code,
+        he.avatar_url,
+        hd.dept_name
+        FROM
+        hr_employees he
+        left join hr_dept_employees hde on hde.employee_id = he.employee_id
+        left join hr_dept hd on hd.dept_id = hde.dept_id
+        <where>
+            he.status = '1'
+            <if test="enterpriseId != null  and enterpriseId != ''">and he.enterprise_id = #{enterpriseId}</if>
+            <if test="fullName != null and fullName != ''">and full_name ILIKE concat('%', #{fullName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectEmployeeByWorkNo" resultMap="HrEmployeesResult">
+        SELECT employee_id,
+               full_name
+        FROM hr_employees
+        where jobnumber = #{jobnumber}
+          and enterprise_id = #{userEnterpriseId}
+    </select>
+    <select id="seleEid" resultType="java.lang.String">
+        SELECT enterprise_name
+        FROM sys_enterprise
+        where id = #{userEnterpriseId}
+    </select>
+</mapper>

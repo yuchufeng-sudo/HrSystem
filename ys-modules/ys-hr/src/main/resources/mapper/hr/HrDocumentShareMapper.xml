@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrDocumentShareMapper">
+
+    <resultMap type="com.ys.hr.domain.HrDocumentShare" id="HrDocumentShareResult">
+        <result property="shareId"          column="share_id"    />
+        <result property="documentId"       column="document_id"    />
+        <result property="sharedBy"         column="shared_by"    />
+        <result property="sharedTo"         column="shared_to"    />
+        <result property="permissionType"   column="permission_type"    />
+        <result property="status"           column="status"    />
+        <result property="fullName"         column="full_name"    />
+        <result property="email"            column="email"    />
+        <result property="avatarUrl"        column="avatar_url"    />
+        <result property="createBy"         column="create_by"    />
+        <result property="createTime"       column="create_time"    />
+        <result property="updateBy"         column="update_by"    />
+        <result property="updateTime"       column="update_time"    />
+        <result property="remark"           column="remark"    />
+    </resultMap>
+
+    <select id="selectHrDocumentShareByDocumentId" resultMap="HrDocumentShareResult">
+        select hds.*,he.full_name,he.email,he.avatar_url from hr_document_share hds
+            left join hr_employees he on hds.shared_to = he.user_id
+        where hds.document_id = #{documentId}
+    </select>
+
+    <delete id="deleteByUploadCandidateId">
+        delete from hr_document_share where document_id in (select document_id from hr_document where upload_candidate_id = #{uploadCandidateId})
+    </delete>
+</mapper>

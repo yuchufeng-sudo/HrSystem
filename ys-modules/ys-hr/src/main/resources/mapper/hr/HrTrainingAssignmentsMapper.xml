@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTrainingAssignmentsMapper">
+
+    <resultMap type="HrTrainingAssignments" id="HrTrainingAssignmentsResult">
+        <result property="assignmentId"    column="assignment_id"    />
+        <result property="programId"    column="program_id"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="employeeName"    column="full_name"    />
+        <result property="employeeAvatar"    column="avatar_url"    />
+        <result property="employeePosition"    column="position"    />
+    </resultMap>
+
+    <sql id="selectHrTrainingAssignmentsVo">
+        select a.assignment_id, a.program_id, a.employee_id, a.create_by, a.create_time, a.update_by, a.update_time
+             , b.full_name, b.avatar_url, b.position
+        from hr_training_assignments a
+                 left join hr_employees b on a.employee_id = b.employee_id
+    </sql>
+
+    <select id="selectHrTrainingAssignmentsList" parameterType="HrTrainingAssignments" resultMap="HrTrainingAssignmentsResult">
+        <include refid="selectHrTrainingAssignmentsVo"/>
+        <where>
+            <if test="programId != null  and programId != ''"> and a.program_id = #{programId}</if>
+            <if test="employeeId != null  and employeeId != ''"> and a.employee_id = #{employeeId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrTrainingAssignmentsByAssignmentId" parameterType="String" resultMap="HrTrainingAssignmentsResult">
+        <include refid="selectHrTrainingAssignmentsVo"/>
+        where a.assignment_id = #{assignmentId}
+    </select>
+
+
+</mapper>

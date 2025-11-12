@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrOnboardingFileMapper">
+
+    <resultMap type="HrOnboardingFile" id="HrOnboardingFileResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="isMandatory"    column="is_mandatory"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="step"    column="step"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+    </resultMap>
+
+    <sql id="selectHrOnboardingFileVo">
+        select id, name, file_name, file_url, file_type, is_mandatory, create_by, create_time, update_by, update_time, remark, step, enterprise_id from hr_onboarding_file
+    </sql>
+
+    <select id="selectHrOnboardingFileList" parameterType="HrOnboardingFile" resultMap="HrOnboardingFileResult">
+        <include refid="selectHrOnboardingFileVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="isMandatory != null  and isMandatory != ''"> and is_mandatory = #{isMandatory}</if>
+            <if test="step != null  and step != ''"> and step = #{step}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrOnboardingFileById" parameterType="String" resultMap="HrOnboardingFileResult">
+        <include refid="selectHrOnboardingFileVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectHrOnboardingFileListByEmp" resultType="com.ys.hr.domain.HrOnboardingFile">
+        select a.*,(CASE WHEN b.result IS NULL THEN 0 ELSE 1 END) isResult,b.result,b.id resultId
+        from hr_onboarding_file a
+        left join hr_onboarding_result b on a.id = b.onboarding_id
+        <if test="employeesId != null  and employeesId != ''"> and b.employees_id = #{employeesId}</if>
+        <where>
+            <if test="step != null  and step != ''"> and a.step = #{step}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and a.enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+</mapper>

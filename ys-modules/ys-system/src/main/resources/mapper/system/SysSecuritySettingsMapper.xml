@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.system.mapper.SysSecuritySettingsMapper">
+
+    <resultMap type="SysSecuritySettings" id="SysSecuritySettingsResult">
+        <result property="id"    column="id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="minPasswordLength"    column="min_password_length"    />
+        <result property="requireSpecialChars"    column="require_special_chars"    />
+        <result property="requireNumbers"    column="require_numbers"    />
+        <result property="requireUppercase"    column="require_uppercase"    />
+        <result property="enable2fa"    column="enable2fa"    />
+        <result property="sessionTimeoutMinutes"    column="session_timeout_minutes"    />
+        <result property="maxFailedAttempts"    column="max_failed_attempts"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysSecuritySettingsVo">
+        select id, enterprise_id, min_password_length, require_special_chars, require_numbers, require_uppercase, enable2fa, session_timeout_minutes, max_failed_attempts, create_by, create_time, update_by, update_time, remark
+        from sys_security_settings
+    </sql>
+
+    <select id="selectSysSecuritySettingsList" parameterType="SysSecuritySettings" resultMap="SysSecuritySettingsResult">
+        <include refid="selectSysSecuritySettingsVo"/>
+        <where>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="minPasswordLength != null  and minPasswordLength != ''"> and min_password_length = #{minPasswordLength}</if>
+            <if test="requireSpecialChars != null  and requireSpecialChars != ''"> and require_special_chars = #{requireSpecialChars}</if>
+            <if test="requireNumbers != null  and requireNumbers != ''"> and require_numbers = #{requireNumbers}</if>
+            <if test="requireUppercase != null  and requireUppercase != ''"> and require_uppercase = #{requireUppercase}</if>
+            <if test="enable2fa != null  and enable2fa != ''"> and enable2fa = #{enable2fa}</if>
+            <if test="sessionTimeoutMinutes != null  and sessionTimeoutMinutes != ''"> and session_timeout_minutes = #{sessionTimeoutMinutes}</if>
+            <if test="maxFailedAttempts != null  and maxFailedAttempts != ''"> and max_failed_attempts = #{maxFailedAttempts}</if>
+        </where>
+    </select>
+
+    <select id="selectSysSecuritySettingsById" parameterType="String" resultMap="SysSecuritySettingsResult">
+        <include refid="selectSysSecuritySettingsVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

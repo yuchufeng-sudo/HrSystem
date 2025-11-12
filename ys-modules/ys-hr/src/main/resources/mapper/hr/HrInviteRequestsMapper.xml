@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrInviteRequestsMapper">
+
+    <resultMap type="com.ys.hr.domain.HrInviteRequests" id="HrInviteRequestsResult">
+        <result property="requestId"    column="request_id"    />
+        <result property="fullName"     column="full_name"    />
+        <result property="email"        column="email"    />
+        <result property="country" column="country"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="postCode" column="post_code"/>
+        <result property="phoneCode"    column="phone_code"    />
+        <result property="contactPhone" column="contact_phone"    />
+        <result property="accessLevel"  column="access_level"    />
+        <result property="username"     column="username"    />
+        <result property="status"       column="status"    />
+        <result property="createBy"     column="create_by"    />
+        <result property="createTime"   column="create_time"    />
+        <result property="updateBy"     column="update_by"    />
+        <result property="updateTime"   column="update_time"    />
+        <result property="remark"       column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrInviteRequestsVo">
+        select request_id, full_name, email, country, address1, address2, city, province, post_code, phone_code, contact_phone, access_level, username, status, create_by, create_time, update_by, update_time, remark from hr_invite_requests
+    </sql>
+
+    <select id="selectHrInviteRequestsList" parameterType="com.ys.hr.domain.HrInviteRequests" resultMap="HrInviteRequestsResult">
+        <include refid="selectHrInviteRequestsVo"/>
+        <where>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="fullName != null  and fullName != ''"> and full_name ILIKE concat('%', #{fullName}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="contactPhone != null  and contactPhone != ''"> and contact_phone = #{contactPhone}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <resultMap type="com.ys.hr.domain.HrInviteCode" id="HrInviteCodeResult">
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="code" column="code"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectInviteCodeStatus" resultMap="HrInviteCodeResult">
+        select enterprise_id,status from hr_invite_code where code = #{code}
+    </select>
+
+    <insert id="insertInviteCode">
+        insert into hr_invite_code (enterprise_id,code) values (#{enterpriseId},#{code})
+    </insert>
+
+    <update id="updateInviteCodeStatus">
+        update hr_invite_code set status = 1 where code = #{code}
+    </update>
+</mapper>

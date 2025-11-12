@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrApplicationMapper">
+
+    <resultMap type="HrApplication" id="HrApplicationResult">
+        <result property="applicationId"    column="application_id"    />
+        <result property="applicationName"    column="application_name"    />
+        <result property="applicationEmail"    column="application_email"    />
+        <result property="bussinessName"    column="bussiness_name"    />
+        <result property="bussinessPhone"    column="bussiness_phone"    />
+        <result property="workspaceType"    column="workspace_type"    />
+        <result property="empNumber"    column="emp_number"    />
+        <result property="countryCode"    column="country_code"    />
+        <result property="improveType"    column="improve_type"    />
+        <result property="source"    column="source"    />
+        <result property="bringType"    column="bring_type"    />
+        <result property="payrollType"    column="payroll_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectHrApplicationVo">
+        select application_id, application_name, application_email, bussiness_name, bussiness_phone, workspace_type, emp_number, country_code, improve_type, source, bring_type, payroll_type, create_by, create_time, update_by, update_time, remark, status, phone_code from hr_application
+    </sql>
+
+    <select id="selectHrApplicationList" parameterType="HrApplication" resultMap="HrApplicationResult">
+        <include refid="selectHrApplicationVo"/>
+        <where>
+            <if test="applicationName != null  and applicationName != ''"> and application_name ILIKE concat('%', #{applicationName}, '%')</if>
+            <if test="applicationEmail != null  and applicationEmail != ''"> and application_email = #{applicationEmail}</if>
+            <if test="bussinessName != null  and bussinessName != ''"> and bussiness_name ILIKE concat('%', #{bussinessName}, '%')</if>
+            <if test="bussinessPhone != null  and bussinessPhone != ''"> and bussiness_phone = #{bussinessPhone}</if>
+            <if test="workspaceType != null  and workspaceType != ''"> and workspace_type = #{workspaceType}</if>
+            <if test="empNumber != null  and empNumber != ''"> and emp_number = #{empNumber}</if>
+            <if test="countryCode != null  and countryCode != ''"> and country_code = #{countryCode}</if>
+            <if test="improveType != null  and improveType != ''"> and improve_type = #{improveType}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="bringType != null  and bringType != ''"> and bring_type = #{bringType}</if>
+            <if test="payrollType != null  and payrollType != ''"> and payroll_type = #{payrollType}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            and business_id IS NULL
+        </where>
+    </select>
+
+    <select id="selectHrApplicationByApplicationId" parameterType="String" resultMap="HrApplicationResult">
+        <include refid="selectHrApplicationVo"/>
+        where application_id = #{applicationId}
+    </select>
+
+
+</mapper>

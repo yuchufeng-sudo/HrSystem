@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrMaturityContractMapper">
+
+    <resultMap type="com.ys.hr.domain.HrMaturityContract" id="HrMaturityContractResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="contractId"    column="contract_id"    />
+        <result property="isRenewal"    column="is_renewal"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="name"    column="name"    />
+        <result property="post"    column="post"    />
+        <result property="contractName"    column="template_name"    />
+        <result property="userId"    column="b_user_id"    />
+        <result property="expirationDate"    column="contract_end_time"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="signType"    column="sign_type"    />
+    </resultMap>
+
+    <sql id="selectHrMaturityContractVo">
+        select id, create_by, create_time, update_by, update_time, remark, contract_id, is_renewal, enterprise_id from hr_maturity_contract
+    </sql>
+
+    <select id="selectHrMaturityContractList" parameterType="com.ys.hr.domain.HrMaturityContract" resultMap="HrMaturityContractResult">
+        SELECT
+            hmc.id,
+            hmc.contract_id,
+            hmc.enterprise_id,
+            hmc.is_renewal,
+            hec.company_name,
+            hec.name,
+            hec.b_user_id,
+            hec.post,
+            hec.contract_end_time,
+            hec.template_id,
+            hec.sign_type,
+            hct.template_name
+        FROM
+            hr_maturity_contract hmc
+            LEFT JOIN hr_employee_contract hec ON hmc.contract_id = hec.id
+            LEFT JOIN hr_contract_template hct ON hec.template_id = hct.template_id
+        <where>
+            <if test="name != null  and name != ''"> and  hec.name likeconcat('%', #{name}, '%')</if>
+            <if test="post != null  and post != ''"> and  hec.post likeconcat('%', #{post}, '%')</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and  hmc.enterprise_id = #{enterpriseId}</if>
+        </where>
+        ORDER BY hmc.create_time DESC
+    </select>
+
+    <select id="selectHrMaturityContractById" parameterType="String" resultMap="HrMaturityContractResult">
+        <include refid="selectHrMaturityContractVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

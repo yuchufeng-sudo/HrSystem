@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrEmployeeCertificationMapper">
+
+    <resultMap type="HrEmployeeCertification" id="HrEmployeeCertificationResult">
+        <result property="id"    column="id"    />
+        <result property="certificationId"    column="certification_id"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="issueDate"    column="issue_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrEmployeeCertificationVo">
+        select id, certification_id, employee_id, issue_date, create_by, create_time, update_by, update_time, remark from hr_employee_certification
+    </sql>
+
+    <select id="selectHrEmployeeCertificationList" parameterType="HrEmployeeCertification" resultMap="HrEmployeeCertificationResult">
+        <include refid="selectHrEmployeeCertificationVo"/>
+        <where>
+            <if test="certificationId != null  and certificationId != ''"> and certification_id = #{certificationId}</if>
+            <if test="employeeId != null  and employeeId != ''"> and employee_id = #{employeeId}</if>
+            <if test="issueDate != null  and issueDate != ''"> and issue_date = #{issueDate}</if>
+        </where>
+    </select>
+
+    <select id="selectHrEmployeeCertificationById" parameterType="String" resultMap="HrEmployeeCertificationResult">
+        <include refid="selectHrEmployeeCertificationVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

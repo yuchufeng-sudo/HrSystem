@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrHolidayMapper">
+
+    <resultMap type="HrHoliday" id="HrHolidayResult">
+        <result property="holidayId"    column="holiday_id"    />
+        <result property="holidayName"    column="holiday_name"    />
+        <result property="maxDay"    column="max_day"    />
+        <result property="carrayForward"    column="carray_forward"    />
+        <result property="paidLeave"    column="paid_leave"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrHolidayVo">
+        select holiday_id, holiday_name, holiday_type, max_day, carray_forward, paid_leave, enterprise_id, create_by, create_time, update_by, update_time, remark from hr_holiday
+    </sql>
+    <update id="updateByHolidayId" parameterType="com.ys.hr.domain.HrHoliday">
+
+        update hr_holiday
+        <set>
+            <if test="holidayName != null">
+                holiday_name = #{holidayName},
+            </if>
+            <if test="holidayType != null">
+                holiday_type = #{holidayType},
+            </if>
+            <if test="maxDay != null">
+                max_day = #{maxDay},
+            </if>
+            <if test="carrayForward != null">
+                carray_forward = #{carrayForward},
+            </if>
+            <if test="paidLeave != null">
+                paid_leave = #{paidLeave},
+            </if>
+        </set>
+        where holiday_id = #{holidayId}
+    </update>
+
+    <select id="selectHrHolidayList" parameterType="HrHoliday" resultMap="HrHolidayResult">
+        <include refid="selectHrHolidayVo"/>
+        <where>
+            <if test="holidayName != null  and holidayName != ''"> and holiday_name ILIKE concat('%', #{holidayName}, '%')</if>
+            <if test="maxDay != null "> and max_day = #{maxDay}</if>
+            <if test="carrayForward != null  and carrayForward != ''"> and carray_forward = #{carrayForward}</if>
+            <if test="holidayType != null  and holidayType != ''"> and holiday_type = #{holidayType}</if>
+            <if test="paidLeave != null  and paidLeave != ''"> and paid_leave = #{paidLeave}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+        ORDER BY create_time ASC
+    </select>
+
+    <select id="selectHrHolidayByHolidayId" parameterType="Long" resultMap="HrHolidayResult">
+        <include refid="selectHrHolidayVo"/>
+        where holiday_id = #{holidayId}
+    </select>
+
+
+</mapper>

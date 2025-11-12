@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>New Company Onboarding Request</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .email-container {
+            background-color: #fff;
+            padding: 30px;
+        }
+        .subject {
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .header {
+            color: #000000;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .content {
+            color: #000000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .details-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .details-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #286dbd;
+            color: white !important;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .footer {
+            color: #666666;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+        }
+        .company-name {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="subject">New Company Onboarding Request Received – <span th:text="${CompanyName}"></span></p>
+
+    <p class="header">Hi Team,</p>
+
+    <p class="content">
+        A new company has submitted an onboarding request for the HRIS platform.
+    </p>
+
+    <p class="details-title">📋 Company Details:</p>
+    <ul class="details-list">
+        <li><strong>Company Name:</strong> <span th:text="${CompanyName}"></span></li>
+        <li><strong>Contact Person:</strong> <span th:text="${FullName}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${EmailAddress}"></span></li>
+        <li><strong>Phone:</strong> <span th:text="${PhoneNumber}"></span></li>
+        <li><strong>Date Submitted:</strong> <span th:text="${SubmissionDate}"></span></li>
+    </ul>
+
+    <p class="content">
+        Please review and verify the request in the admin dashboard:
+    </p>
+
+    <p>
+        <a class="button" href="#" th:href="${PendingApprovalsUrl}">👉 Go to Pending Approvals</a>
+    </p>
+
+    <p class="content">
+        Once reviewed, you may approve the account to activate their access.
+    </p>
+
+    <div class="footer ">
+        <strong>— Shiftcare HR System Notification</strong>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Interview Invitation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .email-container {
+            background-color: #fff;
+            padding: 40px 30px;
+            text-align: left;
+        }
+        .greeting {
+            color: #000000;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        .content {
+            color: #000000;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+        .highlight {
+            font-weight: 600;
+        }
+        .interview-details {
+            margin: 25px 0;
+        }
+        .detail-label {
+            font-weight: 600;
+            display: inline-block;
+            width: 150px;
+        }
+        .footer {
+            color: #000000;
+            font-size: 16px;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        .regards {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="greeting">Hi <span th:text="${FirstName}">[First Name]</span>,</p>
+
+    <p class="content">We're pleased to invite you to interview for the role of
+        <span class="highlight" th:text="${JobTitle}">[Job Title]</span> at
+        <span class="highlight" th:text="${CompanyName}">[Company Name]</span>.
+    </p>
+
+    <div class="interview-details">
+        <p class="content highlight">Interview Details:</p>
+        <p class="content">
+            <span class="detail-label">Date:</span>
+            <span th:text="${InterviewDate}">[Interview Date]</span>
+        </p>
+        <p class="content">
+            <span class="detail-label">Time:</span>
+            <span th:text="${InterviewTime}">[Interview Time]</span>
+        </p>
+        <p class="content">
+            <span class="detail-label">Location / Link:</span>
+            <span th:text="${InterviewLocation}">[Interview Location or Video Link]</span>
+        </p>
+    </div>
+
+    <p class="content">If you need to reschedule, please reply to this email.</p>
+
+    <p class="content">We look forward to speaking with you!</p>
+
+    <div class="footer">
+        <p>Best regards,</p>
+        <p class="regards"><span th:text="${CompanyName}">[Company Name]</span> Recruitment Team</p>
+    </div>
+</div>
+</body>
+</html>

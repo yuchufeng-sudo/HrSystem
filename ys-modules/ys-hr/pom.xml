@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.ys</groupId>
+        <artifactId>ys-modules</artifactId>
+        <version>3.6.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ys-modules-hr</artifactId>
+
+    <description>
+        ys-modules-hr Interview Module
+    </description>
+    <dependencies>
+
+    	<!-- SpringCloud Alibaba Nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Alibaba Nacos Config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+    	<!-- SpringCloud Alibaba Sentinel -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+    	<!-- SpringBoot Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Mysql Connector -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common DataSource -->
+        <dependency>
+            <groupId>com.ys</groupId>
+            <artifactId>ys-common-datasource</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common DataScope -->
+        <dependency>
+            <groupId>com.ys</groupId>
+            <artifactId>ys-common-datascope</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Log -->
+        <dependency>
+            <groupId>com.ys</groupId>
+            <artifactId>ys-common-log</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Swagger -->
+        <dependency>
+            <groupId>com.ys</groupId>
+            <artifactId>ys-common-swagger</artifactId>
+        </dependency>
+
+        <!-- mybatis-plus 插件 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ys</groupId>
+            <artifactId>ys-common-utils</artifactId>
+            <version>3.6.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.pandadoc</groupId>
+            <artifactId>pandadoc-java-client</artifactId>
+            <version>6.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Alibaba Cloud OSS Storage -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.11.2</version>
+        </dependency>
+
+        <!-- paypal支付 v1   -->
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>rest-api-sdk</artifactId>
+            <version>1.14.0</version>
+        </dependency>
+        <!-- MQTT -->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mqtt</artifactId>
+        </dependency>
+
+        <!-- paypal支付 v2   -->
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>checkout-sdk</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ys</groupId>
+            <artifactId>ys-common-sensitive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

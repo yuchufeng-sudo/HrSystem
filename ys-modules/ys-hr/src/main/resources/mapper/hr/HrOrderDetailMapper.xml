@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrOrderDetailMapper">
+
+    <resultMap type="HrOrderDetail" id="HrOrderDetailResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="orderState"    column="order_state"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="orderPrice"    column="order_price"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="purchaseTime"    column="purchase_time"    />
+        <result property="isFreeOrder"    column="is_free_order"    />
+        <result property="paypalOrderId"    column="paypal_order_id"    />
+        <result property="paypalOrderStatus"    column="paypal_order_status"    />
+        <result property="planTime" column="plan_time" />
+        <result property="isRenew" column="is_renew" />
+    </resultMap>
+
+    <sql id="selectHrOrderDetailVo">
+        select order_id, plan_id,enterprise_id, user_id, order_type, order_state, order_num, order_price, create_time, purchase_time, is_free_order, paypal_order_id, paypal_order_status, plan_time,is_renew from hr_order_detail
+    </sql>
+
+    <select id="selectHrOrderDetailList" parameterType="HrOrderDetail" resultMap="HrOrderDetailResult">
+        <include refid="selectHrOrderDetailVo"/>
+        <where>
+            <if test="planId != null  and planId != ''"> and plan_id = #{planId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="orderType != null "> and order_type = #{orderType}</if>
+            <if test="orderState != null "> and order_state = #{orderState}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="orderPrice != null "> and order_price = #{orderPrice}</if>
+            <if test="purchaseTime != null "> and purchase_time = #{purchaseTime}</if>
+            <if test="isFreeOrder != null "> and is_free_order = #{isFreeOrder}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectHrOrderDetailByOrderId" parameterType="String" resultMap="HrOrderDetailResult">
+        <include refid="selectHrOrderDetailVo"/>
+        where order_id = #{orderId}
+    </select>
+    <select id="selectHrOrderDetailByPlanOrderId" resultType="com.ys.hr.domain.HrOrderDetail">
+        <include refid="selectHrOrderDetailVo"/>
+        where paypal_order_id = #{planOrderId}
+    </select>
+
+
+</mapper>

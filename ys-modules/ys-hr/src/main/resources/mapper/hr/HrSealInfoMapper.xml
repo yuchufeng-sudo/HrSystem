@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrSealInfoMapper">
+
+    <resultMap type="com.ys.hr.domain.HrSealInfo" id="HrSealInfoResult">
+        <result property="id"    column="id"    />
+        <result property="account"    column="account"    />
+        <result property="sealNo"    column="seal_no"    />
+        <result property="sealRul"    column="seal_rul"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="isDefault"    column="is_default"    />
+        <result property="sealName"    column="seal_name"    />
+        <result property="userOriginalImg"    column="user_original_img"    />
+    </resultMap>
+
+    <sql id="selectHrSealInfoVo">
+        select id, account, seal_no, seal_rul, create_by, create_time, update_by, update_time, remark, is_default, seal_name, user_original_img from hr_seal_info
+    </sql>
+
+    <select id="selectHrSealInfoList" parameterType="com.ys.hr.domain.HrSealInfo" resultMap="HrSealInfoResult">
+        <include refid="selectHrSealInfoVo"/>
+        <where>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="sealNo != null  and sealNo != ''"> and seal_no = #{sealNo}</if>
+            <if test="sealRul != null  and sealRul != ''"> and seal_rul = #{sealRul}</if>
+            <if test="isDefault != null "> and is_default = #{isDefault}</if>
+            <if test="sealName != null  and sealName != ''"> and seal_name ILIKE concat('%', #{sealName}, '%')</if>
+            <if test="userOriginalImg != null "> and user_original_img = #{userOriginalImg}</if>
+        </where>
+    </select>
+
+    <select id="selectHrSealInfoById" parameterType="Long" resultMap="HrSealInfoResult">
+        <include refid="selectHrSealInfoVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

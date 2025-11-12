@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTargetsMapper">
+
+    <resultMap type="com.ys.hr.domain.HrTargets" id="HrTargetsResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="head"    column="head"    />
+        <result property="description"    column="description"    />
+        <result property="type"    column="type"    />
+        <result property="status"    column="status"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="progress"    column="progress"    />
+        <result property="isKeyTarget"    column="is_key_target"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="completeTime"    column="complete_time"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="configTime"    column="config_time"    />
+    </resultMap>
+
+    <sql id="selectHrTargetsVo">
+        select id, name, head, description, type, status, start_time, end_time, is_key_target, enterprise_id,
+               complete_time, config_time, create_by, create_time, update_by, update_time, remark
+            from hr_targets
+    </sql>
+
+    <select id="selectHrTargetsList" parameterType="com.ys.hr.domain.HrTargets" resultMap="HrTargetsResult">
+        <include refid="selectHrTargetsVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name LIKE concat('%', #{name}, '%')</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="head != null  and head != ''"> and head = #{head}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="progress != null "> and progress = #{progress}</if>
+            <if test="isKeyTarget != null  and isKeyTarget != ''"> and is_key_target = #{isKeyTarget}</if>
+            <if test="userId != null"> and (head = #{userId} or (select count(1) from hr_target_employee where target_id = hr_targets.id and employee_id in (select employee_id from hr_employees where user_id = #{userId}))>0)</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectHrTargetsById" parameterType="Long" resultMap="HrTargetsResult">
+        <include refid="selectHrTargetsVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectUserRole" parameterType="Long" resultType="String">
+        SELECT
+            sr.role_key
+        FROM
+            sys_user_role sur
+                LEFT JOIN sys_role sr ON sur.role_id = sr.role_id
+        WHERE
+            sur.user_id = #{userId}
+    </select>
+</mapper>

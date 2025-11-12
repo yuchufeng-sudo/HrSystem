@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrFundInformationMapper">
+
+    <resultMap type="HrFundInformation" id="HrFundInformationResult">
+        <result property="id"    column="id"    />
+        <result property="fundType"    column="fund_type"    />
+        <result property="documentUrls"    column="document_urls"    />
+        <result property="taxDeclarationType"    column="tax_declaration_type"    />
+        <result property="isAgree"    column="is_agree"    />
+        <result property="fundId"    column="fund_id"    />
+        <result property="apraAccountName"    column="apra_account_name"    />
+        <result property="memberAccountNumber"    column="member_account_number"    />
+        <result property="smsfName"    column="smsf_name"    />
+        <result property="smsfAbn"    column="smsf_abn"    />
+        <result property="esa"    column="esa"    />
+        <result property="fundContactEmail"    column="fund_contact_email"    />
+        <result property="smsfMemberNumber"    column="smsf_member_number"    />
+        <result property="bankAccountName"    column="bank_account_name"    />
+        <result property="bankAccountBsb"    column="bank_account_bsb"    />
+        <result property="bankAccountNumber"    column="bank_account_number"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="smsfAccountName"    column="smsf_account_name"    />
+    </resultMap>
+
+    <sql id="selectHrFundInformationVo">
+        select id, fund_type, document_urls, tax_declaration_type,smsf_account_name, is_agree, fund_id, apra_account_name, member_account_number, smsf_name, smsf_abn, esa, fund_contact_email, smsf_member_number, bank_account_name, bank_account_bsb, bank_account_number, create_by, create_time, update_by, update_time, remark, employee_id, enterprise_id from hr_fund_information
+    </sql>
+
+    <select id="selectHrFundInformationList" parameterType="HrFundInformation" resultMap="HrFundInformationResult">
+        <include refid="selectHrFundInformationVo"/>
+        <where>
+            <if test="fundType != null  and fundType != ''"> and fund_type = #{fundType}</if>
+            <if test="documentUrls != null  and documentUrls != ''"> and document_urls = #{documentUrls}</if>
+            <if test="taxDeclarationType != null  and taxDeclarationType != ''"> and tax_declaration_type = #{taxDeclarationType}</if>
+            <if test="isAgree != null  and isAgree != ''"> and is_agree = #{isAgree}</if>
+            <if test="fundId != null  and fundId != ''"> and fund_id = #{fundId}</if>
+            <if test="apraAccountName != null  and apraAccountName != ''"> and apra_account_name like concat('%', #{apraAccountName}, '%')</if>
+            <if test="memberAccountNumber != null  and memberAccountNumber != ''"> and member_account_number = #{memberAccountNumber}</if>
+            <if test="smsfName != null  and smsfName != ''"> and smsf_name like concat('%', #{smsfName}, '%')</if>
+            <if test="smsfAbn != null  and smsfAbn != ''"> and smsf_abn = #{smsfAbn}</if>
+            <if test="esa != null  and esa != ''"> and esa = #{esa}</if>
+            <if test="fundContactEmail != null  and fundContactEmail != ''"> and fund_contact_email = #{fundContactEmail}</if>
+            <if test="smsfMemberNumber != null  and smsfMemberNumber != ''"> and smsf_member_number = #{smsfMemberNumber}</if>
+            <if test="bankAccountName != null  and bankAccountName != ''"> and bank_account_name like concat('%', #{bankAccountName}, '%')</if>
+            <if test="bankAccountBsb != null  and bankAccountBsb != ''"> and bank_account_bsb = #{bankAccountBsb}</if>
+            <if test="bankAccountNumber != null  and bankAccountNumber != ''"> and bank_account_number = #{bankAccountNumber}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="employeeId != null  and employeeId != ''"> and employee_id = #{employeeId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrFundInformationById" parameterType="String" resultMap="HrFundInformationResult">
+        <include refid="selectHrFundInformationVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.system.mapper.SysMessageMapper">
+
+    <resultMap type="com.ys.system.api.domain.SysMessage" id="SysMessageResult">
+        <result property="messageId"    column="message_id"    />
+        <result property="messageInfoId"    column="message_info_id"    />
+        <result property="messageSender"    column="message_sender"    />
+        <result property="messageSenderName"    column="message_sender_name"    />
+        <result property="messageSenderAvatar"    column="message_sender_avatar"    />
+        <result property="messageRecipient"    column="message_recipient"    />
+        <result property="messageRecipientName"    column="message_recipient_name"    />
+        <result property="messageRecipientAvatar"    column="message_recipient_avatar"    />
+        <result property="messageType"    column="message_type"    />
+        <result property="messageStatus"    column="message_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="messageInfoTitle" column="message_info_title"/>
+        <result property="messageInfoTitleCn" column="message_info_title_cn"/>
+        <result property="messageInfoPhoto" column="message_info_photo"/>
+        <result property="messageInfoText" column="message_info_text"/>
+        <result property="messageInfoPath" column="message_info_path"/>
+    </resultMap>
+
+    <sql id="selectSysMessageVo">
+        select a.message_id, a.message_info_id, a.message_sender, a.message_recipient, a.message_type, a.message_status,
+               a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.message_info_title, a.message_info_text,
+               sc.icon AS messageIcon, sc.path_config AS pathConfig,a.message_info_title_cn,a.message_info_title_cn, a.message_info_path, b.nick_name message_sender_name,c.nick_name message_recipient_name,
+               b.avatar message_sender_avatar,c.avatar message_recipient_avatar
+        from sys_message a
+            left join sys_user b on a.message_sender = b.user_id
+            left join sys_user c on a.message_recipient = c.user_id
+            left join sys_message_template sc on sc.id = a.message_type
+    </sql>
+
+    <select id="selectSysMessageList" parameterType="com.ys.system.api.domain.SysMessage" resultMap="SysMessageResult">
+        <include refid="selectSysMessageVo"/>
+        <where>
+            <if test="messageInfoId != null  and messageInfoId != ''"> and a.message_info_id = #{messageInfoId}</if>
+            <if test="messageSender != null "> and a.message_sender = #{messageSender}</if>
+            <if test="messageRecipient != null "> and a.message_recipient = #{messageRecipient}</if>
+            <if test="messageType != null and messageType != ''"> and a.message_type = #{messageType}</if>
+            <if test="messageStatus != null and messageStatus != ''"> and a.message_status = #{messageStatus}</if>
+            <if test="params.beginReleaseTime != null and params.beginReleaseTime != '' and params.endReleaseTime != null and params.endReleaseTime != ''">
+                and a.create_time between #{params.beginReleaseTime} and #{params.endReleaseTime}
+            </if>
+            <if test="createTime != null"> and date_format(a.create_time,'%Y%m%d') = date_format(#{createTime},'%Y%m%d')</if>
+            <if test="messageInfoTitle != null"> and message_info_title like concat('%', #{messageInfoTitle}, '%')</if>
+            <if test="search != null and search != ''">
+                and (a.message_sender = #{search}
+                or a.message_sender_name like concat('%', #{search}, '%')
+                or a.message_recipient = #{search}
+                or a.message_sender = #{search}
+                or a.message_info_title like concat('%', #{search}, '%')
+                or a.message_info_text like concat('%', #{search}, '%')
+                )
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectSysMessageByMessageId" parameterType="Long" resultMap="SysMessageResult">
+        <include refid="selectSysMessageVo"/>
+        where a.message_id = #{messageId}
+    </select>
+
+    <insert id="insertSysMessage" parameterType="com.ys.system.api.domain.SysMessage" useGeneratedKeys="true" keyProperty="messageId">
+        insert into sys_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="messageInfoId != null">message_info_id,</if>
+            <if test="messageSender != null">message_sender,</if>
+            <if test="messageRecipient != null">message_recipient,</if>
+            <if test="messageType != null">message_type,</if>
+            <if test="messageStatus != null">message_status,</if>
+            <if test="messageInfoTitle != null">message_info_title,</if>
+            <if test="messageInfoTitleCn != null">message_info_title_cn,</if>
+            <if test="messageInfoPhoto != null">message_info_photo,</if>
+            <if test="messageInfoText != null">message_info_text,</if>
+            <if test="messageInfoPath != null">message_info_path,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="messageInfoId != null">#{messageInfoId},</if>
+            <if test="messageSender != null">#{messageSender},</if>
+            <if test="messageRecipient != null">#{messageRecipient},</if>
+            <if test="messageType != null">#{messageType},</if>
+            <if test="messageStatus != null">#{messageStatus},</if>
+            <if test="messageInfoTitle != null">#{messageInfoTitle},</if>
+            <if test="messageInfoTitleCn != null">#{messageInfoTitleCn},</if>
+            <if test="messageInfoPhoto != null">#{messageInfoPhoto},</if>
+            <if test="messageInfoText != null">#{messageInfoText},</if>
+            <if test="messageInfoPath != null">#{messageInfoPath},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysMessage" parameterType="com.ys.system.api.domain.SysMessage">
+        update sys_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="messageInfoId != null">message_info_id = #{messageInfoId},</if>
+            <if test="messageSender != null">message_sender = #{messageSender},</if>
+            <if test="messageRecipient != null">message_recipient = #{messageRecipient},</if>
+            <if test="messageType != null">message_type = #{messageType},</if>
+            <if test="messageStatus != null">message_status = #{messageStatus},</if>
+            <if test="messageInfoTitle != null">message_info_title = #{messageInfoTitle},</if>
+            <if test="messageInfoTitleCn != null">message_info_title_cn = #{messageInfoTitleCn},</if>
+            <if test="messageInfoPhoto != null">message_info_photo = #{messageInfoPhoto},</if>
+            <if test="messageInfoText != null">message_info_text = #{messageInfoText},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where message_id = #{messageId}
+    </update>
+
+    <delete id="deleteSysMessageByMessageId" parameterType="Long">
+        delete from sys_message where message_id = #{messageId}
+    </delete>
+
+    <delete id="deleteSysMessageByMessageIds" parameterType="String">
+        delete from sys_message where message_id in
+        <foreach item="messageId" collection="array" open="(" separator="," close=")">
+            #{messageId}
+        </foreach>
+    </delete>
+
+    <update id="messageAllRead" parameterType="Long">
+        update sys_message set message_status = '1'
+        where message_status = '0' and message_recipient = #{messageRecipient}
+    </update>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrBenefitGroupMapper">
+
+    <resultMap type="HrBenefitGroup" id="HrBenefitGroupResult">
+        <result property="benefitGroupId"    column="benefit_group_id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+    </resultMap>
+
+    <sql id="selectHrBenefitGroupVo">
+        select benefit_group_id, group_name, create_by, create_time, update_by, update_time, remark, enterprise_id from hr_benefit_group
+    </sql>
+
+    <select id="selectHrBenefitGroupList" parameterType="HrBenefitGroup" resultMap="HrBenefitGroupResult">
+        <include refid="selectHrBenefitGroupVo"/>
+        <where>
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrBenefitGroupByBenefitGroupId" parameterType="String" resultMap="HrBenefitGroupResult">
+        <include refid="selectHrBenefitGroupVo"/>
+        where benefit_group_id = #{benefitGroupId}
+    </select>
+
+
+</mapper>

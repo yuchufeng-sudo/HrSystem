@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrDocumentMapper">
+
+    <resultMap type="HrDocument" id="HrDocumentResult">
+        <result property="documentId"    column="document_id"    />
+        <result property="documentName"    column="document_name"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="uploadUserId"    column="upload_user_id"    />
+        <result property="uploadDate"    column="upload_date"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrDocumentVo">
+        select document_id, document_name, file_name, file_path, file_type, file_size, upload_user_id, upload_date, description, status, create_by, create_time, update_by, update_time, remark from hr_document
+    </sql>
+
+    <select id="selectHrDocumentList" parameterType="HrDocument" resultMap="HrDocumentResult">
+        <include refid="selectHrDocumentVo"/>
+        <where>
+            <if test="documentName != null  and documentName != ''"> and document_name ILIKE concat('%', #{documentName}, '%')</if>
+            <if test="fileName != null  and fileName != ''"> and file_name ILIKE concat('%', #{fileName}, '%')</if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+            <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+            <if test="fileSize != null  and fileSize != ''"> and file_size = #{fileSize}</if>
+            <if test="uploadUserId != null  and uploadUserId != ''"> and upload_user_id = #{uploadUserId}</if>
+            <if test="uploadCandidateId != null  and uploadCandidateId != ''"> and upload_candidate_id = #{uploadCandidateId}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="uploadDate != null  and uploadDate != ''"> and upload_date = #{uploadDate}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <resultMap type="com.ys.hr.domain.vo.HrDocumentShareVo" id="HrDocumentShareVoResult">
+        <result property="documentId"    column="document_id"    />
+        <result property="documentName"    column="document_name"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="uploadUserId"    column="upload_user_id"    />
+        <result property="uploadCandidateId"    column="upload_candidate_id"    />
+        <result property="uploadDate"    column="upload_date"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="uploadFullName"    column="full_name"    />
+        <result property="uploadEmail"    column="email"    />
+        <result property="uploadAvatar"    column="avatar_url"    />
+        <result property="permissionType"    column="permission_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <select id="selectHrDocumentShareList" parameterType="HrDocument" resultMap="HrDocumentShareVoResult">
+        select hd.document_id, hd.document_name, hd.file_name, hd.file_path, hd.file_type, hd.file_size, hd.upload_user_id, hd.upload_candidate_id, hd.upload_date, hd.description
+        ,he.full_name,he.email,he.avatar_url,hds.permission_type
+        from hr_document hd
+        join hr_document_share hds on hds.document_id = hd.document_id and shared_to = #{userId}
+        left join hr_employees he on hd.upload_user_id = he.user_id
+        <where>
+            <if test="documentName != null  and documentName != ''"> and hd.document_name ILIKE concat('%', #{documentName}, '%')</if>
+            <if test="fileName != null  and fileName != ''"> and hd.file_name ILIKE concat('%', #{fileName}, '%')</if>
+            <if test="fileType != null  and fileType != ''"> and hd.file_type = #{fileType}</if>
+            <if test="uploadUserId != null  and uploadUserId != ''"> and hd.upload_user_id = #{uploadUserId}</if>
+            <if test="uploadCandidateId != null  and uploadCandidateId != ''"> and hd.upload_candidate_id = #{uploadCandidateId}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and hd.enterprise_id = #{enterpriseId}</if>
+            <if test="uploadDate != null  and uploadDate != ''"> and hd.upload_date = #{uploadDate}</if>
+            <if test="status != null  and status != ''"> and hd.status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectHrDocumentByDocumentId" parameterType="Long" resultMap="HrDocumentResult">
+        <include refid="selectHrDocumentVo"/>
+        where document_id = #{documentId}
+    </select>
+
+
+</mapper>

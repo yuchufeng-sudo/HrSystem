@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrSuperUsiInfoMapper">
+
+    <resultMap type="HrSuperUsiInfo" id="HrSuperUsiInfoResult">
+        <result property="id"    column="id"    />
+        <result property="abn"    column="abn"    />
+        <result property="fundName"    column="fund_name"    />
+        <result property="usi"    column="usi"    />
+        <result property="productName"    column="product_name"    />
+        <result property="contributionRestriction"    column="contribution_restriction"    />
+        <result property="fromDate"    column="from_date"    />
+        <result property="toDate"    column="to_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrSuperUsiInfoVo">
+        select id, abn, fund_name, usi, product_name, contribution_restriction, from_date, to_date, create_by, create_time, update_by, update_time, remark from hr_super_usi_info
+    </sql>
+
+    <select id="selectHrSuperUsiInfoList" parameterType="HrSuperUsiInfo" resultMap="HrSuperUsiInfoResult">
+        <include refid="selectHrSuperUsiInfoVo"/>
+        <where>
+            <if test="abn != null  and abn != ''"> and abn = #{abn}</if>
+            <if test="fundName != null  and fundName != ''"> and fund_name like concat('%', #{fundName}, '%')</if>
+            <if test="usi != null  and usi != ''"> and usi = #{usi}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="contributionRestriction != null  and contributionRestriction != ''"> and contribution_restriction = #{contributionRestriction}</if>
+            <if test="fromDate != null "> and from_date = #{fromDate}</if>
+            <if test="toDate != null "> and to_date = #{toDate}</if>
+        </where>
+    </select>
+
+
+</mapper>

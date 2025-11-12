@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.system.mapper.SysNotificationSettingsMapper">
+
+    <resultMap type="com.ys.system.domain.SysNotificationSettings" id="SysNotificationSettingsResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userEmail"    column="email"    />
+        <result property="userName"    column="nick_name"    />
+        <result property="accountEmailLevel"    column="account_email_level"    />
+        <result property="leaveRequestNotification"    column="leave_request_notification"    />
+        <result property="performanceEvaluationAlerts"    column="performance_evaluation_alerts"    />
+        <result property="shiftScheduleUpdate"    column="shift_schedule_update"    />
+        <result property="salaryAndBenefitsNotifications"    column="salary_and_benefits_notifications"    />
+        <result property="contractPeriodAlerts"    column="contract_period_alerts"    />
+        <result property="smsAccountInfo"    column="sms_account_info"    />
+        <result property="smsOffersPromotions"    column="sms_offers_promotions"    />
+        <result property="unsubscribeAllMarketing"    column="unsubscribe_all_marketing"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="newFeaturesUpdates"    column="new_features_updates"    />
+        <result property="offersPromotions"    column="offers_promotions"    />
+        <result property="feedbackSurveys"    column="feedback_surveys"    />
+    </resultMap>
+
+    <sql id="selectSysNotificationSettingsVo">
+        select a.*,b.email,b.nick_name
+        from sys_notification_settings a
+            left join sys_user b on a.user_id = b.user_id
+    </sql>
+
+    <select id="selectSysNotificationSettingsList" parameterType="com.ys.system.domain.SysNotificationSettings" resultMap="SysNotificationSettingsResult">
+        <include refid="selectSysNotificationSettingsVo"/>
+        <where>
+            <if test="userId != null  and userId != ''"> and a.user_id = #{userId}</if>
+            <if test="newFeaturesUpdates != null  and newFeaturesUpdates != ''"> and a.new_features_updates = #{newFeaturesUpdates}</if>
+            <if test="offersPromotions != null  and offersPromotions != ''"> and a.offers_promotions = #{offersPromotions}</if>
+            <if test="feedbackSurveys != null  and feedbackSurveys != ''"> and a.feedback_surveys = #{feedbackSurveys}</if>
+            <if test="unsubscribeAllMarketing != null  and unsubscribeAllMarketing != ''"> and a.unsubscribe_all_marketing = #{unsubscribeAllMarketing}</if>
+        </where>
+    </select>
+
+    <select id="selectSysNotificationSettingsById" parameterType="String" resultMap="SysNotificationSettingsResult">
+        <include refid="selectSysNotificationSettingsVo"/>
+        where id = #{id}
+    </select>
+
+</mapper>

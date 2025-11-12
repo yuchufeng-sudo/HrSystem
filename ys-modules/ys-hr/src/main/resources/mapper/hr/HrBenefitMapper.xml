@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrBenefitMapper">
+
+    <resultMap type="HrBenefit" id="HrBenefitResult">
+        <result property="benefitId"    column="benefit_id"    />
+        <result property="benefitTypeId"    column="benefit_type_id"    />
+        <result property="benefitEmpMoney"    column="benefit_emp_money"    />
+        <result property="benefitEmpCompany"    column="benefit_emp_company"    />
+        <result property="benefitColony"    column="benefit_colony"    />
+        <result property="defaultStartTime"    column="default_start_time"    />
+        <result property="defaultEndTime"    column="default_end_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="benefitName"    column="benefit_name"    />
+    </resultMap>
+
+    <sql id="selectHrBenefitVo">
+        select benefit_id, benefit_type_id, benefit_emp_money, benefit_emp_company, benefit_colony, default_start_time, default_end_time, create_by, create_time, update_by, update_time, remark, enterprise_id,  benefit_name from hr_benefit
+    </sql>
+
+    <select id="selectHrBenefitList" parameterType="HrBenefit" resultMap="HrBenefitResult">
+        <include refid="selectHrBenefitVo"/>
+        <where>
+            <if test="benefitTypeId != null  and benefitTypeId != ''"> and benefit_type_id = #{benefitTypeId}</if>
+            <if test="benefitEmpMoney != null  and benefitEmpMoney != ''"> and benefit_emp_money = #{benefitEmpMoney}</if>
+            <if test="benefitEmpCompany != null  and benefitEmpCompany != ''"> and benefit_emp_company = #{benefitEmpCompany}</if>
+            <if test="benefitColony != null  and benefitColony != ''"> and benefit_colony = #{benefitColony}</if>
+            <if test="defaultStartTime != null  and defaultStartTime != ''"> and default_start_time = #{defaultStartTime}</if>
+            <if test="defaultEndTime != null  and defaultEndTime != ''"> and default_end_time = #{defaultEndTime}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrBenefitByBenefitId" parameterType="String" resultMap="HrBenefitResult">
+        <include refid="selectHrBenefitVo"/>
+        where benefit_id = #{benefitId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrSettingsMapper">
+
+    <resultMap type="HrSettings" id="HrSettingsResult">
+        <result property="id"    column="id"    />
+        <result property="defaultStartTime"    column="default_start_time"    />
+        <result property="defaultEndTime"    column="default_end_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="restStartTime"    column="rest_start_time"    />
+        <result property="restEndTime"    column="rest_end_time"    />
+        <result property="schedulingId"    column="scheduling_id"    />
+    </resultMap>
+
+    <sql id="selectHrSettingsVo">
+        select id, default_start_time, default_end_time, create_by, create_time, update_by, update_time, remark,rest_start_time ,rest_end_time ,enterprise_id,scheduling_id,grace_period,enable_overtime,maximum_overtime from hr_settings
+    </sql>
+
+    <select id="selectHrSettingsList" parameterType="HrSettings" resultMap="HrSettingsResult">
+        <include refid="selectHrSettingsVo"/>
+        <where>
+            <if test="defaultStartTime != null "> and default_start_time = #{defaultStartTime}</if>
+            <if test="defaultEndTime != null "> and default_end_time = #{defaultEndTime}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrSettingsById" parameterType="Long" resultMap="HrSettingsResult">
+        <include refid="selectHrSettingsVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectHrSettingsByEid" resultType="com.ys.hr.domain.HrSettings">
+        <include refid="selectHrSettingsVo"/>
+        where enterprise_id=  #{eid}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrClockRecordMapper">
+
+    <resultMap type="com.ys.hr.domain.HrClockRecord" id="OaClockRecordResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="jobnumber"    column="jobnumber"    />
+        <result property="time"    column="time"    />
+        <result property="type"    column="type"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+    </resultMap>
+
+    <sql id="selectOaClockRecordVo">
+        select a.id, b.full_name as name, a.jobnumber, a.time, a.type, a.temperature
+        from hr_clock_record a
+        left join hr_employees b on a.jobnumber = b.jobnumber
+    </sql>
+
+    <select id="selectOaClockRecordList" parameterType="com.ys.hr.domain.HrClockRecord" resultMap="OaClockRecordResult">
+        <include refid="selectOaClockRecordVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and b.full_name ILIKE concat('%', #{name}, '%')</if>
+            <if test="jobnumber != null  and jobnumber != ''"> and a.jobnumber ILIKE concat('%', #{jobnumber}, '%')</if>
+            <if test="time != null "> and a.time = #{time}</if>
+            <if test="type != null  and type != ''"> and a.type = #{type}</if>
+            <if test="temperature != null  and temperature != ''"> and a.temperature = #{temperature}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and a.enterprise_id = #{enterpriseId}</if>
+        </where>
+        order by a.time desc
+    </select>
+
+    <insert id="saveData" parameterType="com.ys.hr.domain.HrClockRecord">
+        INSERT INTO hr_clock_record (name, jobnumber, "time", type, temperature)
+        VALUES (#{name}, #{jobnumber}, #{time}, #{type}, #{temperature})
+            ON CONFLICT (jobnumber, "time") DO NOTHING;
+    </insert>
+
+    <insert id="replaceBatch" parameterType="java.util.List">
+        INSERT INTO hr_clock_record (name, jobnumber, time, type, temperature)
+        VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.name},
+            #{item.jobnumber},
+            #{item.time},
+            #{item.type},
+            #{item.temperature})
+        </foreach>
+        ON CONFLICT (jobnumber, "time", ) DO NOTHING
+    </insert>
+
+</mapper>

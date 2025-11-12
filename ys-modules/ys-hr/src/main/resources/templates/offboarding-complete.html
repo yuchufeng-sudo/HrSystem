@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>HR Platform Invitation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .email-container {
+            background-color: #fff;
+            padding: 30px;
+        }
+        .subject {
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .header {
+            color: #000000;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .content {
+            color: #000000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .button {
+            display: inline-block;
+            background-color: #286dbd;
+            color: white !important;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .footer {
+            color: #666666;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+        }
+        .company-name {
+            font-weight: bold;
+        }
+        .hr-tool {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="subject">Offboarding Checklist Completed</p>
+
+    <p class="header">Hi <span th:text="${FullName}"></span>,</p>
+
+    <p class="content">
+        Thank you for completing your offboarding checklist.
+        Your transition process is now finalized.
+    </p>
+
+    <p class="content">
+        We wish you the best in your next chapter.
+    </p>
+
+    <div class="footer">
+        <p>Best regards,</p>
+        <p><span class="company-name" th:text="${CompanyName}"></span> HR Team</p>
+    </div>
+</div>
+</body>
+</html>

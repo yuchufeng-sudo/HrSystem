@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Job Application Update</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .email-container {
+            background-color: #fff;
+            padding: 40px 30px;
+            text-align: left; /* 改为左对齐 */
+        }
+        .greeting {
+            color: #000000;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            white-space: nowrap; /* 防止换行 */
+        }
+        .content {
+            color: #000000;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            word-wrap: break-word; /* 允许单词内断行 */
+            overflow-wrap: break-word; /* 更现代的断行方式 */
+            hyphens: none; /* 禁用连字符断词 */
+        }
+        .highlight {
+            font-weight: 600;
+            white-space: nowrap; /* 确保公司名和职位名不换行 */
+        }
+        .footer {
+            color: #000000;
+            font-size: 16px;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        .regards {
+            margin-top: 25px;
+        }
+        /* 确保长文本不会断行 */
+        .no-wrap {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="greeting">Hi <span class="no-wrap" th:text="${FirstName}">[First Name]</span>,</p>
+
+    <p class="content">Good news! You've been shortlisted for the role of
+        <span class="highlight no-wrap" th:text="${JobTitle}">[Job Title]</span> at
+        <span class="highlight no-wrap" th:text="${CompanyName}">[Company Name]</span>.
+    </p>
+
+    <p class="content">Our HR team will contact you soon with the next steps.</p>
+
+    <p class="content">We're excited to learn more about you!</p>
+
+    <div class="footer">
+        <p>Best regards,</p>
+        <p class="regards"><span class="no-wrap" th:text="${CompanyName}">[Company Name]</span> Recruitment Team</p>
+    </div>
+</div>
+</body>
+</html>

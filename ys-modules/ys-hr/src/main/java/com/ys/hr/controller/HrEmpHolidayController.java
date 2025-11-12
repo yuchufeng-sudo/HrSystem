@@ -1,0 +1,160 @@
+package com.ys.hr.controller;
+
+import com.ys.common.core.utils.DateUtils;
+import com.ys.common.core.utils.poi.ExcelUtil;
+import com.ys.common.core.web.controller.BaseController;
+import com.ys.common.core.web.domain.AjaxResult;
+import com.ys.common.core.web.page.TableDataInfo;
+import com.ys.common.log.annotation.Log;
+import com.ys.common.log.enums.BusinessType;
+import com.ys.common.security.annotation.RequiresPermissions;
+import com.ys.common.security.utils.SecurityUtils;
+import com.ys.hr.domain.HrEmpHoliday;
+import com.ys.hr.service.IHrEmpHolidayService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *  EMPLOYEE  HOLIDAY  Controller
+ *
+ * @author ys
+ * @date 2025-05-23
+ */
+@RestController
+@RequestMapping("/holiday")
+public class HrEmpHolidayController extends BaseController
+{
+    @Autowired
+    private IHrEmpHolidayService hrEmpHolidayService;
+
+    /**
+     * QUERY EMPLOYEE  HOLIDAY    LIST
+     */
+    @GetMapping("/list")
+    public TableDataInfo list(HrEmpHoliday hrEmpHoliday)
+    {
+        hrEmpHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        startPage();
+        List<HrEmpHoliday> list = hrEmpHolidayService.selectHrEmpHolidayList(hrEmpHoliday);
+        return getDataTable(list);
+    }
+
+    /**
+     * EXPORT EMPLOYEE  HOLIDAY    LIST
+     */
+    @RequiresPermissions("hr:holiday:export")
+    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, HrEmpHoliday hrEmpHoliday)
+    {
+        List<HrEmpHoliday> list = hrEmpHolidayService.selectHrEmpHolidayList(hrEmpHoliday);
+        ExcelUtil<HrEmpHoliday> util = new ExcelUtil<HrEmpHoliday>(HrEmpHoliday.class);
+        util.exportExcel(response, list, " employee holiday data");
+    }
+
+    /**
+     * OBTAIN  EMPLOYEE  HOLIDAY  DETAILEDLY INFORMATION
+     */
+    @GetMapping(value = "/{empleHolidayId}")
+    public AjaxResult getInfo(@PathVariable("empleHolidayId") Long empleHolidayId) {
+        return success(hrEmpHolidayService.selectHrEmpHolidayById(empleHolidayId));
+    }
+
+    /**
+     * ADD EMPLOYEE  HOLIDAY
+     */
+    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.INSERT)
+    @PostMapping
+    public AjaxResult add(@RequestBody HrEmpHoliday hrEmpHoliday) {
+        HrEmpHoliday holiday = new HrEmpHoliday();
+        Date stateTime = hrEmpHoliday.getStateTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = sdf.format(stateTime);
+        holiday.setTime(formattedDate);
+        holiday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        List<HrEmpHoliday> hrEmpHolidays = hrEmpHolidayService.selectHrEmpHolidayList(holiday);
+        if(ObjectUtils.isNotEmpty(hrEmpHolidays)){
+            return  AjaxResult.warn("Holidays already exist under this date");
+        }
+        hrEmpHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        hrEmpHoliday.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
+        hrEmpHoliday.setUserId(SecurityUtils.getUserId());
+        hrEmpHoliday.setCreateTime(DateUtils.getNowDate());
+        hrEmpHoliday.setEndTime(hrEmpHoliday.getStateTime());
+        return toAjax(hrEmpHolidayService.save(hrEmpHoliday));
+    }
+
+    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.INSERT)
+    @PostMapping("/addHolidays")
+    public AjaxResult addHolidays(@RequestBody HrEmpHoliday hrEmpHoliday) {
+        Date stateTime = hrEmpHoliday.getStateTime();
+        Date endTime = hrEmpHoliday.getEndTime();
+        LocalDate startDate = stateTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate endDate = endTime.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            Date currentDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            HrEmpHoliday holiday = new HrEmpHoliday();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = sdf.format(currentDate);
+            holiday.setTime(formattedDate);
+            holiday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+            List<HrEmpHoliday> hrEmpHolidays = hrEmpHolidayService.selectHrEmpHolidayList(holiday);
+            if(ObjectUtils.isNotEmpty(hrEmpHolidays)){
+                continue;
+            }
+            HrEmpHoliday hrHoliday = new HrEmpHoliday();
+            BeanUtils.copyProperties(hrEmpHoliday,hrHoliday);
+            hrHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+            hrHoliday.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
+            hrHoliday.setUserId(SecurityUtils.getUserId());
+            hrHoliday.setStateTime(currentDate);
+            hrHoliday.setCreateTime(DateUtils.getNowDate());
+            hrHoliday.setEndTime(hrHoliday.getStateTime());
+            hrEmpHolidayService.save(hrHoliday);
+        }
+        return toAjax(1);
+    }
+
+    /**
+     * MODIFY EMPLOYEE  HOLIDAY
+     */
+    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public AjaxResult edit(@RequestBody HrEmpHoliday hrEmpHoliday) {
+        hrEmpHoliday.setUpdateBy(String.valueOf(SecurityUtils.getUserId()));
+        hrEmpHoliday.setUpdateTime(DateUtils.getNowDate());
+        if(ObjectUtils.isNotEmpty(hrEmpHoliday.getStateTime())){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = sdf.format(hrEmpHoliday.getStateTime());
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDate localDate = LocalDate.parse(dateString, formatter);
+            hrEmpHoliday.setSearchTime(localDate);
+        }
+        return toAjax(hrEmpHolidayService.updateByHrEmpHolidayById(hrEmpHoliday));
+    }
+
+    /**
+     * DELETE EMPLOYEE  HOLIDAY
+     */
+    @RequiresPermissions("hr:holiday:remove")
+    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.DELETE)
+    @DeleteMapping("/{empleHolidayIds}")
+    public AjaxResult remove(@PathVariable Long[] empleHolidayIds) {
+        return toAjax(hrEmpHolidayService.removeByIds(Arrays.asList(empleHolidayIds)));
+    }
+}

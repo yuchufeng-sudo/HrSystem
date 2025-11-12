@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTrainingAssessmentMapper">
+
+    <resultMap type="HrTrainingAssessment" id="HrTrainingAssessmentResult">
+        <result property="id"    column="id"    />
+        <result property="trainingId"    column="training_id"    />
+        <result property="assessorId"    column="assessor_id"    />
+        <result property="assessorName"    column="full_name"    />
+        <result property="assessorAvatar"    column="avatar_url"    />
+        <result property="assesseeName"    column="full_name1"    />
+        <result property="assesseeAvatar"    column="avatar_url1"    />
+        <result property="assesseeId"    column="assessee_id"    />
+        <result property="assessmentTime"    column="assessment_time"    />
+        <result property="comments"    column="comments"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrTrainingAssessmentVo">
+        select a.id, a.training_id, a.assessor_id, a.assessee_id, a.assessment_time, a.comments,
+            a.create_by, a.create_time, a.update_by, a.update_time, a.remark,
+            b.full_name,b.avatar_url,c.full_name full_name1,c.avatar_url avatar_url1
+        from hr_training_assessment a
+            left join hr_employees b on a.assessor_id = b.user_id
+            left join hr_employees c on a.assessee_id = c.employee_id
+    </sql>
+
+    <select id="selectHrTrainingAssessmentList" parameterType="HrTrainingAssessment" resultMap="HrTrainingAssessmentResult">
+        <include refid="selectHrTrainingAssessmentVo"/>
+        <where>
+            <if test="trainingId != null  and trainingId != ''"> and training_id = #{trainingId}</if>
+            <if test="assesseeName != null and assesseeName != ''"> and c.full_name ILIKE concat('%',#{assesseeName},'%')</if>
+            <if test="assessorName != null and assessorName != ''"> and b.full_name ILIKE concat('%',#{assessorName},'%')</if>
+            <if test="assessorId != null "> and assessor_id = #{assessorId}</if>
+            <if test="assesseeId != null "> and assessee_id = #{assesseeId}</if>
+            <if test="assessmentTime != null  and assessmentTime != ''"> and assessment_time = #{assessmentTime}</if>
+            <if test="comments != null  and comments != ''"> and comments = #{comments}</if>
+        </where>
+    </select>
+
+    <select id="selectHrTrainingAssessmentById" parameterType="Long" resultMap="HrTrainingAssessmentResult">
+        <include refid="selectHrTrainingAssessmentVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

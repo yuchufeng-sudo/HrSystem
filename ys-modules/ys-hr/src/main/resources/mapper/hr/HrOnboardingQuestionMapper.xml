@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrOnboardingQuestionMapper">
+
+    <resultMap type="HrOnboardingQuestion" id="HrOnboardingQuestionResult">
+        <result property="id"    column="id"    />
+        <result property="questionMsg"    column="question_msg"    />
+        <result property="questionType"    column="question_type"    />
+        <result property="answerOptions"    column="answer_options"    />
+        <result property="isRequired"    column="is_required"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="questionIndex"    column="question_index"    />
+    </resultMap>
+
+    <sql id="selectHrOnboardingQuestionVo">
+        select id, question_msg, question_type, answer_options, is_required, create_by, create_time, update_by, update_time, remark, enterprise_id, question_index from hr_onboarding_question
+    </sql>
+
+    <select id="selectHrOnboardingQuestionList" parameterType="HrOnboardingQuestion" resultMap="HrOnboardingQuestionResult">
+        <include refid="selectHrOnboardingQuestionVo"/>
+        <where>
+            <if test="questionMsg != null  and questionMsg != ''"> and question_msg = #{questionMsg}</if>
+            <if test="questionType != null  and questionType != ''"> and question_type = #{questionType}</if>
+            <if test="answerOptions != null  and answerOptions != ''"> and answer_options = #{answerOptions}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="questionIndex != null  and questionIndex != ''"> and question_index = #{questionIndex}</if>
+        </where>
+    </select>
+
+    <select id="selectHrOnboardingQuestionById" parameterType="String" resultMap="HrOnboardingQuestionResult">
+        <include refid="selectHrOnboardingQuestionVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectHrOnboardingQuestionListByEmp" resultType="com.ys.hr.domain.HrOnboardingQuestion">
+        select a.*,(CASE WHEN b.result IS NULL THEN 0 ELSE 1 END) isResult,b.result,b.id resultId
+        from hr_onboarding_question a
+        left join hr_onboarding_result b on a.id = b.onboarding_id
+        <if test="employeesId != null  and employeesId != ''"> and b.employees_id = #{employeesId}</if>
+        <where>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and a.enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+</mapper>

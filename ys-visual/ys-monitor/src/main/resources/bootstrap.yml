@@ -1,0 +1,27 @@
+# Tomcat
+server:
+  port: 9100
+
+# Spring
+spring:
+  application:
+    # Application Name
+    name: ys-monitor
+  profiles:
+    # Environment Configuration
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        #  ServiceRegisterAddress
+        server-addr: localhost:8848
+        username: nacos  # Default USER Name
+        password: nacos  # Default Password
+      config:
+        # Configuration Center Address
+        server-addr: localhost:8848
+        # Configuration File Format
+        file-extension: yml
+        # Shared Configuration
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

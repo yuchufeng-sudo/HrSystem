@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HR Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .email-container {
+            background-color: #fff;
+            padding: 30px;
+        }
+        .greeting {
+            color: #000000;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .content {
+            color: #000000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .candidate-info {
+            margin: 20px 0;
+        }
+        .info-label {
+            font-weight: bold;
+        }
+        .footer {
+            color: #000000;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="greeting">Hi <span th:text="${HrName}">[HR Name]</span>,</p>
+
+    <p class="content">A new candidate has applied for <span th:text="${JobTitle}">[Job Title]</span>.</p>
+
+    <div class="candidate-info">
+        <p class="content">
+            <span class="info-label">Candidate Name:</span>
+            <span th:text="${FullName}">[Full Name]</span>
+        </p>
+        <p class="content">
+            <span class="info-label">Email:</span>
+            <span th:text="${CandidateEmail}">[Candidate Email]</span>
+        </p>
+        <p class="content">
+            <span class="info-label">[View Application in Dashboard]</span>
+        </p>
+
+    </div>
+
+    <div class="footer">
+        <p>Best,</p>
+        <p><span th:text="${HrisToolName}">[HRIS Tool Name]</span> System</p>
+    </div>
+</div>
+</body>
+</html>

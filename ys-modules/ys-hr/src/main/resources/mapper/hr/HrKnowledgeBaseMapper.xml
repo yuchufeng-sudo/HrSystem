@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrKnowledgeBaseMapper">
+
+    <resultMap type="HrKnowledgeBase" id="HrKnowledgeBaseResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="knowledgeTitle"    column="knowledge_title"    />
+        <result property="knowledgeContents"    column="knowledge_contents"    />
+        <result property="knowledgeLabel"    column="knowledge_label"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="knowledgeCover"    column="knowledge_cover"    />
+        <result property="enterpriseId" column="enterprise_id" />
+    </resultMap>
+
+    <sql id="selectHrKnowledgeBaseVo">
+        select  hr_knowledge_base.*,hr_knowledge_base_sort.sort_name as parent_name
+        from hr_knowledge_base
+        left join hr_knowledge_base_sort on hr_knowledge_base.parent_id = hr_knowledge_base_sort.id
+    </sql>
+
+    <select id="selectHrKnowledgeBaseList" parameterType="HrKnowledgeBase" resultMap="HrKnowledgeBaseResult">
+        <include refid="selectHrKnowledgeBaseVo"/>
+        <where>
+            <if test="parentId != null "> and hr_knowledge_base.parent_id = #{parentId}</if>
+             <if test="enterpriseId != null "> and hr_knowledge_base.enterprise_id = #{enterpriseId}</if>
+            <if test="knowledgeTitle != null  and knowledgeTitle != ''"> and knowledge_title ILIKE concat('%', #{knowledgeTitle}, '%')</if>
+            <if test="knowledgeContents != null  and knowledgeContents != ''"> and knowledge_contents ILIKE concat('%', #{knowledgeContents}, '%')</if>
+            <if test="knowledgeLabel != null  and knowledgeLabel != ''"> and knowledge_label ILIKE concat('%', #{knowledgeLabel}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="knowledgeCover != null  and knowledgeCover != ''"> and knowledge_cover = #{knowledgeCover}</if>
+        </where>
+    </select>
+
+    <select id="selectHrKnowledgeBaseById" parameterType="Long" resultMap="HrKnowledgeBaseResult">
+        <include refid="selectHrKnowledgeBaseVo"/>
+        where hr_knowledge_base.id = #{id}
+    </select>
+    <select id="searchAllHrKnowledgeBase" resultType="com.ys.hr.domain.HrKnowledgeBase">
+        <include refid="selectHrKnowledgeBaseVo"/>
+        where knowledge_title ILIKE concat('%', #{searchParam}, '%')
+           or knowledge_contents ILIKE concat('%', #{searchParam}, '%')
+           or knowledge_label ILIKE concat('%', #{searchParam}, '%')
+           /* CLASSIFICATION Name*/
+           or hr_knowledge_base_sort.sort_name ILIKE concat('%', #{searchParam}, '%')
+           AND  hr_knowledge_base.enterprise_id = #{enterpriseId}
+    </select>
+    <select id="selectKnowledgeBasesBySearchKey" resultMap="HrKnowledgeBaseResult">
+        SELECT
+            id,
+            parent_id,
+            knowledge_title,
+            knowledge_contents
+        FROM
+            hr_knowledge_base
+        WHERE
+            knowledge_title LIKE CONCAT('%', #{searchKey}, '%')
+           OR knowledge_contents LIKE CONCAT('%', #{searchKey}, '%')
+           OR knowledge_label LIKE CONCAT('%', #{searchKey}, '%')
+    </select>
+
+</mapper>

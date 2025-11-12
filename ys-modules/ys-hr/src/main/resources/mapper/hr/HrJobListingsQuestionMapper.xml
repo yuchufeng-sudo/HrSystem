@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrJobListingsQuestionMapper">
+
+    <resultMap type="com.ys.hr.domain.HrJobListingsQuestion" id="HrJobListingsQuestionResult">
+        <result property="id"    column="id"    />
+        <result property="jobListingsId"    column="job_listings_id"    />
+        <result property="questionMsg"    column="question_msg"    />
+        <result property="questionType"    column="question_type"    />
+        <result property="answerOptions"    column="answer_options"    />
+        <result property="isAnswerVideo"    column="is_answer_video"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrJobListingsQuestionVo">
+        select id, job_listings_id, question_msg, question_type, answer_options, is_answer_video, create_by, create_time, update_by, update_time, remark from hr_job_listings_question
+    </sql>
+
+    <select id="selectHrJobListingsQuestionList" parameterType="HrJobListingsQuestion" resultMap="HrJobListingsQuestionResult">
+        <include refid="selectHrJobListingsQuestionVo"/>
+        <where>
+            <if test="jobListingsId != null  and jobListingsId != ''"> and job_listings_id = #{jobListingsId}</if>
+            <if test="questionMsg != null  and questionMsg != ''"> and question_msg = #{questionMsg}</if>
+            <if test="questionType != null  and questionType != ''"> and question_type = #{questionType}</if>
+            <if test="answerOptions != null  and answerOptions != ''"> and answer_options = #{answerOptions}</if>
+            <if test="isAnswerVideo != null  and isAnswerVideo != ''"> and is_answer_video = #{isAnswerVideo}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+        </where>
+        order by question_index
+    </select>
+
+    <select id="selectHrJobListingsQuestionById" parameterType="String" resultMap="HrJobListingsQuestionResult">
+        <include refid="selectHrJobListingsQuestionVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

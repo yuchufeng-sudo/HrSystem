@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrTrainingProgramsMapper">
+
+    <resultMap type="HrTrainingPrograms" id="HrTrainingProgramsResult">
+        <result property="programId"    column="program_id"    />
+        <result property="programType"    column="program_type"    />
+        <result property="title"    column="title"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="status"    column="status"    />
+        <result property="assignedCount"    column="assigned_count"    />
+        <result property="issuingOrg"    column="issuing_org"    />
+        <result property="attachmentUrl"    column="attachment_url"    />
+        <result property="deadline"    column="deadline"    />
+        <result property="priority"    column="priority"    />
+        <result property="duration"    column="duration"    />
+        <result property="notifyEmployee"    column="notify_employee"    />
+        <result property="sendReminder"    column="send_reminder"    />
+        <result property="notifyManager"    column="notify_manager"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectHrTrainingProgramsVo">
+        select a.program_id, a.program_type, a.title, a.dept_id, a.status, a.assigned_count, a.issuing_org, a.attachment_url,
+               a.deadline, a.duration, a.priority, a.notify_employee, a.send_reminder, a.notify_manager, a.create_by, a.create_time,
+               a.update_by, a.update_time, a.remark, b.dept_name
+        from hr_training_programs a left join hr_dept b on a.dept_id = b.dept_id
+    </sql>
+
+    <select id="selectHrTrainingProgramsList" parameterType="HrTrainingPrograms" resultMap="HrTrainingProgramsResult">
+        <include refid="selectHrTrainingProgramsVo"/>
+        <where>
+            <if test="programType != null  and programType != ''"> and a.program_type = #{programType}</if>
+            <if test="title != null  and title != ''"> and a.title = #{title}</if>
+            <if test="deptId != null  and deptId != ''"> and a.dept_id = #{deptId}</if>
+            <if test="status != null  and status != ''"> and a.status = #{status}</if>
+            <if test="issuingOrg != null  and issuingOrg != ''"> and a.issuing_org = #{issuingOrg}</if>
+            <if test="attachmentUrl != null  and attachmentUrl != ''"> and a.attachment_url = #{attachmentUrl}</if>
+            <if test="deadline != null "> and a.deadline = #{deadline}</if>
+            <if test="priority != null  and priority != ''"> and a.priority = #{priority}</if>
+            <if test="notifyEmployee != null  and notifyEmployee != ''"> and a.notify_employee = #{notifyEmployee}</if>
+            <if test="sendReminder != null  and sendReminder != ''"> and a.send_reminder = #{sendReminder}</if>
+            <if test="notifyManager != null  and notifyManager != ''"> and a.notify_manager = #{notifyManager}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and a.enterprise_id = #{enterpriseId}</if>
+        </where>
+    </select>
+
+    <select id="selectHrTrainingProgramsByProgramId" parameterType="Long" resultMap="HrTrainingProgramsResult">
+        <include refid="selectHrTrainingProgramsVo"/>
+        where a.program_id = #{programId}
+    </select>
+
+
+</mapper>

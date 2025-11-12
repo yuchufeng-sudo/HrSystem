@@ -1,0 +1,5 @@
+com.ys.system.api.factory.RemoteUserFallbackFactory
+com.ys.system.api.factory.RemoteLogFallbackFactory
+com.ys.system.api.factory.RemoteFileFallbackFactory
+com.ys.system.api.factory.RemoteMassageFallbackFactory
+

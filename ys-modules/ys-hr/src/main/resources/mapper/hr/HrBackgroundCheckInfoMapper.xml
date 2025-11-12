@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ys.hr.mapper.HrBackgroundCheckInfoMapper">
+
+    <resultMap type="com.ys.hr.domain.HrBackgroundCheckInfo" id="HrBackgroundCheckInfoResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="enterpriseId"    column="enterprise_id"    />
+        <result property="candidateId"    column="candidate_id"    />
+        <result property="userType"    column="user_type"    />
+        <result property="firstName"    column="first_name"    />
+        <result property="lastName"    column="last_name"    />
+        <result property="middleName"    column="middle_name"    />
+        <result property="suffix"    column="suffix"    />
+        <result property="birthdate"    column="birthdate"    />
+        <result property="ssn"    column="ssn"    />
+        <result property="email"    column="email"    />
+        <result property="phone"    column="phone"    />
+        <result property="address"    column="address"    />
+        <result property="city"    column="city"    />
+        <result property="region"    column="region"    />
+        <result property="country"    column="country"    />
+        <result property="postalCode"    column="postal_code"    />
+        <result property="aliasesList"    column="aliases_list"    />
+        <result property="educationList"    column="education_list"    />
+        <result property="employmentList"    column="employment_list"    />
+        <result property="convictionList"    column="conviction_list"    />
+        <result property="addressHistoryList"    column="address_history_list"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectHrBackgroundCheckInfoVo">
+        select id, user_id, enterprise_id, candidate_id, user_type, first_name, last_name, middle_name, suffix, birthdate, ssn, email, phone, address, city, region, country, postal_code, aliases_list, education_list, employment_list, conviction_list, address_history_list, create_by, create_time, update_by, update_time, remark from hr_background_check_info
+    </sql>
+
+    <select id="selectHrBackgroundCheckInfoList" parameterType="com.ys.hr.domain.HrBackgroundCheckInfo" resultMap="HrBackgroundCheckInfoResult">
+        <include refid="selectHrBackgroundCheckInfoVo"/>
+        <where>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
+            <if test="candidateId != null  and candidateId != ''"> and candidate_id = #{candidateId}</if>
+            <if test="userType != null  and userType != ''"> and user_type = #{userType}</if>
+            <if test="firstName != null  and firstName != ''"> and first_name ILIKE concat('%', #{firstName}, '%')</if>
+            <if test="lastName != null  and lastName != ''"> and last_name ILIKE concat('%', #{lastName}, '%')</if>
+            <if test="middleName != null  and middleName != ''"> and middle_name ILIKE concat('%', #{middleName}, '%')</if>
+            <if test="suffix != null  and suffix != ''"> and suffix = #{suffix}</if>
+            <if test="birthdate != null  and birthdate != ''"> and birthdate = #{birthdate}</if>
+            <if test="ssn != null  and ssn != ''"> and ssn = #{ssn}</if>
+            <if test="email != null  and email != ''"> and email ILIKE concat('%', #{email}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone ILIKE concat('%', #{phone}, '%')</if>
+            <if test="address != null  and address != ''"> and address ILIKE concat('%', #{address}, '%')</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+            <if test="country != null  and country != ''"> and country = #{country}</if>
+            <if test="postalCode != null  and postalCode != ''"> and postal_code = #{postalCode}</if>
+            <if test="aliasesList != null  and aliasesList != ''"> and aliases_list = #{aliasesList}</if>
+            <if test="educationList != null  and educationList != ''"> and education_list = #{educationList}</if>
+            <if test="employmentList != null  and employmentList != ''"> and employment_list = #{employmentList}</if>
+            <if test="convictionList != null  and convictionList != ''"> and conviction_list = #{convictionList}</if>
+            <if test="addressHistoryList != null  and addressHistoryList != ''"> and address_history_list = #{addressHistoryList}</if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectHrBackgroundCheckInfoById" parameterType="Long" resultMap="HrBackgroundCheckInfoResult">
+        <include refid="selectHrBackgroundCheckInfoVo"/>
+        where id = #{id}
+    </select>
+
+
+</mapper>

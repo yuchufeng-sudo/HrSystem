@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>HR Platform Invitation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        .email-container {
+            background-color: #fff;
+            padding: 30px;
+        }
+        .subject {
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .header {
+            color: #000000;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .content {
+            color: #000000;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .button {
+            display: inline-block;
+            background-color: #286dbd;
+            color: white !important;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .footer {
+            color: #666666;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+        }
+        .company-name {
+            font-weight: bold;
+        }
+        .hr-tool {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <p class="subject">Reminder: Offboarding for <span th:text="${FullName}"></span> Due in 1 Week</p>
+
+    <p class="header">Hi <span th:text="${HrFullName}"></span>,</p>
+
+    <p class="content">
+        This is a reminder that the offboarding checklist for <strong><span th:text="${FullName}"></span></strong> is due in <strong>1 week</strong>.
+        Please log in to <span th:text="${HrisToolName}"></span> to review and ensure progress.
+    </p>
+
+    <p class="content">
+        <span class="info-label"><a class="button" href="#" th:href="${OffboardingUrl}">View Checklist</a></span>
+    </p>
+
+    <div class="footer">
+        <p>Thank you,</p>
+        <strong>— <span th:text="${HrisToolName}"></span> System Notification</strong>
+    </div>
+</div>
+</body>
+</html>
