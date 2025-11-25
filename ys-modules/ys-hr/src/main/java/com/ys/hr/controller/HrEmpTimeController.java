@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  EMPLOYEE  TIME  Controller
+ *  Employee time  Controller
  *
  * @author ys
  * @date 2025-06-03
@@ -32,7 +32,7 @@ public class HrEmpTimeController extends BaseController
     private IHrEmpTimeService hrEmpTimeService;
 
     /**
-     * Query  EMPLOYEE  TIME  list
+     * Query Employee time  list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrEmpTime hrEmpTime)
@@ -44,20 +44,20 @@ public class HrEmpTimeController extends BaseController
     }
 
     /**
-     * Export  EMPLOYEE  TIME  list
+     * Export Employee time  list
      */
     @RequiresPermissions("hr:time:export")
-    @Log(title = " EMPLOYEE  TIME ", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee time", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEmpTime hrEmpTime)
     {
         List<HrEmpTime> list = hrEmpTimeService.selectHrEmpTimeList(hrEmpTime);
         ExcelUtil<HrEmpTime> util = new ExcelUtil<HrEmpTime>(HrEmpTime.class);
-        util.exportExcel(response, list, " EMPLOYEE  TIME  Data");
+        util.exportExcel(response, list, " Employee time  Data");
     }
 
     /**
-     * Get  EMPLOYEE  TIME  details
+     * Get Employee time  details
      */
     @GetMapping(value = "/{empTimeId}")
     public AjaxResult getInfo(@PathVariable("empTimeId") String empTimeId) {
@@ -65,10 +65,10 @@ public class HrEmpTimeController extends BaseController
     }
 
     /**
-     * Add  EMPLOYEE  TIME
+     * Add Employee time
      */
     @RequiresPermissions("hr:time:add")
-    @Log(title = " EMPLOYEE  TIME ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee time", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrEmpTime hrEmpTime) {
         hrEmpTime.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -76,20 +76,20 @@ public class HrEmpTimeController extends BaseController
     }
 
     /**
-     * Update  EMPLOYEE  TIME
+     * Update Employee time
      */
     @RequiresPermissions("hr:time:edit")
-    @Log(title = " EMPLOYEE  TIME ", businessType = BusinessType.UPDATE)
+    @Log(title = "Employee time", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrEmpTime hrEmpTime) {
         return toAjax(hrEmpTimeService.updateHrEmpTime(hrEmpTime));
     }
 
     /**
-     * Delete  EMPLOYEE  TIME
+     * Delete Employee time
      */
     @RequiresPermissions("hr:time:remove")
-    @Log(title = " EMPLOYEE  TIME ", businessType = BusinessType.DELETE)
+    @Log(title = "Employee time", businessType = BusinessType.DELETE)
     @DeleteMapping("/{empTimeIds}")
     public AjaxResult remove(@PathVariable String[] empTimeIds) {
         return toAjax(hrEmpTimeService.removeByIds(Arrays.asList(empTimeIds)));

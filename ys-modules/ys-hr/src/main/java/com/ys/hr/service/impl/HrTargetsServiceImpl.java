@@ -133,6 +133,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
         Long[] employeeIds = hrTargets.getEmployeeIds();
         if (employeeIds != null && employeeIds.length != 0) {
             QueryWrapper<HrTargetEmployee> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("target_id",hrTargets.getId());
             queryWrapper.notIn("employee_id",hrTargets.getEmployeeIds());
             hrTargetEmployeeService.remove(queryWrapper);
         }

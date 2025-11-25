@@ -115,13 +115,13 @@ public class HrTargetsController extends BaseController
         }
         Integer progress = data.getProgress();
         String status = data.getStatus();
-        if (progress>0){
+        if (progress>0&&progress!=100&&"Not Started".equals(status)){
             data.setStatus("In Progress");
             hrTargetsService.updateHrTargets(data);
         }
-        if (progress==100){
+        if (progress==100&&!"Complete".equals(status)){
             data.setStatus("Complete");
-            hrTargetsService.updateHrTargets(data);
+            completeTargets(id);
         }
         return success(data);
     }
@@ -157,6 +157,11 @@ public class HrTargetsController extends BaseController
     @RequiresPermissions("hr:targets:list")
     @PutMapping("complete/{id}")
     public AjaxResult complete(@PathVariable Long id) {
+        completeTargets(id);
+        return AjaxResult.success();
+    }
+
+    public void completeTargets(Long id) {
         checkParticipants(id);
         HrTargets hrTargets = new HrTargets();
         hrTargets.setId(id);
@@ -194,7 +199,25 @@ public class HrTargetsController extends BaseController
                 remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
             }
         }
-        return toAjax(hrTargetsService.updateHrTargets(hrTargets)!=null);
+        Long resignEmployeeId = hrTargets1.getResignEmployeeId();
+        if (resignEmployeeId!=null){
+            QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("resign_employee_id",resignEmployeeId);
+            queryWrapper.orderByDesc("create_time");
+            queryWrapper.select("status");
+            queryWrapper.last("limit 2");
+            List<HrTargets> list = hrTargetsService.list(queryWrapper);
+            int count = 0;
+            for (HrTargets targets : list) {
+                if (targets.getStatus().equals("Complete")) {
+                    count++;
+                }
+            }
+            if (count==1){
+                hrEmployeesService.resignComplete(resignEmployeeId,hrTargets1.getHead());
+            }
+        }
+        hrTargetsService.updateHrTargets(hrTargets);
     }
 
     @RequiresPermissions("hr:targets:list")

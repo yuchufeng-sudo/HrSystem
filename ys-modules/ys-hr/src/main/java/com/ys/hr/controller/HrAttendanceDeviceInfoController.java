@@ -37,7 +37,7 @@ public class HrAttendanceDeviceInfoController extends BaseController
     private IHrAttendanceDeviceInfoService hrAttendanceDeviceInfoService;
 
     /**
-     * Query Attendance Device Information  list
+     * Query Attendance Device Information list
      */
     @RequiresPermissions("hr:deviceInfo:list")
     @GetMapping("/list")
@@ -49,10 +49,10 @@ public class HrAttendanceDeviceInfoController extends BaseController
     }
 
     /**
-     * Export Attendance Device Information  list
+     * Export Attendance Device Information list
      */
     @RequiresPermissions("hr:deviceInfo:export")
-    @Log(title = "Attendance Device Information ", businessType = BusinessType.EXPORT)
+    @Log(title = "Attendance Device Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrAttendanceDeviceInfo hrAttendanceDeviceInfo)
     {
@@ -70,30 +70,30 @@ public class HrAttendanceDeviceInfoController extends BaseController
     }
 
     /**
-     * Add Attendance Device Information 
+     * Add Attendance Device Information
      */
     @RequiresPermissions("hr:deviceInfo:add")
-    @Log(title = "Attendance Device Information ", businessType = BusinessType.INSERT)
+    @Log(title = "Attendance Device Information", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrAttendanceDeviceInfo hrAttendanceDeviceInfo) {
         return toAjax(hrAttendanceDeviceInfoService.insertHrAttendanceDeviceInfo(hrAttendanceDeviceInfo));
     }
 
     /**
-     * Update Attendance Device Information 
+     * Update Attendance Device Information
      */
     @RequiresPermissions("hr:deviceInfo:edit")
-    @Log(title = "Attendance Device Information ", businessType = BusinessType.UPDATE)
+    @Log(title = "Attendance Device Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrAttendanceDeviceInfo hrAttendanceDeviceInfo) {
         return toAjax(hrAttendanceDeviceInfoService.updateHrAttendanceDeviceInfo(hrAttendanceDeviceInfo));
     }
 
     /**
-     * Delete Attendance Device Information 
+     * Delete Attendance Device Information
      */
     @RequiresPermissions("hr:deviceInfo:remove")
-    @Log(title = "Attendance Device Information ", businessType = BusinessType.DELETE)
+    @Log(title = "Attendance Device Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable String[] ids) {
         return toAjax(hrAttendanceDeviceInfoService.removeByIds(Arrays.asList(ids)));

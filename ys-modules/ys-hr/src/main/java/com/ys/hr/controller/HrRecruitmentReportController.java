@@ -42,7 +42,7 @@ public class HrRecruitmentReportController extends BaseController {
 
 
     /**
-     * QUERY THE EMPLOYEE LIST.
+     * Query THE Employee list.
      */
 //    @RequiresPermissions("hr:employees:list")
     @GetMapping("/list")
@@ -54,15 +54,15 @@ public class HrRecruitmentReportController extends BaseController {
     }
 
 
-    //EXPORT EMPLOYEE Emergency Contact
+    //Export Employee Emergency Contact
 //    @RequiresPermissions("hr:employees:export")
-    @Log(title = " EMPLOYEE Emergency Contact data", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee Emergency Contact data", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEmployees hrEmployees) {
         hrEmployees.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         List<EmergencyContactsReportVo> list = hrEmployeesService.selectEmergencyContactsReportVo(hrEmployees);
         ExcelUtil<EmergencyContactsReportVo> util = new ExcelUtil<EmergencyContactsReportVo>(EmergencyContactsReportVo.class);
-        util.exportExcel(response, list, " EMPLOYEE Emergency Contact data");
+        util.exportExcel(response, list, " Employee Emergency Contact data");
     }
 
 
@@ -75,7 +75,7 @@ public class HrRecruitmentReportController extends BaseController {
     }
 
     //Export employee birthdays.
-    @Log(title = " Employee birthday data", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee birthday data", businessType = BusinessType.EXPORT)
     @PostMapping("/birthDayexport")
     public void birthDayexport(HttpServletResponse response, HrEmployees hrEmployees) {
         hrEmployees.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -103,7 +103,7 @@ public class HrRecruitmentReportController extends BaseController {
         util.exportExcel(response, list, "Annual salary data");
     }
 
-    // CANDIDATE Status  LIST
+    // Candidate Status  list
     @GetMapping("/candidateStatus")
     public TableDataInfo candidateStatus(HrCandidateInfo hrCandidateInfo) {
         hrCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -121,7 +121,7 @@ public class HrRecruitmentReportController extends BaseController {
     }
 
 
-    @Log(title = " Employee birthday data", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee birthday data", businessType = BusinessType.EXPORT)
     @PostMapping("/addressExport")
     public void addressExport(HttpServletResponse response, HrEmployees hrEmployees) {
         hrEmployees.setEnterpriseId(SecurityUtils.getUserEnterpriseId());

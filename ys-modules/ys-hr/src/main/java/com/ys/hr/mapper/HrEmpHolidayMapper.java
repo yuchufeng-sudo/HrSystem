@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * EMPLOYEE HOLIDAY Mapper Interface
+ * Employee Holiday Mapper Interface
  *
  * @author ys
  * @date 2025-05-23
  */
 public interface HrEmpHolidayMapper extends BaseMapper<HrEmpHoliday> {
     /**
-     * QUERY EMPLOYEE HOLIDAY LIST
+     * Query Employee Holiday list
      *
-     * @param hrEmpHoliday EMPLOYEE HOLIDAY
-     * @return EMPLOYEE HOLIDAY Set
+     * @param hrEmpHoliday Employee Holiday
+     * @return Employee Holiday Set
      */
     public List<HrEmpHoliday> selectHrEmpHolidayList(HrEmpHoliday hrEmpHoliday);
 

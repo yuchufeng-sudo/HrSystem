@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  EMPLOYEE  SALARY  Service Interface
+ *  Employee salary  Service Interface
  *
  * @author ys
  * @date 2025-05-30
@@ -18,49 +18,49 @@ import java.util.Map;
 public interface IHrPayrollService extends IService<HrPayroll>
 {
     /**
-     * Query  EMPLOYEE  SALARY
+     * Query Employee salary
      *
-     * @param payrollId  EMPLOYEE  SALARY  primary key
-     * @return  EMPLOYEE  SALARY
+     * @param payrollId  Employee salary  primary key
+     * @return  Employee salary
      */
     public HrPayroll selectHrPayrollByPayrollId(String payrollId);
 
     /**
-     * Query  EMPLOYEE  SALARY  list
+     * Query Employee salary  list
      *
-     * @param hrPayroll  EMPLOYEE  SALARY
-     * @return  EMPLOYEE  SALARY  collection
+     * @param hrPayroll  Employee salary
+     * @return  Employee salary  collection
      */
     public List<HrPayroll> selectHrPayrollList(HrPayroll hrPayroll);
 
     /**
-     * Add  EMPLOYEE  SALARY
+     * Add Employee salary
      *
-     * @param hrPayroll  EMPLOYEE  SALARY
+     * @param hrPayroll  Employee salary
      * @return Result
      */
     public int insertHrPayroll(HrPayroll hrPayroll);
 
     /**
-     * Update  EMPLOYEE  SALARY
+     * Update Employee salary
      *
-     * @param hrPayroll  EMPLOYEE  SALARY
+     * @param hrPayroll  Employee salary
      * @return Result
      */
     public int updateHrPayroll(HrPayroll hrPayroll);
 
     /**
-     * Batch delete  EMPLOYEE  SALARY
+     * Batch delete  Employee salary
      *
-     * @param payrollIds  EMPLOYEE  SALARY  primary keys to be deleted
+     * @param payrollIds  Employee salary  primary keys to be deleted
      * @return Result
      */
     public int deleteHrPayrollByPayrollIds(String[] payrollIds);
 
     /**
-     * Delete  EMPLOYEE  SALARY  information
+     * Delete Employee salary  information
      *
-     * @param payrollId  EMPLOYEE  SALARY  primary key
+     * @param payrollId  Employee salary  primary key
      * @return Result
      */
     public int deleteHrPayrollByPayrollId(String payrollId);

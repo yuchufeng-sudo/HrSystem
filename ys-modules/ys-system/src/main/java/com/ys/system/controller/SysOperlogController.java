@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * OPERATION LOG Record
+ * Operation Log Record
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/operlog")
@@ -37,17 +37,17 @@ public class SysOperlogController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = "OPERATION LOG ", businessType = BusinessType.EXPORT)
+    @Log(title = "Operation Log", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:operlog:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysOperLog operLog)
     {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
         ExcelUtil<SysOperLog> util = new ExcelUtil<SysOperLog>(SysOperLog.class);
-        util.exportExcel(response, list, "OPERATION LOG ");
+        util.exportExcel(response, list, "Operation Log ");
     }
 
-    @Log(title = "OPERATION LOG ", businessType = BusinessType.DELETE)
+    @Log(title = "Operation Log", businessType = BusinessType.DELETE)
     @RequiresPermissions("system:operlog:remove")
     @DeleteMapping("/{operIds}")
     public AjaxResult remove(@PathVariable Long[] operIds)
@@ -56,7 +56,7 @@ public class SysOperlogController extends BaseController
     }
 
     @RequiresPermissions("system:operlog:remove")
-    @Log(title = "OPERATION LOG ", businessType = BusinessType.CLEAN)
+    @Log(title = "Operation Log", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clean")
     public AjaxResult clean()
     {

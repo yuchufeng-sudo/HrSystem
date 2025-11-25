@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
 
 /**
- * LEAVE APPLICATION Object hr_leave
+ * Leave Application Object hr_leave
  *
  * @author ys
  * @date 2025-05-21
@@ -37,13 +37,13 @@ public class HrLeave extends BaseEntity {
     @TableId(value = "leave_id", type = IdType.AUTO)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long leaveId;
-    /** LEAVE APPLICATION Start TIME */
-    @Excel(name = "LEAVE APPLICATION Start TIME")
+    /** Leave Application Start time */
+    @Excel(name = "Leave Application Start time")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private Date stateTime;
-    /** LEAVE APPLICATION End TIME */
+    /** Leave Application End time */
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
-    @Excel(name = "LEAVE APPLICATION End TIME")
+    @Excel(name = "Leave Application End time")
     private Date endTime;
     /** Leave Note Status */
     @Excel(name = "Leave Note Status",readConverterExp = "1=Approved,2=Applied,3=Pending,4=Rejected")
@@ -51,18 +51,18 @@ public class HrLeave extends BaseEntity {
     /** Leave Note Type */
     @Excel(name = "Leave Note Type",readConverterExp = "1=Annual Leave,2=Sick Leave,3=Maternity Leave,6=Personal Leave,5=Paid Leave")
     private String leaveType;
-    /** MANAGEMENT Staff ID */
+    /** management Staff ID */
     private Long managerId;
-    /** LEAVE APPLICATION Reason */
+    /** Leave Application Reason */
     private String leaveReason;
     /** Rejection Reason */
     private String rejectReason;
     private String leaveDaysJson;
-    /** USER ID */
+    /** User ID */
     private Long userId;
     /** Enterprise Number */
     private String enterpriseId;
-    /** LEAVE APPLICATION Days */
+    /** Leave Application Days */
     @Excel(name = "Leave Hours")
     private Long leaveDuration;
 
@@ -93,37 +93,17 @@ public class HrLeave extends BaseEntity {
     @TableField(exist = false)
     private String email;
 
-    // Determine whether it is an AND USER or HR.
+    // Determine whether it is an AND User or HR.
     @TableField(exist = false)
     private Character flag;
 
-    // Finally LEAVE APPLICATION TIME
+    // Finally Leave Application time
     @TableField(exist = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date LastStateTime;
-    // Finally LEAVE APPLICATION TIME
+    // Finally Leave Application time
     @TableField(exist = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date LastEndTime;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("leaveId", getLeaveId())
-                .append("stateTime", getStateTime())
-                .append("endTime", getEndTime())
-                .append("leaveStatus", getLeaveStatus())
-                .append("leaveType", getLeaveType())
-                .append("managerId", getManagerId())
-                .append("leaveReason", getLeaveReason())
-                .append("rejectReason", getRejectReason())
-                .append("userId", getUserId())
-                .append("enterpriseId", getEnterpriseId())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("leaveDuration", getLeaveDuration())
-                .toString();
-    }
 }

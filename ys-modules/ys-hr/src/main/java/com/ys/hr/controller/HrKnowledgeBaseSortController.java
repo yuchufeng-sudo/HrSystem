@@ -19,7 +19,7 @@ import com.ys.hr.service.IHrKnowledgeBaseSortService;
 import org.springframework.validation.annotation.Validated;
 
 /**
- *  KNOWLEDGE BASE  CLASSIFICATION  Controller
+ *  Knowledge base classification Controller
  *
  * @author ys
  * @date 2025-06-04
@@ -32,7 +32,7 @@ public class HrKnowledgeBaseSortController extends BaseController
     private IHrKnowledgeBaseSortService hrKnowledgeBaseSortService;
 
     /**
-     * Query  KNOWLEDGE BASE  CLASSIFICATION  list
+     * Query Knowledge base classification list
      */
 //    @RequiresPermissions("hr:knowledgeSort:list")
     @GetMapping("/list")
@@ -45,21 +45,21 @@ public class HrKnowledgeBaseSortController extends BaseController
     }
 
     /**
-     * Export  KNOWLEDGE BASE  CLASSIFICATION  list
+     * Export Knowledge base classification list
      */
 //    @RequiresPermissions("hr:knowledgeSort:export")
-    @Log(title = " KNOWLEDGE BASE  CLASSIFICATION ", businessType = BusinessType.EXPORT)
+    @Log(title = "Knowledge base classification", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrKnowledgeBaseSort hrKnowledgeBaseSort)
     {
         hrKnowledgeBaseSort.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         List<HrKnowledgeBaseSort> list = hrKnowledgeBaseSortService.selectHrKnowledgeBaseSortList(hrKnowledgeBaseSort);
         ExcelUtil<HrKnowledgeBaseSort> util = new ExcelUtil<HrKnowledgeBaseSort>(HrKnowledgeBaseSort.class);
-        util.exportExcel(response, list, " KNOWLEDGE BASE  CLASSIFICATION  Data");
+        util.exportExcel(response, list, " Knowledge base classification Data");
     }
 
     /**
-     * Get  KNOWLEDGE BASE  CLASSIFICATION  details
+     * Get Knowledge base classification details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -67,10 +67,10 @@ public class HrKnowledgeBaseSortController extends BaseController
     }
 
     /**
-     * Add  KNOWLEDGE BASE  CLASSIFICATION 
+     * Add Knowledge base classification
      */
 //    @RequiresPermissions("hr:knowledgeSort:add")
-    @Log(title = " KNOWLEDGE BASE  CLASSIFICATION ", businessType = BusinessType.INSERT)
+    @Log(title = "Knowledge base classification", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrKnowledgeBaseSort hrKnowledgeBaseSort) {
         hrKnowledgeBaseSort.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -78,20 +78,20 @@ public class HrKnowledgeBaseSortController extends BaseController
     }
 
     /**
-     * Update  KNOWLEDGE BASE  CLASSIFICATION 
+     * Update Knowledge base classification
      */
 //    @RequiresPermissions("hr:knowledgeSort:edit")
-    @Log(title = " KNOWLEDGE BASE  CLASSIFICATION ", businessType = BusinessType.UPDATE)
+    @Log(title = "Knowledge base classification", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrKnowledgeBaseSort hrKnowledgeBaseSort) {
         return toAjax(hrKnowledgeBaseSortService.updateHrKnowledgeBaseSort(hrKnowledgeBaseSort));
     }
 
     /**
-     * Delete  KNOWLEDGE BASE  CLASSIFICATION 
+     * Delete Knowledge base classification
      */
 //    @RequiresPermissions("hr:knowledgeSort:remove")
-    @Log(title = " KNOWLEDGE BASE  CLASSIFICATION ", businessType = BusinessType.DELETE)
+    @Log(title = "Knowledge base classification", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(hrKnowledgeBaseSortService.removeByIds(Arrays.asList(ids)));

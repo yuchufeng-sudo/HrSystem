@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ys.hr.domain.HrTrainingPrograms;
 
 /**
- *  TRAINING PROGRAM SUPERVISOR  Mapper Interface
+ *  Training Management Mapper Interface
  *
  * @author ys
  * @date 2025-05-29
@@ -13,18 +13,18 @@ import com.ys.hr.domain.HrTrainingPrograms;
 public interface HrTrainingProgramsMapper extends BaseMapper<HrTrainingPrograms>
 {
     /**
-     * Query  TRAINING PROGRAM SUPERVISOR 
+     * Query Training Management 
      *
-     * @param programId  TRAINING PROGRAM SUPERVISOR  primary key
-     * @return  TRAINING PROGRAM SUPERVISOR 
+     * @param programId  Training Management primary key
+     * @return  Training Management 
      */
     public HrTrainingPrograms selectHrTrainingProgramsByProgramId(Long programId);
     
     /**
-     * Query  TRAINING PROGRAM SUPERVISOR  list
+     * Query Training Management list
      *
-     * @param hrTrainingPrograms  TRAINING PROGRAM SUPERVISOR 
-     * @return  TRAINING PROGRAM SUPERVISOR  collection
+     * @param hrTrainingPrograms  Training Management 
+     * @return  Training Management collection
      */
     public List<HrTrainingPrograms> selectHrTrainingProgramsList(HrTrainingPrograms hrTrainingPrograms);
 

@@ -6,7 +6,7 @@ import com.ys.system.api.domain.SysEnterprise;
 import java.util.List;
 
 /**
- *  ENTERPRISE MANAGEMENT Mapper Interface
+ *  Enterprise management Mapper Interface
  *
  * @author ys
  * @date 2025-05-15
@@ -14,10 +14,10 @@ import java.util.List;
 public interface SysEnterpriseMapper extends BaseMapper<SysEnterprise>
 {
     /**
-     * QUERY ENTERPRISE MANAGEMENT   LIST
+     * Query Enterprise management   list
      *
-     * @param sysEnterprise  ENTERPRISE MANAGEMENT
-     * @return  ENTERPRISE MANAGEMENT Set
+     * @param sysEnterprise  Enterprise management
+     * @return  Enterprise management Set
      */
     public List<SysEnterprise> selectSysEnterpriseList(SysEnterprise sysEnterprise);
 

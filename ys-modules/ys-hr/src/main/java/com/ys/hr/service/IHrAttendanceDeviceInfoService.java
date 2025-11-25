@@ -22,7 +22,7 @@ public interface IHrAttendanceDeviceInfoService extends IService<HrAttendanceDev
     public HrAttendanceDeviceInfo selectHrAttendanceDeviceInfoById(Long id);
 
     /**
-     * Query Attendance Device Information  list
+     * Query Attendance Device Information list
      *
      * @param hrAttendanceDeviceInfo Attendance Device Information
      * @return Attendance Device Information  collection

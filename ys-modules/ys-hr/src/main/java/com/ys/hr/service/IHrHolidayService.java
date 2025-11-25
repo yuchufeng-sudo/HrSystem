@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrHoliday;
 import java.util.List;
 
 /**
- *  HOLIDAY   Service Interface
+ *  Holiday   Service Interface
  *
  * @author ys
  * @date 2025-06-18
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrHolidayService extends IService<HrHoliday>
 {
     /**
-     * Query  HOLIDAY
+     * Query Holiday
      *
-     * @param holidayId  HOLIDAY   primary key
-     * @return  HOLIDAY
+     * @param holidayId  Holiday   primary key
+     * @return  Holiday
      */
     public HrHoliday selectHrHolidayByHolidayId(Long holidayId);
 
     /**
-     * Query  HOLIDAY   list
+     * Query Holiday   list
      *
-     * @param hrHoliday  HOLIDAY
-     * @return  HOLIDAY   collection
+     * @param hrHoliday  Holiday
+     * @return  Holiday   collection
      */
     public List<HrHoliday> selectHrHolidayList(HrHoliday hrHoliday);
 
     /**
-     * Add  HOLIDAY
+     * Add Holiday
      *
-     * @param hrHoliday  HOLIDAY
+     * @param hrHoliday  Holiday
      * @return Result
      */
     public int insertHrHoliday(HrHoliday hrHoliday);
 
     /**
-     * Update  HOLIDAY
+     * Update Holiday
      *
-     * @param hrHoliday  HOLIDAY
+     * @param hrHoliday  Holiday
      * @return Result
      */
     public int updateHrHoliday(HrHoliday hrHoliday);
 
     /**
-     * Batch delete  HOLIDAY
+     * Batch delete  Holiday
      *
-     * @param holidayIds  HOLIDAY   primary keys to be deleted
+     * @param holidayIds  Holiday   primary keys to be deleted
      * @return Result
      */
     public int deleteHrHolidayByHolidayIds(Long[] holidayIds);
 
     /**
-     * Delete  HOLIDAY   information
+     * Delete Holiday   information
      *
-     * @param holidayId  HOLIDAY   primary key
+     * @param holidayId  Holiday   primary key
      * @return Result
      */
     public int deleteHrHolidayByHolidayId(Long holidayId);

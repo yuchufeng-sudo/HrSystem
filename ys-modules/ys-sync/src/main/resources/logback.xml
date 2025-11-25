@@ -15,7 +15,7 @@
     <!--  System LOG Output  -->
 	<appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
 	    <file>${log.path}/info.log</file>
-        <!-- Cycle Policy: Create LOG File based on TIME. -->
+        <!-- Cycle Policy: Create LOG File based on time. -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--  LOG FileName Format -->
 			<fileNamePattern>${log.path}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -37,7 +37,7 @@
 
     <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
 	    <file>${log.path}/error.log</file>
-        <!-- Cycle Policy: Create LOG File based on TIME. -->
+        <!-- Cycle Policy: Create LOG File based on time. -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--  LOG FileName Format -->
             <fileNamePattern>${log.path}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -65,8 +65,8 @@
 	<root level="info">
 		<appender-ref ref="console" />
 	</root>
-	
-	<!-- SystemOPERATION LOG -->
+
+	<!-- System Operation Log -->
     <root level="info">
         <appender-ref ref="file_info" />
         <appender-ref ref="file_error" />

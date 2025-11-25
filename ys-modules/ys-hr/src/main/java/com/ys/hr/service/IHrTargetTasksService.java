@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrTargetTasks;
 import java.util.List;
 
 /**
- * Manages task assignments and progress tracking for employee targets Service Interface
+ * Targets Manages Service Interface
  *
  * @author ys
  * @date 2025-06-18
@@ -14,33 +14,33 @@ import java.util.List;
 public interface IHrTargetTasksService extends IService<HrTargetTasks>
 {
     /**
-     * Query Manages task assignments and progress tracking for employee targets
+     * Query Targets Manages
      *
-     * @param id Manages task assignments and progress tracking for employee targets primary key
-     * @return Manages task assignments and progress tracking for employee targets
+     * @param id Targets Manages primary key
+     * @return Targets Manages
      */
     public HrTargetTasks selectHrTargetTasksById(Long id);
 
     /**
-     * Query Manages task assignments and progress tracking for employee targets list
+     * Query Targets Manages list
      *
-     * @param hrTargetTasks Manages task assignments and progress tracking for employee targets
-     * @return Manages task assignments and progress tracking for employee targets collection
+     * @param hrTargetTasks Targets Manages
+     * @return Targets Manages collection
      */
     public List<HrTargetTasks> selectHrTargetTasksList(HrTargetTasks hrTargetTasks);
 
     /**
-     * Add Manages task assignments and progress tracking for employee targets
+     * Add Targets Manages
      *
-     * @param hrTargetTasks Manages task assignments and progress tracking for employee targets
+     * @param hrTargetTasks Targets Manages
      * @return Result
      */
     public int insertHrTargetTasks(HrTargetTasks hrTargetTasks);
 
     /**
-     * Update Manages task assignments and progress tracking for employee targets
+     * Update Targets Manages
      *
-     * @param hrTargetTasks Manages task assignments and progress tracking for employee targets
+     * @param hrTargetTasks Targets Manages
      * @return Result
      */
     public int updateHrTargetTasks(HrTargetTasks hrTargetTasks);

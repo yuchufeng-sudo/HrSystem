@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ys.common.core.web.domain.BaseEntity;
 import com.ys.common.core.xss.Xss;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -15,9 +17,11 @@ import java.util.Date;
 /**
  * Notice Announcement Table sys_notice
  *
- * @author ruoyi
+ * @author ys
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysNotice extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

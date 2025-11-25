@@ -48,7 +48,7 @@ public class HttpUtils {
      * Generic API invocation method.
      *
      * @param path          API endpoint path (e.g., /api/v3/leaves)
-     * @param httpMethod    HTTP method (GET/POST/PUT/DELETE etc.)
+     * @param httpMethod    HTTP method (GET/POST/PUT/Delete etc.)
      * @param queryParams   Query parameters (will be appended to URL)
      * @param requestBody   Request body parameters (use List<NameValuePair> for form data,
      *                      String or entity class for JSON)
@@ -197,7 +197,7 @@ public class HttpUtils {
                 return new HttpPost(uri);
             case PUT:
                 return new HttpPut(uri);
-            case DELETE:
+            case Delete:
                 return new HttpDelete(uri);
             case PATCH:
                 return new HttpPatch(uri);
@@ -264,7 +264,7 @@ public class HttpUtils {
      * Enumeration of supported HTTP methods.
      */
     public enum HttpMethod {
-        GET, POST, PUT, DELETE, PATCH
+        GET, POST, PUT, Delete, PATCH
     }
 
 }

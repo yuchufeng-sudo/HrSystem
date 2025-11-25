@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * EMPLOYEE Object hr_employees
+ * Employee Object hr_employees
  *
  * @author ys
  * @date 2025-05-21

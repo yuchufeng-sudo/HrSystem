@@ -6,62 +6,62 @@ import com.ys.system.domain.SysNotice;
 import java.util.List;
 
 /**
- * ANNOUNCEMENT Service Layer
+ * Announcement Service Layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysNoticeService extends IService<SysNotice>
 {
     /**
-     * QUERY ANNOUNCEMENT INFORMATION
+     * Query Announcement Information
      *
-     * @param noticeId  ANNOUNCEMENTID
-     * @return  ANNOUNCEMENT INFORMATION
+     * @param noticeId  Announcement ID
+     * @return  Announcement Information
      */
     public SysNotice selectNoticeById(Long noticeId);
 
     /**
-     * QUERY ANNOUNCEMENT  LIST
+     * Query Announcement  list
      *
-     * @param notice  ANNOUNCEMENT INFORMATION
-     * @return  ANNOUNCEMENTSet
+     * @param notice  Announcement Information
+     * @return  Announcement Set
      */
     public List<SysNotice> selectNoticeList(SysNotice notice);
 
     /**
      * Add Announcement
      *
-     * @param notice  ANNOUNCEMENT INFORMATION
+     * @param notice  Announcement Information
      * @return Result
      */
     public int insertNotice(SysNotice notice);
 
     /**
-     * Modify AnnouncementT
+     * Update AnnouncementT
      *
-     * @param notice  ANNOUNCEMENT INFORMATION
+     * @param notice  Announcement Information
      * @return Result
      */
     public int updateNotice(SysNotice notice);
 
     /**
-     * DELETE ANNOUNCEMENT INFORMATION
+     * Delete Announcement Information
      *
-     * @param noticeId  ANNOUNCEMENTID
+     * @param noticeId  Announcement ID
      * @return Result
      */
     public int deleteNoticeById(Long noticeId);
 
     /**
-     * Batch DELETE ANNOUNCEMENT INFORMATION
+     * Batch Delete Announcement Information
      *
-     * @param noticeIds The ANNOUNCEMENT ID to be DELETED
+     * @param noticeIds The Announcement ID to be DELETED
      * @return Result
      */
     public int deleteNoticeByIds(Long[] noticeIds);
 
     /**
-     * QUERYUSER  ANNOUNCEMENT INFORMATION
+     * QUERYUSER  Announcement Information
      * @param sysNotice
      * @return
      */

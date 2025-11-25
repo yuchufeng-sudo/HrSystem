@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  EMPLOYEE  SALARY  Mapper Interface
+ *  Employee salary  Mapper Interface
  *
  * @author ys
  * @date 2025-05-30
@@ -19,18 +19,18 @@ import java.util.Map;
 public interface HrPayrollMapper extends BaseMapper<HrPayroll>
 {
     /**
-     * Query  EMPLOYEE  SALARY
+     * Query Employee salary
      *
-     * @param payrollId  EMPLOYEE  SALARY  primary key
-     * @return  EMPLOYEE  SALARY
+     * @param payrollId  Employee salary  primary key
+     * @return  Employee salary
      */
     public HrPayroll selectHrPayrollByPayrollId(String payrollId);
 
     /**
-     * Query  EMPLOYEE  SALARY  list
+     * Query Employee salary  list
      *
-     * @param hrPayroll  EMPLOYEE  SALARY
-     * @return  EMPLOYEE  SALARY  collection
+     * @param hrPayroll  Employee salary
+     * @return  Employee salary  collection
      */
     public List<HrPayroll> selectHrPayrollList(HrPayroll hrPayroll);
 

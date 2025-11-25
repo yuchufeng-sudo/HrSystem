@@ -21,9 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 /**
- * ROLE Business Layer Processing
+ * role Business Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysRoleServiceImpl implements ISysRoleService
@@ -38,10 +38,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     private SysUserRoleMapper userRoleMapper;
 
     /**
-     * Query ROLE data by conditions with pagination.
+     * Query role data by conditions with pagination.
      *
-     * @param role ROLE INFORMATION
-     * @return ROLE Data Set INFORMATION
+     * @param role role Information
+     * @return role Data Set Information
      */
     @Override
     @DataScope(deptAlias = "d")
@@ -51,10 +51,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * According to USER IDQUERYROLE
+     * According to User ID Query role
      *
-     * @param userId USER ID
-     * @return ROLE  LIST
+     * @param userId User ID
+     * @return role  list
      */
     @Override
     public List<SysRole> selectRolesByUserId(Long userId)
@@ -76,10 +76,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * According to USER IDQUERYPermission
+     * According to User IDQUERYPermission
      *
-     * @param userId USER ID
-     * @return Permission  LIST
+     * @param userId User ID
+     * @return Permission  list
      */
     @Override
     public Set<String> selectRolePermissionByUserId(Long userId)
@@ -97,9 +97,9 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * QUERY all ROLE
+     * Query all role
      *
-     * @return ROLE  LIST
+     * @return role  list
      */
     @Override
     public List<SysRole> selectRoleAll()
@@ -110,10 +110,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * According to USER IDOBTAIN ROLE SELECT box LIST
+     * According to User IDOBTAIN role SELECT box list
      *
-     * @param userId USER ID
-     * @return Select ROLEID  LIST
+     * @param userId User ID
+     * @return Select role ID  list
      */
     @Override
     public List<Long> selectRoleListByUserId(Long userId)
@@ -122,10 +122,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * By ROLE ID QUERY ROLE
+     * By role ID Query role
      *
-     * @param roleId ROLEID
-     * @return ROLEObject INFORMATION
+     * @param roleId role ID
+     * @return role Object Information
      */
     @Override
     public SysRole selectRoleById(Long roleId)
@@ -134,9 +134,9 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     *  Verify whether the ROLE Name is unique.
+     *  Verify whether the role Name is unique.
      *
-     * @param role ROLE INFORMATION
+     * @param role role Information
      * @return Result
      */
     @Override
@@ -152,9 +152,9 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     *  Verify whether the ROLE Permission is unique.
+     *  Verify whether the role Permission is unique.
      *
-     * @param role ROLE INFORMATION
+     * @param role role Information
      * @return Result
      */
     @Override
@@ -170,9 +170,9 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     *  Verify whether ROLE is allowed to perform OPERATION.
+     *  Verify whether role is allowed to perform OPERATION.
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      */
     @Override
     public void checkRoleAllowed(SysRole role)
@@ -209,7 +209,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     /**
      * Query the usage quantity of ROLE by ROLE ID.
      *
-     * @param roleId ROLEID
+     * @param roleId Role Id
      * @return Result
      */
     @Override
@@ -219,33 +219,33 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * ADDsave ROLE INFORMATION
+     * Save ROLE Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertRole(SysRole role)
     {
-        // ADDROLE INFORMATION
+        // ADDROLE Information
         roleMapper.insertRole(role);
         return insertRoleMenu(role);
     }
 
     /**
-     * MODIFYsave ROLE INFORMATION
+     * MODIFYsave ROLE Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateRole(SysRole role)
     {
-        // MODIFYROLE INFORMATION
+        // MODIFYROLE Information
         roleMapper.updateRole(role);
-        // Delete the association between ROLE and MENU.
+        // Delete the association between ROLE and menu.
         roleMenuMapper.deleteRoleMenuByRoleId(role.getRoleId());
         return insertRoleMenu(role);
     }
@@ -253,7 +253,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     /**
      * MODIFYROLEStatus
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     @Override
@@ -263,29 +263,29 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * Modify Data Permission INFORMATION
+     * Update Data Permission Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int authDataScope(SysRole role)
     {
-        // MODIFYROLE INFORMATION
+        // MODIFYROLE Information
         roleMapper.updateRole(role);
         return roleMapper.updateRole(role);
     }
 
     /**
-     * ADDROLE MENU  INFORMATION
+     * ADDROLE menu  Information
      *
      * @param role ROLEObject
      */
     public int insertRoleMenu(SysRole role)
     {
         int rows = 1;
-        // Add the Association between USER and ROLE MANAGEMENT
+        // Add the Association between User and ROLE management
         List<SysRoleMenu> list = new ArrayList<SysRoleMenu>();
         for (Long menuId : role.getMenuIds())
         {
@@ -304,20 +304,20 @@ public class SysRoleServiceImpl implements ISysRoleService
     /**
      * By ROLEIDDELETEROLE
      *
-     * @param roleId ROLEID
+     * @param roleId Role Id
      * @return Result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteRoleById(Long roleId)
     {
-        // Delete the association between ROLE and MENU.
+        // Delete the association between ROLE and menu.
         roleMenuMapper.deleteRoleMenuByRoleId(roleId);
         return roleMapper.deleteRoleById(roleId);
     }
 
     /**
-     * Batch DELETEROLE INFORMATION
+     * Batch DELETEROLE Information
      *
      * @param roleIds ROLE ID to be DELETED
      * @return Result
@@ -336,15 +336,15 @@ public class SysRoleServiceImpl implements ISysRoleService
                 throw new ServiceException(String.format("%1$s has been assigned and cannot be deleted", role.getRoleName()));
             }
         }
-        // Delete the association between ROLE and MENU.
+        // Delete the association between ROLE and menu.
         roleMenuMapper.deleteRoleMenu(roleIds);
         return roleMapper.deleteRoleByIds(roleIds);
     }
 
     /**
-     * Revoke Authorization for USER ROLE
+     * Revoke Authorization for User ROLE
      *
-     * @param userRole Association INFORMATION between USER and ROLE
+     * @param userRole Association Information between User and ROLE
      * @return Result
      */
     @Override
@@ -354,10 +354,10 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * Batch Revoke Authorization for USER ROLE
+     * Batch Revoke Authorization for User ROLE
      *
-     * @param roleId ROLEID
-     * @param userIds Data ID of the USER whose authorization needs to be revoked
+     * @param roleId Role Id
+     * @param userIds Data ID of the User whose authorization needs to be revoked
      * @return Result
      */
     @Override
@@ -367,16 +367,16 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     * Batch SELECT Authorized USER ROLE
+     * Batch SELECT Authorized User ROLE
      *
-     * @param roleId ROLEID
-     * @param userIds Data ID of the USER to be authorized
+     * @param roleId Role Id
+     * @param userIds Data ID of the User to be authorized
      * @return Result
      */
     @Override
     public int insertAuthUsers(Long roleId, Long[] userIds)
     {
-        // Add the Association between USER and ROLE MANAGEMENT
+        // Add the Association between User and ROLE management
         List<SysUserRole> list = new ArrayList<SysUserRole>();
         for (Long userId : userIds)
         {

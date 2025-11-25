@@ -6,7 +6,7 @@ import com.ys.system.api.domain.SysEnterprise;
 import java.util.List;
 
 /**
- *  ENTERPRISE MANAGEMENT Service Interface
+ *  Enterprise management Service Interface
  *
  * @author ys
  * @date 2025-05-15
@@ -15,27 +15,27 @@ public interface ISysEnterpriseService extends IService<SysEnterprise>
 {
 
     /**
-     * QUERY ENTERPRISE MANAGEMENT   LIST
+     * Query Enterprise management   list
      *
-     * @param sysEnterprise  ENTERPRISE MANAGEMENT
-     * @return  ENTERPRISE MANAGEMENT Set
+     * @param sysEnterprise  Enterprise management
+     * @return  Enterprise management Set
      */
     public List<SysEnterprise> selectSysEnterpriseList(SysEnterprise sysEnterprise);
 
     public SysEnterprise selectSysEnterpriseByInviteCode(String code);
 
     /**
-     * ADD ENTERPRISE MANAGEMENT
+     * Add Enterprise management
      *
-     * @param sysEnterprise  ENTERPRISE MANAGEMENT
+     * @param sysEnterprise  Enterprise management
      * @return Result
      */
     public int insertSysEnterprise(SysEnterprise sysEnterprise);
 
     /**
-     * MODIFY ENTERPRISE MANAGEMENT
+     * Update Enterprise management
      *
-     * @param sysEnterprise  ENTERPRISE MANAGEMENT
+     * @param sysEnterprise  Enterprise management
      * @return Result
      */
     public int updateSysEnterprise(SysEnterprise sysEnterprise);

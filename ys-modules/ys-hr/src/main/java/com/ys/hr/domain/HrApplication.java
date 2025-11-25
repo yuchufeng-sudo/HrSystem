@@ -47,12 +47,12 @@ public class HrApplication extends BaseEntity {
     @Excel(name = "Enterprise Phone")
     private String bussinessPhone;
 
-    /** WORK TYPE (Full-time Part-time) */
-    @Excel(name = "WORK TYPE (Full-time Part-time)")
+    /** WORK type (Full-time Part-time) */
+    @Excel(name = "WORK type (Full-time Part-time)")
     private String workspaceType;
 
-    /** EMPLOYEE Count */
-    @Excel(name = "EMPLOYEE Count")
+    /** Employee Count */
+    @Excel(name = "Employee Count")
     private String empNumber;
 
     /** Country Type */

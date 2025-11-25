@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  INVITATION LINK REQUEST HANDLING Controller
+ *  Invitation link request Controller
  *
  * @author ys
  * @date 2025-05-21
@@ -30,7 +30,7 @@ public class HrInviteRequestsController extends BaseController
     private IHrInviteRequestsService hrInviteRequestsService;
 
     /**
-     * QUERY INVITATION LINK REQUEST HANDLING   LIST
+     * Query Invitation link request list
      */
     @RequiresPermissions("hr:employees:list")
     @GetMapping("/list")
@@ -43,9 +43,9 @@ public class HrInviteRequestsController extends BaseController
     }
 
     /**
-     * ADD INVITATION LINK REQUEST HANDLING
+     * Add Invitation link request
      */
-    @Log(title = " INVITATION LINK REQUEST HANDLING ", businessType = BusinessType.INSERT)
+    @Log(title = "Invitation link request", businessType = BusinessType.INSERT)
     @PostMapping("")
     public AjaxResult add(@RequestBody HrInviteRequests hrInviteRequests) {
         hrInviteRequests.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -74,24 +74,24 @@ public class HrInviteRequestsController extends BaseController
      * By  Request
      */
     @RequiresPermissions("hr:employees:list")
-    @Log(title = " INVITATION LINK REQUEST HANDLING ", businessType = BusinessType.DELETE)
+    @Log(title = "Invitation link request", businessType = BusinessType.DELETE)
     @PostMapping("/accept")
     public AjaxResult accept(@RequestBody List<HrInviteRequests> hrInviteRequests) {
         return toAjax(hrInviteRequestsService.acceptHrInviteRequests(hrInviteRequests));
     }
 
     @RequiresPermissions("hr:employees:list")
-    @Log(title = " INVITATION LINK REQUEST HANDLING ", businessType = BusinessType.DELETE)
+    @Log(title = "Invitation link request", businessType = BusinessType.DELETE)
     @PostMapping("/decline")
     public AjaxResult decline(@RequestBody Long[] requestIds) {
         return toAjax(hrInviteRequestsService.declineHrInviteRequests(requestIds));
     }
 
     /**
-     * DELETE INVITATION LINK REQUEST HANDLING
+     * Delete Invitation link request
      */
     @RequiresPermissions("hr:employees:list")
-    @Log(title = " INVITATION LINK REQUEST HANDLING ", businessType = BusinessType.DELETE)
+    @Log(title = "Invitation link request", businessType = BusinessType.DELETE)
     @DeleteMapping("/{requestIds}")
     public AjaxResult remove(@PathVariable Long[] requestIds) {
         return toAjax(hrInviteRequestsService.removeByIds(Arrays.asList(requestIds)));

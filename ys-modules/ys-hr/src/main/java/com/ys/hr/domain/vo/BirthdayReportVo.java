@@ -20,7 +20,7 @@ import java.util.Date;
 public class BirthdayReportVo {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long employeeId;
-    @Excel(name = "EMPLOYEE FULL NAME")
+    @Excel(name = "Employee FULL NAME")
     private String fullName;
     private String avatarUrl;
     /** DATE OF BIRTH */

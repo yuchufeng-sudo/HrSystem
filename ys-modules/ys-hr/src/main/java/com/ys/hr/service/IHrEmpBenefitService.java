@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmpBenefit;
 import java.util.List;
 
 /**
- *   EMPLOYEE WELFARE APPLICATION FORM Service Interface
+ *   Employee Welfare Application Form Service Interface
  *
  * @author ys
  * @date 2025-06-09
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrEmpBenefitService extends IService<HrEmpBenefit>
 {
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM
+     * Query Employee Welfare Application Form
      *
-     * @param benefitEmpId   EMPLOYEE WELFARE APPLICATION FORM primary key
-     * @return   EMPLOYEE WELFARE APPLICATION FORM
+     * @param benefitEmpId   Employee Welfare Application Form primary key
+     * @return   Employee Welfare Application Form
      */
     public HrEmpBenefit selectHrEmpBenefitByBenefitEmpId(String benefitEmpId);
 
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM list
+     * Query Employee Welfare Application Form list
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
-     * @return   EMPLOYEE WELFARE APPLICATION FORM collection
+     * @param hrEmpBenefit   Employee Welfare Application Form
+     * @return   Employee Welfare Application Form collection
      */
     public List<HrEmpBenefit> selectHrEmpBenefitList(HrEmpBenefit hrEmpBenefit);
 
     /**
-     * Add   EMPLOYEE WELFARE APPLICATION FORM
+     * Add Employee Welfare Application Form
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
+     * @param hrEmpBenefit   Employee Welfare Application Form
      * @return Result
      */
     public int insertHrEmpBenefit(HrEmpBenefit hrEmpBenefit);
 
     /**
-     * Update   EMPLOYEE WELFARE APPLICATION FORM
+     * Update Employee Welfare Application Form
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
+     * @param hrEmpBenefit   Employee Welfare Application Form
      * @return Result
      */
     public int updateHrEmpBenefit(HrEmpBenefit hrEmpBenefit);
 
     /**
-     * Batch delete   EMPLOYEE WELFARE APPLICATION FORM
+     * Batch delete   Employee Welfare Application Form
      *
-     * @param benefitEmpIds   EMPLOYEE WELFARE APPLICATION FORM primary keys to be deleted
+     * @param benefitEmpIds   Employee Welfare Application Form primary keys to be deleted
      * @return Result
      */
     public int deleteHrEmpBenefitByBenefitEmpIds(String[] benefitEmpIds);
 
     /**
-     * Delete   EMPLOYEE WELFARE APPLICATION FORM information
+     * Delete Employee Welfare Application Form information
      *
-     * @param benefitEmpId   EMPLOYEE WELFARE APPLICATION FORM primary key
+     * @param benefitEmpId   Employee Welfare Application Form primary key
      * @return Result
      */
     public int deleteHrEmpBenefitByBenefitEmpId(String benefitEmpId);

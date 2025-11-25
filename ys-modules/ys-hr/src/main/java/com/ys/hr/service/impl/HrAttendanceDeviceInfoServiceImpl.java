@@ -33,7 +33,7 @@ public class HrAttendanceDeviceInfoServiceImpl extends ServiceImpl<HrAttendanceD
     }
 
     /**
-     * Query Attendance Device Information  list
+     * Query Attendance Device Information list
      *
      * @param hrAttendanceDeviceInfo Attendance Device Information
      * @return Attendance Device Information

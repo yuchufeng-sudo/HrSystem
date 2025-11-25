@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public interface HrAttendanceMapper extends BaseMapper<HrAttendance> {
     /**
-     * QUERYAttendance Record LIST
+     * QUERYAttendance Record list
      *
      * @param hrAttendance Attendance Record
      * @return Attendance RecordSet
@@ -47,7 +47,7 @@ public interface HrAttendanceMapper extends BaseMapper<HrAttendance> {
     List<Map> getPayrollsCount(HrAttendance hrAttendance);
 
     /**
-     * QUERY EMPLOYEE Weekly Attendance
+     * Query Employee Weekly Attendance
      *
      * @param userId
      * @return
@@ -55,7 +55,7 @@ public interface HrAttendanceMapper extends BaseMapper<HrAttendance> {
     List<HrAttendance> selectUserWeekAttendance(Long userId);
 
     /**
-     * QUERY Attendance Days
+     * Query Attendance Days
      *
      * @param userEnterpriseId
      * @return
@@ -77,7 +77,7 @@ public interface HrAttendanceMapper extends BaseMapper<HrAttendance> {
             @Param("year") Integer year);
 
     /**
-     * QUERY Yesterday's Clock-in Record
+     * Query Yesterday's Clock-in Record
      *
      * @param userId
      * @return
@@ -85,7 +85,7 @@ public interface HrAttendanceMapper extends BaseMapper<HrAttendance> {
     Integer selectAttendanceByLastDay(Long userId);
 
     /**
-     * QUERY Today's Clock-in Record
+     * Query Today's Clock-in Record
      *
      * @param userId
      * @return

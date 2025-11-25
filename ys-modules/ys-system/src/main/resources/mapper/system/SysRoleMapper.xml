@@ -52,10 +52,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="status != null and status != ''">
 			AND r.status = #{status}
 		</if>
-		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始 TIME 检索 -->
+		<if test="params.beginTime != null and params.beginTime != ''"><!-- Start time retrieval -->
 			and to_timestamp(to_char(r.create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &gt;= to_timestamp(#{params.beginTime}, 'YYYY-mm-dd')
 		</if>
-		<if test="params.endTime != null and params.endTime != ''"><!-- 结束 TIME 检索 -->
+		<if test="params.endTime != null and params.endTime != ''"><!-- End time retrieval -->
 			and to_timestamp(to_char(r.create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{params.endTime}, 'YYYY-mm-dd')
 		</if>
 		order by r.role_sort

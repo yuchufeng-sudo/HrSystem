@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmployeeContract;
 import java.util.List;
 
 /**
- * EMPLOYEE Contract Service Interface
+ * Employee Contract Service Interface
  *
  * @author collection
  * @date 2023-02-26
@@ -14,17 +14,17 @@ import java.util.List;
 public interface IHrEmployeeContractService extends IService<HrEmployeeContract> {
 
     /**
-     * QUERY EMPLOYEE Contract LIST
+     * Query Employee Contract list
      *
-     * @param hrEmployeeContract EMPLOYEE Contract
-     * @return EMPLOYEE Contract Set
+     * @param hrEmployeeContract Employee Contract
+     * @return Employee Contract Set
      */
     List<HrEmployeeContract> selectTbEmpContractList(HrEmployeeContract hrEmployeeContract);
 
     String replaceContent(HrEmployeeContract employee, String templateContent);
 
     /**
-     * USER Sign Contract
+     * User Sign Contract
      *
      * @param contractNo
      * @param status
@@ -40,7 +40,7 @@ public interface IHrEmployeeContractService extends IService<HrEmployeeContract>
     public void singSuccess(String contractNo, String status);
 
     /**
-     * QUERY Contract Information
+     * Query Contract Information
      *
      * @param employeeContract
      * @return
@@ -50,7 +50,7 @@ public interface IHrEmployeeContractService extends IService<HrEmployeeContract>
     List<HrEmployeeContract> selectTbEmpContractList1(HrEmployeeContract employeeContract);
 
     /**
-     * QUERY Contract LIST
+     * Query Contract list
      *
      * @param employeeContract
      * @return
@@ -66,7 +66,7 @@ public interface IHrEmployeeContractService extends IService<HrEmployeeContract>
     int eSign(HrEmployeeContract empContract);
 
     /**
-     * QUERY Expiring Contracts
+     * Query Expiring Contracts
      *
      * @return
      */

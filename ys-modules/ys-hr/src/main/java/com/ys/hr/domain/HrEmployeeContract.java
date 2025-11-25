@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * EMPLOYEE Contract Object tb_emp_contract
+ * Employee Contract Object tb_emp_contract
  *
  * @author collection
  * @date 2023-02-26
@@ -229,26 +229,4 @@ public class HrEmployeeContract extends BaseEntity {
     @TableField(exist = false)
     private String empId;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("isSign", getIsSign())
-                .append("salary", getSalary())
-                .append("trySalary", getTrySalary())
-                .append("contractType", getContractType())
-                .append("contractForm", getContractForm())
-                .append("contractStartTime", getContractStartTime())
-                .append("contractEndTime", getContractEndTime())
-                .append("tryStartDate", getTryStartDate())
-                .append("tryEndDate", getTryEndDate())
-                .append("contractCode", getContractCode())
-                .append("accessory", getAccessory())
-                .append("updateBy", getUpdateBy())
-                .append("createBy", getCreateBy())
-                .append("remark", getRemark())
-                .append("createTime", getCreateTime())
-                .append("updateTime", getUpdateTime())
-                .toString();
-    }
 }

@@ -30,7 +30,7 @@ import java.util.*;
 
 
 /**
- *  CANDIDATE  INFORMATIONServiceBusiness layer processing
+ *  Candidate INFORMATIONServiceBusiness layer processing
  *
  * @author ys
  * @date 2025-05-20
@@ -44,11 +44,11 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
     @Resource
     private IHrJobListingsService jobListingsService;
     /**
-     * QUERY CANDIDATE  INFORMATION  LIST
+     * Query Candidate Information list
      *
      *
-     * @param tbCandidateInfo  CANDIDATE  INFORMATION
-     * @return  CANDIDATE  INFORMATION
+     * @param tbCandidateInfo  Candidate Information
+     * @return  Candidate Information
      */
     @Override
     public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo tbCandidateInfo)

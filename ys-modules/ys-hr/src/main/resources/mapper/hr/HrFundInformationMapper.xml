@@ -56,10 +56,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <select id="selectHrFundInformationById" parameterType="String" resultMap="HrFundInformationResult">
-        <include refid="selectHrFundInformationVo"/>
-        where id = #{id}
-    </select>
-
-
 </mapper>

@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Parameter Configuration INFORMATION OPERATION Processing
+ * Parameter Configuration Information OPERATION Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/config")
@@ -30,7 +30,7 @@ public class SysConfigController extends BaseController
     private ISysConfigService configService;
 
     /**
-     * OBTAIN Parameter Configuration LIST
+     * OBTAIN Parameter Configuration list
      */
     @RequiresPermissions("system:config:list")
     @GetMapping("/list")
@@ -41,7 +41,7 @@ public class SysConfigController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = "Parameter MANAGEMENT", businessType = BusinessType.EXPORT)
+    @Log(title = "Parameter management", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:config:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysConfig config)
@@ -52,7 +52,7 @@ public class SysConfigController extends BaseController
     }
 
     /**
-     * According to Parameter ID OBTAIN DETAILED INFORMATION
+     * According to Parameter ID OBTAIN DETAILED Information
      */
     @GetMapping(value = "/{configId}")
     public AjaxResult getInfo(@PathVariable Long configId)
@@ -61,7 +61,7 @@ public class SysConfigController extends BaseController
     }
 
     /**
-     * According to Parameter keyName QUERY PARAMETER VALUE
+     * According to Parameter keyName Query PARAMETER VALUE
      */
     @GetMapping(value = "/configKey/{configKey}")
     public AjaxResult getConfigKey(@PathVariable String configKey)
@@ -70,42 +70,42 @@ public class SysConfigController extends BaseController
     }
 
     /**
-     * ADD Parameter Configuration
+     * Add Parameter Configuration
      */
     @RequiresPermissions("system:config:add")
-    @Log(title = "Parameter MANAGEMENT", businessType = BusinessType.INSERT)
+    @Log(title = "Parameter management", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysConfig config)
     {
         if (!configService.checkConfigKeyUnique(config))
         {
-            return error("ADD Parameter '" + config.getConfigName() + "' Failure, Parameter keyName Already Exists");
+            return error("Add Parameter '" + config.getConfigName() + "' Failure, Parameter keyName Already Exists");
         }
         config.setCreateBy(SecurityUtils.getUsername());
         return toAjax(configService.insertConfig(config));
     }
 
     /**
-     * MODIFY Parameter Configuration
+     * Update Parameter Configuration
      */
     @RequiresPermissions("system:config:edit")
-    @Log(title = "Parameter MANAGEMENT", businessType = BusinessType.UPDATE)
+    @Log(title = "Parameter management", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysConfig config)
     {
         if (!configService.checkConfigKeyUnique(config))
         {
-            return error("MODIFY Parameter '" + config.getConfigName() + "' Failure, Parameter keyName Already Exists");
+            return error("Update Parameter '" + config.getConfigName() + "' Failure, Parameter keyName Already Exists");
         }
         config.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(configService.updateConfig(config));
     }
 
     /**
-     * DELETE Parameter Configuration
+     * Delete Parameter Configuration
      */
     @RequiresPermissions("system:config:remove")
-    @Log(title = "Parameter MANAGEMENT", businessType = BusinessType.DELETE)
+    @Log(title = "Parameter management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{configIds}")
     public AjaxResult remove(@PathVariable Long[] configIds)
     {
@@ -117,7 +117,7 @@ public class SysConfigController extends BaseController
      * Refresh Parameter Cache
      */
     @RequiresPermissions("system:config:remove")
-    @Log(title = "Parameter MANAGEMENT", businessType = BusinessType.CLEAN)
+    @Log(title = "Parameter management", businessType = BusinessType.CLEAN)
     @DeleteMapping("/refreshCache")
     public AjaxResult refreshCache()
     {

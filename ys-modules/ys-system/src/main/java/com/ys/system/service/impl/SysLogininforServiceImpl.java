@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- *  System Access LOG Situation INFORMATION Service Layer Processing
+ *  System Access LOG Situation Information Service Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysLogininforServiceImpl implements ISysLogininforService
@@ -21,7 +21,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService
     private SysLogininforMapper logininforMapper;
 
     /**
-     * ADD System LOGIN LOG
+     * Add System Login Log
      *
      * @param logininfor Access LOG Object
      */
@@ -32,7 +32,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService
     }
 
     /**
-     * QUERY System LOGIN LOG Set
+     * Query System Login Log Set
      *
      * @param logininfor Access LOG Object
      * @return Login RecordSet
@@ -50,9 +50,9 @@ public class SysLogininforServiceImpl implements ISysLogininforService
     }
 
     /**
-     * Batch DELETE System LOGIN LOG
+     * Batch Delete System Login Log
      *
-     * @param infoIds LOGIN LOG ID to be DELETED
+     * @param infoIds Login Log ID to be DELETED
      * @return Result
      */
     @Override
@@ -62,7 +62,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService
     }
 
     /**
-     * CLEAR  System LOGIN LOG
+     * Clear  System Login Log
      */
     @Override
     public void cleanLogininfor()

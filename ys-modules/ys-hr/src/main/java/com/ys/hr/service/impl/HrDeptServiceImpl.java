@@ -123,7 +123,7 @@ public class HrDeptServiceImpl extends ServiceImpl<HrDeptMapper, HrDept> impleme
     }
 
     /**
-     * To query the joined DEPARTMENT. LIST
+     * To query the joined DEPARTMENT. list
      * @param hrDept
      * @return
      */
@@ -141,7 +141,7 @@ public class HrDeptServiceImpl extends ServiceImpl<HrDeptMapper, HrDept> impleme
     }
 
     /**
-     * **Statistics of DEPARTMENT EMPLOYEE Numbers**
+     * **Statistics of DEPARTMENT Employee Numbers**
      * @param userEnterpriseId
      * @return
      */

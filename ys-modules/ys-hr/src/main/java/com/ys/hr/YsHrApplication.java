@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * System Module
  *
- * @author ruoyi
+ * @author ys
  */
 @EnableCustomConfig
 @EnableRyFeignClients

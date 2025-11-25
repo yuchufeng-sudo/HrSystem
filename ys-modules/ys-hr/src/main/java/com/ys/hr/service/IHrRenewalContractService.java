@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrRenewalContract;
 import java.util.List;
 
 /**
- *  RENEWAL CONTRACT  Service Interface
+ *  renewal contract Service Interface
  *
  * @author ys
  * @date 2025-06-20
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrRenewalContractService extends IService<HrRenewalContract>
 {
     /**
-     * Query  RENEWAL CONTRACT
+     * Query renewal contract
      *
-     * @param id  RENEWAL CONTRACT  primary key
-     * @return  RENEWAL CONTRACT
+     * @param id  renewal contract primary key
+     * @return  renewal contract
      */
     public HrRenewalContract selectHrRenewalContractById(String id);
 
     /**
-     * Query  RENEWAL CONTRACT  list
+     * Query renewal contract list
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT
-     * @return  RENEWAL CONTRACT  collection
+     * @param hrRenewalContract  renewal contract
+     * @return  renewal contract collection
      */
     public List<HrRenewalContract> selectHrRenewalContractList(HrRenewalContract hrRenewalContract);
 
     /**
-     * Add  RENEWAL CONTRACT
+     * Add renewal contract
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT
+     * @param hrRenewalContract  renewal contract
      * @return Result
      */
     public int insertHrRenewalContract(HrRenewalContract hrRenewalContract);
 
     /**
-     * Update  RENEWAL CONTRACT
+     * Update renewal contract
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT
+     * @param hrRenewalContract  renewal contract
      * @return Result
      */
     public int updateHrRenewalContract(HrRenewalContract hrRenewalContract);
 
     /**
-     * Batch delete  RENEWAL CONTRACT
+     * Batch delete  renewal contract
      *
-     * @param ids  RENEWAL CONTRACT  primary keys to be deleted
+     * @param ids  renewal contract primary keys to be deleted
      * @return Result
      */
     public int deleteHrRenewalContractByIds(String[] ids);
 
     /**
-     * Delete  RENEWAL CONTRACT  information
+     * Delete renewal contract information
      *
-     * @param id  RENEWAL CONTRACT  primary key
+     * @param id  renewal contract primary key
      * @return Result
      */
     public int deleteHrRenewalContractById(String id);

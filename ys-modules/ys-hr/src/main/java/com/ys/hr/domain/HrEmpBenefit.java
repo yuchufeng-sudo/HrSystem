@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- *   EMPLOYEE WELFARE APPLICATION FORM entity hr_emp_benefit
+ *   Employee Welfare Application Form entity hr_emp_benefit
  *
  * @author ys
  * @date 2025-06-09
@@ -26,14 +26,14 @@ import java.util.Date;
 public class HrEmpBenefit extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**  EMPLOYEE Welfare ID */
+    /**  Employee Welfare ID */
     @TableId(value = "benefit_emp_id", type =  IdType.ASSIGN_UUID )
     private String benefitEmpId;
     /** Welfare ID */
     @Excel(name = "Welfare ID")
     private String benefitId;
-    /** USER  ID */
-    @Excel(name = "USER  ID")
+    /** User  ID */
+    @Excel(name = "User  ID")
     private Long userId;
     /** Welfare Status */
     @Excel(name = "Welfare Status")

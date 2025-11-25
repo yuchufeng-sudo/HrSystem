@@ -33,7 +33,7 @@ public class SysNotificationSettingsServiceImpl extends ServiceImpl<SysNotificat
     }
 
     /**
-     * QUERYNotification Settings  LIST
+     * QUERYNotification Settings  list
      *
      * @param sysNotificationSettings Notification Settings
      * @return Notification Settings
@@ -83,7 +83,7 @@ public class SysNotificationSettingsServiceImpl extends ServiceImpl<SysNotificat
     }
 
     /**
-     * DELETENotification Settings INFORMATION
+     * DELETENotification Settings Information
      *
      * @param id Notification Settings Primary Key
      * @return Result

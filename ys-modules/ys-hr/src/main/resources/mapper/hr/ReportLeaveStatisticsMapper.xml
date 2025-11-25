@@ -5,19 +5,24 @@
 <mapper namespace="com.ys.hr.mapper.ReportLeaveStatisticsMapper">
 
     <select id="selectTotalLeaveLiability" resultType="java.lang.Double">
-        select sum(extract(day from (end_time - state_time))+1) from hr_leave where enterprise_id = #{enterpriseId} and leave_status = '2'
+        select sum(extract(day from (end_time - state_time))+1) from hr_leave
+            where enterprise_id = #{enterpriseId} and leave_status = '1'
         <if test="leaveType!=null and leaveType!='0'">and leave_type = #{leaveType}</if>
         <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
         <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
     </select>
 
     <select id="selectTotalAccruedThisPeriod" resultType="java.lang.Integer">
-        select max(c.max_day)-sum(extract(day from (b.end_time - b.state_time))+1) total_day from hr_employees a left join hr_leave b on a.user_id = b.user_id
-            left join (select enterprise_id,sum(max_day) max_day from hr_holiday group by enterprise_id) c on b.enterprise_id = c.enterprise_id
-        where b.enterprise_id = #{enterpriseId} and b.leave_status = '2' and a.status = '1'
-        <if test="leaveType!=null and leaveType!='0'">and leave_type = #{leaveType}</if>
+        select count(1)*c.max_day-sum(LEAST(sum,c.max_day)) from
+        (select a.employee_id,a.enterprise_id,sum(COALESCE(extract(day from (b.end_time - b.state_time))+1,0)) sum from hr_employees a
+        left join hr_leave b on a.user_id = b.user_id and b.leave_status = '1' and a.status = '1'
+        where a.enterprise_id = #{enterpriseId}
+        <if test="leaveType!=null and leaveType!='0'">and b.leave_type = #{leaveType}</if>
         <if test="startDate!=null">and to_timestamp(to_char(b.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
         <if test="endDate!=null">and to_timestamp(to_char(b.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
+        group by employee_id,b.enterprise_id) a
+        left join (select enterprise_id,sum(max_day) max_day from hr_holiday group by enterprise_id) c on a.enterprise_id = c.enterprise_id
+        GROUP BY c.max_day
     </select>
 
     <select id="selectTotalTakenThisPeriod" resultType="java.lang.Integer">
@@ -30,7 +35,7 @@
     <select id="selectHighestLeaveBalance" resultType="java.lang.String">
         select b.full_name || '(' || sum(extract(day from (a.end_time - a.state_time))+1) || ') Days' from hr_leave a
             left join hr_employees b on a.user_id = b.user_id
-        where a.enterprise_id = #{enterpriseId} and a.leave_status = '2'
+        where a.enterprise_id = #{enterpriseId} and a.leave_status = '1'
         <if test="leaveType!=null and leaveType!='0'">and leave_type = #{leaveType}</if>
         <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
         <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
@@ -43,7 +48,7 @@
             left join hr_employees b on a.user_id = b.user_id
             left join hr_dept_employees c on b.employee_id = c.employee_id
             left join hr_dept d on c.dept_id = d.dept_id
-        where d.dept_id is not null and a.enterprise_id = #{enterpriseId} and a.leave_status = '2'
+        where d.dept_id is not null and a.enterprise_id = #{enterpriseId} and a.leave_status = '1'
         <if test="leaveType!=null and leaveType!='0'">and leave_type = #{leaveType}</if>
         <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
         <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>
@@ -59,12 +64,14 @@
     </resultMap>
 
     <select id="selectLeaveReportList" resultMap="ReportLeaveListVoResult">
-        select b.full_name,d.dept_name,e.holiday_type,e.max_day,sum(extract(day from (end_time - state_time))+1) days from hr_employees b
-        left join hr_holiday e on e.enterprise_id = b.enterprise_id
-        left join hr_leave a on a.user_id = b.user_id and e.holiday_type = a.leave_type
+        select b.full_name,d.dept_name,e.holiday_type,e.max_day,sum(extract(day from (end_time - state_time))+1) days
+        from hr_employees b
         left join hr_dept_employees c on b.employee_id = c.employee_id
         left join hr_dept d on c.dept_id = d.dept_id
-        where a.enterprise_id = #{enterpriseId} and a.leave_status = '2'
+        left join hr_holiday e on e.enterprise_id = b.enterprise_id
+        left join hr_leave a on a.user_id = b.user_id and e.holiday_type = a.leave_type and a.leave_status = '1'
+        where b.enterprise_id = #{enterpriseId}
+        <if test="deptId!=null and deptId != 0">and c.dept_id = #{deptId}</if>
         <if test="leaveType!=null and leaveType!='0'">and leave_type = #{leaveType}</if>
         <if test="startDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') >= to_timestamp(#{startDate}, 'YYYY-mm-dd')</if>
         <if test="endDate!=null">and to_timestamp(to_char(a.benefit_data,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{endDate}, 'YYYY-mm-dd')</if>

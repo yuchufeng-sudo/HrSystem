@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *  HOLIDAY   Controller
+ *  Holiday   Controller
  *
  * @author ys
  * @date 2025-06-18
@@ -38,7 +38,7 @@ public class HrHolidayController extends BaseController
     private HrEmployeesMapper hrEmployeesMapper;
 
     /**
-     * Query  HOLIDAY   list
+     * Query Holiday   list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrHoliday hrHoliday)
@@ -71,20 +71,20 @@ public class HrHolidayController extends BaseController
     }
 
     /**
-     * Export  HOLIDAY   list
+     * Export Holiday   list
      */
     @RequiresPermissions("hr:holiday:export")
-    @Log(title = " HOLIDAY  ", businessType = BusinessType.EXPORT)
+    @Log(title = "Holiday", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrHoliday hrHoliday)
     {
         List<HrHoliday> list = hrHolidayService.selectHrHolidayList(hrHoliday);
         ExcelUtil<HrHoliday> util = new ExcelUtil<HrHoliday>(HrHoliday.class);
-        util.exportExcel(response, list, " HOLIDAY   Data");
+        util.exportExcel(response, list, " Holiday   Data");
     }
 
     /**
-     * Get  HOLIDAY   details
+     * Get Holiday   details
      */
     @GetMapping(value = "/{holidayId}")
     public AjaxResult getInfo(@PathVariable("holidayId") Long holidayId) {
@@ -92,9 +92,9 @@ public class HrHolidayController extends BaseController
     }
 
     /**
-     * Add  HOLIDAY
+     * Add Holiday
      */
-    @Log(title = " HOLIDAY  ", businessType = BusinessType.INSERT)
+    @Log(title = "Holiday", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrHoliday hrHoliday) {
         hrHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -102,18 +102,18 @@ public class HrHolidayController extends BaseController
     }
 
     /**
-     * Update  HOLIDAY
+     * Update Holiday
      */
-    @Log(title = " HOLIDAY  ", businessType = BusinessType.UPDATE)
+    @Log(title = "Holiday", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrHoliday hrHoliday) {
         return toAjax(hrHolidayService.updateHrHoliday(hrHoliday));
     }
 
     /**
-     * Delete  HOLIDAY
+     * Delete Holiday
      */
-    @Log(title = " HOLIDAY  ", businessType = BusinessType.DELETE)
+    @Log(title = "Holiday", businessType = BusinessType.DELETE)
     @DeleteMapping("/{holidayIds}")
     public AjaxResult remove(@PathVariable Long[] holidayIds) {
         List<HrEmployees> hrEmployees = hrEmployeesMapper.selectHrEmployeesListByEid(SecurityUtils.getUserEnterpriseId());

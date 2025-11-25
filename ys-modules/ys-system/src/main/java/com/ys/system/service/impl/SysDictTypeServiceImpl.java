@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Dictionary Business Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysDictTypeServiceImpl implements ISysDictTypeService
@@ -45,8 +45,8 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     /**
      * Query dictionary types with pagination based on conditions.
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
-     * @return  DICTIONARY TYPE Set INFORMATION
+     * @param dictType  Dictionary type  Information
+     * @return  Dictionary type Set Information
      */
     @Override
     public List<SysDictType> selectDictTypeList(SysDictType dictType)
@@ -55,9 +55,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * According to  all  DICTIONARY TYPE
+     * According to  all  Dictionary type
      *
-     * @return  DICTIONARY TYPE Set INFORMATION
+     * @return  Dictionary type Set Information
      */
     @Override
     public List<SysDictType> selectDictTypeAll()
@@ -66,10 +66,10 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY DICTIONARY DATA
+     * ACCORDING TO THE Dictionary type  Query Dictionary Data
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY DATA Set INFORMATION
+     * @param dictType  Dictionary type
+     * @return  Dictionary Data Set Information
      */
     @Override
     public List<SysDictData> selectDictDataByType(String dictType)
@@ -89,10 +89,10 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  IDQUERY INFORMATION
+     * ACCORDING TO THE Dictionary type  IDQUERY Information
      *
-     * @param dictId  DICTIONARY TYPE ID
-     * @return  DICTIONARY TYPE
+     * @param dictId  Dictionary type ID
+     * @return  Dictionary type
      */
     @Override
     public SysDictType selectDictTypeById(Long dictId)
@@ -101,10 +101,10 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY INFORMATION
+     * ACCORDING TO THE Dictionary type  Query Information
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY TYPE
+     * @param dictType  Dictionary type
+     * @return  Dictionary type
      */
     @Override
     public SysDictType selectDictTypeByType(String dictType)
@@ -113,7 +113,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * Batch DELETE DICTIONARY TYPE  INFORMATION
+     * Batch Delete Dictionary type  Information
      *
      * @param dictIds Dictionary ID to be DELETED
      */
@@ -148,7 +148,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     *CLEAR Dictionary Cache Data
+     *Clear Dictionary Cache Data
      */
     @Override
     public void clearDictCache()
@@ -167,9 +167,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * ADDsave  DICTIONARY TYPE  INFORMATION
+     * Save  Dictionary type Information
      *
-     * @param dict  DICTIONARY TYPE  INFORMATION
+     * @param dict  Dictionary type Information
      * @return Result
      */
     @Override
@@ -184,9 +184,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     * MODIFYsave  DICTIONARY TYPE  INFORMATION
+     * MODIFYsave  Dictionary type  Information
      *
-     * @param dict  DICTIONARY TYPE  INFORMATION
+     * @param dict  Dictionary type  Information
      * @return Result
      */
     @Override
@@ -205,9 +205,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     /**
-     *  Verify whether the name of DICTIONARY TYPE is unique.
+     *  Verify whether the name of Dictionary type is unique.
      *
-     * @param dict  DICTIONARY TYPE
+     * @param dict  Dictionary type
      * @return Result
      */
     @Override

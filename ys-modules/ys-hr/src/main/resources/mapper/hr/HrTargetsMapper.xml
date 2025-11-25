@@ -23,11 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="completeTime"    column="complete_time"    />
         <result property="enterpriseId"    column="enterprise_id"    />
         <result property="configTime"    column="config_time"    />
+        <result property="resignEmployeeId"    column="resign_employee_id"    />
     </resultMap>
 
     <sql id="selectHrTargetsVo">
         select id, name, head, description, type, status, start_time, end_time, is_key_target, enterprise_id,
-               complete_time, config_time, create_by, create_time, update_by, update_time, remark
+               complete_time, config_time, create_by, create_time, update_by, update_time, remark, resign_employee_id
             from hr_targets
     </sql>
 

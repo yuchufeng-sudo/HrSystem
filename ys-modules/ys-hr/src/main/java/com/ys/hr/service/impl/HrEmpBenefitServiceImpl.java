@@ -14,7 +14,7 @@ import com.ys.hr.service.IHrEmpBenefitService;
 import com.ys.common.core.utils.DateUtils;
 
 /**
- *   EMPLOYEE WELFARE APPLICATION FORM Service Implementation
+ *   Employee Welfare Application Form Service Implementation
  *
  * @author ys
  * @date 2025-06-09
@@ -24,10 +24,10 @@ public class HrEmpBenefitServiceImpl extends ServiceImpl<HrEmpBenefitMapper, HrE
 {
 
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM
+     * Query Employee Welfare Application Form
      *
-     * @param benefitEmpId   EMPLOYEE WELFARE APPLICATION FORM primary key
-     * @return   EMPLOYEE WELFARE APPLICATION FORM
+     * @param benefitEmpId   Employee Welfare Application Form primary key
+     * @return   Employee Welfare Application Form
      */
     @Override
     public HrEmpBenefit selectHrEmpBenefitByBenefitEmpId(String benefitEmpId)
@@ -36,10 +36,10 @@ public class HrEmpBenefitServiceImpl extends ServiceImpl<HrEmpBenefitMapper, HrE
     }
 
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM list
+     * Query Employee Welfare Application Form list
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
-     * @return   EMPLOYEE WELFARE APPLICATION FORM
+     * @param hrEmpBenefit   Employee Welfare Application Form
+     * @return   Employee Welfare Application Form
      */
     @Override
     public List<HrEmpBenefit> selectHrEmpBenefitList(HrEmpBenefit hrEmpBenefit)
@@ -77,9 +77,9 @@ public class HrEmpBenefitServiceImpl extends ServiceImpl<HrEmpBenefitMapper, HrE
     }
 
     /**
-     * Add   EMPLOYEE WELFARE APPLICATION FORM
+     * Add Employee Welfare Application Form
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
+     * @param hrEmpBenefit   Employee Welfare Application Form
      * @return Result
      */
     @Override
@@ -90,9 +90,9 @@ public class HrEmpBenefitServiceImpl extends ServiceImpl<HrEmpBenefitMapper, HrE
     }
 
     /**
-     * Update   EMPLOYEE WELFARE APPLICATION FORM
+     * Update Employee Welfare Application Form
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
+     * @param hrEmpBenefit   Employee Welfare Application Form
      * @return Result
      */
     @Override
@@ -103,9 +103,9 @@ public class HrEmpBenefitServiceImpl extends ServiceImpl<HrEmpBenefitMapper, HrE
     }
 
     /**
-     * Batch delete   EMPLOYEE WELFARE APPLICATION FORM
+     * Batch delete   Employee Welfare Application Form
      *
-     * @param benefitEmpIds   EMPLOYEE WELFARE APPLICATION FORM primary keys to be deleted
+     * @param benefitEmpIds   Employee Welfare Application Form primary keys to be deleted
      * @return Result
      */
     @Override
@@ -115,9 +115,9 @@ public class HrEmpBenefitServiceImpl extends ServiceImpl<HrEmpBenefitMapper, HrE
     }
 
     /**
-     * Delete   EMPLOYEE WELFARE APPLICATION FORM information
+     * Delete Employee Welfare Application Form information
      *
-     * @param benefitEmpId   EMPLOYEE WELFARE APPLICATION FORM primary key
+     * @param benefitEmpId   Employee Welfare Application Form primary key
      * @return Result
      */
     @Override

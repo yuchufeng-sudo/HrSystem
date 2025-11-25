@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  ENTERPRISE MANAGEMENT Controller
+ *  Enterprise management Controller
  *
  * @author ys
  * @date 2025-05-15
@@ -49,7 +49,7 @@ public class SysEnterpriseController extends BaseController
     private ISysUserService userService;
 
     /**
-     * QUERY ENTERPRISE MANAGEMENT   LIST
+     * Query Enterprise management   list
      */
 //    @RequiresPermissions("system:enterprise:list")
     @GetMapping("/list")
@@ -67,10 +67,10 @@ public class SysEnterpriseController extends BaseController
     }
 
     /**
-     * EXPORT ENTERPRISE MANAGEMENT   LIST
+     * Export Enterprise management   list
      */
     @RequiresPermissions("system:enterprise:export")
-    @Log(title = " ENTERPRISE MANAGEMENT ", businessType = BusinessType.EXPORT)
+    @Log(title = "Enterprise management", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysEnterprise sysEnterprise)
     {
@@ -83,7 +83,7 @@ public class SysEnterpriseController extends BaseController
     }
 
     /**
-     * OBTAIN  ENTERPRISE MANAGEMENT DETAILEDLY INFORMATION
+     * Get Enterprise management Details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") String id) {
@@ -96,20 +96,20 @@ public class SysEnterpriseController extends BaseController
     }
 
     /**
-     * ADD ENTERPRISE MANAGEMENT
+     * Add Enterprise management
      */
     @RequiresPermissions("system:enterprise:add")
-    @Log(title = " ENTERPRISE MANAGEMENT ", businessType = BusinessType.INSERT)
+    @Log(title = "Enterprise management", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysEnterprise sysEnterprise) {
         return toAjax(sysEnterpriseService.insertSysEnterprise(sysEnterprise));
     }
 
     /**
-     * MODIFY ENTERPRISE MANAGEMENT
+     * Update Enterprise management
      */
     @RequiresPermissions("system:enterprise:edit")
-    @Log(title = " ENTERPRISE MANAGEMENT ", businessType = BusinessType.UPDATE)
+    @Log(title = "Enterprise management", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysEnterprise sysEnterprise) {
         return toAjax(sysEnterpriseService.updateSysEnterprise(sysEnterprise));
@@ -121,10 +121,10 @@ public class SysEnterpriseController extends BaseController
     }
 
     /**
-     * DELETE ENTERPRISE MANAGEMENT
+     * Delete Enterprise management
      */
     @RequiresPermissions("system:enterprise:remove")
-    @Log(title = " ENTERPRISE MANAGEMENT ", businessType = BusinessType.DELETE)
+    @Log(title = "Enterprise management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public AjaxResult remove(@PathVariable String id) {
         return toAjax(sysEnterpriseService.disablesEnterprise(id));
@@ -145,7 +145,7 @@ public class SysEnterpriseController extends BaseController
             List<SysEnterprise> tbEnterprises = sysEnterpriseService.selectSysEnterpriseList(new SysEnterprise());
             if (!tbEnterprises.isEmpty()) {
                 String enterpriseId = tbEnterprises.get(0).getId();
-                redisService.setCacheObject(CacheConstants.LOGIN_SELECT_ENTERPRISE_ID+SecurityUtils.getUserId(), enterpriseId);
+                redisService.setCacheObject(CacheConstants.LOGIN_SELECT_Enterprise_ID+SecurityUtils.getUserId(), enterpriseId);
                 userEnterpriseId = enterpriseId;
             }
         }
@@ -154,7 +154,7 @@ public class SysEnterpriseController extends BaseController
 
     @PostMapping("setSelectEnterpriseId")
     public AjaxResult setSelectEnterpriseId(@RequestBody String enterpriseId){
-        redisService.setCacheObject(CacheConstants.LOGIN_SELECT_ENTERPRISE_ID+SecurityUtils.getUserId(),enterpriseId);
+        redisService.setCacheObject(CacheConstants.LOGIN_SELECT_Enterprise_ID+SecurityUtils.getUserId(),enterpriseId);
         return AjaxResult.success();
     }
 
@@ -182,7 +182,7 @@ public class SysEnterpriseController extends BaseController
 
 
     /**
-     * MODIFYUSER
+     * Update Enterprise Logo
      */
     @PostMapping("/avatar")
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file)

@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
- *  SEAL INFORMATION  Service Implementation
+ *  seal Information  Service Implementation
  *
  * @author ys
  * @date 2025-06-05
@@ -29,10 +29,10 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     private RemoteFileService remoteFileService;
 
     /**
-     * Query  SEAL INFORMATION 
+     * Query seal Information 
      *
-     * @param id  SEAL INFORMATION  primary key
-     * @return  SEAL INFORMATION 
+     * @param id  seal Information  primary key
+     * @return  seal Information 
      */
     @Override
     public HrSealInfo selectHrSealInfoById(Long id)
@@ -41,10 +41,10 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Query  SEAL INFORMATION  list
+     * Query seal Information list
      *
-     * @param hrSealInfo  SEAL INFORMATION 
-     * @return  SEAL INFORMATION 
+     * @param hrSealInfo  seal Information 
+     * @return  seal Information 
      */
     @Override
     public List<HrSealInfo> selectHrSealInfoList(HrSealInfo hrSealInfo)
@@ -53,9 +53,9 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Add  SEAL INFORMATION 
+     * Add seal Information 
      *
-     * @param hrSealInfo  SEAL INFORMATION 
+     * @param hrSealInfo  seal Information 
      * @return Result
      */
     @Override
@@ -69,9 +69,9 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Update  SEAL INFORMATION 
+     * Update seal Information 
      *
-     * @param hrSealInfo  SEAL INFORMATION 
+     * @param hrSealInfo  seal Information 
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Batch delete  SEAL INFORMATION 
+     * Batch delete  seal Information 
      *
-     * @param ids  SEAL INFORMATION  primary keys to be deleted
+     * @param ids  seal Information  primary keys to be deleted
      * @return Result
      */
     @Override
@@ -94,9 +94,9 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Delete  SEAL INFORMATION  information
+     * Delete seal Information  information
      *
-     * @param id  SEAL INFORMATION  primary key
+     * @param id  seal Information  primary key
      * @return Result
      */
     @Override

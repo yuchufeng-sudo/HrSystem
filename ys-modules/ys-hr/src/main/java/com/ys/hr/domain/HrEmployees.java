@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
- * EMPLOYEE Object hr_employees
+ * Employee Object hr_employees
  *
  * @author ys
  * @date 2025-05-21
@@ -35,11 +35,11 @@ import java.util.Date;
 public class HrEmployees extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** EMPLOYEE ID */
+    /** Employee ID */
     @TableId(value = "employee_id", type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long employeeId;
-    /** EMPLOYEE FULL NAME */
+    /** Employee FULL NAME */
     @NotNull(message = "Full name cannot be empty")
     @Size(max = 100, message = "Full name length cannot exceed 100 characters")
     @Excel(name="Full Name")
@@ -53,8 +53,8 @@ public class HrEmployees extends BaseEntity {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long position;
     /** LOGIN ACCOUNT NAME */
-    @NotNull(message = "Full name cannot be empty")
-    @Size(max = 100, message = "Full name length cannot exceed 100 characters")
+    @NotNull(message = "username cannot be empty")
+    @Size(max = 100, message = "username length cannot exceed 100 characters")
     private String username;
     /** LOGIN ACCOUNT NAME */
     private String firstName;
@@ -62,7 +62,7 @@ public class HrEmployees extends BaseEntity {
     private String lastName;
     /** Gender */
     private String gender;
-    /** EMAIL (EMAIL ADDRESS) */
+    /** Email (Email Address) */
     private String email;
     /** AVATAR URL */
     private String avatarUrl;
@@ -96,15 +96,15 @@ public class HrEmployees extends BaseEntity {
     private String streetAddress;
     private String taxFileNumber;
     private String worksAt;
-    /** WORK TYPE */
+    /** WORK type */
     @Excel(name = "Work type")
     @Size(max = 1, message = "Work type length cannot exceed 1 characters")
     private String employmentType;
     /** PAYROLL NUMBER */
     @Excel(name = "PAYROLL NUMBER")
     private String payrollId;
-    /** SALARY RATE */
-    @Excel(name = "SALARY RATE")
+    /** salary RATE */
+    @Excel(name = "salary RATE")
     private String payRate;
     /** WORK PERIOD */
     @Excel(name = "WORK PERIOD")
@@ -265,30 +265,4 @@ public class HrEmployees extends BaseEntity {
     @TableField(exist = false)
     private Long[] userIds;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("employeeId", getEmployeeId())
-                .append("fullName", getFullName())
-                .append("email", getEmail())
-                .append("avatarUrl", getAvatarUrl())
-                .append("status", getStatus())
-                .append("dateOfBirth", getDateOfBirth())
-                .append("contactPhone", getContactPhone())
-                .append("emergencyContact", getEmergencyContact())
-                .append("position", getPosition())
-                .append("hireDate", getHireDate())
-                .append("payrollId", getPayrollId())
-                .append("payRate", getPayRate())
-                .append("workPeriod", getWorkPeriod())
-                .append("hoursPerPeriod", getHoursPerPeriod())
-                .append("daysPerPeriod", getDaysPerPeriod())
-                .append("stressProfile", getStressProfile())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
-    }
 }

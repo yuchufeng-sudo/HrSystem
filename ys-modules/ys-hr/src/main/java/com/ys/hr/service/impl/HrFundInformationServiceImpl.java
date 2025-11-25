@@ -7,7 +7,6 @@ import com.ys.hr.mapper.HrFundInformationMapper;
 import com.ys.hr.domain.HrFundInformation;
 import com.ys.hr.service.IHrFundInformationService;
 import com.ys.common.core.utils.DateUtils;
-import java.util.Arrays;
 
 /**
  * Comprehensive fund information Service Implementation
@@ -18,18 +17,6 @@ import java.util.Arrays;
 @Service
 public class HrFundInformationServiceImpl extends ServiceImpl<HrFundInformationMapper, HrFundInformation> implements IHrFundInformationService
 {
-
-    /**
-     * Query Comprehensive fund information
-     *
-     * @param id Comprehensive fund information primary key
-     * @return Comprehensive fund information
-     */
-    @Override
-    public HrFundInformation selectHrFundInformationById(String id)
-    {
-        return baseMapper.selectHrFundInformationById(id);
-    }
 
     /**
      * Query Comprehensive fund information list
@@ -47,49 +34,41 @@ public class HrFundInformationServiceImpl extends ServiceImpl<HrFundInformationM
      * Add Comprehensive fund information
      *
      * @param hrFundInformation Comprehensive fund information
-     * @return Result
      */
     @Override
-    public int insertHrFundInformation(HrFundInformation hrFundInformation)
+    public void insertHrFundInformation(HrFundInformation hrFundInformation)
     {
         hrFundInformation.setCreateTime(DateUtils.getNowDate());
-        return baseMapper.insert(hrFundInformation);
+        baseMapper.insert(hrFundInformation);
     }
 
     /**
      * Update Comprehensive fund information
      *
-     * @param hrFundInformation Comprehensive fund information
+     * @param hrFundInformation1 Comprehensive fund information
      * @return Result
      */
     @Override
     public int updateHrFundInformation(HrFundInformation hrFundInformation)
     {
+        String fundType = hrFundInformation.getFundType();
+        if ("1".equals(fundType)) {
+            hrFundInformation.setEsa("");
+            hrFundInformation.setSmsfName("");
+            hrFundInformation.setSmsfAbn("");
+            hrFundInformation.setSmsfAccountName("");
+            hrFundInformation.setSmsfMemberNumber("");
+            hrFundInformation.setFundContactEmail("");
+            hrFundInformation.setBankAccountBsb("");
+            hrFundInformation.setBankAccountName("");
+            hrFundInformation.setBankAccountNumber("");
+        }else if ("2".equals(fundType)) {
+            hrFundInformation.setFundId("");
+            hrFundInformation.setApraAccountName("");
+            hrFundInformation.setMemberAccountNumber("");
+            hrFundInformation.setFundId("");
+        }
         hrFundInformation.setUpdateTime(DateUtils.getNowDate());
         return baseMapper.updateById(hrFundInformation);
-    }
-
-    /**
-     * Batch delete Comprehensive fund information
-     *
-     * @param ids Comprehensive fund information primary keys to be deleted
-     * @return Result
-     */
-    @Override
-    public int deleteHrFundInformationByIds(String[] ids)
-    {
-        return baseMapper.deleteBatchIds(Arrays.asList(ids));
-    }
-
-    /**
-     * Delete Comprehensive fund information information
-     *
-     * @param id Comprehensive fund information primary key
-     * @return Result
-     */
-    @Override
-    public int deleteHrFundInformationById(String id)
-    {
-        return baseMapper.deleteById(id);
     }
 }

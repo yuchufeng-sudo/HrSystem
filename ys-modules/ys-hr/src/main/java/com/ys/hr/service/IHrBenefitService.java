@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrBenefit;
 import java.util.List;
 
 /**
- *  WELFARE BENEFITS Service Interface
+ *  welfare benefits Service Interface
  *
  * @author ys
  * @date 2025-06-09
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrBenefitService extends IService<HrBenefit>
 {
     /**
-     * Query  WELFARE BENEFITS
+     * Query welfare benefits
      *
-     * @param benefitId  WELFARE BENEFITS primary key
-     * @return  WELFARE BENEFITS
+     * @param benefitId  welfare benefits primary key
+     * @return  welfare benefits
      */
     public HrBenefit selectHrBenefitByBenefitId(String benefitId);
 
     /**
-     * Query  WELFARE BENEFITS list
+     * Query welfare benefits list
      *
-     * @param hrBenefit  WELFARE BENEFITS
-     * @return  WELFARE BENEFITS collection
+     * @param hrBenefit  welfare benefits
+     * @return  welfare benefits collection
      */
     public List<HrBenefit> selectHrBenefitList(HrBenefit hrBenefit);
 
     /**
-     * Add  WELFARE BENEFITS
+     * Add welfare benefits
      *
-     * @param hrBenefit  WELFARE BENEFITS
+     * @param hrBenefit  welfare benefits
      * @return Result
      */
     public int insertHrBenefit(HrBenefit hrBenefit);
 
     /**
-     * Update  WELFARE BENEFITS
+     * Update welfare benefits
      *
-     * @param hrBenefit  WELFARE BENEFITS
+     * @param hrBenefit  welfare benefits
      * @return Result
      */
     public int updateHrBenefit(HrBenefit hrBenefit);
 
     /**
-     * Batch delete  WELFARE BENEFITS
+     * Batch delete  welfare benefits
      *
-     * @param benefitIds  WELFARE BENEFITS primary keys to be deleted
+     * @param benefitIds  welfare benefits primary keys to be deleted
      * @return Result
      */
     public int deleteHrBenefitByBenefitIds(String[] benefitIds);
 
     /**
-     * Delete  WELFARE BENEFITS information
+     * Delete welfare benefits information
      *
-     * @param benefitId  WELFARE BENEFITS primary key
+     * @param benefitId  welfare benefits primary key
      * @return Result
      */
     public int deleteHrBenefitByBenefitId(String benefitId);

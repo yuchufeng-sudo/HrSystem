@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *  EMPLOYEE  HOLIDAY  Controller
+ *  Employee Holiday  Controller
  *
  * @author ys
  * @date 2025-05-23
@@ -39,7 +39,7 @@ public class HrEmpHolidayController extends BaseController
     private IHrEmpHolidayService hrEmpHolidayService;
 
     /**
-     * QUERY EMPLOYEE  HOLIDAY    LIST
+     * Query Employee Holiday list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrEmpHoliday hrEmpHoliday)
@@ -51,10 +51,10 @@ public class HrEmpHolidayController extends BaseController
     }
 
     /**
-     * EXPORT EMPLOYEE  HOLIDAY    LIST
+     * Export Employee Holiday list
      */
     @RequiresPermissions("hr:holiday:export")
-    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee Holiday", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEmpHoliday hrEmpHoliday)
     {
@@ -64,7 +64,7 @@ public class HrEmpHolidayController extends BaseController
     }
 
     /**
-     * OBTAIN  EMPLOYEE  HOLIDAY  DETAILEDLY INFORMATION
+     * Get Employee Holiday Details
      */
     @GetMapping(value = "/{empleHolidayId}")
     public AjaxResult getInfo(@PathVariable("empleHolidayId") Long empleHolidayId) {
@@ -72,9 +72,9 @@ public class HrEmpHolidayController extends BaseController
     }
 
     /**
-     * ADD EMPLOYEE  HOLIDAY
+     * Add Employee Holiday
      */
-    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee Holiday", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody HrEmpHoliday hrEmpHoliday) {
         HrEmpHoliday holiday = new HrEmpHoliday();
@@ -95,7 +95,7 @@ public class HrEmpHolidayController extends BaseController
         return toAjax(hrEmpHolidayService.save(hrEmpHoliday));
     }
 
-    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee Holiday", businessType = BusinessType.INSERT)
     @PostMapping("/addHolidays")
     public AjaxResult addHolidays(@RequestBody HrEmpHoliday hrEmpHoliday) {
         Date stateTime = hrEmpHoliday.getStateTime();
@@ -131,9 +131,9 @@ public class HrEmpHolidayController extends BaseController
     }
 
     /**
-     * MODIFY EMPLOYEE  HOLIDAY
+     * Update Employee Holiday
      */
-    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.UPDATE)
+    @Log(title = "Employee Holiday", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrEmpHoliday hrEmpHoliday) {
         hrEmpHoliday.setUpdateBy(String.valueOf(SecurityUtils.getUserId()));
@@ -149,10 +149,10 @@ public class HrEmpHolidayController extends BaseController
     }
 
     /**
-     * DELETE EMPLOYEE  HOLIDAY
+     * Delete Employee Holiday
      */
     @RequiresPermissions("hr:holiday:remove")
-    @Log(title = " EMPLOYEE  HOLIDAY  ", businessType = BusinessType.DELETE)
+    @Log(title = "Employee Holiday", businessType = BusinessType.DELETE)
     @DeleteMapping("/{empleHolidayIds}")
     public AjaxResult remove(@PathVariable Long[] empleHolidayIds) {
         return toAjax(hrEmpHolidayService.removeByIds(Arrays.asList(empleHolidayIds)));

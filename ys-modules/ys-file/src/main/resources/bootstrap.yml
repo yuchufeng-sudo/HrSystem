@@ -15,7 +15,7 @@ spring:
       discovery:
         #  ServiceRegisterAddress
         server-addr: localhost:8848
-        username: nacos  # Default USER Name
+        username: nacos  # Default User Name
         password: nacos  # Default Password
       config:
         # Configuration Center Address

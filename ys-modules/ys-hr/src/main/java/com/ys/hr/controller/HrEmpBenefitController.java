@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *   EMPLOYEE WELFARE APPLICATION FORM Controller
+ *   Employee Welfare Application Form Controller
  *
  * @author ys
  * @date 2025-06-09
@@ -41,22 +41,23 @@ import java.util.Map;
 @RequestMapping("/empBenefit")
 public class HrEmpBenefitController extends BaseController
 {
-    @Autowired
+    @Resource
     private IHrEmpBenefitService hrEmpBenefitService;
 
     @Resource
     private RemoteMessageService remoteMessageService;
 
-    @Autowired
+    @Resource
     private HrEmployeesMapper hrEmployeesMapper;
 
-    @Autowired
+    @Resource
     private HrBenefitServiceImpl hrBenefitService;
 
     @Resource
     private HrLeaveMapper hrLeaveMapper;
+
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM list
+     * Query Employee Welfare Application Form list
      */
     @RequiresPermissions("hr:empBenefit:list")
     @GetMapping("/list")
@@ -73,20 +74,20 @@ public class HrEmpBenefitController extends BaseController
     }
 
     /**
-     * Export   EMPLOYEE WELFARE APPLICATION FORM list
+     * Export Employee Welfare Application Form list
      */
     @RequiresPermissions("hr:empBenefit:export")
-    @Log(title = "  EMPLOYEE WELFARE APPLICATION FORM", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee Welfare Application Form", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEmpBenefit hrEmpBenefit)
     {
         List<HrEmpBenefit> list = hrEmpBenefitService.selectHrEmpBenefitList(hrEmpBenefit);
         ExcelUtil<HrEmpBenefit> util = new ExcelUtil<HrEmpBenefit>(HrEmpBenefit.class);
-        util.exportExcel(response, list, "  EMPLOYEE WELFARE APPLICATION FORM Data");
+        util.exportExcel(response, list, "  Employee Welfare Application Form Data");
     }
 
     /**
-     * Get   EMPLOYEE WELFARE APPLICATION FORM details
+     * Get Employee Welfare Application Form details
      */
     @GetMapping(value = "/{benefitEmpId}")
     public AjaxResult getInfo(@PathVariable("benefitEmpId") String benefitEmpId) {
@@ -94,10 +95,10 @@ public class HrEmpBenefitController extends BaseController
     }
 
     /**
-     * Add   EMPLOYEE WELFARE APPLICATION FORM
+     * Add Employee Welfare Application Form
      */
     @RequiresPermissions("hr:empBenefit:add")
-    @Log(title = "  EMPLOYEE WELFARE APPLICATION FORM", businessType = BusinessType.INSERT)
+    @Log(title = "Employee Welfare Application Form", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrEmpBenefit hrEmpBenefit) {
         HrEmpBenefit hrEmpBenefit1 = new HrEmpBenefit();
@@ -137,10 +138,10 @@ public class HrEmpBenefitController extends BaseController
     }
 
     /**
-     * Update   EMPLOYEE WELFARE APPLICATION FORM
+     * Update Employee Welfare Application Form
      */
     @RequiresPermissions("hr:empBenefit:edit")
-    @Log(title = "  EMPLOYEE WELFARE APPLICATION FORM", businessType = BusinessType.UPDATE)
+    @Log(title = "Employee Welfare Application Form", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrEmpBenefit hrEmpBenefit) {
         int i = hrEmpBenefitService.updateHrEmpBenefit(hrEmpBenefit);
@@ -186,9 +187,9 @@ public class HrEmpBenefitController extends BaseController
     }
 
     /**
-     * Delete   EMPLOYEE WELFARE APPLICATION FORM
+     * Delete Employee Welfare Application Form
      */
-    @Log(title = "  EMPLOYEE WELFARE APPLICATION FORM", businessType = BusinessType.DELETE)
+    @Log(title = "Employee Welfare Application Form", businessType = BusinessType.DELETE)
     @DeleteMapping("/{benefitEmpIds}")
     public AjaxResult remove(@PathVariable String[] benefitEmpIds) {
         return toAjax(hrEmpBenefitService.removeByIds(Arrays.asList(benefitEmpIds)));

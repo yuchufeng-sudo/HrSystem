@@ -12,14 +12,7 @@ import com.ys.hr.domain.HrFundInformation;
  */
 public interface HrFundInformationMapper extends BaseMapper<HrFundInformation>
 {
-    /**
-     * Query Comprehensive fund information
-     *
-     * @param id Comprehensive fund information primary key
-     * @return Comprehensive fund information
-     */
-    public HrFundInformation selectHrFundInformationById(String id);
-    
+
     /**
      * Query Comprehensive fund information list
      *

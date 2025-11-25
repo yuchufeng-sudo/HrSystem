@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Menu table data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysMenuMapper
 {
@@ -100,7 +100,7 @@ public interface SysMenuMapper
     public int insertMenu(SysMenu menu);
 
     /**
-     * Modify menu information
+     * Update menu information
      *
      * @param menu Menu information
      * @return Result

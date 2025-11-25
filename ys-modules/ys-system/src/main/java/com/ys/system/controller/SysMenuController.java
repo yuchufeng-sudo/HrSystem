@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- *  MENU  INFORMATION
+ *  menu  Information
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/menu")
@@ -29,7 +29,7 @@ public class SysMenuController extends BaseController
     private ISysMenuService menuService;
 
     /**
-     * OBTAIN  MENU   LIST
+     * Get menu list
      */
     @RequiresPermissions("system:menu:list")
     @GetMapping("/list")
@@ -41,7 +41,7 @@ public class SysMenuController extends BaseController
     }
 
     /**
-     * According to  MENU  IDOBTAIN DETAILEDLY INFORMATION
+     * Get menu By Menu ID
      */
     @RequiresPermissions("system:menu:query")
     @GetMapping(value = "/{menuId}")
@@ -51,7 +51,7 @@ public class SysMenuController extends BaseController
     }
 
     /**
-     *
+     * Retrieve the menu dropdown tree list
      */
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysMenu menu)
@@ -62,7 +62,7 @@ public class SysMenuController extends BaseController
     }
 
     /**
-     *
+     * Load the corresponding character menu list tree
      */
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId)
@@ -74,84 +74,74 @@ public class SysMenuController extends BaseController
         ajax.put("menus", menuService.buildMenuTreeSelect(menus));
         return ajax;
     }
-    @GetMapping(value = "/allRoleMenuTreeselect/{roleId}")
-    public AjaxResult allRoleMenuTreeselect(@PathVariable("roleId") Long roleId)
-    {
-        Long userId = SecurityUtils.getUserId();
-        List<SysMenu> menus = menuService.selectMenuList(userId);
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
-        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
-        return ajax;
-    }
 
     /**
-     * ADD MENU
+     * Add menu
      */
     @RequiresPermissions("system:menu:add")
-    @Log(title = " MENU  MANAGEMENT  ", businessType = BusinessType.INSERT)
+    @Log(title = "menu  management", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu)
     {
 //        if (!menuService.checkMenuNameUnique(menu))
 //        {
-//            return error("ADD MENU '" + menu.getMenuName() + "'Failure， MENU Name Already Exists");
+//            return error("Add menu '" + menu.getMenuName() + "'Failure， menu Name Already Exists");
 //        }
         if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
         {
-            return error("ADD MENU '" + menu.getMenuName() + "' failed, Address must start with http(s)://");
+            return error("Add menu '" + menu.getMenuName() + "' failed, Address must start with http(s)://");
         }
         menu.setCreateBy(SecurityUtils.getUsername());
         return toAjax(menuService.insertMenu(menu));
     }
 
     /**
-     * MODIFY MENU
+     * Update menu
      */
     @RequiresPermissions("system:menu:edit")
-    @Log(title = " MENU  MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "menu  management", businessType = BusinessType.UPDATE)
     @PutMapping
  public AjaxResult edit(@Validated @RequestBody SysMenu menu)
     {
 //        if (!menuService.checkMenuNameUnique(menu))
 //        {
-//            return error("MODIFY MENU '" + menu.getMenuName() + "'Failure， MENU Name Already Exists");
+//            return error("Update menu '" + menu.getMenuName() + "'Failure， menu Name Already Exists");
 //        }
         if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
         {
-            return error("MODIFY MENU '" + menu.getMenuName() + "' failed, Address must start with http(s)://");
+            return error("Update menu '" + menu.getMenuName() + "' failed, Address must start with http(s)://");
         }
         else if (menu.getMenuId().equals(menu.getParentId()))
         {
-            return error("MODIFY MENU '" + menu.getMenuName() + "' failed, Parent MENU cannot select itself");
+            return error("Update menu '" + menu.getMenuName() + "' failed, Parent menu cannot select itself");
         }
         menu.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(menuService.updateMenu(menu));
     }
 
     /**
-     * DELETE MENU
+     * Delete menu
      */
     @RequiresPermissions("system:menu:remove")
-    @Log(title = " MENU  MANAGEMENT  ", businessType = BusinessType.DELETE)
+    @Log(title = "menu  management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId)
     {
         if (menuService.hasChildByMenuId(menuId))
         {
-            return warn("There are sub-MENUs, so DELETE is not allowed");
+            return warn("There are sub-menus, so Delete is not allowed");
         }
         if (menuService.checkMenuExistRole(menuId))
         {
-            return warn("MENU has been assigned, so DELETE is not allowed");
+            return warn("menu has been assigned, so Delete is not allowed");
         }
         return toAjax(menuService.deleteMenuById(menuId));
     }
 
     /**
      *
-     *
-     * @return
+     * Get routing information
+     * @return routing information
      */
     @GetMapping("getRouters")
     public AjaxResult getRouters()

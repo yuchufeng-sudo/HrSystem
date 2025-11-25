@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * INVITATION LINK REQUEST HANDLING Object hr_invite_requests
+ * Invitation link request Object hr_invite_requests
  *
  * @author ys
  * @date 2025-05-21
@@ -29,8 +29,8 @@ public class HrInviteRequests extends BaseEntity {
     /** Applicant Full Name */
     @Excel(name = "Applicant Full Name")
     private String fullName;
-    /** Applicant EMAIL (EMAIL ADDRESS) */
-    @Excel(name = "Applicant EMAIL (EMAIL ADDRESS)")
+    /** Applicant Email (Email Address) */
+    @Excel(name = "Applicant Email (Email Address)")
     private String email;
     /** MOBILE PHONE AREA CODE */
     @Excel(name = "MOBILE PHONE AREA CODE")
@@ -46,7 +46,7 @@ public class HrInviteRequests extends BaseEntity {
     private String city;
     private String province;
     private String postCode;
-    /** Login USER Name */
+    /** Login User Name */
     private String username;
     /** Requested Permission Level */
     private String accessLevel;

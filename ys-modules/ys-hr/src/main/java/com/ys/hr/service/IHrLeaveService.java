@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  LEAVE APPLICATION Service Interface
+ *  Leave Application Service Interface
  *
  * @author ys
  * @date 2025-05-21
@@ -17,10 +17,10 @@ public interface IHrLeaveService extends IService<HrLeave>
 {
 
     /**
-     * QUERY LEAVE APPLICATION   LIST
+     * Query Leave Application   list
      *
-     * @param hrLeave  LEAVE APPLICATION 
-     * @return  LEAVE APPLICATION Set
+     * @param hrLeave  Leave Application
+     * @return  Leave Application Set
      */
     public List<HrLeave> selectHrLeaveList(HrLeave hrLeave);
 
@@ -35,7 +35,7 @@ public interface IHrLeaveService extends IService<HrLeave>
     Map leaveCountByUser(HrLeave hrLeave);
 
     /**
-     * Count the number of days of EMPLOYEE LEAVE APPLICATION
+     * Count the number of days of Employee Leave Application
      * @param userEnterpriseId
      * @return
      */

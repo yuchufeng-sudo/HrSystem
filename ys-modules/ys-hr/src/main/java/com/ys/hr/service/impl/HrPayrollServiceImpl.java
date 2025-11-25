@@ -36,7 +36,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 
 /**
- * EMPLOYEE SALARY Service Implementation
+ * Employee salary Service Implementation
  *
  * @author ys
  * @date 2025-05-30
@@ -44,23 +44,23 @@ import javax.annotation.Resource;
 @Service
 public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll> implements IHrPayrollService {
 
-    @Autowired
+    @Resource
     private HrEmpTimeMapper hrEmpTimeMapper;
 
-    @Autowired
+    @Resource
     private HrEmpTimeServiceImpl hrEmpTimeServiceImpl;
 
-    @Autowired
+    @Resource
     private HrEmployeesMapper hrEmployeesMapper;
 
     @Resource
     private RemoteMessageService remoteMessageService;
 
     /**
-     * Query EMPLOYEE SALARY
+     * Query Employee salary
      *
-     * @param payrollId EMPLOYEE SALARY primary key
-     * @return EMPLOYEE SALARY
+     * @param payrollId Employee salary primary key
+     * @return Employee salary
      */
     @Override
     public HrPayroll selectHrPayrollByPayrollId(String payrollId) {
@@ -68,10 +68,10 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
     }
 
     /**
-     * Query EMPLOYEE SALARY list
+     * Query Employee salary list
      *
-     * @param hrPayroll EMPLOYEE SALARY
-     * @return EMPLOYEE SALARY
+     * @param hrPayroll Employee salary
+     * @return Employee salary
      */
     @Override
     public List<HrPayroll> selectHrPayrollList(HrPayroll hrPayroll) {
@@ -79,9 +79,9 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
     }
 
     /**
-     * Add EMPLOYEE SALARY
+     * Add Employee salary
      *
-     * @param hrPayroll EMPLOYEE SALARY
+     * @param hrPayroll Employee salary
      * @return Result
      */
     @Override
@@ -231,9 +231,9 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
     }
 
     /**
-     * Update EMPLOYEE SALARY
+     * Update Employee salary
      *
-     * @param hrPayroll EMPLOYEE SALARY
+     * @param hrPayroll Employee salary
      * @return Result
      */
     @Override
@@ -243,9 +243,9 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
     }
 
     /**
-     * Batch delete EMPLOYEE SALARY
+     * Batch delete Employee salary
      *
-     * @param payrollIds EMPLOYEE SALARY primary keys to be deleted
+     * @param payrollIds Employee salary primary keys to be deleted
      * @return Result
      */
     @Override
@@ -254,9 +254,9 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
     }
 
     /**
-     * Delete EMPLOYEE SALARY information
+     * Delete Employee salary information
      *
-     * @param payrollId EMPLOYEE SALARY primary key
+     * @param payrollId Employee salary primary key
      * @return Result
      */
     @Override
@@ -321,14 +321,14 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
         timeMap.put("endCreateTime", lastDayOfLastMonth.format(formatter));
         hrAttendance.setParams(timeMap);
         Map<String, Object> monthlyData = baseMapper.getPayrollsCoutByHr(hrAttendance);
-        BigDecimal LastMonthTotal = (BigDecimal) monthlyData.get("total_after_tax");
-        Double LastMonthHolidays = (Double) monthlyData.get("total_holidays");
-        Double LastMonthPresent = (Double) monthlyData.get("total_present");
-        BigDecimal LastMonthAbnormal = (BigDecimal) monthlyData.get("total_abnormal");
-        map.put("LastMonthTotal", LastMonthTotal);
-        map.put("LastMonthHolidays", LastMonthHolidays);
-        map.put("LastMonthPresent", LastMonthPresent);
-        map.put("LastMonthAbnormal", LastMonthAbnormal);
+        BigDecimal lastMonthTotal = (BigDecimal) monthlyData.get("total_after_tax");
+        Double lastMonthHolidays = (Double) monthlyData.get("total_holidays");
+        Double lastMonthPresent = (Double) monthlyData.get("total_present");
+        BigDecimal lastMonthAbnormal = (BigDecimal) monthlyData.get("total_abnormal");
+        map.put("LastMonthTotal", lastMonthTotal);
+        map.put("LastMonthHolidays", lastMonthHolidays);
+        map.put("LastMonthPresent", lastMonthPresent);
+        map.put("LastMonthAbnormal", lastMonthAbnormal);
 
         // OBTAIN this month's data
         YearMonth currentYearMonth = YearMonth.from(today);
@@ -337,15 +337,15 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
         timeMap.put("beginCreateTime", firstDayOfMonth.format(formatter));
         timeMap.put("endCreateTime", lastDayOfMonth.format(formatter));
         hrAttendance.setParams(timeMap);
-        Map<String, Object> NowMonthMap = baseMapper.getPayrollsCoutByHr(hrAttendance);
-        BigDecimal NowMonthTotal = (BigDecimal) NowMonthMap.get("total_after_tax");
-        Double NowMonthHolidays = (Double) NowMonthMap.get("total_holidays");
-        Double NowMonthPresent = (Double) NowMonthMap.get("total_present");
-        BigDecimal NowMonthAbnormal = (BigDecimal) NowMonthMap.get("total_abnormal");
-        map.put("NowMonthTotal", NowMonthTotal);
-        map.put("NowMonthHolidays", NowMonthHolidays);
-        map.put("NowMonthPresent", NowMonthPresent);
-        map.put("NowMonthAbnormal", NowMonthAbnormal);
+        Map<String, Object> nowMonthMap = baseMapper.getPayrollsCoutByHr(hrAttendance);
+        BigDecimal nowMonthTotal = (BigDecimal) nowMonthMap.get("total_after_tax");
+        Double nowMonthHolidays = (Double) nowMonthMap.get("total_holidays");
+        Double nowMonthPresent = (Double) nowMonthMap.get("total_present");
+        BigDecimal nowMonthAbnormal = (BigDecimal) nowMonthMap.get("total_abnormal");
+        map.put("NowMonthTotal", nowMonthTotal);
+        map.put("NowMonthHolidays", nowMonthHolidays);
+        map.put("NowMonthPresent", nowMonthPresent);
+        map.put("NowMonthAbnormal", nowMonthAbnormal);
         return map;
     }
 
@@ -376,14 +376,14 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
         timeMap.put("endCreateTime", lastDayOfLastMonth.format(formatter));
         hrAttendance.setParams(timeMap);
         Map<String, Object> monthlyData = baseMapper.getPayrollsCoutByHr(hrAttendance);
-        BigDecimal LastMonthTotal = (BigDecimal) monthlyData.get("total_after_tax");
-        Double LastMonthHolidays = (Double) monthlyData.get("total_holidays");
-        Double LastMonthPresent = (Double) monthlyData.get("total_present");
-        BigDecimal LastMonthAbnormal = (BigDecimal) monthlyData.get("total_abnormal");
-        map.put("LastMonthTotal", LastMonthTotal);
-        map.put("LastMonthHolidays", LastMonthHolidays);
-        map.put("LastMonthPresent", LastMonthPresent);
-        map.put("LastMonthAbnormal", LastMonthAbnormal);
+        BigDecimal lastMonthTotal = (BigDecimal) monthlyData.get("total_after_tax");
+        Double lastMonthHolidays = (Double) monthlyData.get("total_holidays");
+        Double lastMonthPresent = (Double) monthlyData.get("total_present");
+        BigDecimal lastMonthAbnormal = (BigDecimal) monthlyData.get("total_abnormal");
+        map.put("LastMonthTotal", lastMonthTotal);
+        map.put("LastMonthHolidays", lastMonthHolidays);
+        map.put("LastMonthPresent", lastMonthPresent);
+        map.put("LastMonthAbnormal", lastMonthAbnormal);
         // OBTAIN this month's data
         YearMonth currentYearMonth = YearMonth.from(today);
         LocalDate firstDayOfMonth = currentYearMonth.atDay(1);
@@ -391,15 +391,15 @@ public class HrPayrollServiceImpl extends ServiceImpl<HrPayrollMapper, HrPayroll
         timeMap.put("beginCreateTime", firstDayOfMonth.format(formatter));
         timeMap.put("endCreateTime", lastDayOfMonth.format(formatter));
         hrAttendance.setParams(timeMap);
-        Map<String, Object> NowMonthMap = baseMapper.getPayrollsCoutByHr(hrAttendance);
-        BigDecimal NowMonthTotal = (BigDecimal) NowMonthMap.get("total_after_tax");
-        Double NowMonthHolidays = (Double) NowMonthMap.get("total_holidays");
-        Double NowMonthPresent = (Double) NowMonthMap.get("total_present");
-        BigDecimal NowMonthAbnormal = (BigDecimal) NowMonthMap.get("total_abnormal");
-        map.put("NowMonthTotal", NowMonthTotal);
-        map.put("NowMonthHolidays", NowMonthHolidays);
-        map.put("NowMonthPresent", NowMonthPresent);
-        map.put("NowMonthAbnormal", NowMonthAbnormal);
+        Map<String, Object> nowMonthMap = baseMapper.getPayrollsCoutByHr(hrAttendance);
+        BigDecimal nowMonthTotal = (BigDecimal) nowMonthMap.get("total_after_tax");
+        Double nowMonthHolidays = (Double) nowMonthMap.get("total_holidays");
+        Double nowMonthPresent = (Double) nowMonthMap.get("total_present");
+        BigDecimal nowMonthAbnormal = (BigDecimal) nowMonthMap.get("total_abnormal");
+        map.put("NowMonthTotal", nowMonthTotal);
+        map.put("NowMonthHolidays", nowMonthHolidays);
+        map.put("NowMonthPresent", nowMonthPresent);
+        map.put("NowMonthAbnormal", nowMonthAbnormal);
         return map;
     }
 

@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- *  LEAVE APPLICATION Controller
+ *  Leave Application Controller
  *
  * @author ys
  * @date 2025-05-21
@@ -54,19 +54,19 @@ public class HrLeaveController extends BaseController
     private HrHolidayServiceImpl hrHolidayService;
 
     /**
-     * QUERY LEAVE APPLICATION   LIST
+     * Query Leave Application list
      */
     @RequiresPermissions("hr:leave:list")
     @GetMapping("/list")
     public TableDataInfo list(HrLeave hrLeave)
     {
-        // EMPLOYEE
+        // Employee
         if(ObjectUtils.isNotEmpty(hrLeave.getFlag())){
             if(ObjectUtils.isEmpty(hrLeave.getUserId())){
                 hrLeave.setUserId(SecurityUtils.getUserId());
             }
         }else{
-        //hr USER
+        //hr User
             hrLeave.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         }
         startPage();
@@ -75,10 +75,10 @@ public class HrLeaveController extends BaseController
     }
 
     /**
-     * EXPORT LEAVE APPLICATION   LIST
+     * Export Leave Application list
      */
     @RequiresPermissions("hr:leave:export")
-    @Log(title = " LEAVE APPLICATION ", businessType = BusinessType.EXPORT)
+    @Log(title = "Leave Application", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrLeave hrLeave)
     {
@@ -88,7 +88,7 @@ public class HrLeaveController extends BaseController
     }
 
     /**
-     * OBTAIN  LEAVE APPLICATION DETAILEDLY INFORMATION
+     * Get Leave Application Details
      */
     @GetMapping(value = "/{leaveId}")
     public AjaxResult getInfo(@PathVariable("leaveId") Long leaveId) {
@@ -105,10 +105,10 @@ public class HrLeaveController extends BaseController
     }
 
     /**
-     * ADD LEAVE APPLICATION
+     * Add Leave Application
      */
     @RequiresPermissions("hr:leave:add")
-    @Log(title = " LEAVE APPLICATION ", businessType = BusinessType.INSERT)
+    @Log(title = "Leave Application", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody HrLeave hrLeave) {
         Long leader =  hrLeaveService.selectLeader(SecurityUtils.getUserId());
@@ -169,10 +169,10 @@ public class HrLeaveController extends BaseController
     }
 
     /**
-     * MODIFY LEAVE APPLICATION
+     * Update Leave Application
      */
     @RequiresPermissions("hr:leave:edit")
-    @Log(title = " LEAVE APPLICATION ", businessType = BusinessType.UPDATE)
+    @Log(title = "Leave Application", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrLeave hrLeave) {
         Long userId = SecurityUtils.getUserId();
@@ -227,10 +227,10 @@ public class HrLeaveController extends BaseController
     }
 
     /**
-     * DELETE LEAVE APPLICATION
+     * Delete Leave Application
      */
     @RequiresPermissions("hr:leave:remove")
-    @Log(title = " LEAVE APPLICATION ", businessType = BusinessType.DELETE)
+    @Log(title = "Leave Application", businessType = BusinessType.DELETE)
     @DeleteMapping("/{leaveIds}")
     public AjaxResult remove(@PathVariable Long[] leaveIds) {
         return toAjax(hrLeaveService.removeByIds(Arrays.asList(leaveIds)));
@@ -245,7 +245,7 @@ public class HrLeaveController extends BaseController
         return AjaxResult.success(hrLeaveService.leaveCount(hrLeave));
     }
 
-    //USER  Leave Application data statistics
+    //User  Leave Application data statistics
     @GetMapping("/leaveCountByUser")
     public AjaxResult leaveCountByUser()
     {

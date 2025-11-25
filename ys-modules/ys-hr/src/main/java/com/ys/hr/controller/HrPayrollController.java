@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * EMPLOYEE SALARY Controller
+ * Employee salary Controller
  *
  * @author ys
  * @date 2025-05-30
@@ -37,7 +37,7 @@ public class HrPayrollController extends BaseController {
     private IHrPayrollService hrPayrollService;
 
     /**
-     * Query EMPLOYEE SALARY list
+     * Query Employee salary list
      */
     @RequiresPermissions("hr:payroll:list")
     @GetMapping("/list")
@@ -67,19 +67,19 @@ public class HrPayrollController extends BaseController {
     }
 
     /**
-     * Export EMPLOYEE SALARY list
+     * Export Employee salary list
      */
     // @RequiresPermissions("hr:payroll:export")
-    // @Log(title = " EMPLOYEE SALARY ", businessType = BusinessType.EXPORT)
+    // @Log(title = "Employee salary", businessType = BusinessType.EXPORT)
     // @PostMapping("/export")
     // public void export(HttpServletResponse response, HrPayroll hrPayroll)
     // {
     // List<payRollVo> list = hrPayrollService.selectHrPayrollListVo(hrPayroll);
     // ExcelUtil<payRollVo> util = new ExcelUtil<payRollVo>(payRollVo.class);
-    // util.exportExcel(response, list, " EMPLOYEE SALARY Data");
+    // util.exportExcel(response, list, " Employee salary Data");
     // }
     @RequiresPermissions("hr:payroll:export")
-    @Log(title = "EMPLOYEE SALARY", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee salary", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrPayroll hrPayroll, String payrollIds) throws IOException {
 
@@ -91,7 +91,7 @@ public class HrPayrollController extends BaseController {
         // Set CSV response headers
         response.setContentType("text/csv; charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-        String fileName = URLEncoder.encode("EMPLOYEE_SALARY", "UTF-8").replace("+", "%20");
+        String fileName = URLEncoder.encode("Employee_salary", "UTF-8").replace("+", "%20");
         response.setHeader("Content-Disposition", "attachment;filename*=utf-8''" + fileName + ".csv");
 
         // Create CSV writer
@@ -113,7 +113,7 @@ public class HrPayrollController extends BaseController {
     }
 
     /**
-     * Get EMPLOYEE SALARY details
+     * Get Employee salary details
      */
     @GetMapping(value = "/{payrollId}")
     public AjaxResult getInfo(@PathVariable("payrollId") String payrollId) {
@@ -126,10 +126,10 @@ public class HrPayrollController extends BaseController {
     }
 
     /**
-     * Add EMPLOYEE SALARY
+     * Add Employee salary
      */
     @RequiresPermissions("hr:payroll:add")
-    @Log(title = " EMPLOYEE  SALARY ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee salary", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrPayroll hrPayroll) {
         return toAjax(hrPayrollService.insertHrPayroll(hrPayroll));
@@ -142,20 +142,20 @@ public class HrPayrollController extends BaseController {
     }
 
     /**
-     * Update EMPLOYEE SALARY
+     * Update Employee salary
      */
     @RequiresPermissions("hr:payroll:edit")
-    @Log(title = " EMPLOYEE  SALARY ", businessType = BusinessType.UPDATE)
+    @Log(title = "Employee salary", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrPayroll hrPayroll) {
         return toAjax(hrPayrollService.updateHrPayroll(hrPayroll));
     }
 
     /**
-     * Delete EMPLOYEE SALARY
+     * Delete Employee salary
      */
     @RequiresPermissions("hr:payroll:remove")
-    @Log(title = " EMPLOYEE  SALARY ", businessType = BusinessType.DELETE)
+    @Log(title = "Employee salary", businessType = BusinessType.DELETE)
     @DeleteMapping("/{payrollIds}")
     public AjaxResult remove(@PathVariable String[] payrollIds) {
         return toAjax(hrPayrollService.removeByIds(Arrays.asList(payrollIds)));

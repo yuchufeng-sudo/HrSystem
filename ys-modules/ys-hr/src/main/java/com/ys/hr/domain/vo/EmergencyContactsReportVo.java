@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class EmergencyContactsReportVo {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long employeeId;
-    @Excel(name = "EMPLOYEE FULL NAME")
+    @Excel(name = "Employee FULL NAME")
     private String fullName;
     @Excel(name = "Emergency Contact")
     private String emergencyContact;

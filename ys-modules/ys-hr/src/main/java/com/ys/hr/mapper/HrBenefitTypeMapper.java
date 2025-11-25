@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrBenefitType;
 import java.util.List;
 
 /**
- *  WELFARE TYPE   LIST Mapper Interface
+ *  welfare type list Mapper Interface
  *
  * @author ys
  * @date 2025-06-09
@@ -14,18 +14,18 @@ import java.util.List;
 public interface HrBenefitTypeMapper extends BaseMapper<HrBenefitType>
 {
     /**
-     * Query  WELFARE TYPE   LIST
+     * Query welfare type list
      *
-     * @param benefitTypeId  WELFARE TYPE   LIST primary key
-     * @return  WELFARE TYPE   LIST
+     * @param benefitTypeId  welfare type list primary key
+     * @return  welfare type list
      */
     public HrBenefitType selectHrBenefitTypeByBenefitTypeId(String benefitTypeId);
 
     /**
-     * Query  WELFARE TYPE   LIST list
+     * Query welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
-     * @return  WELFARE TYPE   LIST collection
+     * @param hrBenefitType  welfare type list
+     * @return  welfare type list collection
      */
     public List<HrBenefitType> selectHrBenefitTypeList(HrBenefitType hrBenefitType);
 

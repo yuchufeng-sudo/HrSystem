@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Manages task assignments and progress tracking for employee targets Controller
+ * Targets Manages Controller
  *
  * @author ys
  * @date 2025-06-18
@@ -48,7 +48,7 @@ public class HrTargetTasksController extends BaseController
     private IHrEmployeesService hrEmployeesService;
 
     /**
-     * Query Manages task assignments and progress tracking for employee targets list
+     * Query Targets Manages list
      */
     @RequiresPermissions("hr:targets:list")
     @GetMapping("/list")
@@ -60,7 +60,7 @@ public class HrTargetTasksController extends BaseController
     }
 
     /**
-     * Get Manages task assignments and progress tracking for employee targets details
+     * Get Targets Manages details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -70,20 +70,20 @@ public class HrTargetTasksController extends BaseController
     }
 
     /**
-     * Add Manages task assignments and progress tracking for employee targets
+     * Add Targets Manages
      */
     @RequiresPermissions("hr:targets:list")
-    @Log(title = "Manages task assignments and progress tracking for employee targets", businessType = BusinessType.INSERT)
+    @Log(title = "Targets Manages", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrTargetTasks hrTargetTasks) {
         return toAjax(hrTargetTasksService.insertHrTargetTasks(hrTargetTasks));
     }
 
     /**
-     * Update Manages task assignments and progress tracking for employee targets
+     * Update Targets Manages
      */
     @RequiresPermissions("hr:targets:list")
-    @Log(title = "Manages task assignments and progress tracking for employee targets", businessType = BusinessType.UPDATE)
+    @Log(title = "Targets Manages", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrTargetTasks hrTargetTasks) {
         checkParticipants(hrTargetTasks.getId());
@@ -118,10 +118,10 @@ public class HrTargetTasksController extends BaseController
     }
 
     /**
-     * Delete Manages task assignments and progress tracking for employee targets
+     * Delete Targets Manages
      */
     @RequiresPermissions("hr:targets:list")
-    @Log(title = "Manages task assignments and progress tracking for employee targets", businessType = BusinessType.DELETE)
+    @Log(title = "Targets Manages", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(hrTargetTasksService.removeByIds(Arrays.asList(ids)));
@@ -178,7 +178,6 @@ public class HrTargetTasksController extends BaseController
         Long userId = SecurityUtils.getUserId();
         HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(userId);
         queryWrapper.eq("employee_id", hrEmployees.getEmployeeId());
-        queryWrapper.eq("type",1);
         long count = hrTargetEmployeeService.count(queryWrapper);
         return count != 0;
     }

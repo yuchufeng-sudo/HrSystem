@@ -5,19 +5,22 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ys.common.core.annotation.Excel;
 import com.ys.common.core.web.domain.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- *  MESSAGE TEMPLATE 
- MANAGEMENT  Object tb_message_template
+ *  Message Template management Object tb_message_template
  *
- * @author ruoyi
+ * @author ys
  * @date 2024-10-23
  */
 @Data
 @TableName("tb_message_template")
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysMessageTemplate extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -43,19 +46,4 @@ public class SysMessageTemplate extends BaseEntity
 
     private String icon;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("name", getName())
-            .append("contentCn", getContentCn())
-            .append("contentEn", getContentEn())
-            .append("pathConfig", getPathConfig())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
-    }
 }

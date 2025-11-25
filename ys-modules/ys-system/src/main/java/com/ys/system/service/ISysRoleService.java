@@ -7,63 +7,63 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * ROLE Business Layer
+ * role Business Layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysRoleService
 {
     /**
-     * Query ROLE data by conditions with pagination.
+     * Query role data by conditions with pagination.
      *
-     * @param role ROLE INFORMATION
-     * @return ROLE Data Set INFORMATION
+     * @param role role Information
+     * @return role Data Set Information
      */
     public List<SysRole> selectRoleList(SysRole role);
 
     /**
-     * According to USER IDQUERYROLE  LIST
+     * According to User IDQUERY role  list
      *
-     * @param userId USER ID
-     * @return ROLE  LIST
+     * @param userId User ID
+     * @return role  list
      */
     public List<SysRole> selectRolesByUserId(Long userId);
 
     /**
-     * According to USER IDQUERYROLEPermission
+     * According to User ID Query role Permission
      *
-     * @param userId USER ID
-     * @return Permission  LIST
+     * @param userId User ID
+     * @return Permission  list
      */
     public Set<String> selectRolePermissionByUserId(Long userId);
 
     /**
-     * QUERY all ROLE
+     * Query all role
      *
-     * @return ROLE  LIST
+     * @return role  list
      */
     public List<SysRole> selectRoleAll();
 
     /**
-     * According to USER IDOBTAIN ROLESELECT  LIST
+     * According to User ID OBTAIN role SELECT list
      *
-     * @param userId USER ID
-     * @return Select ROLEID  LIST
+     * @param userId User ID
+     * @return Select role ID  list
      */
     public List<Long> selectRoleListByUserId(Long userId);
 
     /**
-     * By ROLE ID QUERY ROLE
+     * By role ID Query role
      *
-     * @param roleId ROLEID
-     * @return ROLEObject INFORMATION
+     * @param roleId role ID
+     * @return role Object Information
      */
     public SysRole selectRoleById(Long roleId);
 
     /**
-     *  Verify whether the ROLE Name is unique.
+     *  Verify whether the role Name is unique.
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public boolean checkRoleNameUnique(SysRole role);
@@ -71,7 +71,7 @@ public interface ISysRoleService
     /**
      *  Verify whether the ROLE Permission is unique.
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public boolean checkRoleKeyUnique(SysRole role);
@@ -79,7 +79,7 @@ public interface ISysRoleService
     /**
      *  Verify whether ROLE is allowed to perform OPERATION.
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      */
     public void checkRoleAllowed(SysRole role);
 
@@ -93,23 +93,23 @@ public interface ISysRoleService
     /**
      * Query the usage quantity of ROLE by ROLE ID.
      *
-     * @param roleId ROLEID
+     * @param roleId Role Id
      * @return Result
      */
     public int countUserRoleByRoleId(Long roleId);
 
     /**
-     * ADDsave ROLE INFORMATION
+     * Save ROLE Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public int insertRole(SysRole role);
 
     /**
-     * MODIFYsave ROLE INFORMATION
+     * MODIFYsave ROLE Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public int updateRole(SysRole role);
@@ -117,15 +117,15 @@ public interface ISysRoleService
     /**
      * MODIFYROLEStatus
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public int updateRoleStatus(SysRole role);
 
     /**
-     * Modify Data Permission INFORMATION
+     * Update Data Permission Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public int authDataScope(SysRole role);
@@ -133,13 +133,13 @@ public interface ISysRoleService
     /**
      * By ROLEIDDELETEROLE
      *
-     * @param roleId ROLEID
+     * @param roleId Role Id
      * @return Result
      */
     public int deleteRoleById(Long roleId);
 
     /**
-     * Batch DELETEROLE INFORMATION
+     * Batch DELETEROLE Information
      *
      * @param roleIds ROLE ID to be DELETED
      * @return Result
@@ -147,26 +147,26 @@ public interface ISysRoleService
     public int deleteRoleByIds(Long[] roleIds);
 
     /**
-     * Revoke Authorization for USER ROLE
+     * Revoke Authorization for User ROLE
      *
-     * @param userRole Association INFORMATION between USER and ROLE
+     * @param userRole Association Information between User and ROLE
      * @return Result
      */
     public int deleteAuthUser(SysUserRole userRole);
 
     /**
-     * Batch Revoke Authorization for USER ROLE
+     * Batch Revoke Authorization for User ROLE
      *
-     * @param roleId ROLEID
-     * @param userIds Data ID of the USER whose authorization needs to be revoked
+     * @param roleId Role Id
+     * @param userIds Data ID of the User whose authorization needs to be revoked
      * @return Result
      */
     public int deleteAuthUsers(Long roleId, Long[] userIds);
 
     /**
-     * Batch SELECT Authorized USER ROLE
+     * Batch SELECT Authorized User ROLE
      *
-     * @param roleId ROLEID
+     * @param roleId Role Id
      * @param userIds
      * @return Result
      */

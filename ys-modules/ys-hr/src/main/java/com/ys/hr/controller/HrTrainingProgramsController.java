@@ -26,7 +26,7 @@ import com.ys.hr.service.IHrTrainingProgramsService;
 import org.springframework.validation.annotation.Validated;
 
 /**
- *  TRAINING PROGRAM SUPERVISOR  Controller
+ *  Training Management Controller
  *
  * @author ys
  * @date 2025-05-29
@@ -39,7 +39,7 @@ public class HrTrainingProgramsController extends BaseController
     private IHrTrainingProgramsService hrTrainingProgramsService;
 
     /**
-     * Query  TRAINING PROGRAM SUPERVISOR  list
+     * Query Training Management list
      */
     @RequiresPermissions("hr:programs:list")
     @GetMapping("/list")
@@ -52,20 +52,20 @@ public class HrTrainingProgramsController extends BaseController
     }
 
     /**
-     * Export  TRAINING PROGRAM SUPERVISOR  list
+     * Export Training Management list
      */
-    @Log(title = " TRAINING PROGRAM SUPERVISOR ", businessType = BusinessType.EXPORT)
+    @Log(title = "Training Management", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrTrainingPrograms hrTrainingPrograms)
     {
         hrTrainingPrograms.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         List<HrTrainingPrograms> list = hrTrainingProgramsService.selectHrTrainingProgramsList(hrTrainingPrograms);
         ExcelUtil<HrTrainingPrograms> util = new ExcelUtil<HrTrainingPrograms>(HrTrainingPrograms.class);
-        util.exportExcel(response, list, " TRAINING PROGRAM SUPERVISOR  Data");
+        util.exportExcel(response, list, " Training Management Data");
     }
 
     /**
-     * Get  TRAINING PROGRAM SUPERVISOR  details
+     * Get Training Management details
      */
     @GetMapping(value = "/{programId}")
     public AjaxResult getInfo(@PathVariable("programId") Long programId) {
@@ -73,30 +73,30 @@ public class HrTrainingProgramsController extends BaseController
     }
 
     /**
-     * Add  TRAINING PROGRAM SUPERVISOR
+     * Add Training Management
      */
     @RequiresPermissions("hr:programs:add")
-    @Log(title = " TRAINING PROGRAM SUPERVISOR ", businessType = BusinessType.INSERT)
+    @Log(title = "Training Management", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrTrainingPrograms hrTrainingPrograms) {
         return toAjax(hrTrainingProgramsService.insertHrTrainingPrograms(hrTrainingPrograms));
     }
 
     /**
-     * Update  TRAINING PROGRAM SUPERVISOR
+     * Update Training Management
      */
     @RequiresPermissions("hr:programs:assign")
-    @Log(title = " TRAINING PROGRAM SUPERVISOR ", businessType = BusinessType.UPDATE)
+    @Log(title = "Training Management", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrTrainingPrograms hrTrainingPrograms) {
         return toAjax(hrTrainingProgramsService.updateHrTrainingPrograms(hrTrainingPrograms));
     }
 
     /**
-     * Delete  TRAINING PROGRAM SUPERVISOR
+     * Delete Training Management
      */
     @RequiresPermissions("hr:programs:remove")
-    @Log(title = " TRAINING PROGRAM SUPERVISOR ", businessType = BusinessType.DELETE)
+    @Log(title = "Training Management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{programIds}")
     public AjaxResult remove(@PathVariable Long[] programIds) {
         return toAjax(hrTrainingProgramsService.removeByIds(Arrays.asList(programIds)));

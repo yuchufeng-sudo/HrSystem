@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ys.hr.domain.HrEnterpriseRealNameInfo;
 
 /**
- *  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  Mapper Interface
+ *  Enterprise Real-name authentication Information  Mapper Interface
  *
  * @author ys
  * @date 2025-06-05
@@ -13,18 +13,18 @@ import com.ys.hr.domain.HrEnterpriseRealNameInfo;
 public interface HrEnterpriseRealNameInfoMapper extends BaseMapper<HrEnterpriseRealNameInfo>
 {
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION 
+     * Query Enterprise Real-name authentication Information 
      *
-     * @param id  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary key
-     * @return  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION 
+     * @param id  Enterprise Real-name authentication Information  primary key
+     * @return  Enterprise Real-name authentication Information 
      */
     public HrEnterpriseRealNameInfo selectHrEnterpriseRealNameInfoById(Long id);
     
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  list
+     * Query Enterprise Real-name authentication Information list
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION 
-     * @return  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  collection
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information 
+     * @return  Enterprise Real-name authentication Information  collection
      */
     public List<HrEnterpriseRealNameInfo> selectHrEnterpriseRealNameInfoList(HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo);
 

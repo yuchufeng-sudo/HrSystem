@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmpHoliday;
 import java.util.List;
 
 /**
- *  EMPLOYEE  HOLIDAY  Service Interface
+ *  Employee Holiday  Service Interface
  *
  * @author ys
  * @date 2025-05-23
@@ -15,10 +15,10 @@ public interface IHrEmpHolidayService extends IService<HrEmpHoliday>
 {
 
     /**
-     * QUERY EMPLOYEE  HOLIDAY    LIST
+     * Query Employee Holiday list
      *
-     * @param hrEmpHoliday  EMPLOYEE  HOLIDAY  
-     * @return  EMPLOYEE  HOLIDAY  Set
+     * @param hrEmpHoliday  Employee Holiday
+     * @return  Employee Holiday  Set
      */
     public List<HrEmpHoliday> selectHrEmpHolidayList(HrEmpHoliday hrEmpHoliday);
 

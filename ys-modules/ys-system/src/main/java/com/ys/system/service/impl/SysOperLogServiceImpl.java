@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * OPERATION LOG Service Layer Processing
+ * Operation Log Service Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysOperLogServiceImpl implements ISysOperLogService
@@ -20,9 +20,9 @@ public class SysOperLogServiceImpl implements ISysOperLogService
     private SysOperLogMapper operLogMapper;
 
     /**
-     * ADDOPERATION LOG
+     * Add Operation Log
      *
-     * @param operLog OPERATION LOG Object
+     * @param operLog Operation Log Object
      * @return Result
      */
     @Override
@@ -32,10 +32,10 @@ public class SysOperLogServiceImpl implements ISysOperLogService
     }
 
     /**
-     * QUERY SystemOPERATION LOG Set
+     * Query System Operation Log Set
      *
-     * @param operLog OPERATION LOG Object
-     * @return OPERATION LOG Set
+     * @param operLog Operation Log Object
+     * @return Operation Log Set
      */
     @Override
     public List<SysOperLog> selectOperLogList(SysOperLog operLog)
@@ -44,9 +44,9 @@ public class SysOperLogServiceImpl implements ISysOperLogService
     }
 
     /**
-     * Batch DELETE SystemOPERATION LOG
+     * Batch Delete System Operation Log
      *
-     * @param operIds The OPERATION LOG ID to be DELETED
+     * @param operIds The Operation Log ID to be DELETED
      * @return Result
      */
     @Override
@@ -56,10 +56,10 @@ public class SysOperLogServiceImpl implements ISysOperLogService
     }
 
     /**
-     * QUERYOPERATION LOG DETAILEDLY
+     * Query Operation Log Details
      *
-     * @param operId OPERATIONID
-     * @return OPERATION LOG Object
+     * @param operId Operation ID
+     * @return Operation Log Object
      */
     @Override
     public SysOperLog selectOperLogById(Long operId)
@@ -68,7 +68,7 @@ public class SysOperLogServiceImpl implements ISysOperLogService
     }
 
     /**
-     * CLEAR OPERATION LOG
+     * Clear Operation Log
      */
     @Override
     public void cleanOperLog()

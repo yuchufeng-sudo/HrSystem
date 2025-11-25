@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * THE CONTRACT EXPIRES Detection
+ * Contract expiration Detection
  */
 @Service
 public class ContractMonitorService {

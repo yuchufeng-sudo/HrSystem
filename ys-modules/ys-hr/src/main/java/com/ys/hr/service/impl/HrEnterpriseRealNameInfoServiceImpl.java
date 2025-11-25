@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  Service Implementation
+ *  Enterprise Real-name authentication Information  Service Implementation
  *
  * @author ys
  * @date 2025-06-05
@@ -21,10 +21,10 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
 {
 
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Query Enterprise Real-name authentication Information
      *
-     * @param id  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary key
-     * @return  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param id  Enterprise Real-name authentication Information  primary key
+     * @return  Enterprise Real-name authentication Information
      */
     @Override
     public HrEnterpriseRealNameInfo selectHrEnterpriseRealNameInfoById(Long id)
@@ -33,10 +33,10 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  list
+     * Query Enterprise Real-name authentication Information list
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
-     * @return  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information
+     * @return  Enterprise Real-name authentication Information
      */
     @Override
     public List<HrEnterpriseRealNameInfo> selectHrEnterpriseRealNameInfoList(HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo)
@@ -45,9 +45,9 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * Add  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Add Enterprise Real-name authentication Information
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information
      * @return Result
      */
     @Override
@@ -58,9 +58,9 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * Update  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Update Enterprise Real-name authentication Information
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information
      * @return Result
      */
     @Override
@@ -71,9 +71,9 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * Batch delete  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Batch delete  Enterprise Real-name authentication Information
      *
-     * @param ids  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary keys to be deleted
+     * @param ids  Enterprise Real-name authentication Information  primary keys to be deleted
      * @return Result
      */
     @Override
@@ -83,9 +83,9 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * Delete  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  information
+     * Delete Enterprise Real-name authentication Information  information
      *
-     * @param id  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary key
+     * @param id  Enterprise Real-name authentication Information  primary key
      * @return Result
      */
     @Override
@@ -95,7 +95,7 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * According to USER idQUERY INFORMATION
+     * According to User idQUERY Information
      * @param userEnterpriseId
      * @return
      */
@@ -105,7 +105,7 @@ public class HrEnterpriseRealNameInfoServiceImpl extends ServiceImpl<HrEnterpris
     }
 
     /**
-     * According to  Serial NumberQUERY INFORMATION
+     * According to  Serial NumberQUERY Information
      * @param serialNo
      * @return
      */

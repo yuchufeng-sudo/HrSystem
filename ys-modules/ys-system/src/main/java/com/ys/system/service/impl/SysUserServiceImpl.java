@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * USER Business Layer Processing
+ * User Business Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysUserServiceImpl implements ISysUserService
@@ -53,10 +53,10 @@ public class SysUserServiceImpl implements ISysUserService
     protected Validator validator;
 
     /**
-     *Query USER LIST by Conditions with Pagination
+     *Query User list by Conditions with Pagination
      *
-     * @param user  USER INFORMATION
-     * @return  USER INFORMATIONSet INFORMATION
+     * @param user  User Information
+     * @return  User INFORMATIONSet Information
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
@@ -66,10 +66,10 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * Query Assigned USER ROLE LIST by Conditions with Pagination
+     * Query Assigned User role list by Conditions with Pagination
      *
-     * @param user  USER INFORMATION
-     * @return  USER INFORMATIONSet INFORMATION
+     * @param user  User Information
+     * @return  User INFORMATIONSet Information
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
@@ -79,10 +79,10 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * Query Unassigned USER ROLE LIST by Conditions with Pagination
+     * Query Unassigned User role list by Conditions with Pagination
      *
-     * @param user  USER INFORMATION
-     * @return  USER INFORMATIONSet INFORMATION
+     * @param user  User Information
+     * @return  User INFORMATIONSet Information
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
@@ -92,10 +92,10 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * By USER Name QUERY USER
+     * By User Name Query User
      *
-     * @param userName USER Name
-     * @return USER Object INFORMATION
+     * @param userName User Name
+     * @return User Object Information
      */
     @Override
     public SysUser selectUserByUserName(String userName)
@@ -104,10 +104,10 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * By USER ID QUERY USER
+     * By User ID Query User
      *
-     * @param userId USER ID
-     * @return USER Object INFORMATION
+     * @param userId User ID
+     * @return User Object Information
      */
     @Override
     public SysUser selectUserById(Long userId)
@@ -116,9 +116,9 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * Query the ROLE Group to which the USER Belongs
+     * Query the role Group to which the User Belongs
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @return Result
      */
     @Override
@@ -133,9 +133,9 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     *  Verify Whether USER Name Is Unique
+     *  Verify Whether User Name Is Unique
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     @Override
@@ -164,7 +164,7 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      *  Verify Whether Mobile Phone Number Is Unique
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return
      */
     @Override
@@ -182,7 +182,7 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      *  Verify Whether Email Is Unique
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return
      */
     @Override
@@ -198,23 +198,23 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     *  Verify Whether the USER Is Allowed to Perform the OPERATION
+     *  Verify Whether the User Is Allowed to Perform the OPERATION
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      */
     @Override
     public void checkUserAllowed(SysUser user)
     {
         if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
         {
-            throw new ServiceException("OPERATION by Super MANAGEMENT Users Is Not Allowed");
+            throw new ServiceException("OPERATION by Super management Users Is Not Allowed");
         }
     }
 
     /**
-     *  Verify Whether the USER Has Data Permission
+     *  Verify Whether the User Has Data Permission
      *
-     * @param userId USER id
+     * @param userId User id
      */
     @Override
     public void checkUserDataScope(Long userId)
@@ -233,26 +233,26 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * ADDsave  USER INFORMATION
+     * Save User Information
      *
-     * @param user  USER INFORMATION
+     * @param user User Information
      * @return Result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertUser(SysUser user)
     {
-        // ADD USER INFORMATION
+        // Add User Information
         int rows = userMapper.insertUser(user);
-        // Add the Association between USER and ROLE MANAGEMENT
+        // Add the Association between User and role management
         insertUserRole(user);
         return rows;
     }
 
     /**
-     * Register USER INFORMATION
+     * Register User Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     @Override
@@ -262,9 +262,9 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * MODIFYsave  USER INFORMATION
+     * MODIFYsave  User Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     @Override
@@ -272,20 +272,20 @@ public class SysUserServiceImpl implements ISysUserService
     public int updateUser(SysUser user)
     {
         Long userId = user.getUserId();
-        // DELETE USER and ROLE Association
+        // Delete User and role Association
         if (user.getRoleIds()!=null){
             userRoleMapper.deleteUserRoleByUserId(userId);
         }
-        // Add the Association between USER and ROLE MANAGEMENT
+        // Add the Association between User and role management
         insertUserRole(user);
         return userMapper.updateUser(user);
     }
 
     /**
-     * USER Authorizes ROLE
+     * User Authorizes role
      *
-     * @param userId USER ID
-     * @param roleIds ROLE Group
+     * @param userId User ID
+     * @param roleIds role Group
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -298,7 +298,7 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      * MODIFYUSER Status
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     @Override
@@ -308,9 +308,9 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * MODIFY USER Basic INFORMATION
+     * Update User Basic Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     @Override
@@ -320,9 +320,9 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * MODIFY USER Avatar
+     * Update User Avatar
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @param avatar Avatar Address
      * @return Result
      */
@@ -335,7 +335,7 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      * RESETUSER Password
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     @Override
@@ -347,7 +347,7 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      * RESETUSER Password
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @param password Password
      * @return Result
      */
@@ -358,9 +358,9 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * ADDUSER ROLE INFORMATION
+     * ADDUSER role Information
      *
-     * @param user USER Object
+     * @param user User Object
      */
     public void insertUserRole(SysUser user)
     {
@@ -368,16 +368,16 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * ADDUSER ROLE INFORMATION
+     * ADDUSER role Information
      *
-     * @param userId USER ID
-     * @param roleIds ROLE Group
+     * @param userId User ID
+     * @param roleIds role Group
      */
     public void insertUserRole(Long userId, Long[] roleIds)
     {
         if (StringUtils.isNotEmpty(roleIds))
         {
-            // Add the Association between USER and ROLE MANAGEMENT
+            // Add the Association between User and role management
             List<SysUserRole> list = new ArrayList<SysUserRole>();
             for (Long roleId : roleIds)
             {
@@ -391,24 +391,24 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * By USER IDDELETEUSER
+     * By User IDDELETEUSER
      *
-     * @param userId USER ID
+     * @param userId User ID
      * @return Result
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteUserById(Long userId)
     {
-        // DELETE USER and ROLE Association
+        // Delete User and role Association
         userRoleMapper.deleteUserRoleByUserId(userId);
         return userMapper.deleteUserById(userId);
     }
 
     /**
-     * Batch DELETE USER INFORMATION
+     * Batch Delete User Information
      *
-     * @param userIds USER ID to Be DELETED
+     * @param userIds User ID to Be DELETED
      * @return Result
      */
     @Override
@@ -420,15 +420,15 @@ public class SysUserServiceImpl implements ISysUserService
             checkUserAllowed(new SysUser(userId));
             checkUserDataScope(userId);
         }
-        // DELETE USER and ROLE Association
+        // Delete User and role Association
         userRoleMapper.deleteUserRole(userIds);
         return userMapper.deleteUserByIds(userIds);
     }
 
     /**
-     * Import USER Data
+     * Import User Data
      *
-     * @param userList USER Data LIST
+     * @param userList User Data list
      * @param isUpdateSupport Whether Update Is Supported. If It Already Exists, Update the Data
      * @param operName OPERATIONUSER
      * @return Result
@@ -438,7 +438,7 @@ public class SysUserServiceImpl implements ISysUserService
     {
         if (StringUtils.isNull(userList) || userList.size() == 0)
         {
-            throw new ServiceException("Import USER DataCANNOT BE EMPTY.！");
+            throw new ServiceException("Import User Data cannot be empty.！");
         }
         int successNum = 0;
         int failureNum = 0;
@@ -448,7 +448,7 @@ public class SysUserServiceImpl implements ISysUserService
         {
             try
             {
-                // Verify Whether This USER Exists
+                // Verify Whether This User Exists
                 SysUser u = userMapper.selectUserByUserName(user.getUserName());
                 if (StringUtils.isNull(u))
                 {

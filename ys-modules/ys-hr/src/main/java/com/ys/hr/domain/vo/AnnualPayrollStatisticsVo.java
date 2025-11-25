@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnnualPayrollStatisticsVo {
-    // SALARY CLASSIFICATION Name
-    @Excel(name = "SALARY Sort Name")
+    // salary CLASSIFICATION Name
+    @Excel(name = "salary Sort Name")
     private String category;
 
-    // 1-12 Month SALARY Summary
+    // 1-12 Month salary Summary
     @Excel(name = "January")
     private Double jan;
     @Excel(name = "February")
@@ -43,7 +43,7 @@ public class AnnualPayrollStatisticsVo {
     @Excel(name = "December")
     private Double dec;
 
-    // Conversion rate (the value of this CLASSIFICATION in December / total annual pre-tax SALARY)
+    // Conversion rate (the value of this CLASSIFICATION in December / total annual pre-tax salary)
     @Excel(name = "Conversion Rate")
     private Double conversionRate;
 }

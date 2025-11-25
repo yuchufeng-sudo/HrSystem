@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrSealInfo;
 import java.util.List;
 
 /**
- *  SEAL INFORMATION  Service Interface
+ *  seal Information  Service Interface
  *
  * @author ys
  * @date 2025-06-05
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrSealInfoService extends IService<HrSealInfo>
 {
     /**
-     * Query  SEAL INFORMATION
+     * Query seal Information
      *
-     * @param id  SEAL INFORMATION  primary key
-     * @return  SEAL INFORMATION
+     * @param id  seal Information  primary key
+     * @return  seal Information
      */
     public HrSealInfo selectHrSealInfoById(Long id);
 
     /**
-     * Query  SEAL INFORMATION  list
+     * Query seal Information list
      *
-     * @param hrSealInfo  SEAL INFORMATION
-     * @return  SEAL INFORMATION  collection
+     * @param hrSealInfo  seal Information
+     * @return  seal Information  collection
      */
     public List<HrSealInfo> selectHrSealInfoList(HrSealInfo hrSealInfo);
 
     /**
-     * Add  SEAL INFORMATION
+     * Add seal Information
      *
-     * @param hrSealInfo  SEAL INFORMATION
+     * @param hrSealInfo  seal Information
      * @return Result
      */
     public int insertHrSealInfo(HrSealInfo hrSealInfo);
 
     /**
-     * Update  SEAL INFORMATION
+     * Update seal Information
      *
-     * @param hrSealInfo  SEAL INFORMATION
+     * @param hrSealInfo  seal Information
      * @return Result
      */
     public int updateHrSealInfo(HrSealInfo hrSealInfo);
 
     /**
-     * Batch delete  SEAL INFORMATION
+     * Batch delete  seal Information
      *
-     * @param ids  SEAL INFORMATION  primary keys to be deleted
+     * @param ids  seal Information  primary keys to be deleted
      * @return Result
      */
     public int deleteHrSealInfoByIds(String[] ids);
 
     /**
-     * Delete  SEAL INFORMATION  information
+     * Delete seal Information  information
      *
-     * @param id  SEAL INFORMATION  primary key
+     * @param id  seal Information  primary key
      * @return Result
      */
     public int deleteHrSealInfoById(String id);

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- *  MESSAGE TEMPLATE MANAGEMENT Service Business Layer Processing
+ *  Message Template management Service Business Layer Processing
  *
- * @author ruoyi
+ * @author ys
  * @date 2024-10-23
  */
 @Service
@@ -23,10 +23,10 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
     private SysMessageTemplateMapper sysMessageTemplateMapper;
 
     /**
-     * QUERY MESSAGE TEMPLATE MANAGEMENT  
+     * Query Message Template management
      *
-     * @param id  MESSAGE TEMPLATE MANAGEMENT Primary Key
-     * @return  MESSAGE TEMPLATE MANAGEMENT  
+     * @param id  Message Template management Primary Key
+     * @return  Message Template management
      */
     @Override
     public SysMessageTemplate selectSysMessageTemplateById(Integer id)
@@ -35,13 +35,10 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
     }
 
     /**
-     * QUERY MESSAGE TEMPLATE 
- MANAGEMENT    LIST
+     * Query Message Template management list
      *
-     * @param sysMessageTemplate  MESSAGE TEMPLATE 
- MANAGEMENT  
-     * @return  MESSAGE TEMPLATE 
- MANAGEMENT  
+     * @param sysMessageTemplate  Message Template management
+     * @return  Message Template management
      */
     @Override
     public List<SysMessageTemplate> selectSysMessageTemplateList(SysMessageTemplate sysMessageTemplate)
@@ -50,11 +47,9 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
     }
 
     /**
-     * ADD MESSAGE TEMPLATE 
- MANAGEMENT  
+     * Add Message Template management
      *
-     * @param sysMessageTemplate  MESSAGE TEMPLATE 
- MANAGEMENT  
+     * @param sysMessageTemplate  Message Template management
      * @return Result
      */
     @Override
@@ -65,11 +60,9 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
     }
 
     /**
-     * MODIFY MESSAGE TEMPLATE 
- MANAGEMENT  
+     * Update Message Template management
      *
-     * @param sysMessageTemplate  MESSAGE TEMPLATE 
- MANAGEMENT  
+     * @param sysMessageTemplate  Message Template management
      * @return Result
      */
     @Override
@@ -80,10 +73,9 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
     }
 
     /**
-     * Batch DELETE MESSAGE TEMPLATE 
- MANAGEMENT  
+     * Batch Delete Message Template management
      *
-     * @param ids The MESSAGE TEMPLATE MANAGEMENT Primary Key to be DELETED
+     * @param ids The Message Template management Primary Key to be DELETED
      * @return Result
      */
     @Override
@@ -93,9 +85,9 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
     }
 
     /**
-     * DELETE MESSAGE TEMPLATE MANAGEMENT   INFORMATION
+     * Delete Message Template management   Information
      *
-     * @param id  MESSAGE TEMPLATE MANAGEMENT Primary Key
+     * @param id  Message Template management Primary Key
      * @return Result
      */
     @Override

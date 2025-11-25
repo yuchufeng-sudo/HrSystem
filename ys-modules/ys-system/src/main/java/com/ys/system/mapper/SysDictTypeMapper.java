@@ -7,43 +7,43 @@ import java.util.List;
 /**
  * Dictionary table data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysDictTypeMapper
 {
     /**
      * Query dictionary types with pagination based on conditions.
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
-     * @return  DICTIONARY TYPE Set INFORMATION
+     * @param dictType  Dictionary type  Information
+     * @return  Dictionary type Set Information
      */
     public List<SysDictType> selectDictTypeList(SysDictType dictType);
 
     /**
-     * According to  all  DICTIONARY TYPE
+     * According to  all  Dictionary type
      *
-     * @return  DICTIONARY TYPE Set INFORMATION
+     * @return  Dictionary type Set Information
      */
     public List<SysDictType> selectDictTypeAll();
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  IDQUERY INFORMATION
+     * ACCORDING TO THE Dictionary type  IDQUERY Information
      *
-     * @param dictId  DICTIONARY TYPE ID
-     * @return  DICTIONARY TYPE
+     * @param dictId  Dictionary type ID
+     * @return  Dictionary type
      */
     public SysDictType selectDictTypeById(Long dictId);
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY INFORMATION
+     * ACCORDING TO THE Dictionary type  Query Information
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY TYPE
+     * @param dictType  Dictionary type
+     * @return  Dictionary type
      */
     public SysDictType selectDictTypeByType(String dictType);
 
     /**
-     * By Dictionary IDDELETEDictionary INFORMATION
+     * By Dictionary IDDELETEDictionary Information
      *
      * @param dictId Dictionary ID
      * @return Result
@@ -51,7 +51,7 @@ public interface SysDictTypeMapper
     public int deleteDictTypeById(Long dictId);
 
     /**
-     * Batch DELETE DICTIONARY TYPE  INFORMATION
+     * Batch Delete Dictionary type  Information
      *
      * @param dictIds Dictionary ID to be DELETED
      * @return Result
@@ -59,25 +59,25 @@ public interface SysDictTypeMapper
     public int deleteDictTypeByIds(Long[] dictIds);
 
     /**
-     * ADD DICTIONARY TYPE  INFORMATION
+     * Add Dictionary type  Information
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
+     * @param dictType  Dictionary type  Information
      * @return Result
      */
     public int insertDictType(SysDictType dictType);
 
     /**
-     * MODIFY DICTIONARY TYPE  INFORMATION
+     * Update Dictionary type  Information
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
+     * @param dictType  Dictionary type  Information
      * @return Result
      */
     public int updateDictType(SysDictType dictType);
 
     /**
-     *  Verify whether the name of DICTIONARY TYPE is unique.
+     *  Verify whether the name of Dictionary type is unique.
      *
-     * @param dictType  DICTIONARY TYPE
+     * @param dictType  Dictionary type
      * @return Result
      */
     public SysDictType checkDictTypeUnique(String dictType);

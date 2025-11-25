@@ -64,14 +64,14 @@ public interface IHrDeptService extends IService<HrDept>
 
     /**
      * To query the joined DEPARTMENT.
-  LIST
+  list
      * @param dept
      * @return
      */
     List<HrDept> getDeptList(HrDept dept);
 
     /**
-     * Statistics of DEPARTMENT EMPLOYEE Quantity
+     * Statistics of DEPARTMENT Employee Quantity
      * @param userEnterpriseId
      * @return
      */

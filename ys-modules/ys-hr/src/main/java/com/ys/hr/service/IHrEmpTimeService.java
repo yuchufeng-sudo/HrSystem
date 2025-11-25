@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmpTime;
 import java.util.List;
 
 /**
- *  EMPLOYEE  TIME  Service Interface
+ *  Employee time  Service Interface
  *
  * @author ys
  * @date 2025-06-03
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrEmpTimeService extends IService<HrEmpTime>
 {
     /**
-     * Query  EMPLOYEE  TIME
+     * Query Employee time
      *
-     * @param empTimeId  EMPLOYEE  TIME  primary key
-     * @return  EMPLOYEE  TIME
+     * @param empTimeId  Employee time  primary key
+     * @return  Employee time
      */
     public HrEmpTime selectHrEmpTimeByEmpTimeId(String empTimeId);
 
     /**
-     * Query  EMPLOYEE  TIME  list
+     * Query Employee time  list
      *
-     * @param hrEmpTime  EMPLOYEE  TIME
-     * @return  EMPLOYEE  TIME  collection
+     * @param hrEmpTime  Employee time
+     * @return  Employee time  collection
      */
     public List<HrEmpTime> selectHrEmpTimeList(HrEmpTime hrEmpTime);
 
     /**
-     * Add  EMPLOYEE  TIME
+     * Add Employee time
      *
-     * @param hrEmpTime  EMPLOYEE  TIME
+     * @param hrEmpTime  Employee time
      * @return Result
      */
     public int insertHrEmpTime(HrEmpTime hrEmpTime);
 
     /**
-     * Update  EMPLOYEE  TIME
+     * Update Employee time
      *
-     * @param hrEmpTime  EMPLOYEE  TIME
+     * @param hrEmpTime  Employee time
      * @return Result
      */
     public int updateHrEmpTime(HrEmpTime hrEmpTime);
 
     /**
-     * Batch delete  EMPLOYEE  TIME
+     * Batch delete  Employee time
      *
-     * @param empTimeIds  EMPLOYEE  TIME  primary keys to be deleted
+     * @param empTimeIds  Employee time  primary keys to be deleted
      * @return Result
      */
     public int deleteHrEmpTimeByEmpTimeIds(String[] empTimeIds);
 
     /**
-     * Delete  EMPLOYEE  TIME  information
+     * Delete Employee time  information
      *
-     * @param empTimeId  EMPLOYEE  TIME  primary key
+     * @param empTimeId  Employee time  primary key
      * @return Result
      */
     public int deleteHrEmpTimeByEmpTimeId(String empTimeId);

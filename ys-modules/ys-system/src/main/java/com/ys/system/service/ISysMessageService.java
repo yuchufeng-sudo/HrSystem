@@ -24,7 +24,7 @@ public interface ISysMessageService extends IService<SysMessage>
     public SysMessage selectSysMessageByMessageId(Long messageId);
 
     /**
-     * QUERYMessage Send  LIST
+     * QUERYMessage Send  list
      *
      * @param SysMessage Message Send
      * @return Message SendSet
@@ -56,7 +56,7 @@ public interface ISysMessageService extends IService<SysMessage>
     public int deleteSysMessageByMessageIds(Long[] messageIds);
 
     /**
-     * DELETEMessage Send INFORMATION
+     * DELETEMessage Send Information
      *
      * @param messageId Message Send Primary Key
      * @return Result

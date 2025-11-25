@@ -50,7 +50,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     }
 
     /**
-     * QUERYMessage Send  LIST
+     * QUERYMessage Send  list
      *
      * @param sysMessage Message Send
      * @return Message Send
@@ -106,7 +106,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     }
 
     /**
-     * DELETEMessage Send INFORMATION
+     * DELETEMessage Send Information
      *
      * @param messageId Message Send Primary Key
      * @return Result

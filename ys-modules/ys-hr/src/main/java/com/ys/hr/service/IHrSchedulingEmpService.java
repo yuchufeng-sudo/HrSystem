@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrSchedulingEmp;
 import java.util.List;
 
 /**
- *    EMPLOYEE SCHEDULING Service Interface
+ *    Employee scheduling Service Interface
  *
  * @author ys
  * @date 2025-06-08
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrSchedulingEmpService extends IService<HrSchedulingEmp>
 {
     /**
-     * Query    EMPLOYEE SCHEDULING
+     * Query  Employee scheduling
      *
-     * @param schedulingEmpId    EMPLOYEE SCHEDULING primary key
-     * @return    EMPLOYEE SCHEDULING
+     * @param schedulingEmpId    Employee scheduling primary key
+     * @return    Employee scheduling
      */
     public HrSchedulingEmp selectHrSchedulingEmpBySchedulingEmpId(String schedulingEmpId);
 
     /**
-     * Query    EMPLOYEE SCHEDULING list
+     * Query  Employee scheduling list
      *
-     * @param hrSchedulingEmp    EMPLOYEE SCHEDULING
-     * @return    EMPLOYEE SCHEDULING collection
+     * @param hrSchedulingEmp    Employee scheduling
+     * @return    Employee scheduling collection
      */
     public List<HrSchedulingEmp> selectHrSchedulingEmpList(HrSchedulingEmp hrSchedulingEmp);
 
     /**
-     * Add    EMPLOYEE SCHEDULING
+     * Add Employee scheduling
      *
-     * @param hrSchedulingEmp    EMPLOYEE SCHEDULING
+     * @param hrSchedulingEmp    Employee scheduling
      * @return Result
      */
     public int insertHrSchedulingEmp(HrSchedulingEmp hrSchedulingEmp);
 
     /**
-     * Update    EMPLOYEE SCHEDULING
+     * Update Employee scheduling
      *
-     * @param hrSchedulingEmp    EMPLOYEE SCHEDULING
+     * @param hrSchedulingEmp    Employee scheduling
      * @return Result
      */
     public int updateHrSchedulingEmp(HrSchedulingEmp hrSchedulingEmp);
 
     /**
-     * Batch delete    EMPLOYEE SCHEDULING
+     * Batch delete    Employee scheduling
      *
-     * @param schedulingEmpIds    EMPLOYEE SCHEDULING primary keys to be deleted
+     * @param schedulingEmpIds    Employee scheduling primary keys to be deleted
      * @return Result
      */
     public int deleteHrSchedulingEmpBySchedulingEmpIds(String[] schedulingEmpIds);
 
     /**
-     * Delete    EMPLOYEE SCHEDULING information
+     * Delete Employee scheduling information
      *
-     * @param schedulingEmpId    EMPLOYEE SCHEDULING primary key
+     * @param schedulingEmpId    Employee scheduling primary key
      * @return Result
      */
     public int deleteHrSchedulingEmpBySchedulingEmpId(String schedulingEmpId);

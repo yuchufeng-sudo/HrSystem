@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
- * Manages task assignments and progress tracking for employee targets Service Implementation
+ * Targets Manages Service Implementation
  *
  * @author ys
  * @date 2025-06-18
@@ -40,10 +40,10 @@ public class HrTargetTasksServiceImpl extends ServiceImpl<HrTargetTasksMapper, H
     private HrTargetsServiceImpl hrTargetsService;
 
     /**
-     * Query Manages task assignments and progress tracking for employee targets
+     * Query Targets Manages
      *
-     * @param id Manages task assignments and progress tracking for employee targets primary key
-     * @return Manages task assignments and progress tracking for employee targets
+     * @param id Targets Manages primary key
+     * @return Targets Manages
      */
     @Override
     public HrTargetTasks selectHrTargetTasksById(Long id)
@@ -52,10 +52,10 @@ public class HrTargetTasksServiceImpl extends ServiceImpl<HrTargetTasksMapper, H
     }
 
     /**
-     * Query Manages task assignments and progress tracking for employee targets list
+     * Query Targets Manages list
      *
-     * @param hrTargetTasks Manages task assignments and progress tracking for employee targets
-     * @return Manages task assignments and progress tracking for employee targets
+     * @param hrTargetTasks Targets Manages
+     * @return Targets Manages
      */
     @Override
     public List<HrTargetTasks> selectHrTargetTasksList(HrTargetTasks hrTargetTasks)
@@ -64,9 +64,9 @@ public class HrTargetTasksServiceImpl extends ServiceImpl<HrTargetTasksMapper, H
     }
 
     /**
-     * Add Manages task assignments and progress tracking for employee targets
+     * Add Targets Manages
      *
-     * @param hrTargetTasks Manages task assignments and progress tracking for employee targets
+     * @param hrTargetTasks Targets Manages
      * @return Result
      */
     @Override
@@ -99,9 +99,9 @@ public class HrTargetTasksServiceImpl extends ServiceImpl<HrTargetTasksMapper, H
     }
 
     /**
-     * Update Manages task assignments and progress tracking for employee targets
+     * Update Targets Manages
      *
-     * @param hrTargetTasks Manages task assignments and progress tracking for employee targets
+     * @param hrTargetTasks Targets Manages
      * @return Result
      */
     @Override

@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *  RENEWAL CONTRACT  entity hr_renewal_contract
+ *  renewal contract entity hr_renewal_contract
  *
  * @author ys
  * @date 2025-06-20

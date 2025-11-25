@@ -8,88 +8,88 @@ import java.util.List;
 /**
  * Dictionary table data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysDictDataMapper
 {
     /**
-     * According to the conditions for pagination, QUERY DICTIONARY DATA.
+     * According to the conditions for pagination, Query Dictionary Data.
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
-     * @return  DICTIONARY DATA Set INFORMATION
+     * @param dictData  Dictionary Data  Information
+     * @return  Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataList(SysDictData dictData);
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY DICTIONARY DATA
+     * ACCORDING TO THE Dictionary type  Query Dictionary Data
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY DATA Set INFORMATION
+     * @param dictType  Dictionary type
+     * @return  Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataByType(String dictType);
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  andDictionary LabelQUERY DICTIONARY DATA  INFORMATION
+     * ACCORDING TO THE Dictionary type  andDictionary LabelQUERY Dictionary Data  Information
      *
-     * @param dictType  DICTIONARY TYPE
+     * @param dictType  Dictionary type
      * @param dictValue Dictionary Label
      * @return Dictionary Label
      */
     public String selectDictLabel(@Param("dictType") String dictType, @Param("dictValue") String dictValue);
 
     /**
-     * According to  DICTIONARY DATA IDQUERY INFORMATION
+     * According to  Dictionary Data IDQUERY Information
      *
-     * @param dictCode  DICTIONARY DATA ID
-     * @return  DICTIONARY DATA
+     * @param dictCode  Dictionary Data ID
+     * @return  Dictionary Data
      */
     public SysDictData selectDictDataById(Long dictCode);
 
     /**
-     * QUERY DICTIONARY DATA
+     * Query Dictionary Data
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY DATA
+     * @param dictType  Dictionary type
+     * @return  Dictionary Data
      */
     public int countDictDataByType(String dictType);
 
     /**
-     * By Dictionary IDDELETE DICTIONARY DATA  INFORMATION
+     * By Dictionary IDDELETE Dictionary Data  Information
      *
-     * @param dictCode  DICTIONARY DATA ID
+     * @param dictCode  Dictionary Data ID
      * @return Result
      */
     public int deleteDictDataById(Long dictCode);
 
     /**
-     * Batch DELETE DICTIONARY DATA INFORMATION
+     * Batch Delete Dictionary Data Information
      *
-     * @param dictCodes DICTIONARY DATA ID to be DELETED
+     * @param dictCodes Dictionary Data ID to be DELETED
      * @return Result
      */
     public int deleteDictDataByIds(Long[] dictCodes);
 
     /**
-     * ADD DICTIONARY DATA  INFORMATION
+     * Add Dictionary Data  Information
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
+     * @param dictData  Dictionary Data  Information
      * @return Result
      */
     public int insertDictData(SysDictData dictData);
 
     /**
-     * MODIFY DICTIONARY DATA  INFORMATION
+     * Update Dictionary Data  Information
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
+     * @param dictData  Dictionary Data  Information
      * @return Result
      */
     public int updateDictData(SysDictData dictData);
 
     /**
-     * SynchronizeMODIFY DICTIONARY TYPE
+     * SynchronizeMODIFY Dictionary type
      *
-     * @param oldDictType  DICTIONARY TYPE
-     * @param newDictType  DICTIONARY TYPE
+     * @param oldDictType  Dictionary type
+     * @param newDictType  Dictionary type
      * @return Result
      */
     public int updateDictDataType(@Param("oldDictType") String oldDictType, @Param("newDictType") String newDictType);

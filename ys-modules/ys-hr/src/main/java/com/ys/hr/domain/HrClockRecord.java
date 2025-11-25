@@ -55,15 +55,4 @@ public class HrClockRecord {
     @TableField(exist = false)
     private String image;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("name", getName())
-                .append("jobnumber", getJobnumber())
-                .append("time", getTime())
-                .append("type", getType())
-                .append("temperature", getTemperature())
-                .toString();
-    }
 }

@@ -29,7 +29,7 @@ import com.ys.hr.service.IHrEnterpriseRealNameInfoService;
 import org.springframework.validation.annotation.Validated;
 
 /**
- *  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  Controller
+ *  Enterprise Real-name authentication Information  Controller
  *
  * @author ys
  * @date 2025-06-05
@@ -43,7 +43,7 @@ public class HrEnterpriseRealNameInfoController extends BaseController
     private IHrEnterpriseRealNameInfoService hrEnterpriseRealNameInfoService;
 
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  list
+     * Query Enterprise Real-name authentication Information list
      */
     @RequiresPermissions("hr:enterpriseRealNameInfo:list")
     @GetMapping("/list")
@@ -55,20 +55,20 @@ public class HrEnterpriseRealNameInfoController extends BaseController
     }
 
     /**
-     * Export  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  list
+     * Export Enterprise Real-name authentication Information list
      */
     @RequiresPermissions("hr:enterpriseRealNameInfo:export")
-    @Log(title = " ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION ", businessType = BusinessType.EXPORT)
+    @Log(title = "Enterprise Real-name authentication Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo)
     {
         List<HrEnterpriseRealNameInfo> list = hrEnterpriseRealNameInfoService.selectHrEnterpriseRealNameInfoList(hrEnterpriseRealNameInfo);
         ExcelUtil<HrEnterpriseRealNameInfo> util = new ExcelUtil<HrEnterpriseRealNameInfo>(HrEnterpriseRealNameInfo.class);
-        util.exportExcel(response, list, " ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  Data");
+        util.exportExcel(response, list, " Enterprise Real-name authentication Information  Data");
     }
 
     /**
-     * Get  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  details
+     * Get Enterprise Real-name authentication Information  details
      */
     @GetMapping("/getInfo")
     public AjaxResult getInfo() {
@@ -76,10 +76,10 @@ public class HrEnterpriseRealNameInfoController extends BaseController
     }
 
     /**
-     * Add  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION 
+     * Add Enterprise Real-name authentication Information
      */
 //    @RequiresPermissions("hr:enterpriseRealNameInfo:add")
-    @Log(title = " ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION ", businessType = BusinessType.INSERT)
+    @Log(title = "Enterprise Real-name authentication Information", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo) {
         hrEnterpriseRealNameInfo.setUserId(SecurityUtils.getUserEnterpriseId());
@@ -87,20 +87,20 @@ public class HrEnterpriseRealNameInfoController extends BaseController
     }
 
     /**
-     * Update  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION 
+     * Update Enterprise Real-name authentication Information
      */
 //    @RequiresPermissions("hr:enterpriseRealNameInfo:edit")
-    @Log(title = " ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION ", businessType = BusinessType.UPDATE)
+    @Log(title = "Enterprise Real-name authentication Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo) {
         return toAjax(hrEnterpriseRealNameInfoService.updateHrEnterpriseRealNameInfo(hrEnterpriseRealNameInfo));
     }
 
     /**
-     * Delete  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION 
+     * Delete Enterprise Real-name authentication Information
      */
     @RequiresPermissions("hr:enterpriseRealNameInfo:remove")
-    @Log(title = " ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION ", businessType = BusinessType.DELETE)
+    @Log(title = "Enterprise Real-name authentication Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(hrEnterpriseRealNameInfoService.removeByIds(Arrays.asList(ids)));

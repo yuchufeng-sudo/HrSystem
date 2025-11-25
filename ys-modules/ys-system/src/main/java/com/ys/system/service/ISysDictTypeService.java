@@ -8,51 +8,51 @@ import java.util.List;
 /**
  * Dictionary Business Layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysDictTypeService
 {
     /**
      * Query dictionary types with pagination based on conditions.
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
-     * @return  DICTIONARY TYPE Set INFORMATION
+     * @param dictType  Dictionary type  Information
+     * @return  Dictionary type Set Information
      */
     public List<SysDictType> selectDictTypeList(SysDictType dictType);
 
     /**
-     * According to  all  DICTIONARY TYPE
+     * According to  all  Dictionary type
      *
-     * @return  DICTIONARY TYPE Set INFORMATION
+     * @return  Dictionary type Set Information
      */
     public List<SysDictType> selectDictTypeAll();
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY DICTIONARY DATA
+     * ACCORDING TO THE Dictionary type  Query Dictionary Data
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY DATA Set INFORMATION
+     * @param dictType  Dictionary type
+     * @return  Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataByType(String dictType);
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  IDQUERY INFORMATION
+     * ACCORDING TO THE Dictionary type  IDQUERY Information
      *
-     * @param dictId  DICTIONARY TYPE ID
-     * @return  DICTIONARY TYPE
+     * @param dictId  Dictionary type ID
+     * @return  Dictionary type
      */
     public SysDictType selectDictTypeById(Long dictId);
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY INFORMATION
+     * ACCORDING TO THE Dictionary type  Query Information
      *
-     * @param dictType  DICTIONARY TYPE
-     * @return  DICTIONARY TYPE
+     * @param dictType  Dictionary type
+     * @return  Dictionary type
      */
     public SysDictType selectDictTypeByType(String dictType);
 
     /**
-     *Batch DELETE Dictionary INFORMATION
+     *Batch Delete Dictionary Information
      *
      * @param dictIds Dictionary ID to be DELETED
      */
@@ -64,7 +64,7 @@ public interface ISysDictTypeService
     public void loadingDictCache();
 
     /**
-     *CLEAR Dictionary Cache Data
+     *Clear Dictionary Cache Data
      */
     public void clearDictCache();
 
@@ -74,25 +74,25 @@ public interface ISysDictTypeService
     public void resetDictCache();
 
     /**
-     * ADDsave  DICTIONARY TYPE  INFORMATION
+     * Save Dictionary type Information
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
+     * @param dictType Dictionary type Information
      * @return Result
      */
     public int insertDictType(SysDictType dictType);
 
     /**
-     * MODIFYsave  DICTIONARY TYPE  INFORMATION
+     * MODIFYsave  Dictionary type  Information
      *
-     * @param dictType  DICTIONARY TYPE  INFORMATION
+     * @param dictType  Dictionary type  Information
      * @return Result
      */
     public int updateDictType(SysDictType dictType);
 
     /**
-     *  Verify whether the name of DICTIONARY TYPE is unique.
+     *  Verify whether the name of Dictionary type is unique.
      *
-     * @param dictType  DICTIONARY TYPE
+     * @param dictType  Dictionary type
      * @return Result
      */
     public boolean checkDictTypeUnique(SysDictType dictType);

@@ -12,13 +12,6 @@ import com.ys.hr.domain.HrFundInformation;
  */
 public interface IHrFundInformationService extends IService<HrFundInformation>
 {
-    /**
-     * Query Comprehensive fund information
-     *
-     * @param id Comprehensive fund information primary key
-     * @return Comprehensive fund information
-     */
-    public HrFundInformation selectHrFundInformationById(String id);
 
     /**
      * Query Comprehensive fund information list
@@ -32,9 +25,8 @@ public interface IHrFundInformationService extends IService<HrFundInformation>
      * Add Comprehensive fund information
      *
      * @param hrFundInformation Comprehensive fund information
-     * @return Result
      */
-    public int insertHrFundInformation(HrFundInformation hrFundInformation);
+    public void insertHrFundInformation(HrFundInformation hrFundInformation);
 
     /**
      * Update Comprehensive fund information
@@ -43,20 +35,4 @@ public interface IHrFundInformationService extends IService<HrFundInformation>
      * @return Result
      */
     public int updateHrFundInformation(HrFundInformation hrFundInformation);
-
-    /**
-     * Batch delete Comprehensive fund information
-     *
-     * @param ids Comprehensive fund information primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrFundInformationByIds(String[] ids);
-
-    /**
-     * Delete Comprehensive fund information information
-     *
-     * @param id Comprehensive fund information primary key
-     * @return Result
-     */
-    public int deleteHrFundInformationById(String id);
 }

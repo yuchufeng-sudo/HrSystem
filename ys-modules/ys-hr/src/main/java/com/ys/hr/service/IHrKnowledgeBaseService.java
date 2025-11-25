@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrKnowledgeBase;
 import java.util.List;
 
 /**
- *  KNOWLEDGE BASE  Service Interface
+ *  Knowledge base  Service Interface
  *
  * @author ys
  * @date 2025-06-04
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrKnowledgeBaseService extends IService<HrKnowledgeBase>
 {
     /**
-     * Query  KNOWLEDGE BASE
+     * Query Knowledge base
      *
-     * @param id  KNOWLEDGE BASE  primary key
-     * @return  KNOWLEDGE BASE
+     * @param id  Knowledge base  primary key
+     * @return  Knowledge base
      */
     public HrKnowledgeBase selectHrKnowledgeBaseById(Long id);
 
     /**
-     * Query  KNOWLEDGE BASE  list
+     * Query Knowledge base  list
      *
-     * @param hrKnowledgeBase  KNOWLEDGE BASE
-     * @return  KNOWLEDGE BASE  collection
+     * @param hrKnowledgeBase  Knowledge base
+     * @return  Knowledge base  collection
      */
     public List<HrKnowledgeBase> selectHrKnowledgeBaseList(HrKnowledgeBase hrKnowledgeBase);
 
     /**
-     * Add  KNOWLEDGE BASE
+     * Add Knowledge base
      *
-     * @param hrKnowledgeBase  KNOWLEDGE BASE
+     * @param hrKnowledgeBase  Knowledge base
      * @return Result
      */
     public int insertHrKnowledgeBase(HrKnowledgeBase hrKnowledgeBase);
 
     /**
-     * Update  KNOWLEDGE BASE
+     * Update Knowledge base
      *
-     * @param hrKnowledgeBase  KNOWLEDGE BASE
+     * @param hrKnowledgeBase  Knowledge base
      * @return Result
      */
     public int updateHrKnowledgeBase(HrKnowledgeBase hrKnowledgeBase);
 
     /**
-     * Batch delete  KNOWLEDGE BASE
+     * Batch delete  Knowledge base
      *
-     * @param ids  KNOWLEDGE BASE  primary keys to be deleted
+     * @param ids  Knowledge base  primary keys to be deleted
      * @return Result
      */
     public int deleteHrKnowledgeBaseByIds(Long[] ids);
 
     /**
-     * Delete  KNOWLEDGE BASE  information
+     * Delete Knowledge base  information
      *
-     * @param id  KNOWLEDGE BASE  primary key
+     * @param id  Knowledge base  primary key
      * @return Result
      */
     public int deleteHrKnowledgeBaseById(Long id);

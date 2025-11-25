@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- *  EMPLOYEE  LAYOUT  Mapper Interface
+ *  Employee Scheduling Mapper Interface
  *
  * @author ys
  * @date 2025-06-04
@@ -15,18 +15,18 @@ import java.util.List;
 public interface HrEmpSchedulingMapper extends BaseMapper<HrEmpScheduling>
 {
     /**
-     * Query  EMPLOYEE  LAYOUT
+     * Query Employee Scheduling
      *
-     * @param schedulingId  EMPLOYEE  LAYOUT  primary key
-     * @return  EMPLOYEE  LAYOUT
+     * @param schedulingId  Employee Scheduling primary key
+     * @return  Employee Scheduling
      */
     public HrEmpScheduling selectHrEmpSchedulingBySchedulingId(@Param("schedulingId") String schedulingId);
 
     /**
-     * Query  EMPLOYEE  LAYOUT  list
+     * Query Employee Scheduling list
      *
-     * @param hrEmpScheduling  EMPLOYEE  LAYOUT
-     * @return  EMPLOYEE  LAYOUT  collection
+     * @param hrEmpScheduling Employee Scheduling
+     * @return  Employee Scheduling collection
      */
     public List<HrEmpScheduling> selectHrEmpSchedulingList(HrEmpScheduling hrEmpScheduling);
 

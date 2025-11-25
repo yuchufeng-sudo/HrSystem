@@ -194,7 +194,7 @@
         SELECT COUNT(*)
         FROM hr_leave
         WHERE user_id = #{userId}
-          AND leave_status = '1' -- 如果有 LEAVE APPLICATION Status字段
+          AND leave_status = '1' -- 如果有 Leave Application Status字段
           AND current_date + interval '1 day' - interval '1 second' >= state_time
           AND end_time >= current_date;
 

@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrBenefitType;
 import java.util.List;
 
 /**
- *  WELFARE TYPE   LIST Service Interface
+ *  welfare type list Service Interface
  *
  * @author ys
  * @date 2025-06-09
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrBenefitTypeService extends IService<HrBenefitType>
 {
     /**
-     * Query  WELFARE TYPE   LIST
+     * Query welfare type list
      *
-     * @param benefitTypeId  WELFARE TYPE   LIST primary key
-     * @return  WELFARE TYPE   LIST
+     * @param benefitTypeId  welfare type list primary key
+     * @return  welfare type list
      */
     public HrBenefitType selectHrBenefitTypeByBenefitTypeId(String benefitTypeId);
 
     /**
-     * Query  WELFARE TYPE   LIST list
+     * Query welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
-     * @return  WELFARE TYPE   LIST collection
+     * @param hrBenefitType  welfare type list
+     * @return  welfare type list collection
      */
     public List<HrBenefitType> selectHrBenefitTypeList(HrBenefitType hrBenefitType);
 
     /**
-     * Add  WELFARE TYPE   LIST
+     * Add welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
+     * @param hrBenefitType  welfare type list
      * @return Result
      */
     public int insertHrBenefitType(HrBenefitType hrBenefitType);
 
     /**
-     * Update  WELFARE TYPE   LIST
+     * Update welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
+     * @param hrBenefitType  welfare type list
      * @return Result
      */
     public int updateHrBenefitType(HrBenefitType hrBenefitType);
 
     /**
-     * Batch delete  WELFARE TYPE   LIST
+     * Batch delete  welfare type list
      *
-     * @param benefitTypeIds  WELFARE TYPE   LIST primary keys to be deleted
+     * @param benefitTypeIds  welfare type list primary keys to be deleted
      * @return Result
      */
     public int deleteHrBenefitTypeByBenefitTypeIds(String[] benefitTypeIds);
 
     /**
-     * Delete  WELFARE TYPE   LIST information
+     * Delete welfare type list information
      *
-     * @param benefitTypeId  WELFARE TYPE   LIST primary key
+     * @param benefitTypeId  welfare type list primary key
      * @return Result
      */
     public int deleteHrBenefitTypeByBenefitTypeId(String benefitTypeId);

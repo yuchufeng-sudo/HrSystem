@@ -7,7 +7,7 @@ import com.ys.hr.domain.HrInviteRequests;
 import java.util.List;
 
 /**
- *  INVITATION LINK REQUEST HANDLING Service Interface
+ *  Invitation link request Service Interface
  *
  * @author ys
  * @date 2025-05-21
@@ -16,10 +16,10 @@ public interface IHrInviteRequestsService extends IService<HrInviteRequests>
 {
 
     /**
-     * QUERY INVITATION LINK REQUEST HANDLING   LIST
+     * Query Invitation link request   list
      *
-     * @param hrInviteRequests  INVITATION LINK REQUEST HANDLING
-     * @return  INVITATION LINK REQUEST HANDLING Set
+     * @param hrInviteRequests  Invitation link request
+     * @return  Invitation link request Set
      */
     public List<HrInviteRequests> selectHrInviteRequestsList(HrInviteRequests hrInviteRequests);
 

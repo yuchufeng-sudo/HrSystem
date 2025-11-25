@@ -10,7 +10,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- *  THE CONTRACT EXPIRES  Service Implementation
+ *  Contract expiration Service Implementation
  *
  * @author ys
  * @date 2025-06-20
@@ -20,10 +20,10 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
 {
 
     /**
-     * Query  THE CONTRACT EXPIRES 
+     * Query Contract expiration 
      *
-     * @param id  THE CONTRACT EXPIRES  primary key
-     * @return  THE CONTRACT EXPIRES 
+     * @param id  Contract expiration primary key
+     * @return  Contract expiration 
      */
     @Override
     public HrMaturityContract selectHrMaturityContractById(Long id)
@@ -32,10 +32,10 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Query  THE CONTRACT EXPIRES  list
+     * Query Contract expiration list
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES 
-     * @return  THE CONTRACT EXPIRES 
+     * @param hrMaturityContract  Contract expiration 
+     * @return  Contract expiration 
      */
     @Override
     public List<HrMaturityContract> selectHrMaturityContractList(HrMaturityContract hrMaturityContract)
@@ -44,9 +44,9 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Add  THE CONTRACT EXPIRES 
+     * Add Contract expiration 
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES 
+     * @param hrMaturityContract  Contract expiration 
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Update  THE CONTRACT EXPIRES 
+     * Update Contract expiration 
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES 
+     * @param hrMaturityContract  Contract expiration 
      * @return Result
      */
     @Override
@@ -70,9 +70,9 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Batch delete  THE CONTRACT EXPIRES 
+     * Batch delete  Contract expiration 
      *
-     * @param ids  THE CONTRACT EXPIRES  primary keys to be deleted
+     * @param ids  Contract expiration primary keys to be deleted
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Delete  THE CONTRACT EXPIRES  information
+     * Delete Contract expiration information
      *
-     * @param id  THE CONTRACT EXPIRES  primary key
+     * @param id  Contract expiration primary key
      * @return Result
      */
     @Override

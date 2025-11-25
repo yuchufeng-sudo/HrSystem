@@ -30,10 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="userName != null and userName != ''">
 				AND user_name like concat('%', #{userName}, '%')
 			</if>
-			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始 TIME 检索 -->
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- Start time retrieval -->
 				AND access_time &gt;= #{params.beginTime}
 			</if>
-			<if test="params.endTime != null and params.endTime != ''"><!-- 结束 TIME 检索 -->
+			<if test="params.endTime != null and params.endTime != ''"><!-- End time retrieval -->
 				AND access_time &lt;= #{params.endTime}
 			</if>
 		</where>

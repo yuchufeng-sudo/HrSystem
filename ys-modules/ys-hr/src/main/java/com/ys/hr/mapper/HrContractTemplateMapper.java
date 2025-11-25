@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ys.hr.domain.HrContractTemplate;
 
 /**
- * CONTRACT TEMPLATE INFORMATION Mapper Interface
+ * CONTRACT TEMPLATE Information Mapper Interface
  *
  * @author ys
  * @date 2025-05-28
@@ -13,18 +13,18 @@ import com.ys.hr.domain.HrContractTemplate;
 public interface HrContractTemplateMapper extends BaseMapper<HrContractTemplate>
 {
     /**
-     * Query CONTRACT TEMPLATE INFORMATION
+     * Query CONTRACT TEMPLATE Information
      *
-     * @param templateId CONTRACT TEMPLATE INFORMATION primary key
-     * @return CONTRACT TEMPLATE INFORMATION
+     * @param templateId CONTRACT TEMPLATE Information primary key
+     * @return CONTRACT TEMPLATE Information
      */
     public HrContractTemplate selectHrContractTemplateByTemplateId(Long templateId);
     
     /**
-     * Query CONTRACT TEMPLATE INFORMATION list
+     * Query CONTRACT TEMPLATE Information list
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE INFORMATION
-     * @return CONTRACT TEMPLATE INFORMATION collection
+     * @param hrContractTemplate CONTRACT TEMPLATE Information
+     * @return CONTRACT TEMPLATE Information collection
      */
     public List<HrContractTemplate> selectHrContractTemplateList(HrContractTemplate hrContractTemplate);
 

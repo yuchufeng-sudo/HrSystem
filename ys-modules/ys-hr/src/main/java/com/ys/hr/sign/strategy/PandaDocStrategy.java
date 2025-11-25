@@ -205,7 +205,7 @@ public class PandaDocStrategy implements SignApiStrategy<SignVo, JSONObject> {
                 .html();
         File file = FileConversionUtil.convertHtmlToPdf(cleanHtml);
         String s = pandaDocStrategy.ossUtils.uploadFile(file, "sign/pdf/");
-        // DELETE Temporary File
+        // Delete Temporary File
         if (file.exists()){
             file.delete();
         }

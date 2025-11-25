@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
- * KNOWLEDGE BASE Service Implementation
+ * Knowledge base Service Implementation
  *
  * @author ys
  * @date 2025-06-04
@@ -26,10 +26,10 @@ public class HrKnowledgeBaseServiceImpl extends ServiceImpl<HrKnowledgeBaseMappe
     private HrKnowledgeBaseSortMapper hrKnowledgeBaseSortService;
 
     /**
-     * Query KNOWLEDGE BASE
+     * Query Knowledge base
      *
-     * @param id KNOWLEDGE BASE primary key
-     * @return KNOWLEDGE BASE
+     * @param id Knowledge base primary key
+     * @return Knowledge base
      */
     @Override
     public HrKnowledgeBase selectHrKnowledgeBaseById(Long id) {
@@ -37,10 +37,10 @@ public class HrKnowledgeBaseServiceImpl extends ServiceImpl<HrKnowledgeBaseMappe
     }
 
     /**
-     * Query KNOWLEDGE BASE list
+     * Query Knowledge base list
      *
-     * @param hrKnowledgeBase KNOWLEDGE BASE
-     * @return KNOWLEDGE BASE
+     * @param hrKnowledgeBase Knowledge base
+     * @return Knowledge base
      */
     @Override
     public List<HrKnowledgeBase> selectHrKnowledgeBaseList(HrKnowledgeBase hrKnowledgeBase) {
@@ -48,9 +48,9 @@ public class HrKnowledgeBaseServiceImpl extends ServiceImpl<HrKnowledgeBaseMappe
     }
 
     /**
-     * Add KNOWLEDGE BASE
+     * Add Knowledge base
      *
-     * @param hrKnowledgeBase KNOWLEDGE BASE
+     * @param hrKnowledgeBase Knowledge base
      * @return Result
      */
     // @Override
@@ -61,9 +61,9 @@ public class HrKnowledgeBaseServiceImpl extends ServiceImpl<HrKnowledgeBaseMappe
     // }
 
     /**
-     * Update KNOWLEDGE BASE
+     * Update Knowledge base
      *
-     * @param hrKnowledgeBase KNOWLEDGE BASE
+     * @param hrKnowledgeBase Knowledge base
      * @return Result
      */
     // @Override
@@ -109,9 +109,9 @@ public class HrKnowledgeBaseServiceImpl extends ServiceImpl<HrKnowledgeBaseMappe
     }
 
     /**
-     * Batch delete KNOWLEDGE BASE
+     * Batch delete Knowledge base
      *
-     * @param ids KNOWLEDGE BASE primary keys to be deleted
+     * @param ids Knowledge base primary keys to be deleted
      * @return Result
      */
     @Override
@@ -120,9 +120,9 @@ public class HrKnowledgeBaseServiceImpl extends ServiceImpl<HrKnowledgeBaseMappe
     }
 
     /**
-     * Delete KNOWLEDGE BASE information
+     * Delete Knowledge base information
      *
-     * @param id KNOWLEDGE BASE primary key
+     * @param id Knowledge base primary key
      * @return Result
      */
     @Override

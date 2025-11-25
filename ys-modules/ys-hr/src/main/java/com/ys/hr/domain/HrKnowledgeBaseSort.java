@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * KNOWLEDGE BASE CLASSIFICATION entity hr_knowledge_base_sort
+ * Knowledge base CLASSIFICATION entity hr_knowledge_base_sort
  *
  * @author ys
  * @date 2025-06-04
@@ -28,7 +28,7 @@ import java.util.List;
 public class HrKnowledgeBaseSort extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** KNOWLEDGE BASE CLASSIFICATION id */
+    /** Knowledge base CLASSIFICATION id */
     @TableId(value = "id", type = IdType.AUTO)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -44,8 +44,8 @@ public class HrKnowledgeBaseSort extends BaseEntity {
     @Excel(name = "Sorting")
     private Integer orderNum;
     private String enterpriseId;
-    /** Ancestor-level LIST */
-    @Excel(name = "Ancestor-level LIST")
+    /** Ancestor-level list */
+    @Excel(name = "Ancestor-level list")
     private String ancestors;
     /** CLASSIFICATION Name */
     @Excel(name = "CLASSIFICATION Name")
@@ -55,7 +55,7 @@ public class HrKnowledgeBaseSort extends BaseEntity {
     private String status;
     /** $column.columnComment */
     private String delFlag;
-    /** Child Node LIST */
+    /** Child Node list */
     @TableField(exist = false)
     private List<HrKnowledgeBaseSort> children = new ArrayList<>();
     // @TableField(exist = false)

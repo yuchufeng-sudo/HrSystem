@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * INVITATION LINK REQUEST HANDLING Object hr_invite_requests
+ * Invitation link request Object hr_invite_requests
  *
  * @author ys
  * @date 2025-05-21

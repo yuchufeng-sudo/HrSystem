@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- *  INVITATION LINK REQUEST HANDLING Mapper Interface
+ *  Invitation link request Mapper Interface
  *
  * @author ys
  * @date 2025-05-21
@@ -16,10 +16,10 @@ import java.util.List;
 public interface HrInviteRequestsMapper extends BaseMapper<HrInviteRequests>
 {
     /**
-     * QUERY INVITATION LINK REQUEST HANDLING   LIST
+     * Query Invitation link request   list
      *
-     * @param hrInviteRequests  INVITATION LINK REQUEST HANDLING
-     * @return  INVITATION LINK REQUEST HANDLING Set
+     * @param hrInviteRequests  Invitation link request
+     * @return  Invitation link request Set
      */
     public List<HrInviteRequests> selectHrInviteRequestsList(HrInviteRequests hrInviteRequests);
 

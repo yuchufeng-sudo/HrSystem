@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * CANDIDATE  INFORMATIONObject hr_candidate_info
+ * Candidate INFORMATIONObject hr_candidate_info
  *
  * @author ys
  * @date 2025-05-20
@@ -36,13 +36,13 @@ public class HrCandidateInfo extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * CANDIDATE  ID
+     * Candidate ID
      */
     @TableId(value = "candidate_id", type = IdType.AUTO)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long candidateId;
     /**
-     * CANDIDATE Name
+     * Candidate Name
      */
     @Size(max = 50, message = "Candidate name cannot exceed 50 characters")
     @NotNull()
@@ -65,7 +65,7 @@ public class HrCandidateInfo extends BaseEntity {
     private String gender;
 
     /**
-     * EMAIL (EMAIL ADDRESS)
+     * Email (Email Address)
      */
     @Size(max = 50)
     @Size(max = 255, message = "Email cannot exceed 255 characters")
@@ -93,9 +93,9 @@ public class HrCandidateInfo extends BaseEntity {
     private String source;
 
     /**
-     * CANDIDATE Status
+     * Candidate Status
      */
-    @Excel(name = "CANDIDATE Status")
+    @Excel(name = "Candidate Status")
     private String candidateStatus;
 
     /**
@@ -106,7 +106,7 @@ public class HrCandidateInfo extends BaseEntity {
     private String avatar;
 
     /**
-     * Job INFORMATION
+     * Job Information
      */
     private Long jobInformation;
 
@@ -129,9 +129,9 @@ public class HrCandidateInfo extends BaseEntity {
     private String personalStrengths;
 
     /**
-     * Finally Start Work TIME
+     * Finally Start Work time
      */
-    @Excel(name = "Finally Start Work TIME")
+    @Excel(name = "Finally Start Work time")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date lastWorkTime;
 
@@ -330,30 +330,4 @@ public class HrCandidateInfo extends BaseEntity {
     @TableField(exist = false)
     private List<HrQuestionAnswer> answers;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("candidateId", getCandidateId())
-                .append("candidateName", getCandidateName())
-                .append("age", getAge())
-                .append("birthDate", getBirthDate())
-                .append("gender", getGender())
-                .append("contactEmail", getContactEmail())
-                .append("phone", getPhone())
-                .append("jobStatus", getJobStatus())
-                .append("source", getSource())
-                .append("candidateStatus", getCandidateStatus())
-                .append("avatar", getAvatar())
-                .append("jobInformation", getJobInformation())
-                .append("address", getAddress())
-                .append("jobExpectations", getJobExpectations())
-                .append("personalStrengths", getPersonalStrengths())
-                .append("lastWorkTime", getLastWorkTime())
-                .append("industryType", getIndustryType())
-                .append("otherSkills", getOtherSkills())
-                .append("hobbies", getHobbies())
-                .append("businessTrip", getBusinessTrip())
-                .append("isOvertime", getIsOvertime())
-                .toString();
-    }
 }

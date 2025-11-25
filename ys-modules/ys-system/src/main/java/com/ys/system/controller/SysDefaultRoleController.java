@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * ROLE INFORMATION
+ * role Information
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/defaultRole")
@@ -45,7 +45,7 @@ public class SysDefaultRoleController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.EXPORT)
+    @Log(title = "role management", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:defaultRole:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysRole role)
@@ -53,11 +53,11 @@ public class SysDefaultRoleController extends BaseController
         role.setType("2");
         List<SysRole> list = roleService.selectRoleList(role);
         ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
-        util.exportExcel(response, list, "ROLE data");
+        util.exportExcel(response, list, "role data");
     }
 
     /**
-     * According to ROLE IDOBTAIN DETAILEDLY INFORMATION
+     * According to role IDOBTAIN Details
      */
     @RequiresPermissions("system:defaultRole:query")
     @GetMapping(value = "/{roleId}")
@@ -68,10 +68,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * ADDROLE
+     * Add role
      */
     @RequiresPermissions("system:defaultRole:add")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.INSERT)
+    @Log(title = "ROLE management", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role)
     {
@@ -81,10 +81,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * MODIFYsave ROLE
+     * MODIFYsave role
      */
     @RequiresPermissions("system:defaultRole:edit")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "ROLE management", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysRole role)
     {
@@ -95,10 +95,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * MODIFY save data Permission
+     * Update save data Permission
      */
     @RequiresPermissions("system:defaultRole:edit")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "ROLE management", businessType = BusinessType.UPDATE)
     @PutMapping("/dataScope")
     public AjaxResult dataScope(@RequestBody SysRole role)
     {
@@ -111,7 +111,7 @@ public class SysDefaultRoleController extends BaseController
      * Status modification
      */
     @RequiresPermissions("system:defaultRole:edit")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "ROLE management", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysRole role)
     {
@@ -122,10 +122,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * DELETEROLE
+     * Delete role
      */
     @RequiresPermissions("system:defaultRole:remove")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.DELETE)
+    @Log(title = "ROLE management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{roleIds}")
     public AjaxResult remove(@PathVariable Long[] roleIds)
     {
@@ -133,7 +133,7 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * OBTAIN ROLE SELECT box LIST
+     * OBTAIN role SELECT box list
      */
     @RequiresPermissions("system:defaultRole:query")
     @GetMapping("/optionselect")
@@ -142,7 +142,7 @@ public class SysDefaultRoleController extends BaseController
         return success(roleService.selectRoleAll());
     }
     /**
-     * QUERY assigned USER ROLE LIST
+     * Query assigned User ROLE list
      */
     @RequiresPermissions("system:defaultRole:list")
     @GetMapping("/authUser/allocatedList")
@@ -154,7 +154,7 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * QUERY unassigned USER ROLE LIST
+     * Query unassigned User ROLE list
      */
     @RequiresPermissions("system:defaultRole:list")
     @GetMapping("/authUser/unallocatedList")
@@ -166,10 +166,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * Cancel authorized USER
+     * Cancel authorized User
      */
     @RequiresPermissions("system:defaultRole:edit")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.GRANT)
+    @Log(title = "ROLE management", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/cancel")
     public AjaxResult cancelAuthUser(@RequestBody SysUserRole userRole)
     {
@@ -177,10 +177,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * Batch Cancel authorized USER
+     * Batch Cancel authorized User
      */
     @RequiresPermissions("system:defaultRole:edit")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.GRANT)
+    @Log(title = "ROLE management", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/cancelAll")
     public AjaxResult cancelAuthUserAll(Long roleId, Long[] userIds)
     {
@@ -188,10 +188,10 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * Batch SELECT USER authorization
+     * Batch SELECT User authorization
      */
     @RequiresPermissions("system:defaultRole:edit")
-    @Log(title = "ROLE MANAGEMENT  ", businessType = BusinessType.GRANT)
+    @Log(title = "ROLE management", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/selectAll")
     public AjaxResult selectAuthUserAll(Long roleId, Long[] userIds)
     {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- *  EMPLOYEE  HOLIDAY  ServiceBusiness layer processing
+ *  Employee Holiday  ServiceBusiness layer processing
  *
  * @author ys
  * @date 2025-05-23
@@ -20,11 +20,11 @@ public class HrEmpHolidayServiceImpl extends ServiceImpl<HrEmpHolidayMapper, HrE
 
 
     /**
-     * QUERY EMPLOYEE  HOLIDAY    LIST
+     * Query Employee Holiday list
      *
      *
-     * @param hrEmpHoliday  EMPLOYEE  HOLIDAY  
-     * @return  EMPLOYEE  HOLIDAY  
+     * @param hrEmpHoliday  Employee Holiday  
+     * @return  Employee Holiday  
      */
     @Override
     public List<HrEmpHoliday> selectHrEmpHolidayList(HrEmpHoliday hrEmpHoliday)

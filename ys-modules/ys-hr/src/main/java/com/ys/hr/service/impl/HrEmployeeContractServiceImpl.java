@@ -65,11 +65,11 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
     private HrSignConfigMapper signConfigMapper;
 
     /**
-     * QUERY EMPLOYEE Contract LIST
+     * Query Employee Contract list
      *
      *
-     * @param employeeContract EMPLOYEE Contract
-     * @return EMPLOYEE Contract
+     * @param employeeContract Employee Contract
+     * @return Employee Contract
      */
     @Override
     public List<HrEmployeeContract> selectTbEmpContractList(HrEmployeeContract employeeContract) {
@@ -77,11 +77,11 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
     }
 
     /**
-     * QUERY EMPLOYEE Contract LIST
+     * Query Employee Contract list
      *
      *
-     * @param tbEmpContract EMPLOYEE Contract
-     * @return EMPLOYEE Contract
+     * @param tbEmpContract Employee Contract
+     * @return Employee Contract
      */
     @Override
     public List<HrEmployeeContract> selectTbEmpContractList1(HrEmployeeContract tbEmpContract) {
@@ -157,7 +157,7 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
             contract1.setIsMaturity("2");
             hrEmployeeContractMapper.updateById(contract1);
             // Send Notice
-            // EMPLOYEE
+            // Employee
             AjaxResult info = remoteMessageService.getInfo(hrEmployees.getUserId(), SecurityConstants.INNER);
             Map<String,String> setting = (Map<String, String>) info.get("data");
             String contractPeriodAlerts = setting.get("contractPeriodAlerts");
@@ -228,14 +228,14 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
             }
         }
 
-        // Replace TIME with today
+        // Replace time with today
         // content = content.replaceAll("\\$\\{today}",
         // DateUtils.parseDateToStr("YYYYMMdd", DateUtils.getNowDate()));
         return content;
     }
 
     /**
-     * USER Sign Contract
+     * User Sign Contract
      *
      * @param contractNo
      * @param status
@@ -270,7 +270,7 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
             HrEmployeeContract tbEmpContract = hrEmployeeContractMapper.selectByFileId(contractNo);
             if (!ObjectUtils.isEmpty(tbEmpContract)) {
                 tbEmpContract.setEnterpriseSign("1");
-                // Determine if the USER has signed
+                // Determine if the User has signed
                 if ("1".equals(tbEmpContract.getUserSign())) {
                     tbEmpContract.setSignStatu("2");
                 } else {

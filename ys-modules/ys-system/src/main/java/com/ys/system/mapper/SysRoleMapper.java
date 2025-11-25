@@ -8,87 +8,87 @@ import java.util.List;
 /**
  * Role table data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysRoleMapper
 {
     /**
-     * Query ROLE data by conditions with pagination.
+     * Query role data by conditions with pagination.
      *
-     * @param role ROLE INFORMATION
-     * @return ROLE Data Set INFORMATION
+     * @param role role Information
+     * @return role Data Set Information
      */
     public List<SysRole> selectRoleList(SysRole role);
 
     /**
-     * According to USER ID QUERY ROLE
+     * According to User ID Query role
      *
-     * @param userId USER ID
-     * @return ROLE  LIST
+     * @param userId User ID
+     * @return role  list
      */
     public List<SysRole> selectRolePermissionByUserId(Long userId);
 
     /**
-     * QUERY all ROLE
+     * Query all role
      *
-     * @return ROLE  LIST
+     * @return role  list
      */
     public List<SysRole> selectRoleAll();
 
     /**
-     * According to USER ID OBTAIN ROLE SELECT box LIST
+     * According to User ID OBTAIN role SELECT box list
      *
-     * @param userId USER ID
-     * @return Select ROLEID  LIST
+     * @param userId User ID
+     * @return Select roleID  list
      */
     public List<Long> selectRoleListByUserId(Long userId);
 
     /**
-     * By ROLE ID QUERY ROLE
+     * By role ID Query role
      *
-     * @param roleId ROLE ID
-     * @return ROLEObject INFORMATION
+     * @param roleId role ID
+     * @return ROL  Object Information
      */
     public SysRole selectRoleById(Long roleId);
 
     /**
-     * According to USER ID QUERY ROLE
+     * According to User ID Query role
      *
-     * @param userName USER Name
-     * @return ROLE  LIST
+     * @param userName User Name
+     * @return role  list
      */
     public List<SysRole> selectRolesByUserName(String userName);
 
     /**
-     *  Verify whether the ROLE Name is unique.
+     *  Verify whether the role Name is unique.
      *
-     * @param roleName         ROLEName
+     * @param roleName         role Name
      * @param enterpriseId     Enterprise Number
-     * @return ROLE INFORMATION
+     * @return role Information
      */
     public SysRole checkRoleNameUnique(@Param("roleName") String roleName, @Param("enterpriseId") String enterpriseId);
 
     /**
-     *  Verify whether the ROLE Permission is unique.
+     *  Verify whether the role Permission is unique.
      *
-     * @param roleKey          ROLEPermission
+     * @param roleKey          role Permission
      * @param enterpriseId     Enterprise Number
-     * @return ROLE INFORMATION
+     * @return role Information
      */
     public SysRole checkRoleKeyUnique(@Param("roleKey") String roleKey, @Param("enterpriseId") String enterpriseId);
 
     /**
-     * MODIFYROLE INFORMATION
+     * MODIFYrole Information
      *
-     * @param role ROLE INFORMATION
+     * @param role role Information
      * @return Result
      */
     public int updateRole(SysRole role);
 
     /**
-     * ADDROLE INFORMATION
+     * Add role Information
      *
-     * @param role ROLE INFORMATION
+     * @param role ROLE Information
      * @return Result
      */
     public int insertRole(SysRole role);
@@ -96,13 +96,13 @@ public interface SysRoleMapper
     /**
      * By ROLEIDDELETEROLE
      *
-     * @param roleId ROLEID
+     * @param roleId Role Id
      * @return Result
      */
     public int deleteRoleById(Long roleId);
 
     /**
-     * Batch DELETEROLE INFORMATION
+     * Batch DELETEROLE Information
      *
      * @param roleIds ROLE ID to be DELETED
      * @return Result

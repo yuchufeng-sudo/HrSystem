@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmpBenefit;
 import java.util.List;
 
 /**
- *   EMPLOYEE WELFARE APPLICATION FORM Mapper Interface
+ *   Employee Welfare Application Form Mapper Interface
  *
  * @author ys
  * @date 2025-06-09
@@ -14,18 +14,18 @@ import java.util.List;
 public interface HrEmpBenefitMapper extends BaseMapper<HrEmpBenefit>
 {
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM
+     * Query Employee Welfare Application Form
      *
-     * @param benefitEmpId   EMPLOYEE WELFARE APPLICATION FORM primary key
-     * @return   EMPLOYEE WELFARE APPLICATION FORM
+     * @param benefitEmpId   Employee Welfare Application Form primary key
+     * @return   Employee Welfare Application Form
      */
     public HrEmpBenefit selectHrEmpBenefitByBenefitEmpId(String benefitEmpId);
 
     /**
-     * Query   EMPLOYEE WELFARE APPLICATION FORM list
+     * Query Employee Welfare Application Form list
      *
-     * @param hrEmpBenefit   EMPLOYEE WELFARE APPLICATION FORM
-     * @return   EMPLOYEE WELFARE APPLICATION FORM collection
+     * @param hrEmpBenefit   Employee Welfare Application Form
+     * @return   Employee Welfare Application Form collection
      */
     public List<HrEmpBenefit> selectHrEmpBenefitList(HrEmpBenefit hrEmpBenefit);
 

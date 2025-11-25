@@ -5,21 +5,21 @@ import com.ys.system.api.domain.SysLogininfor;
 import java.util.List;
 
 /**
- *  System Access LOG Status INFORMATION Service Layer
+ *  System Access LOG Status Information Service Layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysLogininforService
 {
     /**
-     * ADD System LOGIN LOG
+     * Add System Login Log
      *
      * @param logininfor Access LOG Object
      */
     public int insertLogininfor(SysLogininfor logininfor);
 
     /**
-     * QUERY System LOGIN LOG Set
+     * Query System Login Log Set
      *
      * @param logininfor Access LOG Object
      * @return Login RecordSet
@@ -29,15 +29,15 @@ public interface ISysLogininforService
     public Integer selectLogininforCount(SysLogininfor logininfor);
 
     /**
-     * Batch DELETE System LOGIN LOG
+     * Batch Delete System Login Log
      *
-     * @param infoIds LOGIN LOG ID to be DELETED
+     * @param infoIds Login Log ID to be DELETED
      * @return Result
      */
     public int deleteLogininforByIds(Long[] infoIds);
 
     /**
-     * CLEAR  System LOGIN LOG
+     * Clear  System Login Log
      */
     public void cleanLogininfor();
 }

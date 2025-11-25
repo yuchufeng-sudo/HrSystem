@@ -7,43 +7,43 @@ import java.util.List;
 /**
  * Operation log data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysOperLogMapper
 {
     /**
-     * ADDOPERATION LOG
+     * Add Operation Log
      *
-     * @param operLog OPERATION LOG Object
+     * @param operLog Operation Log Object
      */
     public int insertOperlog(SysOperLog operLog);
 
     /**
-     * QUERY SystemOPERATION LOG Set
+     * Query System Operation Log Set
      *
-     * @param operLog OPERATION LOG Object
-     * @return OPERATION LOG Set
+     * @param operLog Operation Log Object
+     * @return Operation Log Set
      */
     public List<SysOperLog> selectOperLogList(SysOperLog operLog);
 
     /**
-     * Batch DELETE SystemOPERATION LOG
+     * Batch Delete System Operation Log
      *
-     * @param operIds The OPERATION LOG ID to be DELETED
+     * @param operIds The Operation Log ID to be DELETED
      * @return Result
      */
     public int deleteOperLogByIds(Long[] operIds);
 
     /**
-     * QUERYOPERATION LOG DETAILEDLY
+     * Query Operation Log Details
      *
-     * @param operId OPERATIONID
-     * @return OPERATION LOG Object
+     * @param operId Operation ID
+     * @return Operation Log Object
      */
     public SysOperLog selectOperLogById(Long operId);
 
     /**
-     * CLEAR OPERATION LOG
+     * Clear Operation Log
      */
     public void cleanOperLog();
 }

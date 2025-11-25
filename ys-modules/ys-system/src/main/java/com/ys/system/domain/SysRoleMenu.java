@@ -1,46 +1,25 @@
 package com.ys.system.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysRoleMenu
 {
-    /** ROLEID */
+    /** role ID */
     private Long roleId;
-    
-    /**  MENU ID */
+
+    /**  menu ID */
     private Long menuId;
-
-    public Long getRoleId()
-    {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId)
-    {
-        this.roleId = roleId;
-    }
-
-    public Long getMenuId()
-    {
-        return menuId;
-    }
-
-    public void setMenuId(Long menuId)
-    {
-        this.menuId = menuId;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("roleId", getRoleId())
-            .append("menuId", getMenuId())
-            .toString();
-    }
 }

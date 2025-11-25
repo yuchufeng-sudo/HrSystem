@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  ENTERPRISE MANAGEMENT Service Business Layer Processing
+ *  Enterprise management Service Business Layer Processing
  *
  * @author ys
  * @date 2025-05-15
@@ -64,11 +64,11 @@ public class SysEnterpriseServiceImpl extends ServiceImpl<SysEnterpriseMapper, S
     @Resource
     private EmailUtils emailUtils;
     /**
-     * QUERY ENTERPRISE MANAGEMENT   LIST
+     * Query Enterprise management   list
      *
      *
-     * @param sysEnterprise  ENTERPRISE MANAGEMENT
-     * @return  ENTERPRISE MANAGEMENT
+     * @param sysEnterprise  Enterprise management
+     * @return  Enterprise management
      */
     @Override
     public List<SysEnterprise> selectSysEnterpriseList(SysEnterprise sysEnterprise)
@@ -98,7 +98,6 @@ public class SysEnterpriseServiceImpl extends ServiceImpl<SysEnterpriseMapper, S
         hrEmployees.setContactPhone(sysEnterprise.getContactPhone());
         hrEmployees.setFullName(sysEnterprise.getFullName());
         hrEmployees.setEmail(sysEnterprise.getContactEmail());
-        hrEmployees.setAccessLevel("admin");
         hrEmployees.setJobnumber(sysEnterprise.getJobnumber());
         SysRole role = new SysRole();
         role.setType("2");

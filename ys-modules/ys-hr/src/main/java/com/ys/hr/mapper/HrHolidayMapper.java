@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrHoliday;
 import java.util.List;
 
 /**
- *  HOLIDAY   Mapper Interface
+ *  Holiday   Mapper Interface
  *
  * @author ys
  * @date 2025-06-18
@@ -14,18 +14,18 @@ import java.util.List;
 public interface HrHolidayMapper extends BaseMapper<HrHoliday>
 {
     /**
-     * Query  HOLIDAY
+     * Query Holiday
      *
-     * @param holidayId  HOLIDAY   primary key
-     * @return  HOLIDAY
+     * @param holidayId  Holiday   primary key
+     * @return  Holiday
      */
     public HrHoliday selectHrHolidayByHolidayId(Long holidayId);
 
     /**
-     * Query  HOLIDAY   list
+     * Query Holiday   list
      *
-     * @param hrHoliday  HOLIDAY
-     * @return  HOLIDAY   collection
+     * @param hrHoliday  Holiday
+     * @return  Holiday   collection
      */
     public List<HrHoliday> selectHrHolidayList(HrHoliday hrHoliday);
 

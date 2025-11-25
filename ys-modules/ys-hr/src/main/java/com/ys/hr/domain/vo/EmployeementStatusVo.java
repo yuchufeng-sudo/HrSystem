@@ -3,7 +3,7 @@ package com.ys.hr.domain.vo;
 import lombok.Data;
 
 /**
- *  EMPLOYEE Status
+ *  Employee Status
  */
 @Data
 public class EmployeementStatusVo {

@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * HOLIDAY Object hr_holiday
+ * Holiday Object hr_holiday
  *
  * @author ys
  * @date 2025-05-22
@@ -25,11 +25,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class HrHoliday extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** HOLIDAY ID */
+    /** Holiday ID */
     @TableId(value = "holiday_id", type = IdType.AUTO)
     private Long holidayId;
-    /** HOLIDAY Name */
-    @Excel(name = " HOLIDAY  Name")
+    /** Holiday Name */
+    @Excel(name = " Holiday  Name")
     private String holidayName;
     /** Maximum Days */
     @Excel(name = "Maximum Days")
@@ -43,7 +43,7 @@ public class HrHoliday extends BaseEntity {
     /** Enterprise Number */
     private String enterpriseId;
 
-    /** HOLIDAY Type */
+    /** Holiday Type */
     private String holidayType;
 
     @TableField(exist = false)
@@ -52,20 +52,4 @@ public class HrHoliday extends BaseEntity {
     @TableField(exist = false)
     private boolean carray;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("holidayId", getHolidayId())
-                .append("holidayName", getHolidayName())
-                .append("maxDay", getMaxDay())
-                .append("carrayForward", getCarrayForward())
-                .append("paidLeave", getPaidLeave())
-                .append("enterpriseId", getEnterpriseId())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
-    }
 }

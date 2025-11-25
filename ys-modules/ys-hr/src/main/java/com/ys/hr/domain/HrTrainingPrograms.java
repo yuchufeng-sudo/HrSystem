@@ -18,7 +18,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- *  TRAINING PROGRAM SUPERVISOR  entity hr_training_programs
+ *  Training Management entity hr_training_programs
  *
  * @author ys
  * @date 2025-05-29

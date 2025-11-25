@@ -25,7 +25,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- * EMPLOYEE SCHEDULING Service Implementation
+ * Employee scheduling Service Implementation
  *
  * @author ys
  * @date 2025-06-08
@@ -41,10 +41,10 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
     private HrEmpSchedulingMapper hrEmpSchedulingMapper;
 
     /**
-     * Query EMPLOYEE SCHEDULING
+     * Query Employee scheduling
      *
-     * @param schedulingEmpId EMPLOYEE SCHEDULING primary key
-     * @return EMPLOYEE SCHEDULING
+     * @param schedulingEmpId Employee scheduling primary key
+     * @return Employee scheduling
      */
     @Override
     public HrSchedulingEmp selectHrSchedulingEmpBySchedulingEmpId(String schedulingEmpId) {
@@ -52,10 +52,10 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
     }
 
     /**
-     * Query EMPLOYEE SCHEDULING list
+     * Query Employee scheduling list
      *
-     * @param hrSchedulingEmp EMPLOYEE SCHEDULING
-     * @return EMPLOYEE SCHEDULING
+     * @param hrSchedulingEmp Employee scheduling
+     * @return Employee scheduling
      */
     @Override
     public List<HrSchedulingEmp> selectHrSchedulingEmpList(HrSchedulingEmp hrSchedulingEmp) {
@@ -63,9 +63,9 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
     }
 
     /**
-     * Add EMPLOYEE SCHEDULING
+     * Add Employee scheduling
      *
-     * @param hrSchedulingEmp EMPLOYEE SCHEDULING
+     * @param hrSchedulingEmp Employee scheduling
      * @return Result
      */
     @Override
@@ -79,9 +79,9 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
     }
 
     /**
-     * Update EMPLOYEE SCHEDULING
+     * Update Employee scheduling
      *
-     * @param hrSchedulingEmp EMPLOYEE SCHEDULING
+     * @param hrSchedulingEmp Employee scheduling
      * @return Result
      */
     @Override
@@ -95,9 +95,9 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
     }
 
     /**
-     * Batch delete EMPLOYEE SCHEDULING
+     * Batch delete Employee scheduling
      *
-     * @param schedulingEmpIds EMPLOYEE SCHEDULING primary keys to be deleted
+     * @param schedulingEmpIds Employee scheduling primary keys to be deleted
      * @return Result
      */
     @Override
@@ -106,9 +106,9 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
     }
 
     /**
-     * Delete EMPLOYEE SCHEDULING information
+     * Delete Employee scheduling information
      *
-     * @param schedulingEmpId EMPLOYEE SCHEDULING primary key
+     * @param schedulingEmpId Employee scheduling primary key
      * @return Result
      */
     @Override

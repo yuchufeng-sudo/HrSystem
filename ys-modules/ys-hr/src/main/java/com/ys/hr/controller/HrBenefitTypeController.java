@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  WELFARE TYPE  LIST Controller
+ *  welfare type  list Controller
  *
  * @author ys
  * @date 2025-06-09
@@ -38,7 +38,7 @@ public class HrBenefitTypeController extends BaseController
     private HrBenefitServiceImpl hrEmpBenefitService;
 
     /**
-     * Query  WELFARE TYPE   LIST list
+     * Query welfare type list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrBenefitType hrBenefitType)
@@ -50,20 +50,20 @@ public class HrBenefitTypeController extends BaseController
     }
 
     /**
-     * Export  WELFARE TYPE   LIST list
+     * Export welfare type list
      */
     @RequiresPermissions("hr:type:export")
-    @Log(title = " WELFARE TYPE   LIST", businessType = BusinessType.EXPORT)
+    @Log(title = "welfare type list", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrBenefitType hrBenefitType)
     {
         List<HrBenefitType> list = hrBenefitTypeService.selectHrBenefitTypeList(hrBenefitType);
         ExcelUtil<HrBenefitType> util = new ExcelUtil<HrBenefitType>(HrBenefitType.class);
-        util.exportExcel(response, list, " WELFARE TYPE   LIST Data");
+        util.exportExcel(response, list, " welfare type list Data");
     }
 
     /**
-     * Get  WELFARE TYPE   LIST details
+     * Get welfare type list details
      */
     @GetMapping(value = "/{benefitTypeId}")
     public AjaxResult getInfo(@PathVariable("benefitTypeId") String benefitTypeId) {
@@ -71,9 +71,9 @@ public class HrBenefitTypeController extends BaseController
     }
 
     /**
-     * Add  WELFARE TYPE   LIST
+     * Add welfare type list
      */
-    @Log(title = " WELFARE TYPE   LIST", businessType = BusinessType.INSERT)
+    @Log(title = "welfare type list", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrBenefitType hrBenefitType) {
         hrBenefitType.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -81,18 +81,18 @@ public class HrBenefitTypeController extends BaseController
     }
 
     /**
-     * Update  WELFARE TYPE   LIST
+     * Update welfare type list
      */
-    @Log(title = " WELFARE TYPE   LIST", businessType = BusinessType.UPDATE)
+    @Log(title = "welfare type list", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrBenefitType hrBenefitType) {
         return toAjax(hrBenefitTypeService.updateHrBenefitType(hrBenefitType));
     }
 
     /**
-     * Delete  WELFARE TYPE   LIST
+     * Delete welfare type list
      */
-    @Log(title = " WELFARE TYPE   LIST", businessType = BusinessType.DELETE)
+    @Log(title = "welfare type list", businessType = BusinessType.DELETE)
     @DeleteMapping("/{benefitTypeIds}")
     public AjaxResult remove(@PathVariable String[] benefitTypeIds) {
         HrBenefit hrBenefit = new HrBenefit();

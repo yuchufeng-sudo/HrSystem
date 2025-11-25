@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 /**
- *  CANDIDATE  INFORMATIONService Interface
+ *  Candidate INFORMATIONService Interface
  *
  * @author ys
  * @date 2025-05-20
@@ -21,10 +21,10 @@ public interface ITbCandidateInfoService extends IService<HrCandidateInfo>
 {
 
     /**
-     * QUERY CANDIDATE  INFORMATION  LIST
+     * Query Candidate Information list
      *
-     * @param tbCandidateInfo  CANDIDATE  INFORMATION
-     * @return  CANDIDATE  INFORMATIONSet
+     * @param tbCandidateInfo  Candidate Information
+     * @return  Candidate INFORMATIONSet
      */
     public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo tbCandidateInfo);
 

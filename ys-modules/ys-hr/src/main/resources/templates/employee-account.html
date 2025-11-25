@@ -70,7 +70,7 @@
         Your employee account has been created in <span class="brand" th:text="${CompanyName}"></span>’s HR platform.
     </p>
     <p class="content"><strong>Login URL:</strong>
-        <a class="button" href="http://xz-ai.info:9084/login" target="_blank">Go to Login</a>
+        <a class="button" th:href="${LoginUrl}" target="_blank">Go to Login</a>
     </p>
     <p class="content"><strong>Username:</strong> <span th:text="${Username}"></span></p>
     <p class="content"><strong>Temporary Password:</strong> <span th:text="${Password}"></span></p>

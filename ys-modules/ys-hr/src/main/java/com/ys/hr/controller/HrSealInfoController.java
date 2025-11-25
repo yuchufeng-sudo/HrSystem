@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- *  SEAL INFORMATION  Controller
+ *  seal Information  Controller
  *
  * @author ys
  * @date 2025-06-05
@@ -31,7 +31,7 @@ public class HrSealInfoController extends BaseController
     private IHrSealInfoService hrSealInfoService;
 
     /**
-     * Query  SEAL INFORMATION  list
+     * Query seal Information list
      */
     @RequiresPermissions("hr:sealInfo:list")
     @GetMapping("/list")
@@ -44,20 +44,20 @@ public class HrSealInfoController extends BaseController
     }
 
     /**
-     * Export  SEAL INFORMATION  list
+     * Export seal Information list
      */
     @RequiresPermissions("hr:sealInfo:export")
-    @Log(title = " SEAL INFORMATION ", businessType = BusinessType.EXPORT)
+    @Log(title = "seal Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrSealInfo hrSealInfo)
     {
         List<HrSealInfo> list = hrSealInfoService.selectHrSealInfoList(hrSealInfo);
         ExcelUtil<HrSealInfo> util = new ExcelUtil<HrSealInfo>(HrSealInfo.class);
-        util.exportExcel(response, list, " SEAL INFORMATION  Data");
+        util.exportExcel(response, list, " seal Information  Data");
     }
 
     /**
-     * Get  SEAL INFORMATION  details
+     * Get seal Information  details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -65,30 +65,30 @@ public class HrSealInfoController extends BaseController
     }
 
     /**
-     * Add  SEAL INFORMATION
+     * Add seal Information
      */
     @RequiresPermissions("hr:sealInfo:add")
-    @Log(title = " SEAL INFORMATION ", businessType = BusinessType.INSERT)
+    @Log(title = "seal Information", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrSealInfo hrSealInfo) {
         return toAjax(hrSealInfoService.insertHrSealInfo(hrSealInfo));
     }
 
     /**
-     * Update  SEAL INFORMATION
+     * Update seal Information
      */
     @RequiresPermissions("hr:sealInfo:edit")
-    @Log(title = " SEAL INFORMATION ", businessType = BusinessType.UPDATE)
+    @Log(title = "seal Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrSealInfo hrSealInfo) {
         return toAjax(hrSealInfoService.updateHrSealInfo(hrSealInfo));
     }
 
     /**
-     * Delete  SEAL INFORMATION
+     * Delete seal Information
      */
     @RequiresPermissions("hr:sealInfo:remove")
-    @Log(title = " SEAL INFORMATION ", businessType = BusinessType.DELETE)
+    @Log(title = "seal Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public AjaxResult remove(@PathVariable Long id) {
 //        HrSealInfo hrSealInfo = hrSealInfoService.selectHrSealInfoById(id);

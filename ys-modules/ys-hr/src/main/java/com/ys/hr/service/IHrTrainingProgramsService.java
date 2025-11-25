@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrTrainingPrograms;
 import java.util.List;
 
 /**
- *  TRAINING PROGRAM SUPERVISOR  Service Interface
+ *  Training Management Service Interface
  *
  * @author ys
  * @date 2025-05-29
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrTrainingProgramsService extends IService<HrTrainingPrograms>
 {
     /**
-     * Query  TRAINING PROGRAM SUPERVISOR
+     * Query Training Management
      *
-     * @param programId  TRAINING PROGRAM SUPERVISOR  primary key
-     * @return  TRAINING PROGRAM SUPERVISOR
+     * @param programId  Training Management primary key
+     * @return  Training Management
      */
     public HrTrainingPrograms selectHrTrainingProgramsByProgramId(Long programId);
 
     /**
-     * Query  TRAINING PROGRAM SUPERVISOR  list
+     * Query Training Management list
      *
-     * @param hrTrainingPrograms  TRAINING PROGRAM SUPERVISOR
-     * @return  TRAINING PROGRAM SUPERVISOR  collection
+     * @param hrTrainingPrograms  Training Management
+     * @return  Training Management collection
      */
     public List<HrTrainingPrograms> selectHrTrainingProgramsList(HrTrainingPrograms hrTrainingPrograms);
 
     /**
-     * Add  TRAINING PROGRAM SUPERVISOR
+     * Add Training Management
      *
-     * @param hrTrainingPrograms  TRAINING PROGRAM SUPERVISOR
+     * @param hrTrainingPrograms  Training Management
      * @return Result
      */
     public int insertHrTrainingPrograms(HrTrainingPrograms hrTrainingPrograms);
 
     /**
-     * Update  TRAINING PROGRAM SUPERVISOR
+     * Update Training Management
      *
-     * @param hrTrainingPrograms  TRAINING PROGRAM SUPERVISOR
+     * @param hrTrainingPrograms  Training Management
      * @return Result
      */
     public int updateHrTrainingPrograms(HrTrainingPrograms hrTrainingPrograms);
 
     /**
-     * Batch delete  TRAINING PROGRAM SUPERVISOR
+     * Batch delete  Training Management
      *
-     * @param programIds  TRAINING PROGRAM SUPERVISOR  primary keys to be deleted
+     * @param programIds  Training Management primary keys to be deleted
      * @return Result
      */
     public int deleteHrTrainingProgramsByProgramIds(Long[] programIds);
 
     /**
-     * Delete  TRAINING PROGRAM SUPERVISOR  information
+     * Delete Training Management information
      *
-     * @param programId  TRAINING PROGRAM SUPERVISOR  primary key
+     * @param programId  Training Management primary key
      * @return Result
      */
     public int deleteHrTrainingProgramsByProgramId(Long programId);

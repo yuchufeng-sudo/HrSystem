@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * EMPLOYEE SALARY entity hr_payroll
+ * Employee salary entity hr_payroll
  *
  * @author ys
  * @date 2025-05-30
@@ -29,11 +29,11 @@ public class HrPayroll extends BaseEntity {
     /** PAYROLL NUMBER */
     @TableId(value = "payroll_id", type = IdType.ASSIGN_UUID)
     private String payrollId;
-    /** USER ID */
-    @Excel(name = "USER  ID")
+    /** User ID */
+    @Excel(name = "User  ID")
     private Long userId;
-    /** USER Name */
-    @Excel(name = "USER Name")
+    /** User Name */
+    @Excel(name = "User Name")
     private String nickName;
     /** Working Days */
     @Excel(name = "Working Days")

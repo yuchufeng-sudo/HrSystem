@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *  WELFARE TYPE   LIST entity hr_benefit_type
+ *  welfare type list entity hr_benefit_type
  *
  * @author ys
  * @date 2025-06-09
@@ -22,11 +22,11 @@ import lombok.NoArgsConstructor;
 public class HrBenefitType extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**  WELFARE TYPE  ID */
+    /**  welfare type  ID */
     @TableId(value = "benefit_type_id", type =  IdType.ASSIGN_UUID )
     private String benefitTypeId;
-    /**  WELFARE TYPE Name */
-    @Excel(name = " WELFARE TYPE Name")
+    /**  welfare type Name */
+    @Excel(name = " welfare type Name")
     private String benefitName;
     /** Enterprise Number */
     @Excel(name = "Enterprise Number")

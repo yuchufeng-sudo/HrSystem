@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEnterpriseRealNameInfo;
 import java.util.List;
 
 /**
- *  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  Service Interface
+ *  Enterprise Real-name authentication Information  Service Interface
  *
  * @author ys
  * @date 2025-06-05
@@ -14,62 +14,62 @@ import java.util.List;
 public interface IHrEnterpriseRealNameInfoService extends IService<HrEnterpriseRealNameInfo>
 {
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Query Enterprise Real-name authentication Information
      *
-     * @param id  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary key
-     * @return  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param id  Enterprise Real-name authentication Information  primary key
+     * @return  Enterprise Real-name authentication Information
      */
     public HrEnterpriseRealNameInfo selectHrEnterpriseRealNameInfoById(Long id);
 
     /**
-     * Query  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  list
+     * Query Enterprise Real-name authentication Information list
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
-     * @return  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  collection
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information
+     * @return  Enterprise Real-name authentication Information  collection
      */
     public List<HrEnterpriseRealNameInfo> selectHrEnterpriseRealNameInfoList(HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo);
 
     /**
-     * Add  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Add Enterprise Real-name authentication Information
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information
      * @return Result
      */
     public int insertHrEnterpriseRealNameInfo(HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo);
 
     /**
-     * Update  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Update Enterprise Real-name authentication Information
      *
-     * @param hrEnterpriseRealNameInfo  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * @param hrEnterpriseRealNameInfo  Enterprise Real-name authentication Information
      * @return Result
      */
     public int updateHrEnterpriseRealNameInfo(HrEnterpriseRealNameInfo hrEnterpriseRealNameInfo);
 
     /**
-     * Batch delete  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION
+     * Batch delete  Enterprise Real-name authentication Information
      *
-     * @param ids  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary keys to be deleted
+     * @param ids  Enterprise Real-name authentication Information  primary keys to be deleted
      * @return Result
      */
     public int deleteHrEnterpriseRealNameInfoByIds(String[] ids);
 
     /**
-     * Delete  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  information
+     * Delete Enterprise Real-name authentication Information  information
      *
-     * @param id  ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION  primary key
+     * @param id  Enterprise Real-name authentication Information  primary key
      * @return Result
      */
     public int deleteHrEnterpriseRealNameInfoById(String id);
 
     /**
-     * According to USER idQUERY INFORMATION
+     * According to User idQUERY Information
      * @param userEnterpriseId
      * @return
      */
     HrEnterpriseRealNameInfo selectHrEnterpriseRealNameInfoByUserId(String userEnterpriseId);
 
     /**
-     * According to  Serial NumberQUERY INFORMATION
+     * According to  Serial NumberQUERY Information
      * @param serialNo
      * @return
      */

@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- *  MESSAGE TEMPLATE 
- MANAGEMENT  Controller
+ *  Message Template management Controller
  *
- * @author ruoyi
+ * @author ys
  * @date 2024-10-23
  */
 @RestController
@@ -25,8 +24,7 @@ public class SysMessageTemplateController extends BaseController
     private ISysMessageTemplateService sysMessageTemplateService;
 
     /**
-     * QUERY MESSAGE TEMPLATE 
- MANAGEMENT    LIST
+     * Query Message Template management list
      */
     @GetMapping("/list")
     public TableDataInfo list(SysMessageTemplate sysMessageTemplate)
@@ -44,8 +42,7 @@ public class SysMessageTemplateController extends BaseController
     }
 
     /**
-     * OBTAIN  MESSAGE TEMPLATE 
- MANAGEMENT  DETAILEDLY INFORMATION
+     * Get Message Template management Details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Integer id)
@@ -54,8 +51,7 @@ public class SysMessageTemplateController extends BaseController
     }
 
     /**
-     * ADD MESSAGE TEMPLATE 
- MANAGEMENT  
+     * Add Message Template management
      */
     @PostMapping
     public AjaxResult add(@RequestBody SysMessageTemplate sysMessageTemplate)
@@ -64,8 +60,7 @@ public class SysMessageTemplateController extends BaseController
     }
 
     /**
-     * MODIFY MESSAGE TEMPLATE 
- MANAGEMENT  
+     * Update Message Template management
      */
     @PutMapping
     public AjaxResult edit(@RequestBody SysMessageTemplate sysMessageTemplate)
@@ -74,8 +69,7 @@ public class SysMessageTemplateController extends BaseController
     }
 
     /**
-     * DELETE MESSAGE TEMPLATE 
- MANAGEMENT  
+     * Delete Message Template management
      */
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Integer[] ids)

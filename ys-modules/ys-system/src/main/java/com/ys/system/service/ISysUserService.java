@@ -5,64 +5,64 @@ import com.ys.system.api.domain.SysUser;
 import java.util.List;
 
 /**
- * USER  Business
+ * User  Business
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysUserService
 {
     /**
-     *Query USER LIST by Conditions with Pagination
+     *Query User list by Conditions with Pagination
      *
-     * @param user  USER INFORMATION
-     * @return  USER INFORMATIONSet INFORMATION
+     * @param user  User Information
+     * @return  User INFORMATIONSet Information
      */
     public List<SysUser> selectUserList(SysUser user);
 
     /**
-     * Query Assigned USER ROLE LIST by Conditions with Pagination
+     * Query Assigned User role list by Conditions with Pagination
      *
-     * @param user  USER INFORMATION
-     * @return  USER INFORMATIONSet INFORMATION
+     * @param user  User Information
+     * @return  User INFORMATIONSet Information
      */
     public List<SysUser> selectAllocatedList(SysUser user);
 
     /**
-     * Query Unassigned USER ROLE LIST by Conditions with Pagination
+     * Query Unassigned User role list by Conditions with Pagination
      *
-     * @param user  USER INFORMATION
-     * @return  USER INFORMATIONSet INFORMATION
+     * @param user  User Information
+     * @return  User INFORMATIONSet Information
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
 
     /**
-     * By USER NameQUERYUSER
+     * By User NameQUERYUSER
      *
-     * @param userName USER Name
-     * @return USER Object INFORMATION
+     * @param userName User Name
+     * @return User Object Information
      */
     public SysUser selectUserByUserName(String userName);
 
     /**
-     * By USER IDQUERYUSER
+     * By User IDQUERYUSER
      *
-     * @param userId USER ID
-     * @return USER Object INFORMATION
+     * @param userId User ID
+     * @return User Object Information
      */
     public SysUser selectUserById(Long userId);
 
     /**
-     * According to USER IDQuery the ROLE Group to which the USER Belongs
+     * According to User IDQuery the role Group to which the User Belongs
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @return Result
      */
     public String selectUserRoleGroup(String userName);
 
     /**
-     *  Verify Whether USER Name Is Unique
+     *  Verify Whether User Name Is Unique
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public boolean checkUserNameUnique(SysUser user);
@@ -73,7 +73,7 @@ public interface ISysUserService
     /**
      *  Verify Whether Mobile Phone Number Is Unique
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public boolean checkPhoneUnique(SysUser user);
@@ -81,77 +81,77 @@ public interface ISysUserService
     /**
      *  Verify Whether Email Is Unique
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public boolean checkEmailUnique(SysUser user);
 
     /**
-     *  Verify Whether the USER Is Allowed to Perform the OPERATION
+     *  Verify Whether the User Is Allowed to Perform the OPERATION
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      */
     public void checkUserAllowed(SysUser user);
 
     /**
-     *  Verify Whether the USER Has Data Permission
+     *  Verify Whether the User Has Data Permission
      *
-     * @param userId USER id
+     * @param userId User id
      */
     public void checkUserDataScope(Long userId);
 
     /**
-     * ADD USER INFORMATION
+     * Add User Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public int insertUser(SysUser user);
 
     /**
-     * Register USER INFORMATION
+     * Register User Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public boolean registerUser(SysUser user);
 
     /**
-     * MODIFY USER INFORMATION
+     * Update User Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public int updateUser(SysUser user);
 
     /**
-     * USER Authorizes ROLE
+     * User Authorizes role
      *
-     * @param userId USER ID
-     * @param roleIds ROLE Group
+     * @param userId User ID
+     * @param roleIds role Group
      */
     public void insertUserAuth(Long userId, Long[] roleIds);
 
     /**
      * MODIFYUSER Status
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public int updateUserStatus(SysUser user);
 
     /**
-     * MODIFY USER Basic INFORMATION
+     * Update User Basic Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public boolean updateUserProfile(SysUser user);
 
     /**
-     * MODIFY USER Avatar
+     * Update User Avatar
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @param avatar Avatar Address
      * @return Result
      */
@@ -160,7 +160,7 @@ public interface ISysUserService
     /**
      * RESETUSER Password
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return Result
      */
     public int resetPwd(SysUser user);
@@ -168,32 +168,32 @@ public interface ISysUserService
     /**
      * RESETUSER Password
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @param password Password
      * @return Result
      */
     public int resetUserPwd(String userName, String password);
 
     /**
-     * By USER IDDELETEUSER
+     * By User IDDELETEUSER
      *
-     * @param userId USER ID
+     * @param userId User ID
      * @return Result
      */
     public int deleteUserById(Long userId);
 
     /**
-     * Batch DELETE USER INFORMATION
+     * Batch Delete User Information
      *
-     * @param userIds USER ID to Be DELETED
+     * @param userIds User ID to Be DELETED
      * @return Result
      */
     public int deleteUserByIds(Long[] userIds);
 
     /**
-     * Import USER Data
+     * Import User Data
      *
-     * @param userList USER Data LIST
+     * @param userList User Data list
      * @param isUpdateSupport Whether Update Is Supported. If It Already Exists, Update the Data
      * @param operName OPERATIONUSER
      * @return Result
@@ -205,7 +205,7 @@ public interface ISysUserService
     SysUser selectUserByGoogleId(String googleId);
 
     /**
-     * According to ENTERPRISE id QUERY
+     * According to Enterprise id Query
      * @param eid
      * @return
      */

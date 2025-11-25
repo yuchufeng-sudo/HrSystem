@@ -23,7 +23,7 @@ public interface ISysNotificationSettingsService extends IService<SysNotificatio
     public SysNotificationSettings selectSysNotificationSettingsById(String id);
 
     /**
-     * QUERYNotification Settings  LIST
+     * QUERYNotification Settings  list
      *
      * @param sysNotificationSettings Notification Settings
      * @return Notification SettingsSet
@@ -55,7 +55,7 @@ public interface ISysNotificationSettingsService extends IService<SysNotificatio
     public int deleteSysNotificationSettingsByIds(String[] ids);
 
     /**
-     * DELETENotification Settings INFORMATION
+     * DELETENotification Settings Information
      *
      * @param id Notification Settings Primary Key
      * @return Result

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 
 /**
- * EMPLOYEE TIME Service Implementation
+ * Employee time Service Implementation
  *
  * @author ys
  * @date 2025-06-03
@@ -30,10 +30,10 @@ public class HrEmpTimeServiceImpl extends ServiceImpl<HrEmpTimeMapper, HrEmpTime
     private HrEmployeesMapper hrEmployeesMapper;
 
     /**
-     * Query EMPLOYEE TIME
+     * Query Employee time
      *
-     * @param empTimeId EMPLOYEE TIME primary key
-     * @return EMPLOYEE TIME
+     * @param empTimeId Employee time primary key
+     * @return Employee time
      */
     @Override
     public HrEmpTime selectHrEmpTimeByEmpTimeId(String empTimeId) {
@@ -41,10 +41,10 @@ public class HrEmpTimeServiceImpl extends ServiceImpl<HrEmpTimeMapper, HrEmpTime
     }
 
     /**
-     * Query EMPLOYEE TIME list
+     * Query Employee time list
      *
-     * @param hrEmpTime EMPLOYEE TIME
-     * @return EMPLOYEE TIME
+     * @param hrEmpTime Employee time
+     * @return Employee time
      */
     @Override
     public List<HrEmpTime> selectHrEmpTimeList(HrEmpTime hrEmpTime) {
@@ -52,9 +52,9 @@ public class HrEmpTimeServiceImpl extends ServiceImpl<HrEmpTimeMapper, HrEmpTime
     }
 
     /**
-     * Add EMPLOYEE TIME
+     * Add Employee time
      *
-     * @param hrEmpTime EMPLOYEE TIME
+     * @param hrEmpTime Employee time
      * @return Result
      */
     @Override
@@ -63,9 +63,9 @@ public class HrEmpTimeServiceImpl extends ServiceImpl<HrEmpTimeMapper, HrEmpTime
     }
 
     /**
-     * Update EMPLOYEE TIME
+     * Update Employee time
      *
-     * @param hrEmpTime EMPLOYEE TIME
+     * @param hrEmpTime Employee time
      * @return Result
      */
     @Override
@@ -74,9 +74,9 @@ public class HrEmpTimeServiceImpl extends ServiceImpl<HrEmpTimeMapper, HrEmpTime
     }
 
     /**
-     * Batch delete EMPLOYEE TIME
+     * Batch delete Employee time
      *
-     * @param empTimeIds EMPLOYEE TIME primary keys to be deleted
+     * @param empTimeIds Employee time primary keys to be deleted
      * @return Result
      */
     @Override
@@ -85,9 +85,9 @@ public class HrEmpTimeServiceImpl extends ServiceImpl<HrEmpTimeMapper, HrEmpTime
     }
 
     /**
-     * Delete EMPLOYEE TIME information
+     * Delete Employee time information
      *
-     * @param empTimeId EMPLOYEE TIME primary key
+     * @param empTimeId Employee time primary key
      * @return Result
      */
     @Override

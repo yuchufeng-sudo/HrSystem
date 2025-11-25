@@ -21,9 +21,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- *  MENU Business Layer Processing
+ *  menu Business Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysMenuServiceImpl implements ISysMenuService
@@ -40,10 +40,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     private SysRoleMenuMapper roleMenuMapper;
 
     /**
-     * According to USER QUERY System MENU   LIST
+     * According to User Query System menu   list
      *
-     * @param userId USER ID
-     * @return  MENU   LIST
+     * @param userId User ID
+     * @return  menu   list
      */
     @Override
     public List<SysMenu> selectMenuList(Long userId)
@@ -52,16 +52,16 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * QUERY System MENU   LIST
+     * Query System menu   list
      *
-     * @param menu  MENU  INFORMATION
-     * @return  MENU   LIST
+     * @param menu  menu  Information
+     * @return  menu   list
      */
     @Override
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId)
     {
         List<SysMenu> menuList = null;
-        //  MANAGEMENT Staff DISPLAY all MENU INFORMATION
+        //  management Staff DISPLAY all menu Information
         if (SysUser.isAdmin(userId))
         {
             menuList = menuMapper.selectMenuList(menu);
@@ -81,10 +81,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * According to USER IDQUERYPermission
+     * According to User IDQUERYPermission
      *
-     * @param userId USER ID
-     * @return Permission  LIST
+     * @param userId User ID
+     * @return Permission  list
      */
     @Override
     public Set<String> selectMenuPermsByUserId(Long userId)
@@ -102,10 +102,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * According to ROLEIDQUERYPermission
+     * According to role ID Query Permission
      *
-     * @param roleId ROLEID
-     * @return Permission  LIST
+     * @param roleId role ID
+     * @return Permission  list
      */
     @Override
     public Set<String> selectMenuPermsByRoleId(Long roleId)
@@ -123,10 +123,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * According to USER IDQUERY MENU
+     * According to User IDQUERY menu
      *
-     * @param userId USER Name
-     * @return  MENU   LIST
+     * @param userId User Name
+     * @return  menu   list
      */
     @Override
     public List<SysMenu> selectMenuTreeByUserId(Long userId)
@@ -144,10 +144,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * Query the MENU tree INFORMATION according to ROLEID.
+     * Query the menu tree Information according to role ID.
      *
-     * @param roleId ROLEID
-     * @return Select the MENU LIST.
+     * @param roleId role ID
+     * @return Select the menu list.
      */
     @Override
     public List<Long> selectMenuListByRoleId(Long roleId)
@@ -157,10 +157,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * The MENU required for building front-end routes.
+     * The menu required for building front-end routes.
      *
-     * @param menus  MENU   LIST
-     * @return Route LIST
+     * @param menus  menu   list
+     * @return Route list
      */
     @Override
     public List<RouterVo> buildMenus(List<SysMenu> menus)
@@ -217,8 +217,8 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * Construct the tree structure required for the front end.
      *
-     * @param menus  MENU   LIST
-     * @return Tree Structure LIST
+     * @param menus  menu   list
+     * @return Tree Structure list
      */
     @Override
     public List<SysMenu> buildMenuTree(List<SysMenu> menus)
@@ -245,8 +245,8 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * Construct the DROP-DOWN TREE STRUCTURE required for the front end.
      *
-     * @param menus  MENU   LIST
-     * @return  DROP-DOWN TREE STRUCTURE   LIST
+     * @param menus  menu   list
+     * @return  DROP-DOWN TREE STRUCTURE   list
      */
     @Override
     public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus)
@@ -256,10 +256,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * According to  MENU IDQUERY INFORMATION
+     * According to  menu IDQUERY Information
      *
-     * @param menuId  MENU ID
-     * @return  MENU  INFORMATION
+     * @param menuId  menu ID
+     * @return  menu  Information
      */
     @Override
     public SysMenu selectMenuById(Long menuId)
@@ -268,9 +268,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * Whether there are child nodes of the MENU.
+     * Whether there are child nodes of the menu.
      *
-     * @param menuId  MENU ID
+     * @param menuId  menu ID
      * @return Result
      */
     @Override
@@ -281,9 +281,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * QUERY the usage quantity of MENU.
+     * Query the usage quantity of menu.
      *
-     * @param menuId  MENU ID
+     * @param menuId  menu ID
      * @return Result
      */
     @Override
@@ -294,9 +294,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * ADDsave  MENU  INFORMATION
+     * Save menu Information
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu menu Information
      * @return Result
      */
     @Override
@@ -306,9 +306,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * MODIFYsave  MENU  INFORMATION
+     * MODIFYsave  menu  Information
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Result
      */
     @Override
@@ -318,9 +318,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * DELETE MENU  MANAGEMENT   INFORMATION
+     * Delete menu  management   Information
      *
-     * @param menuId  MENU ID
+     * @param menuId  menu ID
      * @return Result
      */
     @Override
@@ -330,9 +330,9 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     *  Verify whether the MENU Name is unique.
+     *  Verify whether the menu Name is unique.
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Result
      */
     @Override
@@ -350,7 +350,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * OBTAIN Route Name
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Route Name
      */
     public String getRouteName(SysMenu menu)
@@ -379,7 +379,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * OBTAIN Route Address
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Route Address
      */
     public String getRouterPath(SysMenu menu)
@@ -396,7 +396,7 @@ public class SysMenuServiceImpl implements ISysMenuService
         {
             routerPath = "/" + menu.getPath();
         }
-        //Non-external link and first-level directory (Type is MENU).
+        //Non-external link and first-level directory (Type is menu).
         else if (isMenuFrame(menu))
         {
             routerPath = "/";
@@ -405,10 +405,10 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * OBTAIN  Component  INFORMATION
+     * Get Component  Information
      *
-     * @param menu  MENU  INFORMATION
-     * @return  Component  INFORMATION
+     * @param menu  menu  Information
+     * @return  Component  Information
      */
     public String getComponent(SysMenu menu)
     {
@@ -429,21 +429,21 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * Whether it is an internal jump of the MENU.
+     * Whether it is an internal jump of the menu.
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Result
      */
     public boolean isMenuFrame(SysMenu menu)
     {
-        return menu.getParentId().intValue() == 0 && UserConstants.TYPE_MENU.equals(menu.getMenuType())
+        return menu.getParentId().intValue() == 0 && UserConstants.TYPE_menu.equals(menu.getMenuType())
                 && menu.getIsFrame().equals(UserConstants.NO_FRAME);
     }
 
     /**
      * Whether it is an internal link Component.
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Result
      */
     public boolean isInnerLink(SysMenu menu)
@@ -454,7 +454,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * Whether it is a parent_view Component.
      *
-     * @param menu  MENU  INFORMATION
+     * @param menu  menu  Information
      * @return Result
      */
     public boolean isParentView(SysMenu menu)
@@ -465,7 +465,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * According to the ID of the parent node, OBTAIN all child nodes.
      *
-     * @param list  CLASSIFICATION Table
+     * @param list classification Table
      * @param parentId The passed parent node ID.
      * @return String
      */
@@ -486,14 +486,14 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * Recursive LIST
+     * Recursive list
      *
-     * @param list  CLASSIFICATION Table
+     * @param list classification Table
      * @param t Child Node
      */
     private void recursionFn(List<SysMenu> list, SysMenu t)
     {
-        // Obtain the Child Node LIST.
+        // Obtain the Child Node list.
         List<SysMenu> childList = getChildList(list, t);
         t.setChildren(childList);
         for (SysMenu tChild : childList)
@@ -506,7 +506,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * Obtain the Child Node LIST.
+     * Obtain the Child Node list.
      */
     private List<SysMenu> getChildList(List<SysMenu> list, SysMenu t)
     {

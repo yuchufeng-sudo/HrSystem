@@ -10,7 +10,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- *  RENEWAL CONTRACT  Service Implementation
+ *  renewal contract Service Implementation
  *
  * @author ys
  * @date 2025-06-20
@@ -20,10 +20,10 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
 {
 
     /**
-     * Query  RENEWAL CONTRACT 
+     * Query renewal contract 
      *
-     * @param id  RENEWAL CONTRACT  primary key
-     * @return  RENEWAL CONTRACT 
+     * @param id  renewal contract primary key
+     * @return  renewal contract 
      */
     @Override
     public HrRenewalContract selectHrRenewalContractById(String id)
@@ -32,10 +32,10 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Query  RENEWAL CONTRACT  list
+     * Query renewal contract list
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT 
-     * @return  RENEWAL CONTRACT 
+     * @param hrRenewalContract  renewal contract 
+     * @return  renewal contract 
      */
     @Override
     public List<HrRenewalContract> selectHrRenewalContractList(HrRenewalContract hrRenewalContract)
@@ -44,9 +44,9 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Add  RENEWAL CONTRACT 
+     * Add renewal contract 
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT 
+     * @param hrRenewalContract  renewal contract 
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Update  RENEWAL CONTRACT 
+     * Update renewal contract 
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT 
+     * @param hrRenewalContract  renewal contract 
      * @return Result
      */
     @Override
@@ -70,9 +70,9 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Batch delete  RENEWAL CONTRACT 
+     * Batch delete  renewal contract 
      *
-     * @param ids  RENEWAL CONTRACT  primary keys to be deleted
+     * @param ids  renewal contract primary keys to be deleted
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Delete  RENEWAL CONTRACT  information
+     * Delete renewal contract information
      *
-     * @param id  RENEWAL CONTRACT  primary key
+     * @param id  renewal contract primary key
      * @return Result
      */
     @Override

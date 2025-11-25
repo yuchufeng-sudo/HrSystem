@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  EMPLOYEE  LAYOUT  Controller
+ *  Employee Scheduling Controller
  *
  * @author ys
  * @date 2025-06-04
@@ -39,7 +39,7 @@ public class HrEmpSchedulingController extends BaseController
     private IHrSchedulingEmpService hrSchedulingEmpService;
 
     /**
-     * Query  EMPLOYEE  LAYOUT  list
+     * Query Employee Scheduling list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrEmpScheduling hrEmpScheduling)
@@ -51,20 +51,20 @@ public class HrEmpSchedulingController extends BaseController
     }
 
     /**
-     * Export  EMPLOYEE  LAYOUT  list
+     * Export Employee Scheduling list
      */
     @RequiresPermissions("hr:scheduling:export")
-    @Log(title = " EMPLOYEE  LAYOUT ", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee Scheduling", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEmpScheduling hrEmpScheduling)
     {
         List<HrEmpScheduling> list = hrEmpSchedulingService.selectHrEmpSchedulingList(hrEmpScheduling);
         ExcelUtil<HrEmpScheduling> util = new ExcelUtil<HrEmpScheduling>(HrEmpScheduling.class);
-        util.exportExcel(response, list, " EMPLOYEE  LAYOUT  Data");
+        util.exportExcel(response, list, " Employee Scheduling Data");
     }
 
     /**
-     * Get  EMPLOYEE  LAYOUT  details
+     * Get Employee Scheduling details
      */
     @GetMapping(value = "/{schedulingId}")
     public AjaxResult getInfo(@PathVariable("schedulingId") String schedulingId) {
@@ -72,9 +72,9 @@ public class HrEmpSchedulingController extends BaseController
     }
 
     /**
-     * Add  EMPLOYEE  LAYOUT
+     * Add Employee Scheduling
      */
-    @Log(title = " EMPLOYEE  LAYOUT ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee Scheduling", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrEmpScheduling hrEmpScheduling) {
         hrEmpScheduling.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -83,18 +83,18 @@ public class HrEmpSchedulingController extends BaseController
     }
 
     /**
-     * Update  EMPLOYEE  LAYOUT
+     * Update Employee Scheduling
      */
-    @Log(title = " EMPLOYEE  LAYOUT ", businessType = BusinessType.UPDATE)
+    @Log(title = "Employee Scheduling", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrEmpScheduling hrEmpScheduling) {
         return toAjax(hrEmpSchedulingService.updateHrEmpScheduling(hrEmpScheduling));
     }
 
     /**
-     * Delete  EMPLOYEE  LAYOUT
+     * Delete Employee Scheduling
      */
-    @Log(title = " EMPLOYEE  LAYOUT ", businessType = BusinessType.DELETE)
+    @Log(title = "Employee Scheduling", businessType = BusinessType.DELETE)
     @DeleteMapping("/{schedulingIds}")
     public AjaxResult remove(@PathVariable String[] schedulingIds) {
         ArrayList<String> list = new ArrayList<>();

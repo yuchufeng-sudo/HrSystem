@@ -10,7 +10,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- *  WELFARE BENEFITS Service Implementation
+ *  welfare benefits Service Implementation
  *
  * @author ys
  * @date 2025-06-09
@@ -20,10 +20,10 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
 {
 
     /**
-     * Query  WELFARE BENEFITS
+     * Query welfare benefits
      *
-     * @param benefitId  WELFARE BENEFITS primary key
-     * @return  WELFARE BENEFITS
+     * @param benefitId  welfare benefits primary key
+     * @return  welfare benefits
      */
     @Override
     public HrBenefit selectHrBenefitByBenefitId(String benefitId)
@@ -32,10 +32,10 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
     }
 
     /**
-     * Query  WELFARE BENEFITS list
+     * Query welfare benefits list
      *
-     * @param hrBenefit  WELFARE BENEFITS
-     * @return  WELFARE BENEFITS
+     * @param hrBenefit  welfare benefits
+     * @return  welfare benefits
      */
     @Override
     public List<HrBenefit> selectHrBenefitList(HrBenefit hrBenefit)
@@ -44,9 +44,9 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
     }
 
     /**
-     * Add  WELFARE BENEFITS
+     * Add welfare benefits
      *
-     * @param hrBenefit  WELFARE BENEFITS
+     * @param hrBenefit  welfare benefits
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
     }
 
     /**
-     * Update  WELFARE BENEFITS
+     * Update welfare benefits
      *
-     * @param hrBenefit  WELFARE BENEFITS
+     * @param hrBenefit  welfare benefits
      * @return Result
      */
     @Override
@@ -70,9 +70,9 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
     }
 
     /**
-     * Batch delete  WELFARE BENEFITS
+     * Batch delete  welfare benefits
      *
-     * @param benefitIds  WELFARE BENEFITS primary keys to be deleted
+     * @param benefitIds  welfare benefits primary keys to be deleted
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
     }
 
     /**
-     * Delete  WELFARE BENEFITS information
+     * Delete welfare benefits information
      *
-     * @param benefitId  WELFARE BENEFITS primary key
+     * @param benefitId  welfare benefits primary key
      * @return Result
      */
     @Override

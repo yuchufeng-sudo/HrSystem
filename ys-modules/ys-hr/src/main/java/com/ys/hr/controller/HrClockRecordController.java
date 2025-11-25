@@ -55,7 +55,7 @@ public class HrClockRecordController extends BaseController
     /**
      * Export the Clock in Record list
      */
-    @Log(title = " Clock in Record", businessType = BusinessType.EXPORT)
+    @Log(title = "Clock in Record", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrClockRecord HrClockRecord)
     {
@@ -73,18 +73,18 @@ public class HrClockRecordController extends BaseController
     }
 
     /**
-     * Add  Clock in Record
+     * Add Clock in Record
      */
-    @Log(title = " Clock in Record", businessType = BusinessType.INSERT)
+    @Log(title = "Clock in Record", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody HrClockRecord HrClockRecord) {
         return toAjax(hrClockRecordService.save(HrClockRecord));
     }
 
     /**
-     * Modify  Clock in Record
+     * Update Clock in Record
      */
-    @Log(title = " Clock in Record", businessType = BusinessType.UPDATE)
+    @Log(title = "Clock in Record", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrClockRecord HrClockRecord) {
         return toAjax(hrClockRecordService.updateById(HrClockRecord));
@@ -93,7 +93,7 @@ public class HrClockRecordController extends BaseController
     /**
      *  Clock in Record
      */
-    @Log(title = " Clock in Record", businessType = BusinessType.DELETE)
+    @Log(title = "Clock in Record", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Integer[] ids) {
         return toAjax(hrClockRecordService.removeByIds(Arrays.asList(ids)));

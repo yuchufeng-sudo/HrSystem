@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * User table data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
@@ -29,49 +29,49 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     public List<SysUser> selectAllocatedList(SysUser user);
 
     /**
-     * Query Unassigned USER ROLE LIST by Conditions with Pagination
+     * Query Unassigned User role list by Conditions with Pagination
      *
-     * @param user USER INFORMATION
-     * @return USER INFORMATIONSet INFORMATION
+     * @param user User Information
+     * @return User INFORMATIONSet Information
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
 
     /**
-     * By USER NameQUERYUSER
+     * By User NameQUERYUSER
      *
-     * @param userName USER Name
-     * @return USER Object INFORMATION
+     * @param userName User Name
+     * @return User Object Information
      */
     public SysUser selectUserByUserName(String userName);
 
     /**
-     * By USER IDQUERYUSER
+     * By User IDQUERYUSER
      *
-     * @param userId USER ID
-     * @return USER Object INFORMATION
+     * @param userId User ID
+     * @return User Object Information
      */
     public SysUser selectUserById(Long userId);
 
     /**
-     * ADD USER INFORMATION
+     * Add User Information
      *
-     * @param user USER INFORMATION
+     * @param user User Information
      * @return Result
      */
     public int insertUser(SysUser user);
 
     /**
-     * MODIFY USER INFORMATION
+     * Update User Information
      *
-     * @param user USER INFORMATION
+     * @param user User Information
      * @return Result
      */
     public int updateUser(SysUser user);
 
     /**
-     * MODIFY USER Avatar
+     * Update User Avatar
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @param avatar   Avatar Address
      * @return Result
      */
@@ -80,32 +80,32 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * RESETUSER Password
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @param password Password
      * @return Result
      */
     public int resetUserPwd(@Param("userName") String userName, @Param("password") String password);
 
     /**
-     * By USER IDDELETEUSER
+     * By User IDDELETEUSER
      *
-     * @param userId USER ID
+     * @param userId User ID
      * @return Result
      */
     public int deleteUserById(Long userId);
 
     /**
-     * Batch DELETE USER INFORMATION
+     * Batch Delete User Information
      *
-     * @param userIds USER ID to Be DELETED
+     * @param userIds User ID to Be DELETED
      * @return Result
      */
     public int deleteUserByIds(Long[] userIds);
 
     /**
-     * Verify Whether USER Name Is Unique
+     * Verify Whether User Name Is Unique
      *
-     * @param userName USER Name
+     * @param userName User Name
      * @return Result
      */
     public SysUser checkUserNameUnique(String userName);
@@ -121,7 +121,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * Verify Whether Email Is Unique
      *
-     * @param email USER email
+     * @param email User email
      * @return Result
      */
     public SysUser checkEmailUnique(String email);

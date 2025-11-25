@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  ANNOUNCEMENT Service Layer Implementation
+ *  Announcement Service Layer Implementation
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice> implements ISysNoticeService
@@ -37,10 +37,10 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     private RemoteMessageService remoteMessageService;
 
     /**
-     * QUERY ANNOUNCEMENT INFORMATION
+     * Query Announcement Information
      *
-     * @param noticeId  ANNOUNCEMENTID
-     * @return  ANNOUNCEMENT INFORMATION
+     * @param noticeId  Announcement ID
+     * @return  Announcement Information
      */
     @Override
     public SysNotice selectNoticeById(Long noticeId)
@@ -49,10 +49,10 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     }
 
     /**
-     * QUERY ANNOUNCEMENT  LIST
+     * Query Announcement list
      *
-     * @param notice  ANNOUNCEMENT INFORMATION
-     * @return  ANNOUNCEMENTSet
+     * @param notice  Announcement Information
+     * @return  Announcement Set
      */
     @Override
     public List<SysNotice> selectNoticeList(SysNotice notice)
@@ -63,7 +63,7 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     /**
      * Add Announcement
      *
-     * @param notice  ANNOUNCEMENT INFORMATION
+     * @param notice  Announcement Information
      * @return Result
      */
     @Override
@@ -102,9 +102,9 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     }
 
     /**
-     * Modify AnnouncementT
+     * Update Announcement
      *
-     * @param notice  ANNOUNCEMENT INFORMATION
+     * @param notice  Announcement Information
      * @return Result
      */
     @Override
@@ -114,9 +114,9 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     }
 
     /**
-     * DELETE ANNOUNCEMENTObject
+     * Delete Announcement Object
      *
-     * @param noticeId  ANNOUNCEMENTID
+     * @param noticeId  Announcement ID
      * @return Result
      */
     @Override
@@ -126,9 +126,9 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     }
 
     /**
-     * Batch DELETE ANNOUNCEMENT INFORMATION
+     * Batch Delete Announcement Information
      *
-     * @param noticeIds The ANNOUNCEMENT ID to be DELETED
+     * @param noticeIds The Announcement ID to be DELETED
      * @return Result
      */
     @Override
@@ -138,7 +138,7 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
     }
 
     /**
-     * QUERY INFORMATION
+     * Query Information
      * @param sysNotice
      * @return
      */

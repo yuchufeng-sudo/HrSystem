@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  INVITATION LINK REQUEST HANDLING Service Business Layer Processing
+ *  Invitation link request Service Business Layer Processing
  *
  * @author ys
  * @date 2025-05-21
@@ -29,11 +29,11 @@ public class HrInviteRequestsServiceImpl extends ServiceImpl<HrInviteRequestsMap
     private IHrEmployeesService employeesService;
 
     /**
-     * QUERY INVITATION LINK REQUEST HANDLING   LIST
+     * Query Invitation link request   list
      *
      *
-     * @param hrInviteRequests  INVITATION LINK REQUEST HANDLING
-     * @return  INVITATION LINK REQUEST HANDLING
+     * @param hrInviteRequests  Invitation link request
+     * @return  Invitation link request
      */
     @Override
     public List<HrInviteRequests> selectHrInviteRequestsList(HrInviteRequests hrInviteRequests)

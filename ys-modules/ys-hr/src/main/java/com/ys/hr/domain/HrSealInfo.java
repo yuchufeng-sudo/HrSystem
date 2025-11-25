@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * SEAL INFORMATION entity hr_seal_info
+ * seal Information entity hr_seal_info
  *
  * @author ys
  * @date 2025-06-05
@@ -26,8 +26,8 @@ public class HrSealInfo extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /** USER Unique Identifier */
-    @Excel(name = "USER Unique Identifier")
+    /** User Unique Identifier */
+    @Excel(name = "User Unique Identifier")
     private String account;
 
     /** Seal Unique ID */

@@ -6,17 +6,17 @@ import lombok.Data;
 public class EmployeeLeaveCountVo {
 
     /**
-     * Total LEAVE APPLICATION Days
+     * Total Leave Application Days
      */
     private Long totalDays;
 
     /**
-     * This Month's LEAVE APPLICATION Days
+     * This Month's Leave Application Days
      */
     private Long thisMonthDays;
 
     /**
-     * Last Month's LEAVE APPLICATION Days
+     * Last Month's Leave Application Days
      */
     private Long lastMonthDays;
 }

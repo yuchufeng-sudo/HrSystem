@@ -28,7 +28,7 @@ import com.ys.hr.service.IHrContractTemplateService;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * CONTRACT TEMPLATE INFORMATION Controller
+ * CONTRACT TEMPLATE Information Controller
  *
  * @author ys
  * @date 2025-05-28
@@ -44,7 +44,7 @@ public class HrContractTemplateController extends BaseController
     private IHrEmployeeContractService hrEmployeeContractService;
 
     /**
-     * Query CONTRACT TEMPLATE INFORMATION list
+     * Query CONTRACT TEMPLATE Information list
      */
 //    @RequiresPermissions("hr:contractTemplate:list")
     @GetMapping("/list")
@@ -57,20 +57,20 @@ public class HrContractTemplateController extends BaseController
     }
 
     /**
-     * Export CONTRACT TEMPLATE INFORMATION list
+     * Export CONTRACT TEMPLATE Information list
      */
 //    @RequiresPermissions("hr:contractTemplate:export")
-    @Log(title = "CONTRACT TEMPLATE INFORMATION", businessType = BusinessType.EXPORT)
+    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrContractTemplate hrContractTemplate)
     {
         List<HrContractTemplate> list = hrContractTemplateService.selectHrContractTemplateList(hrContractTemplate);
         ExcelUtil<HrContractTemplate> util = new ExcelUtil<HrContractTemplate>(HrContractTemplate.class);
-        util.exportExcel(response, list, "CONTRACT TEMPLATE INFORMATION Data");
+        util.exportExcel(response, list, "CONTRACT TEMPLATE Information Data");
     }
 
     /**
-     * Get CONTRACT TEMPLATE INFORMATION details
+     * Get CONTRACT TEMPLATE Information details
      */
 //    @RequiresPermissions("hr:contractTemplate:query")
     @GetMapping(value = "/{templateId}")
@@ -79,37 +79,37 @@ public class HrContractTemplateController extends BaseController
     }
 
     /**
-     * Add CONTRACT TEMPLATE INFORMATION
+     * Add CONTRACT TEMPLATE Information
      */
 //    @RequiresPermissions("hr:contractTemplate:add")
-    @Log(title = "CONTRACT TEMPLATE INFORMATION", businessType = BusinessType.INSERT)
+    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrContractTemplate hrContractTemplate) {
         return toAjax(hrContractTemplateService.insertHrContractTemplate(hrContractTemplate));
     }
 
     /**
-     * Update CONTRACT TEMPLATE INFORMATION
+     * Update CONTRACT TEMPLATE Information
      */
 //    @RequiresPermissions("hr:contractTemplate:edit")
-    @Log(title = "CONTRACT TEMPLATE INFORMATION", businessType = BusinessType.UPDATE)
+    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrContractTemplate hrContractTemplate) {
         return toAjax(hrContractTemplateService.updateHrContractTemplate(hrContractTemplate));
     }
 
     /**
-     * Delete CONTRACT TEMPLATE INFORMATION
+     * Delete CONTRACT TEMPLATE Information
      */
 //    @RequiresPermissions("hr:contractTemplate:remove")
-    @Log(title = "CONTRACT TEMPLATE INFORMATION", businessType = BusinessType.DELETE)
+    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{templateIds}")
     public AjaxResult remove(@PathVariable Long[] templateIds) {
         return toAjax(hrContractTemplateService.removeByIds(Arrays.asList(templateIds)));
     }
 
     /**
-     * Query CONTRACT TEMPLATE INFORMATION list
+     * Query CONTRACT TEMPLATE Information list
      */
 //    @RequiresPermissions("hr:contractTemplate:list")
     @GetMapping("/templateList")
@@ -120,7 +120,7 @@ public class HrContractTemplateController extends BaseController
     }
 
     /**
-     * QUERY INFORMATION
+     * Query Information
      * @return
      */
     @PostMapping(value = "/getInfo")

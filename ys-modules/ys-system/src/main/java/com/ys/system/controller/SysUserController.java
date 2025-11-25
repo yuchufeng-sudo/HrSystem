@@ -39,9 +39,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * USER INFORMATION
+ * User Information
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/user")
@@ -76,7 +76,7 @@ public class SysUserController extends BaseController {
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
     /**
-     * OBTAIN USER   LIST
+     * OBTAIN User   list
      */
     @RequiresPermissions("system:user:list")
     @GetMapping("/list")
@@ -87,17 +87,17 @@ public class SysUserController extends BaseController {
         return getDataTable(list);
     }
 
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.EXPORT)
+    @Log(title = "User  management", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:user:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user) {
         user.setUserType("00");
         List<SysUser> list = userService.selectUserList(user);
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
-        util.exportExcel(response, list, "USER data");
+        util.exportExcel(response, list, "User data");
     }
 
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.IMPORT)
+    @Log(title = "User  management", businessType = BusinessType.IMPORT)
     @RequiresPermissions("system:user:import")
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
@@ -111,11 +111,11 @@ public class SysUserController extends BaseController {
     @PostMapping("/importTemplate")
     public void importTemplate(HttpServletResponse response) throws IOException {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
-        util.importTemplateExcel(response, "USER data");
+        util.importTemplateExcel(response, "User data");
     }
 
     /**
-     * OBTAIN current USER INFORMATION
+     * OBTAIN current User Information
      */
     @InnerAuth
     @GetMapping("/info/{username}")
@@ -124,7 +124,7 @@ public class SysUserController extends BaseController {
         if (StringUtils.isNull(sysUser)) {
             return R.fail("The account number or password is incorrect");
         }
-        // ROLESet
+        // role Set
         Set<String> roles = permissionService.getRolePermission(sysUser);
         // PermissionSet
         Set<String> permissions = permissionService.getMenuPermission(sysUser);
@@ -143,7 +143,7 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * Register USER INFORMATION
+     * Register User Information
      */
     @InnerAuth
     @PostMapping("/register")
@@ -153,14 +153,14 @@ public class SysUserController extends BaseController {
             return R.fail("The registration function is not enabled in the current system!");
         }
         if (!userService.checkUserNameUnique(sysUser)) {
-            return R.fail("save USER '" + username + "'Failure，RegisterAccount Already Exists");
+            return R.fail("save User '" + username + "'Failure，RegisterAccount Already Exists");
         }
         sysUser.setUserType("00");
         return R.ok(userService.registerUser(sysUser));
     }
 
     /**
-     * RecordUSER Login IPAddressandLogin  TIME
+     * RecordUSER Login IPAddressandLogin time
      */
     @InnerAuth
     @PutMapping("/recordlogin")
@@ -169,15 +169,15 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * OBTAIN  USER INFORMATION
+     * Get User Information
      *
-     * @return USER INFORMATION
+     * @return User Information
      */
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
         SysUser user = loginUser.getSysUser();
-        // ROLESet
+        // role Set
         Set<String> roles = permissionService.getRolePermission(user);
         // PermissionSet
         Set<String> permissions = permissionService.getMenuPermission(user);
@@ -193,7 +193,7 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * According to USER  IDOBTAIN DETAILEDLY INFORMATION
+     * According to User  IDOBTAIN Details
      */
     @RequiresPermissions("system:user:query")
     @GetMapping(value = {"/", "/{userId}"})
@@ -223,16 +223,16 @@ public class SysUserController extends BaseController {
      * ADDUSER
      */
     @RequiresPermissions("system:user:add")
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.INSERT)
+    @Log(title = "User  management", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysUser user) {
         roleService.checkRoleDataScope(user.getRoleIds());
         if (!userService.checkUserNameUnique(user)) {
-            return error("ADD USER '" + user.getUserName() + "'Failure，Login Account Already Exists");
+            return error("Add User '" + user.getUserName() + "'Failure，Login Account Already Exists");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-            return error("ADD USER '" + user.getUserName() + "'Failure，Mobile Phone Number Already Exists");
+            return error("Add User '" + user.getUserName() + "'Failure，Mobile Phone Number Already Exists");
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-            return error("ADD USER '" + user.getUserName() + "'Failure，emailAccount Already Exists");
+            return error("Add User '" + user.getUserName() + "'Failure，emailAccount Already Exists");
         }
         user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
@@ -243,18 +243,18 @@ public class SysUserController extends BaseController {
      * MODIFYUSER
      */
     @RequiresPermissions("system:user:edit")
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "User  management", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
         roleService.checkRoleDataScope(user.getRoleIds());
         if (!userService.checkUserNameUnique(user)) {
-            return error("MODIFY USER '" + user.getUserName() + "'Failure，Login Account Already Exists");
+            return error("Update User '" + user.getUserName() + "'Failure，Login Account Already Exists");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-            return error("MODIFY USER '" + user.getUserName() + "'Failure，Mobile Phone Number Already Exists");
+            return error("Update User '" + user.getUserName() + "'Failure，Mobile Phone Number Already Exists");
         } else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-            return error("MODIFY USER '" + user.getUserName() + "'Failure，emailAccount Already Exists");
+            return error("Update User '" + user.getUserName() + "'Failure，emailAccount Already Exists");
         }
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUser(user));
@@ -266,7 +266,7 @@ public class SysUserController extends BaseController {
         sysUser.setUserId(SecurityUtils.getUserId());
         sysUser.setGoogle(user.getGoogle());
         if (!userService.checkGoogleUnique(sysUser)) {
-            return error("MODIFY USER '" + user.getGoogle() + "'Failure，Google Account Already Exists");
+            return error("Update User '" + user.getGoogle() + "'Failure，Google Account Already Exists");
         }
         sysUser.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userMapper.updateUser(sysUser));
@@ -310,7 +310,7 @@ public class SysUserController extends BaseController {
      * DELETEUSER
      */
     @RequiresPermissions("system:user:remove")
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.DELETE)
+    @Log(title = "User  management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds) {
         if (ArrayUtils.contains(userIds, SecurityUtils.getUserId())) {
@@ -323,7 +323,7 @@ public class SysUserController extends BaseController {
      * RESETPassword
      */
     @RequiresPermissions("system:user:edit")
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "User  management", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
@@ -337,7 +337,7 @@ public class SysUserController extends BaseController {
      * Status modification
      */
     @RequiresPermissions("system:user:edit")
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.UPDATE)
+    @Log(title = "User  management", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
@@ -361,10 +361,10 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * USER Authorizes ROLE
+     * User Authorizes role
      */
     @RequiresPermissions("system:user:edit")
-    @Log(title = "USER  MANAGEMENT  ", businessType = BusinessType.GRANT)
+    @Log(title = "User  management", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds) {
         userService.checkUserDataScope(userId);

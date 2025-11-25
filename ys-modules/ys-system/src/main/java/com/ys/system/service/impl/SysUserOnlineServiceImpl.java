@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 /**
  * ONLINE USERS Service Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysUserOnlineServiceImpl implements ISysUserOnlineService
 {
     /**
-     * By Login AddressQUERY INFORMATION
+     * By Login AddressQUERY Information
      *
      * @param ipaddr Login Address
-     * @param user  USER INFORMATION
-     * @return ONLINE USER INFORMATION
+     * @param user  User Information
+     * @return ONLINE User Information
      */
     @Override
     public SysUserOnline selectOnlineByIpaddr(String ipaddr, LoginUser user)
@@ -32,11 +32,11 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService
     }
 
     /**
-     * By USER Name QUERY INFORMATION
+     * By User Name Query Information
      *
-     * @param userName USER Name
-     * @param user  USER INFORMATION
-     * @return ONLINE USER INFORMATION
+     * @param userName User Name
+     * @param user  User Information
+     * @return ONLINE User Information
      */
     @Override
     public SysUserOnline selectOnlineByUserName(String userName, LoginUser user)
@@ -49,12 +49,12 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService
     }
 
     /**
-     * By Login Address/USER NameQUERY INFORMATION
+     * By Login Address/User NameQUERY Information
      *
      * @param ipaddr Login Address
-     * @param userName USER Name
-     * @param user  USER INFORMATION
-     * @return ONLINE USER INFORMATION
+     * @param userName User Name
+     * @param user  User Information
+     * @return ONLINE User Information
      */
     @Override
     public SysUserOnline selectOnlineByInfo(String ipaddr, String userName, LoginUser user)
@@ -67,9 +67,9 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService
     }
 
     /**
-     * Set ONLINE USER INFORMATION
+     * Set ONLINE User Information
      *
-     * @param user  USER INFORMATION
+     * @param user  User Information
      * @return ONLINE USERS
      */
     @Override

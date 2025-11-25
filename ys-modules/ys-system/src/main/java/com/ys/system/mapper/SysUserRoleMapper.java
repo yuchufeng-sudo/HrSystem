@@ -6,22 +6,22 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * Data layer for the association table between USER and ROLE
+ * Data layer for the association table between User and role
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysUserRoleMapper
 {
     /**
-     * Delete the association between USER and ROLE by USER ID
+     * Delete the association between User and role by User ID
      *
-     * @param userId USER ID
+     * @param userId User ID
      * @return Result
      */
     public int deleteUserRoleByUserId(Long userId);
 
     /**
-     * Batch delete the association between USER and ROLE
+     * Batch delete the association between User and role
      *
      * @param The data IDs that need to be deleted for ids.
      * @return Result
@@ -29,33 +29,33 @@ public interface SysUserRoleMapper
     public int deleteUserRole(Long[] ids);
 
     /**
-     * Query the usage quantity of ROLE by ROLE ID.
+     * Query the usage quantity of role by role ID.
      *
-     * @param roleId ROLEID
+     * @param roleId role ID
      * @return Result
      */
     public int countUserRoleByRoleId(Long roleId);
 
     /**
-     * Batch ADDUSER ROLE INFORMATION
+     * Batch ADDUSER role Information
      *
-     * @param userRoleList USER ROLE  LIST
+     * @param userRoleList User role  list
      * @return Result
      */
     public int batchUserRole(List<SysUserRole> userRoleList);
 
     /**
-     * DELETEAssociation INFORMATION between USER and ROLE
+     * DELETEAssociation Information between User and role
      *
-     * @param userRole Association INFORMATION between USER and ROLE
+     * @param userRole Association Information between User and role
      * @return Result
      */
     public int deleteUserRoleInfo(SysUserRole userRole);
 
     /**
-     * Batch Revoke Authorization for USER ROLE
+     * Batch Revoke Authorization for User role
      *
-     * @param roleId ROLEID
+     * @param roleId role ID
      * @paramUser data IDs that need to be deleted for userIds.
      * @return Result
      */

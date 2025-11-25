@@ -90,6 +90,7 @@ public class HrTargets extends BaseEntity {
     @Excel(name = "complete Time", width = 30, dateFormat = "yyyy-MM-dd mm:ss")
     private Date configTime;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long resignEmployeeId;
 
     @Version

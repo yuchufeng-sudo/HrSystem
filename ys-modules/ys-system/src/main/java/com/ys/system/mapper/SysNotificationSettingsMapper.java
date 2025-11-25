@@ -21,7 +21,7 @@ public interface SysNotificationSettingsMapper extends BaseMapper<SysNotificatio
      */
     public SysNotificationSettings selectSysNotificationSettingsById(String id);
     /**
-     * QUERYNotification Settings  LIST
+     * QUERYNotification Settings  list
      *
      * @param sysNotificationSettings Notification Settings
      * @return Notification SettingsSet

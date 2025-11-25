@@ -22,7 +22,7 @@ public interface IHrAttendanceService extends IService<HrAttendance>
 {
 
     /**
-     * QUERYAttendance Record  LIST
+     * QUERYAttendance Record  list
      *
      * @param hrAttendance Attendance Record
      * @return Attendance RecordSet
@@ -52,7 +52,7 @@ public interface IHrAttendanceService extends IService<HrAttendance>
     List<Map> getPayrollsCount(HrAttendance hrAttendance);
 
     /**
-     * QUERY USER Weekly Attendance
+     * Query User Weekly Attendance
      * @param userId
      * @return
      */

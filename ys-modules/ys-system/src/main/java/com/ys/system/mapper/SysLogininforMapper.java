@@ -7,19 +7,19 @@ import java.util.List;
 /**
  *  System access log information data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysLogininforMapper
 {
     /**
-     * ADD System LOGIN LOG
+     * Add System Login Log
      *
      * @param logininfor Access LOG Object
      */
     public int insertLogininfor(SysLogininfor logininfor);
 
     /**
-     * QUERY System LOGIN LOG Set
+     * Query System Login Log Set
      *
      * @param logininfor Access LOG Object
      * @return Login RecordSet
@@ -29,15 +29,15 @@ public interface SysLogininforMapper
     Integer selectLogininforCount(SysLogininfor logininfor);
 
     /**
-     * Batch DELETE System LOGIN LOG
+     * Batch Delete System Login Log
      *
-     * @param infoIds LOGIN LOG ID to be DELETED
+     * @param infoIds Login Log ID to be DELETED
      * @return Result
      */
     public int deleteLogininforByIds(Long[] infoIds);
 
     /**
-     * CLEAR  System LOGIN LOG
+     * Clear  System Login Log
      *
      * @return Result
      */

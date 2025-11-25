@@ -28,7 +28,7 @@ import java.util.Arrays;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/user/profile")
@@ -80,7 +80,7 @@ public class SysProfileController extends BaseController
     /**
      * MODIFYUSER
      */
-    @Log(title = "Personal INFORMATION", businessType = BusinessType.UPDATE)
+    @Log(title = "Personal Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult updateProfile(@RequestBody SysUser user)
     {
@@ -103,13 +103,13 @@ public class SysProfileController extends BaseController
             tokenService.setLoginUser(loginUser);
             return success();
         }
-        return error("There is an exception in modifying personal INFORMATION. Please contact the MANAGEMENT staff.");
+        return error("There is an exception in modifying personal Information. Please contact the management staff.");
     }
 
     /**
      * RESETPassword
      */
-    @Log(title = "Personal INFORMATION", businessType = BusinessType.UPDATE)
+    @Log(title = "Personal Information", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public AjaxResult updatePwd(String oldPassword, String newPassword)
     {
@@ -140,7 +140,7 @@ public class SysProfileController extends BaseController
     /**
      *
      */
-    @Log(title = "USER avatar", businessType = BusinessType.UPDATE)
+    @Log(title = "User avatar", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file)
     {

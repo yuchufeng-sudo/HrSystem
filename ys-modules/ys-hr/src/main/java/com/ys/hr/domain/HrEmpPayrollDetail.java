@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 public class HrEmpPayrollDetail {
-    // USER ID
+    // User ID
     private Long userId;
 
-    // USER Name
+    // User Name
     private String nickName;
 
-    // USER avatar
+    // User avatar
     private String avatar;
 
     // Company ID
@@ -23,7 +23,7 @@ public class HrEmpPayrollDetail {
     // Attendance Time This Month
     private Double presentHours;
 
-    // Paid Modify Time
+    // Paid Update Time
     private Double holidaysHours;
 
     // Leave Application Time This Month

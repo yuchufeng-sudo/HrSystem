@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmpTime;
 import java.util.List;
 
 /**
- *  EMPLOYEE  TIME  Mapper Interface
+ *  Employee time  Mapper Interface
  *
  * @author ys
  * @date 2025-06-03
@@ -14,18 +14,18 @@ import java.util.List;
 public interface HrEmpTimeMapper extends BaseMapper<HrEmpTime>
 {
     /**
-     * Query  EMPLOYEE  TIME
+     * Query Employee time
      *
-     * @param empTimeId  EMPLOYEE  TIME  primary key
-     * @return  EMPLOYEE  TIME
+     * @param empTimeId  Employee time  primary key
+     * @return  Employee time
      */
     public HrEmpTime selectHrEmpTimeByEmpTimeId(String empTimeId);
 
     /**
-     * Query  EMPLOYEE  TIME  list
+     * Query Employee time  list
      *
-     * @param hrEmpTime  EMPLOYEE  TIME
-     * @return  EMPLOYEE  TIME  collection
+     * @param hrEmpTime  Employee time
+     * @return  Employee time  collection
      */
     public List<HrEmpTime> selectHrEmpTimeList(HrEmpTime hrEmpTime);
 

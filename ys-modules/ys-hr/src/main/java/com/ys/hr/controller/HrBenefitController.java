@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  WELFARE BENEFITS Controller
+ *  welfare benefits Controller
  *
  * @author ys
  * @date 2025-06-09
@@ -32,7 +32,7 @@ public class HrBenefitController extends BaseController
     private IHrBenefitService hrBenefitService;
 
     /**
-     * Query  WELFARE BENEFITS list
+     * Query welfare benefits list
      */
     @RequiresPermissions("hr:benefit:list")
     @GetMapping("/list")
@@ -45,20 +45,20 @@ public class HrBenefitController extends BaseController
     }
 
     /**
-     * Export  WELFARE BENEFITS list
+     * Export welfare benefits list
      */
     @RequiresPermissions("hr:benefit:export")
-    @Log(title = " WELFARE BENEFITS", businessType = BusinessType.EXPORT)
+    @Log(title = "welfare benefits", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrBenefit hrBenefit)
     {
         List<HrBenefit> list = hrBenefitService.selectHrBenefitList(hrBenefit);
         ExcelUtil<HrBenefit> util = new ExcelUtil<HrBenefit>(HrBenefit.class);
-        util.exportExcel(response, list, " WELFARE BENEFITS Data");
+        util.exportExcel(response, list, " welfare benefits Data");
     }
 
     /**
-     * Get  WELFARE BENEFITS details
+     * Get welfare benefits details
      */
     @GetMapping(value = "/{benefitId}")
     public AjaxResult getInfo(@PathVariable("benefitId") String benefitId) {
@@ -66,9 +66,9 @@ public class HrBenefitController extends BaseController
     }
 
     /**
-     * Add  WELFARE BENEFITS
+     * Add welfare benefits
      */
-    @Log(title = " WELFARE BENEFITS", businessType = BusinessType.INSERT)
+    @Log(title = "welfare benefits", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrBenefit hrBenefit) {
         hrBenefit.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -76,18 +76,18 @@ public class HrBenefitController extends BaseController
     }
 
     /**
-     * Update  WELFARE BENEFITS
+     * Update welfare benefits
      */
-    @Log(title = " WELFARE BENEFITS", businessType = BusinessType.UPDATE)
+    @Log(title = "welfare benefits", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrBenefit hrBenefit) {
         return toAjax(hrBenefitService.updateHrBenefit(hrBenefit));
     }
 
     /**
-     * Delete  WELFARE BENEFITS
+     * Delete welfare benefits
      */
-    @Log(title = " WELFARE BENEFITS", businessType = BusinessType.DELETE)
+    @Log(title = "welfare benefits", businessType = BusinessType.DELETE)
     @DeleteMapping("/{benefitIds}")
     public AjaxResult remove(@PathVariable String[] benefitIds) {
         return toAjax(hrBenefitService.removeByIds(Arrays.asList(benefitIds)));

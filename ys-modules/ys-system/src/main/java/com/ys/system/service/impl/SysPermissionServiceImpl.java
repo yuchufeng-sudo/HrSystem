@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * USER Permission Processing
+ * User Permission Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysPermissionServiceImpl implements ISysPermissionService
@@ -30,16 +30,16 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     private ISysMenuService menuService;
 
     /**
-     * OBTAIN ROLE Data Permission
+     * OBTAIN role Data Permission
      *
-     * @param userId USER Id
-     * @return ROLEPermission INFORMATION
+     * @param userId User Id
+     * @return role Permission Information
      */
     @Override
     public Set<String> getRolePermission(SysUser user)
     {
         Set<String> roles = new HashSet<String>();
-        // MANAGEMENT staff have all Permissions
+        // management staff have all Permissions
         if (user.isAdmin())
         {
             roles.add("admin");
@@ -52,16 +52,16 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     }
 
     /**
-     * OBTAIN MENU Data Permission
+     * OBTAIN menu Data Permission
      *
-     * @param userId USER Id
-     * @return  MENU Permission INFORMATION
+     * @param userId User Id
+     * @return  menu Permission Information
      */
     @Override
     public Set<String> getMenuPermission(SysUser user)
     {
         Set<String> perms = new HashSet<String>();
-        // MANAGEMENT staff have all Permissions
+        // management staff have all Permissions
         if (user.isAdmin())
         {
             perms.add("*:*:*");
@@ -71,7 +71,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
             List<SysRole> roles = user.getRoles();
             if (!CollectionUtils.isEmpty(roles))
             {
-                // Set the permissions attribute for multiple ROLEs so that data Permissions match Permissions.
+                // Set the permissions attribute for multiple roles so that data Permissions match Permissions.
                 for (SysRole role : roles)
                 {
                     if (StringUtils.equals(role.getStatus(), UserConstants.ROLE_NORMAL))

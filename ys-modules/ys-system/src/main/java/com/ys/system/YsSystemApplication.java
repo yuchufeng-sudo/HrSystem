@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  *  System Module
  *
- * @author ruoyi
+ * @author ys
  */
 @EnableCustomConfig
 @EnableRyFeignClients

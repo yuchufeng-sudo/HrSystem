@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * KNOWLEDGE BASE entity hr_knowledge_base
+ * Knowledge base entity hr_knowledge_base
  *
  * @author ys
  * @date 2025-06-04
@@ -25,23 +25,23 @@ import lombok.NoArgsConstructor;
 public class HrKnowledgeBase extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** KNOWLEDGE BASE id */
+    /** Knowledge base id */
     @TableId(value = "id", type = IdType.AUTO)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /** Parent ID */
     @Excel(name = "Parent ID")
     private Long parentId;
-    /** KNOWLEDGE BASE Title */
-    @Excel(name = "KNOWLEDGE BASE Title")
+    /** Knowledge base Title */
+    @Excel(name = "Knowledge base Title")
     private String knowledgeTitle;
-    /** KNOWLEDGE BASE Content */
-    @Excel(name = "KNOWLEDGE BASE Content")
+    /** Knowledge base Content */
+    @Excel(name = "Knowledge base Content")
     private String knowledgeContents;
-    /** KNOWLEDGE BASE Tag */
-    @Excel(name = "KNOWLEDGE BASE Tag")
+    /** Knowledge base Tag */
+    @Excel(name = "Knowledge base Tag")
     private String knowledgeLabel;
-    @Excel(name = "Ancestor-level LIST")
+    @Excel(name = "Ancestor-level list")
     private String ancestors;
     /** Status 0 Normal 1 Disabled */
     @Excel(name = "Status 0 Normal 1 Disabled")
@@ -49,8 +49,8 @@ public class HrKnowledgeBase extends BaseEntity {
 
     private String enterpriseId;
     private String delFlag;
-    /** KNOWLEDGE BASE Cover Image */
-    @Excel(name = "KNOWLEDGE BASE Cover Image")
+    /** Knowledge base Cover Image */
+    @Excel(name = "Knowledge base Cover Image")
     private String knowledgeCover;
 
     @TableField(exist = false)

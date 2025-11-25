@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrKnowledgeBaseSort;
 import java.util.List;
 
 /**
- * KNOWLEDGE BASE CLASSIFICATION Service Interface
+ * Knowledge base CLASSIFICATION Service Interface
  *
  * @author ys
  * @date 2025-06-04
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrKnowledgeBaseSortService extends IService<HrKnowledgeBaseSort> {
 
     /**
-     * Query KNOWLEDGE BASE CLASSIFICATION
+     * Query Knowledge base CLASSIFICATION
      *
-     * @param id KNOWLEDGE BASE CLASSIFICATION primary key
-     * @return KNOWLEDGE BASE CLASSIFICATION
+     * @param id Knowledge base CLASSIFICATION primary key
+     * @return Knowledge base CLASSIFICATION
      */
     public HrKnowledgeBaseSort selectHrKnowledgeBaseSortById(Long id);
 
     /**
-     * Query KNOWLEDGE BASE CLASSIFICATION list
+     * Query Knowledge base CLASSIFICATION list
      *
-     * @param hrKnowledgeBaseSort KNOWLEDGE BASE CLASSIFICATION
-     * @return KNOWLEDGE BASE CLASSIFICATION collection
+     * @param hrKnowledgeBaseSort Knowledge base CLASSIFICATION
+     * @return Knowledge base CLASSIFICATION collection
      */
     public List<HrKnowledgeBaseSort> selectHrKnowledgeBaseSortList(HrKnowledgeBaseSort hrKnowledgeBaseSort);
 
     /**
-     * Add KNOWLEDGE BASE CLASSIFICATION
+     * Add Knowledge base CLASSIFICATION
      *
-     * @param hrKnowledgeBaseSort KNOWLEDGE BASE CLASSIFICATION
+     * @param hrKnowledgeBaseSort Knowledge base CLASSIFICATION
      * @return Result
      */
     public int insertHrKnowledgeBaseSort(HrKnowledgeBaseSort hrKnowledgeBaseSort);
 
     /**
-     * Update KNOWLEDGE BASE CLASSIFICATION
+     * Update Knowledge base CLASSIFICATION
      *
-     * @param hrKnowledgeBaseSort KNOWLEDGE BASE CLASSIFICATION
+     * @param hrKnowledgeBaseSort Knowledge base CLASSIFICATION
      * @return Result
      */
     public int updateHrKnowledgeBaseSort(HrKnowledgeBaseSort hrKnowledgeBaseSort);
 
     /**
-     * Batch delete KNOWLEDGE BASE CLASSIFICATION
+     * Batch delete Knowledge base CLASSIFICATION
      *
-     * @param ids KNOWLEDGE BASE CLASSIFICATION primary keys to be deleted
+     * @param ids Knowledge base CLASSIFICATION primary keys to be deleted
      * @return Result
      */
     public int deleteHrKnowledgeBaseSortByIds(Long[] ids);
 
     /**
-     * Delete KNOWLEDGE BASE CLASSIFICATION information
+     * Delete Knowledge base CLASSIFICATION information
      *
-     * @param id KNOWLEDGE BASE CLASSIFICATION primary key
+     * @param id Knowledge base CLASSIFICATION primary key
      * @return Result
      */
     public int deleteHrKnowledgeBaseSortById(Long id);

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- *  KNOWLEDGE BASE  CLASSIFICATION  Service Implementation
+ *  Knowledge base classification Service Implementation
  *
  * @author ys
  * @date 2025-06-04
@@ -35,10 +35,10 @@ public class HrKnowledgeBaseSortServiceImpl extends ServiceImpl<HrKnowledgeBaseS
 
 
     /**
-     * Query  KNOWLEDGE BASE  CLASSIFICATION 
+     * Query Knowledge base classification
      *
-     * @param id  KNOWLEDGE BASE  CLASSIFICATION  primary key
-     * @return  KNOWLEDGE BASE  CLASSIFICATION 
+     * @param id  Knowledge base classification primary key
+     * @return  Knowledge base classification
      */
     @Override
     public HrKnowledgeBaseSort selectHrKnowledgeBaseSortById(Long id)
@@ -47,10 +47,10 @@ public class HrKnowledgeBaseSortServiceImpl extends ServiceImpl<HrKnowledgeBaseS
     }
 
     /**
-     * Query  KNOWLEDGE BASE  CLASSIFICATION  list
+     * Query Knowledge base classification list
      *
-     * @param hrKnowledgeBaseSort  KNOWLEDGE BASE  CLASSIFICATION 
-     * @return  KNOWLEDGE BASE  CLASSIFICATION 
+     * @param hrKnowledgeBaseSort  Knowledge base classification
+     * @return  Knowledge base classification
      */
     @Override
     public List<HrKnowledgeBaseSort> selectHrKnowledgeBaseSortList(HrKnowledgeBaseSort hrKnowledgeBaseSort)
@@ -59,9 +59,9 @@ public class HrKnowledgeBaseSortServiceImpl extends ServiceImpl<HrKnowledgeBaseS
     }
 
     /**
-     * Add  KNOWLEDGE BASE  CLASSIFICATION 
+     * Add Knowledge base classification
      *
-     * @param hrKnowledgeBaseSort  KNOWLEDGE BASE  CLASSIFICATION 
+     * @param hrKnowledgeBaseSort  Knowledge base classification
      * @return Result
      */
     @Override
@@ -87,9 +87,9 @@ public class HrKnowledgeBaseSortServiceImpl extends ServiceImpl<HrKnowledgeBaseS
     }
 
     /**
-     * Update  KNOWLEDGE BASE  CLASSIFICATION 
+     * Update Knowledge base classification
      *
-     * @param hrKnowledgeBaseSort  KNOWLEDGE BASE  CLASSIFICATION 
+     * @param hrKnowledgeBaseSort  Knowledge base classification
      * @return Result
      */
     @Override
@@ -101,9 +101,9 @@ public class HrKnowledgeBaseSortServiceImpl extends ServiceImpl<HrKnowledgeBaseS
     }
 
     /**
-     * Batch delete  KNOWLEDGE BASE  CLASSIFICATION 
+     * Batch delete  Knowledge base classification
      *
-     * @param ids  KNOWLEDGE BASE  CLASSIFICATION  primary keys to be deleted
+     * @param ids  Knowledge base classification primary keys to be deleted
      * @return Result
      */
     @Override
@@ -113,9 +113,9 @@ public class HrKnowledgeBaseSortServiceImpl extends ServiceImpl<HrKnowledgeBaseS
     }
 
     /**
-     * Delete  KNOWLEDGE BASE  CLASSIFICATION  information
+     * Delete Knowledge base classification information
      *
-     * @param id  KNOWLEDGE BASE  CLASSIFICATION  primary key
+     * @param id  Knowledge base classification primary key
      * @return Result
      */
     @Override

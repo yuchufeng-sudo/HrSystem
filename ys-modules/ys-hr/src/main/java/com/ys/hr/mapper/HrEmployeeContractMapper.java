@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- *  EMPLOYEE Contract Mapper Interface
+ *  Employee Contract Mapper Interface
  *
  * @author collection
  * @date 2023-02-26
@@ -15,10 +15,10 @@ import java.util.List;
 public interface HrEmployeeContractMapper extends BaseMapper<HrEmployeeContract>
 {
     /**
-     * QUERY EMPLOYEE Contract   LIST
+     * Query Employee Contract   list
      *
-     * @param employeeContract  EMPLOYEE Contract 
-     * @return  EMPLOYEE Contract Set
+     * @param employeeContract  Employee Contract
+     * @return  Employee Contract Set
      */
     List<HrEmployeeContract> selectTbEmpContractList(HrEmployeeContract employeeContract);
 
@@ -34,7 +34,7 @@ public interface HrEmployeeContractMapper extends BaseMapper<HrEmployeeContract>
                                      @Param("rid") Long rid);
 
     /**
-     * According to Contract idQUERY INFORMATION
+     * According to Contract idQUERY Information
      * @param contractNo
      * @return
      */
@@ -50,7 +50,7 @@ public interface HrEmployeeContractMapper extends BaseMapper<HrEmployeeContract>
     List<HrEmployeeContract> selectTbEmpContractList1(HrEmployeeContract employeeContract);
 
     /**
-     * Query expired contracts. 
+     * Query expired contracts.
      * @return
      */
     List<HrEmployeeContract> selectExpiringContracts();

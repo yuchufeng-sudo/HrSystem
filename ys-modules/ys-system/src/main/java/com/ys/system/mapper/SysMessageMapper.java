@@ -22,7 +22,7 @@ public interface SysMessageMapper extends BaseMapper<SysMessage>
     public SysMessage selectSysMessageByMessageId(Long messageId);
 
     /**
-     * QUERYMessage Send  LIST
+     * QUERYMessage Send  list
      *
      * @param sysMessage Message Send
      * @return Message SendSet

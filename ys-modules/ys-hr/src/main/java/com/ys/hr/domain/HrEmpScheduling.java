@@ -15,7 +15,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 /**
- * EMPLOYEE LAYOUT entity hr_emp_scheduling
+ * Employee Scheduling entity hr_emp_scheduling
  *
  * @author ys
  * @date 2025-06-04
@@ -38,8 +38,8 @@ public class HrEmpScheduling extends BaseEntity {
     @Excel(name = "Weekly Date")
     private String weekDays;
 
-    /** Monthly HOLIDAY */
-    @Excel(name = "Monthly HOLIDAY")
+    /** Monthly Holiday */
+    @Excel(name = "Monthly Holiday")
     private String monthDaysOff;
 
     /** Special Shift */
@@ -54,8 +54,8 @@ public class HrEmpScheduling extends BaseEntity {
     @Excel(name = "Month", width = 30, dateFormat = "yyyy-MM")
     private Date schedulingData;
 
-    /** USER ID */
-    @Excel(name = "USER ID")
+    /** User ID */
+    @Excel(name = "User ID")
     private Long userId;
 
     private String schedulingName;
@@ -72,11 +72,11 @@ public class HrEmpScheduling extends BaseEntity {
     private LocalTime defaultEndTime;
 
     @JsonFormat(pattern = "HH:mm:ss")
-    @Excel(name = "Lunch Break Start TIME", width = 30)
+    @Excel(name = "Lunch Break Start time", width = 30)
     private LocalTime restStartTime;
 
     @JsonFormat(pattern = "HH:mm:ss")
-    @Excel(name = "Lunch Break End TIME", width = 30)
+    @Excel(name = "Lunch Break End time", width = 30)
     private LocalTime restEndTime;
     /** Enterprise ID */
     @Excel(name = "Enterprise ID")

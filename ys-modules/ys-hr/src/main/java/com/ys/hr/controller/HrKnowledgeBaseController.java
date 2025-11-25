@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  KNOWLEDGE BASE  Controller
+ *  Knowledge base  Controller
  *
  * @author ys
  * @date 2025-06-04
@@ -31,7 +31,7 @@ public class HrKnowledgeBaseController extends BaseController
     private IHrKnowledgeBaseService hrKnowledgeBaseService;
 
     /**
-     * Query  KNOWLEDGE BASE  list
+     * Query Knowledge base  list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrKnowledgeBase hrKnowledgeBase)
@@ -56,20 +56,20 @@ public class HrKnowledgeBaseController extends BaseController
     }
 
     /**
-     * Export  KNOWLEDGE BASE  list
+     * Export Knowledge base  list
      */
-    @Log(title = " KNOWLEDGE BASE ", businessType = BusinessType.EXPORT)
+    @Log(title = "Knowledge base", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrKnowledgeBase hrKnowledgeBase)
     {
         hrKnowledgeBase.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         List<HrKnowledgeBase> list = hrKnowledgeBaseService.selectHrKnowledgeBaseList(hrKnowledgeBase);
         ExcelUtil<HrKnowledgeBase> util = new ExcelUtil<HrKnowledgeBase>(HrKnowledgeBase.class);
-        util.exportExcel(response, list, " KNOWLEDGE BASE  Data");
+        util.exportExcel(response, list, " Knowledge base  Data");
     }
 
     /**
-     * Get  KNOWLEDGE BASE  details
+     * Get Knowledge base  details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -77,9 +77,9 @@ public class HrKnowledgeBaseController extends BaseController
     }
 
     /**
-     * Add  KNOWLEDGE BASE
+     * Add Knowledge base
      */
-    @Log(title = " KNOWLEDGE BASE ", businessType = BusinessType.INSERT)
+    @Log(title = "Knowledge base", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrKnowledgeBase hrKnowledgeBase) {
         hrKnowledgeBase.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -87,18 +87,18 @@ public class HrKnowledgeBaseController extends BaseController
     }
 
     /**
-     * Update  KNOWLEDGE BASE
+     * Update Knowledge base
      */
-    @Log(title = " KNOWLEDGE BASE ", businessType = BusinessType.UPDATE)
+    @Log(title = "Knowledge base", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrKnowledgeBase hrKnowledgeBase) {
         return toAjax(hrKnowledgeBaseService.updateHrKnowledgeBase(hrKnowledgeBase));
     }
 
     /**
-     * Delete  KNOWLEDGE BASE
+     * Delete Knowledge base
      */
-    @Log(title = " KNOWLEDGE BASE ", businessType = BusinessType.DELETE)
+    @Log(title = "Knowledge base", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(hrKnowledgeBaseService.removeByIds(Arrays.asList(ids)));

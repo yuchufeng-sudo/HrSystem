@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- *Data Dictionary INFORMATION
+ *Data Dictionary Information
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/dict/type")
@@ -38,18 +38,18 @@ public class SysDictTypeController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = " DICTIONARY TYPE ", businessType = BusinessType.EXPORT)
+    @Log(title = "Dictionary type", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:dict:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictType dictType)
     {
         List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
         ExcelUtil<SysDictType> util = new ExcelUtil<SysDictType>(SysDictType.class);
-        util.exportExcel(response, list, " DICTIONARY TYPE ");
+        util.exportExcel(response, list, " Dictionary type ");
     }
 
     /**
-     * QUERY DICTIONARY TYPE DETAILEDLY
+     * Query Dictionary type Details
      */
     @RequiresPermissions("system:dict:query")
     @GetMapping(value = "/{dictId}")
@@ -59,42 +59,42 @@ public class SysDictTypeController extends BaseController
     }
 
     /**
-     * ADD DICTIONARY TYPE
+     * Add Dictionary type
      */
     @RequiresPermissions("system:dict:add")
-    @Log(title = " DICTIONARY TYPE ", businessType = BusinessType.INSERT)
+    @Log(title = "Dictionary type", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictType dict)
     {
         if (!dictTypeService.checkDictTypeUnique(dict))
         {
-            return error("ADDDictionary '" + dict.getDictName() + "'Failure， DICTIONARY TYPE  Already Exists");
+            return error("ADDDictionary '" + dict.getDictName() + "'Failure， Dictionary type  Already Exists");
         }
         dict.setCreateBy(SecurityUtils.getUsername());
         return toAjax(dictTypeService.insertDictType(dict));
     }
 
     /**
-     * MODIFY DICTIONARY TYPE
+     * Update Dictionary type
      */
     @RequiresPermissions("system:dict:edit")
-    @Log(title = " DICTIONARY TYPE ", businessType = BusinessType.UPDATE)
+    @Log(title = "Dictionary type", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictType dict)
     {
         if (!dictTypeService.checkDictTypeUnique(dict))
         {
-            return error("MODIFYDictionary '" + dict.getDictName() + "'Failure， DICTIONARY TYPE  Already Exists");
+            return error("MODIFYDictionary '" + dict.getDictName() + "'Failure， Dictionary type  Already Exists");
         }
         dict.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(dictTypeService.updateDictType(dict));
     }
 
     /**
-     * DELETE DICTIONARY TYPE
+     * Delete Dictionary type
      */
     @RequiresPermissions("system:dict:remove")
-    @Log(title = " DICTIONARY TYPE ", businessType = BusinessType.DELETE)
+    @Log(title = "Dictionary type", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictIds}")
     public AjaxResult remove(@PathVariable Long[] dictIds)
     {
@@ -106,7 +106,7 @@ public class SysDictTypeController extends BaseController
      * Refresh Dictionary cache.
      */
     @RequiresPermissions("system:dict:remove")
-    @Log(title = " DICTIONARY TYPE ", businessType = BusinessType.CLEAN)
+    @Log(title = "Dictionary type", businessType = BusinessType.CLEAN)
     @DeleteMapping("/refreshCache")
     public AjaxResult refreshCache()
     {
@@ -115,7 +115,7 @@ public class SysDictTypeController extends BaseController
     }
 
     /**
-     * Obtain Dictionary SELECT Box LIST
+     * Obtain Dictionary SELECT Box list
      */
     @GetMapping("/optionselect")
     public AjaxResult optionselect()

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * EMPLOYEE TIME entity hr_emp_time
+ * Employee time entity hr_emp_time
  *
  * @author ys
  * @date 2025-06-03
@@ -26,57 +26,57 @@ import java.util.Date;
 public class HrEmpTime extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** EMPLOYEE Working Hours Confirmation Form */
+    /** Employee Working Hours Confirmation Form */
     @TableId(value = "emp_time_id", type = IdType.ASSIGN_UUID)
     private String empTimeId;
 
-    /** USER ID */
-    @Excel(name = "USER ID")
+    /** User ID */
+    @Excel(name = "User ID")
     private Long userId;
 
-    /** USER Name */
-    @Excel(name = "USER Name")
+    /** User Name */
+    @Excel(name = "User Name")
     private String nickName;
 
     /** Working Days */
     @Excel(name = "Working Days")
     private Integer mouthDays;
 
-    /** Attendance TIME */
-    @Excel(name = "Attendance TIME")
+    /** Attendance time */
+    @Excel(name = "Attendance time")
     private Double presentHours;
 
-    /** Paid HOLIDAY */
-    @Excel(name = "Paid HOLIDAY")
+    /** Paid Holiday */
+    @Excel(name = "Paid Holiday")
     private Double holidaysHours;
 
-    /** LEAVE APPLICATION TIME */
-    @Excel(name = "LEAVE APPLICATION TIME")
+    /** Leave Application time */
+    @Excel(name = "Leave Application time")
     private Double leaveHours;
 
-    /** Late TIME */
-    @Excel(name = "Late TIME")
+    /** Late time */
+    @Excel(name = "Late time")
     private Double lateHours;
 
-    /** Early Leave TIME */
-    @Excel(name = "Early Leave TIME")
+    /** Early Leave time */
+    @Excel(name = "Early Leave time")
     private Double earlyHours;
 
-    /** Overtime TIME */
-    @Excel(name = "Overtime TIME")
+    /** Overtime time */
+    @Excel(name = "Overtime time")
     private Double overHours;
 
-    /** Absenteeism TIME */
-    @Excel(name = "Absenteeism TIME")
+    /** Absenteeism time */
+    @Excel(name = "Absenteeism time")
     private Double absentHours;
 
     /** Working Hours This Month */
     @Excel(name = "Working Hours This Month")
     private Double workHours;
 
-    /** Month (SALARY Month) */
+    /** Month (salary Month) */
     @JsonFormat(pattern = "yyyy-MM")
-    @Excel(name = "Month (SALARY Month)", width = 30, dateFormat = "yyyy-MM")
+    @Excel(name = "Month (salary Month)", width = 30, dateFormat = "yyyy-MM")
     private Date payrollData;
     /** Enterprise Number */
     @Excel(name = "Enterprise Number")

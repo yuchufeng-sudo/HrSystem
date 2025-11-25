@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *  RENEWAL CONTRACT  Controller
+ *  renewal contract Controller
  *
  * @author ys
  * @date 2025-06-20
@@ -32,7 +32,7 @@ public class HrRenewalContractController extends BaseController
     private IHrRenewalContractService hrRenewalContractService;
 
     /**
-     * Query  RENEWAL CONTRACT  list
+     * Query renewal contract list
      */
     @RequiresPermissions("hr:renewalContract:list")
     @GetMapping("/list")
@@ -45,20 +45,20 @@ public class HrRenewalContractController extends BaseController
     }
 
     /**
-     * Export  RENEWAL CONTRACT  list
+     * Export renewal contract list
      */
     @RequiresPermissions("hr:renewalContract:export")
-    @Log(title = " RENEWAL CONTRACT ", businessType = BusinessType.EXPORT)
+    @Log(title = "renewal contract", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrRenewalContract hrRenewalContract)
     {
         List<HrRenewalContract> list = hrRenewalContractService.selectHrRenewalContractList(hrRenewalContract);
         ExcelUtil<HrRenewalContract> util = new ExcelUtil<HrRenewalContract>(HrRenewalContract.class);
-        util.exportExcel(response, list, " RENEWAL CONTRACT  Data");
+        util.exportExcel(response, list, " renewal contract Data");
     }
 
     /**
-     * Get  RENEWAL CONTRACT  details
+     * Get renewal contract details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") String id) {
@@ -66,30 +66,30 @@ public class HrRenewalContractController extends BaseController
     }
 
     /**
-     * Add  RENEWAL CONTRACT
+     * Add renewal contract
      */
     @RequiresPermissions("hr:renewalContract:add")
-    @Log(title = " RENEWAL CONTRACT ", businessType = BusinessType.INSERT)
+    @Log(title = "renewal contract", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrRenewalContract hrRenewalContract) {
         return toAjax(hrRenewalContractService.insertHrRenewalContract(hrRenewalContract));
     }
 
     /**
-     * Update  RENEWAL CONTRACT
+     * Update renewal contract
      */
     @RequiresPermissions("hr:renewalContract:edit")
-    @Log(title = " RENEWAL CONTRACT ", businessType = BusinessType.UPDATE)
+    @Log(title = "renewal contract", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrRenewalContract hrRenewalContract) {
         return toAjax(hrRenewalContractService.updateHrRenewalContract(hrRenewalContract));
     }
 
     /**
-     * Delete  RENEWAL CONTRACT
+     * Delete renewal contract
      */
     @RequiresPermissions("hr:renewalContract:remove")
-    @Log(title = " RENEWAL CONTRACT ", businessType = BusinessType.DELETE)
+    @Log(title = "renewal contract", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable String[] ids) {
         return toAjax(hrRenewalContractService.removeByIds(Arrays.asList(ids)));

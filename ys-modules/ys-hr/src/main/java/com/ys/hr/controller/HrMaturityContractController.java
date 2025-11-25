@@ -26,7 +26,7 @@ import com.ys.hr.service.IHrMaturityContractService;
 import org.springframework.validation.annotation.Validated;
 
 /**
- *  THE CONTRACT EXPIRES  Controller
+ *  Contract expiration Controller
  *
  * @author ys
  * @date 2025-06-20
@@ -39,7 +39,7 @@ public class HrMaturityContractController extends BaseController
     private IHrMaturityContractService hrMaturityContractService;
 
     /**
-     * Query  THE CONTRACT EXPIRES  list
+     * Query Contract expiration list
      */
     @RequiresPermissions("hr:maturityContract:list")
     @GetMapping("/list")
@@ -52,20 +52,20 @@ public class HrMaturityContractController extends BaseController
     }
 
     /**
-     * Export  THE CONTRACT EXPIRES  list
+     * Export Contract expiration list
      */
     @RequiresPermissions("hr:maturityContract:export")
-    @Log(title = " THE CONTRACT EXPIRES ", businessType = BusinessType.EXPORT)
+    @Log(title = "Contract expiration", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrMaturityContract hrMaturityContract)
     {
         List<HrMaturityContract> list = hrMaturityContractService.selectHrMaturityContractList(hrMaturityContract);
         ExcelUtil<HrMaturityContract> util = new ExcelUtil<HrMaturityContract>(HrMaturityContract.class);
-        util.exportExcel(response, list, " THE CONTRACT EXPIRES  Data");
+        util.exportExcel(response, list, " Contract expiration Data");
     }
 
     /**
-     * Get  THE CONTRACT EXPIRES  details
+     * Get Contract expiration details
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -73,30 +73,30 @@ public class HrMaturityContractController extends BaseController
     }
 
     /**
-     * Add  THE CONTRACT EXPIRES 
+     * Add Contract expiration
      */
     @RequiresPermissions("hr:maturityContract:add")
-    @Log(title = " THE CONTRACT EXPIRES ", businessType = BusinessType.INSERT)
+    @Log(title = "Contract expiration", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrMaturityContract hrMaturityContract) {
         return toAjax(hrMaturityContractService.insertHrMaturityContract(hrMaturityContract));
     }
 
     /**
-     * Update  THE CONTRACT EXPIRES 
+     * Update Contract expiration
      */
     @RequiresPermissions("hr:maturityContract:edit")
-    @Log(title = " THE CONTRACT EXPIRES ", businessType = BusinessType.UPDATE)
+    @Log(title = "Contract expiration", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrMaturityContract hrMaturityContract) {
         return toAjax(hrMaturityContractService.updateHrMaturityContract(hrMaturityContract));
     }
 
     /**
-     * Delete  THE CONTRACT EXPIRES 
+     * Delete Contract expiration
      */
     @RequiresPermissions("hr:maturityContract:remove")
-    @Log(title = " THE CONTRACT EXPIRES ", businessType = BusinessType.DELETE)
+    @Log(title = "Contract expiration", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(hrMaturityContractService.removeByIds(Arrays.asList(ids)));

@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Online Users Monitoring
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/online")
@@ -68,7 +68,7 @@ public class SysUserOnlineController extends BaseController
     }
 
     /**
-     *  FORCE LOGOUT USER
+     *  FORCE LOGOUT User
      */
     @RequiresPermissions("monitor:online:forceLogout")
     @Log(title = "ONLINE USERS", businessType = BusinessType.FORCE)

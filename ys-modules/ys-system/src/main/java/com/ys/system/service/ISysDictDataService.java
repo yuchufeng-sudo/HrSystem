@@ -7,54 +7,54 @@ import java.util.List;
 /**
  * Dictionary Business Layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysDictDataService
 {
     /**
-     * According to the conditions for pagination, QUERY DICTIONARY DATA.
+     * According to the conditions for pagination, Query Dictionary Data.
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
-     * @return  DICTIONARY DATA Set INFORMATION
+     * @param dictData  Dictionary Data  Information
+     * @return  Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataList(SysDictData dictData);
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  andDictionary LabelQUERY DICTIONARY DATA  INFORMATION
+     * ACCORDING TO THE Dictionary type  andDictionary LabelQUERY Dictionary Data  Information
      *
-     * @param dictType  DICTIONARY TYPE
+     * @param dictType  Dictionary type
      * @param dictValue Dictionary Label
      * @return Dictionary Label
      */
     public String selectDictLabel(String dictType, String dictValue);
 
     /**
-     * According to  DICTIONARY DATA IDQUERY INFORMATION
+     * According to  Dictionary Data IDQUERY Information
      *
-     * @param dictCode  DICTIONARY DATA ID
-     * @return  DICTIONARY DATA
+     * @param dictCode  Dictionary Data ID
+     * @return  Dictionary Data
      */
     public SysDictData selectDictDataById(Long dictCode);
 
     /**
-     * Batch DELETE DICTIONARY DATA INFORMATION
+     * Batch Delete Dictionary Data Information
      *
-     * @param dictCodes DICTIONARY DATA ID to be DELETED
+     * @param dictCodes Dictionary Data ID to be DELETED
      */
     public void deleteDictDataByIds(Long[] dictCodes);
 
     /**
-     * ADDsave  DICTIONARY DATA  INFORMATION
+     * Save Dictionary Data Information
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
+     * @param dictData Dictionary Data Information
      * @return Result
      */
     public int insertDictData(SysDictData dictData);
 
     /**
-     * MODIFYsave  DICTIONARY DATA  INFORMATION
+     * MODIFYsave  Dictionary Data  Information
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
+     * @param dictData  Dictionary Data  Information
      * @return Result
      */
     public int updateDictData(SysDictData dictData);

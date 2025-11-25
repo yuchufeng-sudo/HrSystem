@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  CANDIDATE  INFORMATIONMapper Interface
+ *  Candidate INFORMATIONMapper Interface
  *
  * @author ys
  * @date 2025-05-20
@@ -17,10 +17,10 @@ import java.util.Map;
 public interface TbCandidateInfoMapper extends BaseMapper<HrCandidateInfo>
 {
     /**
-     * QUERY CANDIDATE  INFORMATION  LIST
+     * Query Candidate Information list
      *
-     * @param tbCandidateInfo  CANDIDATE  INFORMATION
-     * @return  CANDIDATE  INFORMATIONSet
+     * @param tbCandidateInfo  Candidate Information
+     * @return  Candidate INFORMATIONSet
      */
     public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo tbCandidateInfo);
 

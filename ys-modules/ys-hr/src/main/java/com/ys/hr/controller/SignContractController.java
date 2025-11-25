@@ -69,7 +69,7 @@ public class SignContractController extends BaseController {
     }
 
     /**
-     * QUERY  LIST
+     * Query list
      * @param hrEmployeeContract
      * @return
      */
@@ -167,7 +167,7 @@ public class SignContractController extends BaseController {
     public String userNotifyUrl(HttpServletRequest request) {
         String contractNo = request.getParameter("contractNo");
         String status = request.getParameter("status");
-        log.debug("Electronic Signature USER Callback upon completion of signing：contractNo:{}, status:{}", contractNo, status);
+        log.debug("Electronic Signature User Callback upon completion of signing：contractNo:{}, status:{}", contractNo, status);
         hrEmployeeContractService.userSign(contractNo, status);
         return "ok";
     }

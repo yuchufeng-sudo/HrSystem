@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *  ANNOUNCEMENT  INFORMATIONOPERATION
+ *  Announcement  INFORMATIONOPERATION
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/notice")
@@ -37,7 +37,7 @@ public class SysNoticeController extends BaseController
 
 
     /**
-     * OBTAIN  Notice  ANNOUNCEMENT  LIST
+     * Get Notice Announcement  list
      */
     @RequiresPermissions("system:notice:list")
     @GetMapping("/list")
@@ -55,7 +55,7 @@ public class SysNoticeController extends BaseController
     }
 
     /**
-     * According to  Notice  ANNOUNCEMENT IDOBTAIN DETAILEDLY INFORMATION
+     * According to  Notice Announcement IDOBTAIN Details
      */
     @GetMapping(value = "/{noticeId}")
     public AjaxResult getInfo(@PathVariable Long noticeId)
@@ -64,7 +64,7 @@ public class SysNoticeController extends BaseController
     }
 
     /**
-     * ADD Notice  ANNOUNCEMENT
+     * Add Notice Announcement
      */
     @PostMapping("/read/{noticeId}")
     public AjaxResult read(@PathVariable Long noticeId)
@@ -100,10 +100,10 @@ public class SysNoticeController extends BaseController
     }
 
     /**
-     * ADD Notice  ANNOUNCEMENT
+     * Add Notice Announcement
      */
     @RequiresPermissions("system:notice:add")
-    @Log(title = " Notice ANNOUNCEMENT", businessType = BusinessType.INSERT)
+    @Log(title = "Notice Announcement", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysNotice notice)
     {
@@ -132,7 +132,7 @@ public class SysNoticeController extends BaseController
     }
 
     @RequiresPermissions("system:notice:add")
-    @Log(title = " Notice  ANNOUNCEMENT", businessType = BusinessType.UPDATE)
+    @Log(title = "Notice Announcement", businessType = BusinessType.UPDATE)
     @PutMapping("saveDraft")
     public AjaxResult saveDraft(@Validated @RequestBody SysNotice notice)
     {
@@ -145,10 +145,10 @@ public class SysNoticeController extends BaseController
     }
 
     /**
-     * MODIFY Notice  ANNOUNCEMENT
+     * Update Notice Announcement
      */
     @RequiresPermissions("system:notice:add")
-    @Log(title = " Notice  ANNOUNCEMENT", businessType = BusinessType.UPDATE)
+    @Log(title = "Notice Announcement", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysNotice notice)
     {
@@ -158,10 +158,10 @@ public class SysNoticeController extends BaseController
     }
 
     /**
-     * DELETE Notice  ANNOUNCEMENT
+     * Delete Notice Announcement
      */
     @RequiresPermissions("system:notice:remove")
-    @Log(title = " Notice  ANNOUNCEMENT", businessType = BusinessType.DELETE)
+    @Log(title = "Notice Announcement", businessType = BusinessType.DELETE)
     @DeleteMapping("/{noticeIds}")
     public AjaxResult remove(@PathVariable Long[] noticeIds)
     {

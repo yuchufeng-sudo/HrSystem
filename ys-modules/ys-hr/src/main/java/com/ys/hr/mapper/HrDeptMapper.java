@@ -60,8 +60,7 @@ public interface HrDeptMapper extends BaseMapper<HrDept>
     public int batchHrDeptEmployees(List<HrDeptEmployees> hrDeptEmployeesList);
 
     /**
-     * To query the joined DEPARTMENT.
-  LIST
+     * To query the joined DEPARTMENT. list
      * @param dept
      * @return
      */

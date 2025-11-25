@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *Data Dictionary INFORMATION
+ *Data Dictionary Information
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/dict/data")
@@ -44,18 +44,18 @@ public class SysDictDataController extends BaseController
         return getDataTable(list);
     }
 
-    @Log(title = " DICTIONARY DATA ", businessType = BusinessType.EXPORT)
+    @Log(title = "Dictionary Data", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:dict:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictData dictData)
     {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
         ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
-        util.exportExcel(response, list, " DICTIONARY DATA ");
+        util.exportExcel(response, list, " Dictionary Data ");
     }
 
     /**
-     * QUERY DICTIONARY DATA DETAILEDLY
+     * Query Dictionary Data Details
      */
     @RequiresPermissions("system:dict:query")
     @GetMapping(value = "/{dictCode}")
@@ -65,7 +65,7 @@ public class SysDictDataController extends BaseController
     }
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  QUERY DICTIONARY DATA  INFORMATION
+     * ACCORDING TO THE Dictionary type  Query Dictionary Data  Information
      */
     @GetMapping(value = "/type/{dictType}")
     public AjaxResult dictType(@PathVariable String dictType)
@@ -79,10 +79,10 @@ public class SysDictDataController extends BaseController
     }
 
     /**
-     * ADD DICTIONARY TYPE
+     * Add Dictionary type
      */
     @RequiresPermissions("system:dict:add")
-    @Log(title = " DICTIONARY DATA ", businessType = BusinessType.INSERT)
+    @Log(title = "Dictionary Data", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictData dict)
     {
@@ -91,10 +91,10 @@ public class SysDictDataController extends BaseController
     }
 
     /**
-     * MODIFYsave  DICTIONARY TYPE
+     * MODIFYsave  Dictionary type
      */
     @RequiresPermissions("system:dict:edit")
-    @Log(title = " DICTIONARY DATA ", businessType = BusinessType.UPDATE)
+    @Log(title = "Dictionary Data", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictData dict)
     {
@@ -103,10 +103,10 @@ public class SysDictDataController extends BaseController
     }
 
     /**
-     * DELETE DICTIONARY TYPE
+     * Delete Dictionary type
      */
     @RequiresPermissions("system:dict:remove")
-    @Log(title = " DICTIONARY TYPE ", businessType = BusinessType.DELETE)
+    @Log(title = "Dictionary type", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictCodes}")
     public AjaxResult remove(@PathVariable Long[] dictCodes)
     {

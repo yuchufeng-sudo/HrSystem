@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
- * Manages task assignments and progress tracking for employee targets entity hr_target_tasks
+ * Targets Manages entity hr_target_tasks
  *
  * @author ys
  * @date 2025-06-18

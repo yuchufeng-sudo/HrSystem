@@ -10,7 +10,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- *  WELFARE TYPE   LIST Service Implementation
+ *  welfare type list Service Implementation
  *
  * @author ys
  * @date 2025-06-09
@@ -20,10 +20,10 @@ public class HrBenefitTypeServiceImpl extends ServiceImpl<HrBenefitTypeMapper, H
 {
 
     /**
-     * Query  WELFARE TYPE   LIST
+     * Query welfare type list
      *
-     * @param benefitTypeId  WELFARE TYPE   LIST primary key
-     * @return  WELFARE TYPE   LIST
+     * @param benefitTypeId  welfare type list primary key
+     * @return  welfare type list
      */
     @Override
     public HrBenefitType selectHrBenefitTypeByBenefitTypeId(String benefitTypeId)
@@ -32,10 +32,10 @@ public class HrBenefitTypeServiceImpl extends ServiceImpl<HrBenefitTypeMapper, H
     }
 
     /**
-     * Query  WELFARE TYPE   LIST list
+     * Query welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
-     * @return  WELFARE TYPE   LIST
+     * @param hrBenefitType  welfare type list
+     * @return  welfare type list
      */
     @Override
     public List<HrBenefitType> selectHrBenefitTypeList(HrBenefitType hrBenefitType)
@@ -44,9 +44,9 @@ public class HrBenefitTypeServiceImpl extends ServiceImpl<HrBenefitTypeMapper, H
     }
 
     /**
-     * Add  WELFARE TYPE   LIST
+     * Add welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
+     * @param hrBenefitType  welfare type list
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrBenefitTypeServiceImpl extends ServiceImpl<HrBenefitTypeMapper, H
     }
 
     /**
-     * Update  WELFARE TYPE   LIST
+     * Update welfare type list
      *
-     * @param hrBenefitType  WELFARE TYPE   LIST
+     * @param hrBenefitType  welfare type list
      * @return Result
      */
     @Override
@@ -70,9 +70,9 @@ public class HrBenefitTypeServiceImpl extends ServiceImpl<HrBenefitTypeMapper, H
     }
 
     /**
-     * Batch delete  WELFARE TYPE   LIST
+     * Batch delete  welfare type list
      *
-     * @param benefitTypeIds  WELFARE TYPE   LIST primary keys to be deleted
+     * @param benefitTypeIds  welfare type list primary keys to be deleted
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrBenefitTypeServiceImpl extends ServiceImpl<HrBenefitTypeMapper, H
     }
 
     /**
-     * Delete  WELFARE TYPE   LIST information
+     * Delete welfare type list information
      *
-     * @param benefitTypeId  WELFARE TYPE   LIST primary key
+     * @param benefitTypeId  welfare type list primary key
      * @return Result
      */
     @Override

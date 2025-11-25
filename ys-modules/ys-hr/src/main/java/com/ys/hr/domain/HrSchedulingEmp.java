@@ -15,7 +15,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 /**
- * EMPLOYEE SCHEDULING entity hr_scheduling_emp
+ * Employee scheduling entity hr_scheduling_emp
  *
  * @author ys
  * @date 2025-06-08
@@ -30,8 +30,8 @@ public class HrSchedulingEmp extends BaseEntity {
     /** LAYOUT ID */
     @TableId(value = "scheduling_emp_id", type = IdType.ASSIGN_UUID)
     private String schedulingEmpId;
-    /** USER ID */
-    @Excel(name = "USER  ID")
+    /** User ID */
+    @Excel(name = "User  ID")
     private Long userId;
     /** Scheduling Month */
     @Excel(name = "Scheduling Month", width = 30, dateFormat = "yyyy-MM")

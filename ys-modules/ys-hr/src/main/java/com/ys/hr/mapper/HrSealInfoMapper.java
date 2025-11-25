@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrSealInfo;
 import java.util.List;
 
 /**
- *  SEAL INFORMATION  Mapper Interface
+ *  seal Information  Mapper Interface
  *
  * @author ys
  * @date 2025-06-05
@@ -14,18 +14,18 @@ import java.util.List;
 public interface HrSealInfoMapper extends BaseMapper<HrSealInfo>
 {
     /**
-     * Query  SEAL INFORMATION
+     * Query seal Information
      *
-     * @param id  SEAL INFORMATION  primary key
-     * @return  SEAL INFORMATION
+     * @param id  seal Information  primary key
+     * @return  seal Information
      */
     public HrSealInfo selectHrSealInfoById(Long id);
 
     /**
-     * Query  SEAL INFORMATION  list
+     * Query seal Information list
      *
-     * @param hrSealInfo  SEAL INFORMATION
-     * @return  SEAL INFORMATION  collection
+     * @param hrSealInfo  seal Information
+     * @return  seal Information  collection
      */
     public List<HrSealInfo> selectHrSealInfoList(HrSealInfo hrSealInfo);
 

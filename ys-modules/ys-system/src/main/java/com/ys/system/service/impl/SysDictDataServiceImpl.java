@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Dictionary Business Layer Processing
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysDictDataServiceImpl implements ISysDictDataService
@@ -21,10 +21,10 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     private SysDictDataMapper dictDataMapper;
 
     /**
-     * According to the conditions for pagination, QUERY DICTIONARY DATA.
+     * According to the conditions for pagination, Query Dictionary Data.
      *
-     * @param dictData  DICTIONARY DATA  INFORMATION
-     * @return  DICTIONARY DATA Set INFORMATION
+     * @param dictData  Dictionary Data  Information
+     * @return  Dictionary Data Set Information
      */
     @Override
     public List<SysDictData> selectDictDataList(SysDictData dictData)
@@ -33,9 +33,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     }
 
     /**
-     * ACCORDING TO THE DICTIONARY TYPE  andDictionary LabelQUERY DICTIONARY DATA  INFORMATION
+     * ACCORDING TO THE Dictionary type  andDictionary LabelQUERY Dictionary Data  Information
      *
-     * @param dictType  DICTIONARY TYPE
+     * @param dictType  Dictionary type
      * @param dictValue Dictionary Label
      * @return Dictionary Label
      */
@@ -46,10 +46,10 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     }
 
     /**
-     * According to  DICTIONARY DATA IDQUERY INFORMATION
+     * According to  Dictionary Data IDQUERY Information
      *
-     * @param dictCode  DICTIONARY DATA ID
-     * @return  DICTIONARY DATA
+     * @param dictCode  Dictionary Data ID
+     * @return  Dictionary Data
      */
     @Override
     public SysDictData selectDictDataById(Long dictCode)
@@ -58,9 +58,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     }
 
     /**
-     * Batch DELETE DICTIONARY DATA INFORMATION
+     * Batch Delete Dictionary Data Information
      *
-     * @param dictCodes DICTIONARY DATA ID to be DELETED
+     * @param dictCodes Dictionary Data ID to be DELETED
      */
     @Override
     public void deleteDictDataByIds(Long[] dictCodes)
@@ -75,9 +75,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     }
 
     /**
-     * ADDsave  DICTIONARY DATA  INFORMATION
+     * Save Dictionary Data Information
      *
-     * @param data  DICTIONARY DATA  INFORMATION
+     * @param data  Dictionary Data  Information
      * @return Result
      */
     @Override
@@ -93,9 +93,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     }
 
     /**
-     * MODIFYsave  DICTIONARY DATA  INFORMATION
+     * MODIFYsave  Dictionary Data  Information
      *
-     * @param data  DICTIONARY DATA  INFORMATION
+     * @param data  Dictionary Data  Information
      * @return Result
      */
     @Override

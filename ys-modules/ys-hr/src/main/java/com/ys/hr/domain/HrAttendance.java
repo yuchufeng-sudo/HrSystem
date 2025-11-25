@@ -35,9 +35,9 @@ public class HrAttendance extends BaseEntity {
     @TableId(value = "attendance_id", type = IdType.AUTO)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long attendanceId;
-    /** USER  ID */
+    /** User  ID */
     private Long userId;
-    /** USER Name */
+    /** User Name */
     @Excel(name = "User Name")
     private String nickName;
 
@@ -144,27 +144,4 @@ public class HrAttendance extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM")
     private Date searchData;
 
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("attendanceId", getAttendanceId())
-            .append("userId", getUserId())
-            .append("nickName", getNickName())
-            .append("checkIn", getCheckIn())
-            .append("checkOut", getCheckOut())
-            .append("workTime", getWorkTime())
-            .append("attendanceStatus", getAttendanceStatus())
-            .append("overTime", getOverTime())
-            .append("lateTime", getLateTime())
-            .append("earlyTime", getEarlyTime())
-            .append("attendanceTime", getAttendanceTime())
-            .append("enterpriseId", getEnterpriseId())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-        .toString();
-    }
 }

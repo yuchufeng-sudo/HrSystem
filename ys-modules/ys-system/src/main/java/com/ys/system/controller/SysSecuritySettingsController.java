@@ -29,7 +29,7 @@ public class SysSecuritySettingsController extends BaseController
 
 
     /**
-     * OBTAIN Workspace SettingsDETAILEDLY INFORMATION
+     * OBTAIN Workspace SettingsDETAILEDLY Information
      */
     @GetMapping()
     public AjaxResult getInfo() {

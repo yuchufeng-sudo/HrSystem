@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrRenewalContract;
 import java.util.List;
 
 /**
- *  RENEWAL CONTRACT  Mapper Interface
+ *  renewal contract Mapper Interface
  *
  * @author ys
  * @date 2025-06-20
@@ -14,18 +14,18 @@ import java.util.List;
 public interface HrRenewalContractMapper extends BaseMapper<HrRenewalContract>
 {
     /**
-     * Query  RENEWAL CONTRACT
+     * Query renewal contract
      *
-     * @param id  RENEWAL CONTRACT  primary key
-     * @return  RENEWAL CONTRACT
+     * @param id  renewal contract primary key
+     * @return  renewal contract
      */
     public HrRenewalContract selectHrRenewalContractById(String id);
 
     /**
-     * Query  RENEWAL CONTRACT  list
+     * Query renewal contract list
      *
-     * @param hrRenewalContract  RENEWAL CONTRACT
-     * @return  RENEWAL CONTRACT  collection
+     * @param hrRenewalContract  renewal contract
+     * @return  renewal contract collection
      */
     public List<HrRenewalContract> selectHrRenewalContractList(HrRenewalContract hrRenewalContract);
 

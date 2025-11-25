@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Parameters Configuration Service Layer Implementation
  *
- * @author ruoyi
+ * @author ys
  */
 @Service
 public class SysConfigServiceImpl implements ISysConfigService
@@ -40,10 +40,10 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * QUERY PARAMETERS CONFIGURATION INFORMATION
+     * Query PARAMETERS CONFIGURATION Information
      *
      * @param configId Parameters Configuration ID
-     * @return Parameters Configuration INFORMATION
+     * @return Parameters Configuration Information
      */
     @Override
     public SysConfig selectConfigById(Long configId)
@@ -54,7 +54,7 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * According to the key "Name" in QUERY PARAMETERS CONFIGURATION INFORMATION
+     * According to the key "Name" in Query PARAMETERS CONFIGURATION Information
      *
      * @param configKey Parameterskey
      * @return Parameters Key-Value
@@ -79,9 +79,9 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * QUERY PARAMETERS CONFIGURATION LIST
+     * Query PARAMETERS CONFIGURATION list
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Parameters Configuration Set
      */
     @Override
@@ -91,9 +91,9 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * ADD Parameters Configuration
+     * Add Parameters Configuration
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Result
      */
     @Override
@@ -108,9 +108,9 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * MODIFY Parameters Configuration
+     * Update Parameters Configuration
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Result
      */
     @Override
@@ -131,7 +131,7 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * Batch DELETE Parameters INFORMATION
+     * Batch Delete Parameters Information
      *
      * @param configIds Parameters ID to be DELETED
      */
@@ -164,7 +164,7 @@ public class SysConfigServiceImpl implements ISysConfigService
     }
 
     /**
-     * CLEAR Parameters Cache Data
+     * Clear Parameters Cache Data
      */
     @Override
     public void clearConfigCache()
@@ -186,7 +186,7 @@ public class SysConfigServiceImpl implements ISysConfigService
     /**
      *  Verify Whether the keyName Parameter Is Unique
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Result
      */
     @Override

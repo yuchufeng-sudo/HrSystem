@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrEmpScheduling;
 import java.util.List;
 
 /**
- *  EMPLOYEE  LAYOUT  Service Interface
+ *  Employee Scheduling Service Interface
  *
  * @author ys
  * @date 2025-06-04
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrEmpSchedulingService extends IService<HrEmpScheduling>
 {
     /**
-     * Query  EMPLOYEE  LAYOUT
+     * Query Employee Scheduling
      *
-     * @param schedulingId  EMPLOYEE  LAYOUT  primary key
-     * @return  EMPLOYEE  LAYOUT
+     * @param schedulingId  Employee Scheduling primary key
+     * @return  Employee Scheduling
      */
     public HrEmpScheduling selectHrEmpSchedulingBySchedulingId(String schedulingId);
 
     /**
-     * Query  EMPLOYEE  LAYOUT  list
+     * Query Employee Scheduling list
      *
-     * @param hrEmpScheduling  EMPLOYEE  LAYOUT
-     * @return  EMPLOYEE  LAYOUT  collection
+     * @param hrEmpScheduling Employee Scheduling
+     * @return  Employee Scheduling collection
      */
     public List<HrEmpScheduling> selectHrEmpSchedulingList(HrEmpScheduling hrEmpScheduling);
 
     /**
-     * Add  EMPLOYEE  LAYOUT
+     * Add Employee Scheduling
      *
-     * @param hrEmpScheduling  EMPLOYEE  LAYOUT
+     * @param hrEmpScheduling Employee Scheduling
      * @return Result
      */
     public int insertHrEmpScheduling(HrEmpScheduling hrEmpScheduling);
 
     /**
-     * Update  EMPLOYEE  LAYOUT
+     * Update Employee Scheduling
      *
-     * @param hrEmpScheduling  EMPLOYEE  LAYOUT
+     * @param hrEmpScheduling Employee Scheduling
      * @return Result
      */
     public int updateHrEmpScheduling(HrEmpScheduling hrEmpScheduling);
 
     /**
-     * Batch delete  EMPLOYEE  LAYOUT
+     * Batch delete  Employee Scheduling
      *
-     * @param schedulingIds  EMPLOYEE  LAYOUT  primary keys to be deleted
+     * @param schedulingIds  Employee Scheduling primary keys to be deleted
      * @return Result
      */
     public int deleteHrEmpSchedulingBySchedulingIds(String[] schedulingIds);
 
     /**
-     * Delete  EMPLOYEE  LAYOUT  information
+     * Delete Employee Scheduling information
      *
-     * @param schedulingId  EMPLOYEE  LAYOUT  primary key
+     * @param schedulingId  Employee Scheduling primary key
      * @return Result
      */
     public int deleteHrEmpSchedulingBySchedulingId(String schedulingId);

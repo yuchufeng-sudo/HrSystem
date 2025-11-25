@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * EMPLOYEE Mapper Interface
+ * Employee Mapper Interface
  *
  * @author ys
  * @date 2025-05-21
  */
 public interface HrEmployeesMapper extends BaseMapper<HrEmployees> {
     /**
-     * QUERY THE EMPLOYEE LIST.
+     * Query THE Employee list.
      *
-     * @param hrEmployees EMPLOYEE
-     * @return EMPLOYEE Set
+     * @param hrEmployees Employee
+     * @return Employee Set
      */
     public List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees);
     public List<HrEmployees> selectHrEmployeesExcelList(HrEmployees hrEmployees);
@@ -43,6 +43,8 @@ public interface HrEmployeesMapper extends BaseMapper<HrEmployees> {
     void insertSysUser(SysUser sysUser);
 
     void updateSysUser(SysUser sysUser);
+
+    void deleteSysUserById(Long userId);
 
     SysRole selectSysRoleById(Long roleId);
 
@@ -66,7 +68,7 @@ public interface HrEmployeesMapper extends BaseMapper<HrEmployees> {
     List<BirthdayReportVo> selectBirthdayReportVoReportVo(HrEmployees hrEmployees);
 
     /**
-     * QUERY data of different EMPLOYEE Status
+     * Query data of different Employee Status
      *
      * @param userEnterpriseId
      * @return
@@ -74,7 +76,7 @@ public interface HrEmployeesMapper extends BaseMapper<HrEmployees> {
     EmployeementStatusVo selectEmployeeStatusCount(String userEnterpriseId);
 
     /**
-     * QUERY EMPLOYEE QUANTITY
+     * Query Employee QUANTITY
      *
      * @param userEnterpriseId
      * @return

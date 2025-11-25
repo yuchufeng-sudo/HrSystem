@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- *  WELFARE BENEFITS entity hr_benefit
+ *  welfare benefits entity hr_benefit
  *
  * @author ys
  * @date 2025-06-09
@@ -28,15 +28,15 @@ public class HrBenefit extends BaseEntity {
     /** Welfare ID */
     @TableId(value = "benefit_id", type =  IdType.ASSIGN_UUID )
     private String benefitId;
-    /**  WELFARE TYPE  ID */
-    @Excel(name = " WELFARE TYPE  ID")
+    /**  welfare type  ID */
+    @Excel(name = " welfare type  ID")
     private String benefitTypeId;
     private String benefitName;
-    /**  WELFARE BENEFITS */
-    @Excel(name = " WELFARE BENEFITS")
+    /**  welfare benefits */
+    @Excel(name = " welfare benefits")
     private Double benefitEmpMoney;
-    /**  WELFARE BENEFITS */
-    @Excel(name = " WELFARE BENEFITS")
+    /**  welfare benefits */
+    @Excel(name = " welfare benefits")
     private String benefitEmpCompany;
     /** Welfare Applicable Groups */
     @Excel(name = "Welfare Applicable Groups")

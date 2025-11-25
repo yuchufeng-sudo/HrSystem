@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- *  KNOWLEDGE BASE  Mapper Interface
+ *  Knowledge base  Mapper Interface
  *
  * @author ys
  * @date 2025-06-04
@@ -17,18 +17,18 @@ import java.util.List;
 public interface HrKnowledgeBaseMapper extends BaseMapper<HrKnowledgeBase>
 {
     /**
-     * Query  KNOWLEDGE BASE
+     * Query Knowledge base
      *
-     * @param id  KNOWLEDGE BASE  primary key
-     * @return  KNOWLEDGE BASE
+     * @param id  Knowledge base  primary key
+     * @return  Knowledge base
      */
     public HrKnowledgeBase selectHrKnowledgeBaseById(Long id);
 
     /**
-     * Query  KNOWLEDGE BASE  list
+     * Query Knowledge base  list
      *
-     * @param hrKnowledgeBase  KNOWLEDGE BASE
-     * @return  KNOWLEDGE BASE  collection
+     * @param hrKnowledgeBase  Knowledge base
+     * @return  Knowledge base  collection
      */
     public List<HrKnowledgeBase> selectHrKnowledgeBaseList(HrKnowledgeBase hrKnowledgeBase);
 

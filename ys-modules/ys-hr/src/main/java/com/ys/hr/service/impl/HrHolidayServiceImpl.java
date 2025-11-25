@@ -10,7 +10,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- *  HOLIDAY   Service Implementation
+ *  Holiday   Service Implementation
  *
  * @author ys
  * @date 2025-06-18
@@ -20,10 +20,10 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
 {
 
     /**
-     * Query  HOLIDAY  
+     * Query Holiday  
      *
-     * @param holidayId  HOLIDAY   primary key
-     * @return  HOLIDAY  
+     * @param holidayId  Holiday   primary key
+     * @return  Holiday  
      */
     @Override
     public HrHoliday selectHrHolidayByHolidayId(Long holidayId)
@@ -32,10 +32,10 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Query  HOLIDAY   list
+     * Query Holiday   list
      *
-     * @param hrHoliday  HOLIDAY  
-     * @return  HOLIDAY  
+     * @param hrHoliday  Holiday  
+     * @return  Holiday  
      */
     @Override
     public List<HrHoliday> selectHrHolidayList(HrHoliday hrHoliday)
@@ -44,9 +44,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Add  HOLIDAY  
+     * Add Holiday  
      *
-     * @param hrHoliday  HOLIDAY  
+     * @param hrHoliday  Holiday  
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Update  HOLIDAY  
+     * Update Holiday  
      *
-     * @param hrHoliday  HOLIDAY  
+     * @param hrHoliday  Holiday  
      * @return Result
      */
     @Override
@@ -70,9 +70,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Batch delete  HOLIDAY  
+     * Batch delete  Holiday  
      *
-     * @param holidayIds  HOLIDAY   primary keys to be deleted
+     * @param holidayIds  Holiday   primary keys to be deleted
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Delete  HOLIDAY   information
+     * Delete Holiday   information
      *
-     * @param holidayId  HOLIDAY   primary key
+     * @param holidayId  Holiday   primary key
      * @return Result
      */
     @Override

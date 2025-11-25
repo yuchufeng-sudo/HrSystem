@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrContractTemplate;
 import java.util.List;
 
 /**
- * CONTRACT TEMPLATE INFORMATION Service Interface
+ * CONTRACT TEMPLATE Information Service Interface
  *
  * @author ys
  * @date 2025-05-28
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrContractTemplateService extends IService<HrContractTemplate>
 {
     /**
-     * Query CONTRACT TEMPLATE INFORMATION
+     * Query CONTRACT TEMPLATE Information
      *
-     * @param templateId CONTRACT TEMPLATE INFORMATION primary key
-     * @return CONTRACT TEMPLATE INFORMATION
+     * @param templateId CONTRACT TEMPLATE Information primary key
+     * @return CONTRACT TEMPLATE Information
      */
     public HrContractTemplate selectHrContractTemplateByTemplateId(Long templateId);
 
     /**
-     * Query CONTRACT TEMPLATE INFORMATION list
+     * Query CONTRACT TEMPLATE Information list
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE INFORMATION
-     * @return CONTRACT TEMPLATE INFORMATION collection
+     * @param hrContractTemplate CONTRACT TEMPLATE Information
+     * @return CONTRACT TEMPLATE Information collection
      */
     public List<HrContractTemplate> selectHrContractTemplateList(HrContractTemplate hrContractTemplate);
 
     /**
-     * Add CONTRACT TEMPLATE INFORMATION
+     * Add CONTRACT TEMPLATE Information
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE INFORMATION
+     * @param hrContractTemplate CONTRACT TEMPLATE Information
      * @return Result
      */
     public int insertHrContractTemplate(HrContractTemplate hrContractTemplate);
 
     /**
-     * Update CONTRACT TEMPLATE INFORMATION
+     * Update CONTRACT TEMPLATE Information
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE INFORMATION
+     * @param hrContractTemplate CONTRACT TEMPLATE Information
      * @return Result
      */
     public int updateHrContractTemplate(HrContractTemplate hrContractTemplate);
 
     /**
-     * Batch delete CONTRACT TEMPLATE INFORMATION
+     * Batch delete CONTRACT TEMPLATE Information
      *
-     * @param templateIds CONTRACT TEMPLATE INFORMATION primary keys to be deleted
+     * @param templateIds CONTRACT TEMPLATE Information primary keys to be deleted
      * @return Result
      */
     public int deleteHrContractTemplateByTemplateIds(String[] templateIds);
 
     /**
-     * Delete CONTRACT TEMPLATE INFORMATION information
+     * Delete CONTRACT TEMPLATE Information information
      *
-     * @param templateId CONTRACT TEMPLATE INFORMATION primary key
+     * @param templateId CONTRACT TEMPLATE Information primary key
      * @return Result
      */
     public int deleteHrContractTemplateByTemplateId(String templateId);

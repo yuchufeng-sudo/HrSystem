@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
- * EMPLOYEE HOLIDAY Object hr_emp_holiday
+ * Employee Holiday Object hr_emp_holiday
  *
  * @author ys
  * @date 2025-05-23
@@ -27,10 +27,10 @@ import java.util.Date;
 public class HrEmpHoliday extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** HOLIDAY ID */
+    /** Holiday ID */
     private Long empleHolidayId;
-    /** HOLIDAY Name */
-    @Excel(name = " HOLIDAY  Name")
+    /** Holiday Name */
+    @Excel(name = " Holiday  Name")
     private String holidayName;
     /** Whether to allow carry-over: 1 Allow 2 Reject */
     @Excel(name = "Whether to allow carry-over: 1 Allow 2 Reject")
@@ -42,21 +42,21 @@ public class HrEmpHoliday extends BaseEntity {
     /** Enterprise Number */
     private String enterpriseId;
 
-    /** HOLIDAY Type */
-    @Excel(name = "HOLIDAY Type")
+    /** Holiday Type */
+    @Excel(name = "Holiday Type")
     private String holidayType;
 
-    /** HOLIDAY Start TIME */
-    @Excel(name = "HOLIDAY Start TIME")
+    /** Holiday Start time */
+    @Excel(name = "Holiday Start time")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date stateTime;
 
-    /** HOLIDAY End TIME */
-    @Excel(name = "HOLIDAY End TIME")
+    /** Holiday End time */
+    @Excel(name = "Holiday End time")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endTime;
 
-    @Excel(name = "USER Serial Number")
+    @Excel(name = "User Serial Number")
     private Long userId;
 
     @TableField(exist = false)
@@ -68,22 +68,4 @@ public class HrEmpHoliday extends BaseEntity {
     @TableField(exist = false)
     private String time;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("empleHolidayId", getEmpleHolidayId())
-                .append("holidayName", getHolidayName())
-                .append("carrayForward", getCarrayForward())
-                .append("paidLeave", getPaidLeave())
-                .append("enterpriseId", getEnterpriseId())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .append("holidayType", getHolidayType())
-                .append("stateTime", getStateTime())
-                .append("endTime", getEndTime())
-                .toString();
-    }
 }

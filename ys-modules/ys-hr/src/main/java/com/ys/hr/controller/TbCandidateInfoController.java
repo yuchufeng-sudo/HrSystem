@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
- *  CANDIDATE  INFORMATIONController
+ *  Candidate INFORMATIONController
  *
  * @author ys
  * @date 2025-05-20
@@ -44,7 +44,7 @@ public class TbCandidateInfoController extends BaseController
 
 
     /**
-     * QUERY CANDIDATE  INFORMATION  LIST
+     * Query Candidate Information list
      */
     @RequiresPermissions("hr:candidateInfo:list")
     @GetMapping("/list")
@@ -57,7 +57,7 @@ public class TbCandidateInfoController extends BaseController
     }
 
     /**
-     * OBTAIN  CANDIDATE  INFORMATIONDETAILEDLY INFORMATION
+     * Get Candidate Details
      */
     @GetMapping(value = "/{candidateId}")
     public AjaxResult getInfo(@PathVariable("candidateId") Long candidateId) {
@@ -69,23 +69,23 @@ public class TbCandidateInfoController extends BaseController
     }
 
     /**
-     * EXPORT CANDIDATE  INFORMATION  LIST
+     * Export Candidate Information list
      */
     @RequiresPermissions("hr:candidateInfo:export")
-    @Log(title = " CANDIDATE  INFORMATION", businessType = BusinessType.EXPORT)
+    @Log(title = "Candidate Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrCandidateInfo tbCandidateInfo)
     {
         List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(tbCandidateInfo);
         ExcelUtil<HrCandidateInfo> util = new ExcelUtil<HrCandidateInfo>(HrCandidateInfo.class);
-        util.exportExcel(response, list, "CANDIDATE INFORMATION Data");
+        util.exportExcel(response, list, "Candidate Information Data");
     }
 
     /**
-     * ADD CANDIDATE  INFORMATION
+     * Add Candidate Information
      */
     @RequiresPermissions("hr:candidateInfo:add")
-    @Log(title = " CANDIDATE  INFORMATION", businessType = BusinessType.INSERT)
+    @Log(title = "Candidate Information", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrCandidateInfo tbCandidateInfo) {
         tbCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
@@ -94,10 +94,10 @@ public class TbCandidateInfoController extends BaseController
     }
 
     /**
-     * MODIFY CANDIDATE  INFORMATION
+     * Update Candidate Information
      */
     @RequiresPermissions("hr:candidateInfo:edit")
-    @Log(title = " CANDIDATE  INFORMATION", businessType = BusinessType.UPDATE)
+    @Log(title = "Candidate Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrCandidateInfo tbCandidateInfo) {
         return toAjax(tbCandidateInfoService.updateHrCandidateInfo(tbCandidateInfo));
@@ -151,10 +151,10 @@ public class TbCandidateInfoController extends BaseController
     }
 
     /**
-     * DELETE CANDIDATE  INFORMATION
+     * Delete Candidate Information
      */
     @RequiresPermissions("hr:candidateInfo:remove")
-    @Log(title = " CANDIDATE  INFORMATION", businessType = BusinessType.DELETE)
+    @Log(title = "Candidate Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{candidateIds}")
     public AjaxResult remove(@PathVariable Long[] candidateIds) {
         return toAjax(tbCandidateInfoService.removeByIds(Arrays.asList(candidateIds)));

@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * ENTERPRISE REAL-NAME AUTHENTICATION INFORMATION entity
+ * Enterprise Real-name authentication Information entity
  * hr_enterprise_real_name_info
  *
  * @author ys
@@ -51,7 +51,7 @@ public class HrEnterpriseRealNameInfo extends BaseEntity {
      */
     private Integer authMode;
 
-    /** USER Custom Business ID */
+    /** User Custom Business ID */
     private String bizId;
 
     /**
@@ -79,7 +79,7 @@ public class HrEnterpriseRealNameInfo extends BaseEntity {
     private String signPower;
 
     /**
-     * Enterprise USER ID
+     * Enterprise User ID
      */
     private String userId;
 
@@ -90,7 +90,7 @@ public class HrEnterpriseRealNameInfo extends BaseEntity {
     private Integer certificationStatus;
 
     /**
-     * Certification INFORMATION Notice
+     * Certification Information Notice
      */
     private String massage;
 

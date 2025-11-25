@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ys.hr.domain.HrMaturityContract;
 
 /**
- *  THE CONTRACT EXPIRES  Mapper Interface
+ *  Contract expiration Mapper Interface
  *
  * @author ys
  * @date 2025-06-20
@@ -13,18 +13,18 @@ import com.ys.hr.domain.HrMaturityContract;
 public interface HrMaturityContractMapper extends BaseMapper<HrMaturityContract>
 {
     /**
-     * Query  THE CONTRACT EXPIRES 
+     * Query Contract expiration 
      *
-     * @param id  THE CONTRACT EXPIRES  primary key
-     * @return  THE CONTRACT EXPIRES 
+     * @param id  Contract expiration primary key
+     * @return  Contract expiration 
      */
     public HrMaturityContract selectHrMaturityContractById(Long id);
     
     /**
-     * Query  THE CONTRACT EXPIRES  list
+     * Query Contract expiration list
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES 
-     * @return  THE CONTRACT EXPIRES  collection
+     * @param hrMaturityContract  Contract expiration 
+     * @return  Contract expiration collection
      */
     public List<HrMaturityContract> selectHrMaturityContractList(HrMaturityContract hrMaturityContract);
 

@@ -41,7 +41,7 @@ public class HrAttendanceController extends BaseController
     private IHrEmployeesService hrEmployeesService;
 
     /**
-     * QUERYAttendance Record  LIST
+     * QUERYAttendance Record  list
      */
     @RequiresPermissions("hr:attendance:list")
     @GetMapping("/list")
@@ -58,7 +58,7 @@ public class HrAttendanceController extends BaseController
     }
 
     /**
-     * EXPORTAttendance Record  LIST
+     * EXPORTAttendance Record  list
      */
     @RequiresPermissions("hr:attendance:export")
     @Log(title = "Attendance Record", businessType = BusinessType.EXPORT)
@@ -72,7 +72,7 @@ public class HrAttendanceController extends BaseController
     }
 
     /**
-     * OBTAIN Attendance RecordDETAILEDLY INFORMATION
+     * OBTAIN Attendance RecordDETAILEDLY Information
      */
     @GetMapping(value = "/{attendanceId}")
     public AjaxResult getInfo(@PathVariable("attendanceId") Long attendanceId) {
@@ -111,7 +111,7 @@ public class HrAttendanceController extends BaseController
     }
 
     /**
-     * Import Position INFORMATION
+     * Import Position Information
      */
     @RequiresPermissions("hr:attendance:import")
     @PostMapping("/importData")
@@ -132,7 +132,7 @@ public class HrAttendanceController extends BaseController
     }
 
     /**
-     * QUERYAttendance Record  LIST
+     * QUERYAttendance Record  list
      */
     @GetMapping("/listByHr")
     public AjaxResult listByHr(HrAttendance hrAttendance)

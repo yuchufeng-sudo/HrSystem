@@ -1,6 +1,7 @@
 package com.ys.hr.controller;
 
 import com.ys.common.core.aspect.RateLimit;
+import com.ys.common.core.utils.DateUtils;
 import com.ys.common.core.utils.poi.ExcelUtil;
 import com.ys.common.core.web.controller.BaseController;
 import com.ys.common.core.web.domain.AjaxResult;
@@ -9,18 +10,25 @@ import com.ys.common.log.annotation.Log;
 import com.ys.common.log.enums.BusinessType;
 import com.ys.common.security.annotation.RequiresPermissions;
 import com.ys.common.security.utils.SecurityUtils;
+import com.ys.hr.domain.HrDept;
 import com.ys.hr.domain.HrEmployees;
 import com.ys.hr.domain.HrPosition;
 import com.ys.hr.domain.excel.HrEmployeesExcel;
+import com.ys.hr.mapper.HrEmployeesMapper;
 import com.ys.hr.service.IHrDeptService;
 import com.ys.hr.service.IHrEmployeesService;
 import com.ys.hr.service.IHrPositionService;
+import com.ys.system.api.domain.SysRole;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,8 +50,11 @@ public class HrEmployeesController extends BaseController
 
     @Autowired
     private IHrPositionService positionService;
+
+    @Resource
+    private HrEmployeesMapper hrEmployeesMapper;
     /**
-     * QUERY THE Employee LIST.
+     * Query THE Employee list.
      */
     @GetMapping("/list")
     public TableDataInfo list(HrEmployees hrEmployees)
@@ -63,10 +74,10 @@ public class HrEmployeesController extends BaseController
     }
 
     /**
-     * EXPORT Employee   LIST
+     * Export Employee   list
      */
     @RequiresPermissions("hr:employees:export")
-    @Log(title = " Employee ", businessType = BusinessType.EXPORT)
+    @Log(title = "Employee", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrEmployees hrEmployees)
     {
@@ -77,7 +88,7 @@ public class HrEmployeesController extends BaseController
     }
 
     /**
-     * OBTAIN  Employee DETAILEDLY INFORMATION
+     * Get Employee Details
      */
     @RequiresPermissions("hr:employees:query")
     @GetMapping(value = "/{employeeId}")
@@ -100,21 +111,30 @@ public class HrEmployeesController extends BaseController
     }
 
     /**
-     * ADD Employee
+     * Add Employee
      */
     @RequiresPermissions("hr:employees:add")
-    @Log(title = " Employee ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee", businessType = BusinessType.INSERT)
     @PostMapping
     @RateLimit(limit = 5, prefix = "employees:add")
     public AjaxResult add(@Validated @RequestBody HrEmployees hrEmployees) {
+        if (hrEmployees.getAccessLevel()==null) {
+            Long roleId = hrEmployeesMapper.selectRoleByKey("user", SecurityUtils.getUserEnterpriseId());
+            hrEmployees.setAccessLevel(String.valueOf(roleId));
+        }else {
+            SysRole sysRole = hrEmployeesMapper.selectSysRoleById(Long.valueOf(hrEmployees.getAccessLevel()));
+            if (sysRole==null||!sysRole.getEnterpriseId().equals(SecurityUtils.getUserEnterpriseId())) {
+                return AjaxResult.error("AccessLevel does not exist");
+            }
+        }
         return success(hrEmployeesService.insertEmployees(hrEmployees));
     }
 
     /**
-     * ADD Employee
+     * Add Employee
      */
     @RequiresPermissions("system:enterprise:add")
-    @Log(title = " Employee ", businessType = BusinessType.INSERT)
+    @Log(title = "Employee", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @RateLimit(limit = 5, prefix = "employees:add")
     public AjaxResult addEmployees(@Validated @RequestBody HrEmployees hrEmployees) {
@@ -122,10 +142,10 @@ public class HrEmployeesController extends BaseController
     }
 
     /**
-     * MODIFY Employee
+     * Update Employee
      */
     @RequiresPermissions("hr:employees:edit")
-    @Log(title = " Employee ", businessType = BusinessType.UPDATE)
+    @Log(title = "Employee", businessType = BusinessType.UPDATE)
     @PutMapping
     @RateLimit(limit = 5, prefix = "employees:edit")
     public AjaxResult edit(@RequestBody HrEmployees hrEmployees) {
@@ -152,26 +172,50 @@ public class HrEmployeesController extends BaseController
     }
 
     /**
-     * DELETE Employee
+     * Delete Employee
      */
     @RequiresPermissions("hr:employees:remove")
-    @Log(title = " Employee ", businessType = BusinessType.DELETE)
+    @Log(title = "Employee", businessType = BusinessType.DELETE)
     @DeleteMapping("/{employeeId}")
     public AjaxResult remove(@PathVariable Long employeeId) {
         HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesById(employeeId);
         if (!Objects.equals(hrEmployees.getEnterpriseId(), SecurityUtils.getUserEnterpriseId())) {
             return AjaxResult.error("Employee does not exist");
         }
+        HrDept hrDept = new HrDept();
+        hrDept.setLeader(employeeId);
+        List<HrDept> hrDepts = deptService.selectHrDeptList(hrDept);
+        if (!hrDepts.isEmpty()) {
+            return AjaxResult.error("This staff member is currently assigned as the Department Head for "+hrDepts.get(0).getDeptName()+". Please assign a new Department Head before proceeding with the resignation.");
+        }
         return toAjax(hrEmployeesService.deleteById(employeeId));
     }
 
     /**
-     * DELETE Employee
+     * Delete Employee
      */
     @RequiresPermissions("hr:employees:remove")
-    @Log(title = " Employee ", businessType = BusinessType.DELETE)
+    @Log(title = "Employee", businessType = BusinessType.DELETE)
     @PutMapping("/resign")
     public AjaxResult resign(@RequestBody HrEmployees employees) {
+        HrDept hrDept = new HrDept();
+        hrDept.setLeader(employees.getEmployeeId());
+        List<HrDept> hrDepts = deptService.selectHrDeptList(hrDept);
+        if (!hrDepts.isEmpty()) {
+            return AjaxResult.error("This staff member is currently assigned as the Department Head for "+hrDepts.get(0).getDeptName()+". Please assign a new Department Head before proceeding with the resignation.");
+        }
+        Date resignationDate = employees.getResignationDate();
+        if (resignationDate!=null) {
+            LocalDate resignationLocalDate = resignationDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            LocalDate currentLocalDate = LocalDate.now();
+
+            if (currentLocalDate.isAfter(resignationLocalDate)) {
+                return AjaxResult.error("Resignation Date not immediate");
+            }
+        }
         return toAjax(hrEmployeesService.resignEmployees(employees));
     }
 

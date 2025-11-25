@@ -7,20 +7,20 @@ import java.util.List;
 /**
  * Parameters configuration - Service layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface ISysConfigService
 {
     /**
-     * QUERY PARAMETERS CONFIGURATION INFORMATION
+     * Query PARAMETERS CONFIGURATION Information
      *
      * @param configId Parameters Configuration ID
-     * @return Parameters Configuration INFORMATION
+     * @return Parameters Configuration Information
      */
     public SysConfig selectConfigById(Long configId);
 
     /**
-     * According to the key "Name" in QUERY PARAMETERS CONFIGURATION INFORMATION
+     * According to the key "Name" in Query PARAMETERS CONFIGURATION Information
      *
      * @param configKey Parameters keyName
      * @return Parameters Key-Value
@@ -28,31 +28,31 @@ public interface ISysConfigService
     public String selectConfigByKey(String configKey);
 
     /**
-     * QUERY PARAMETERS CONFIGURATION LIST
+     * Query PARAMETERS CONFIGURATION list
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Parameters Configuration Set
      */
     public List<SysConfig> selectConfigList(SysConfig config);
 
     /**
-     * ADD Parameters Configuration
+     * Add Parameters Configuration
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Result
      */
     public int insertConfig(SysConfig config);
 
     /**
-     * MODIFY Parameters Configuration
+     * Update Parameters Configuration
      *
-     * @param config Parameters Configuration INFORMATION
+     * @param config Parameters Configuration Information
      * @return Result
      */
     public int updateConfig(SysConfig config);
 
     /**
-     * Batch DELETE Parameters INFORMATION
+     * Batch Delete Parameters Information
      *
      * @param configIds Parameters ID to be DELETED
      */
@@ -64,7 +64,7 @@ public interface ISysConfigService
     public void loadingConfigCache();
 
     /**
-     * CLEAR Parameters Cache Data
+     * Clear Parameters Cache Data
      */
     public void clearConfigCache();
 
@@ -76,7 +76,7 @@ public interface ISysConfigService
     /**
      *  Verify Whether the keyName Parameter Is Unique
      *
-     * @param config Parameters INFORMATION
+     * @param config Parameters Information
      * @return Result
      */
     public boolean checkConfigKeyUnique(SysConfig config);

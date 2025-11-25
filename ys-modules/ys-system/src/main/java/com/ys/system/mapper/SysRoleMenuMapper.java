@@ -7,14 +7,14 @@ import java.util.List;
 /**
  * Role and menu association table data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysRoleMenuMapper
 {
     /**
-     * QUERY the usage quantity of MENU.
+     * Query the usage quantity of menu.
      *
-     * @param menuId  MENU ID
+     * @param menuId  menu ID
      * @return Result
      */
     public int checkMenuExistRole(Long menuId);
@@ -22,13 +22,13 @@ public interface SysRoleMenuMapper
     /**
      *
      *
-     * @param roleId ROLEID
+     * @param roleId role ID
      * @return Result
      */
     public int deleteRoleMenuByRoleId(Long roleId);
 
     /**
-     * Batch DELETEROLE MENU Associated INFORMATION
+     * Batch Delete role menu Associated Information
      *
      * @param The data IDs that need to be deleted for ids.
      * @return Result
@@ -36,9 +36,9 @@ public interface SysRoleMenuMapper
     public int deleteRoleMenu(Long[] ids);
 
     /**
-     * Batch ADDROLE MENU  INFORMATION
+     * Batch Add role menu  Information
      *
-     * @param roleMenuList ROLE MENU   LIST
+     * @param roleMenuList role menu   list
      * @return Result
      */
     public int batchRoleMenu(List<SysRoleMenu> roleMenuList);

@@ -221,6 +221,9 @@
                  LEFT JOIN hr_dept hd ON hd.dept_id = hde.dept_id
                  left join hr_position hp on he.position = hp.id
     </sql>
+    <delete id="deleteSysUserById">
+        delete from sys_user where user_id = #{userId}
+    </delete>
 
     <select id="selectHrEmployeesList" parameterType="HrEmployees" resultMap="HrEmployeesResult">
         <include refid="selectHrEmployeesVo"/>
@@ -505,7 +508,7 @@
           and status = '1'
     </select>
 
-    <!-- EMPLOYEE 生日  LISTQUERY-->
+    <!-- Employee 生日  LISTQUERY-->
     <select id="selectBirthdayReportVoReportVo" resultType="com.ys.hr.domain.vo.BirthdayReportVo">
         SELECT
         he.employee_id,
@@ -586,7 +589,7 @@
         where user_id = #{userId}
     </update>
 
-    <select id="selectSysRoleById" parameterType="String" resultMap="EmployeementStatusResult">
+    <select id="selectSysRoleById" parameterType="Long" resultType="com.ys.system.api.domain.SysRole">
         select *
         from sys_role
         where role_id = #{roleId}
@@ -644,7 +647,7 @@
           and status = '1'
     </select>
 
-    <!-- EMPLOYEE 生日  LISTQUERY-->
+    <!-- Employee 生日  LISTQUERY-->
     <select id="selectHrEmployeesListByBeforeHireDate" parameterType="String" resultMap="HrEmployeesResult">
         SELECT employee_id,
                full_name,

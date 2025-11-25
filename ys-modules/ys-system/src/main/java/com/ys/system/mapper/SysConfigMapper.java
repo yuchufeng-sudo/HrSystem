@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Parameter configuration data layer
  *
- * @author ruoyi
+ * @author ys
  */
 public interface SysConfigMapper
 {
@@ -52,7 +52,7 @@ public interface SysConfigMapper
     public int insertConfig(SysConfig config);
 
     /**
-     * Modify parameter configuration
+     * Update parameter configuration
      *
      * @param config Parameter configuration information
      * @return Result

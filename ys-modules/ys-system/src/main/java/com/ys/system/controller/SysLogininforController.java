@@ -25,7 +25,7 @@ import java.util.List;
 /**
  *  SystemAccessRecord
  *
- * @author ruoyi
+ * @author ys
  */
 @RestController
 @RequestMapping("/logininfor")
@@ -69,18 +69,18 @@ public class SysLogininforController extends BaseController
         }
     }
 
-    @Log(title = " LOGIN LOG ", businessType = BusinessType.EXPORT)
+    @Log(title = "Login Log", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:logininfor:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysLogininfor logininfor)
     {
         List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
         ExcelUtil<SysLogininfor> util = new ExcelUtil<SysLogininfor>(SysLogininfor.class);
-        util.exportExcel(response, list, " LOGIN LOG ");
+        util.exportExcel(response, list, " Login Log ");
     }
 
     @RequiresPermissions("system:logininfor:remove")
-    @Log(title = " LOGIN LOG ", businessType = BusinessType.DELETE)
+    @Log(title = "Login Log", businessType = BusinessType.DELETE)
     @DeleteMapping("/{infoIds}")
     public AjaxResult remove(@PathVariable Long[] infoIds)
     {
@@ -88,7 +88,7 @@ public class SysLogininforController extends BaseController
     }
 
     @RequiresPermissions("system:logininfor:remove")
-    @Log(title = " LOGIN LOG ", businessType = BusinessType.DELETE)
+    @Log(title = "Login Log", businessType = BusinessType.DELETE)
     @DeleteMapping("/clean")
     public AjaxResult clean()
     {

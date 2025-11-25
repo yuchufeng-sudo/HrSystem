@@ -7,6 +7,7 @@ import com.ys.common.core.exception.ServiceException;
 import com.ys.common.core.utils.DateUtils;
 import com.ys.common.core.utils.StringUtils;
 import com.ys.common.security.utils.SecurityUtils;
+import com.ys.hr.WebUrl;
 import com.ys.hr.domain.*;
 import com.ys.hr.domain.excel.HrEmployeesExcel;
 import com.ys.hr.domain.vo.*;
@@ -14,7 +15,6 @@ import com.ys.hr.mapper.*;
 import com.ys.hr.service.*;
 import com.ys.system.api.RemoteMessageService;
 import com.ys.system.api.domain.SysMessage;
-import com.ys.system.api.domain.SysRole;
 import com.ys.system.api.domain.SysUser;
 import com.ys.system.api.domain.SysUserRole;
 import com.ys.utils.email.EmailUtils;
@@ -34,7 +34,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- *  EMPLOYEE ServiceBusiness layer processing
+ *  Employee ServiceBusiness layer processing
  *
  * @author ys
  * @date 2025-05-21
@@ -82,12 +82,15 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     @Resource
     private RemoteMessageService remoteMessageService;
 
+    @Resource
+    private WebUrl webUrl;
+
     /**
-     * QUERY THE EMPLOYEE LIST.
+     * Query THE Employee list.
      *
      *
-     * @param hrEmployees  EMPLOYEE
-     * @return  EMPLOYEE
+     * @param hrEmployees  Employee
+     * @return  Employee
      */
     @Override
     public List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees)
@@ -192,6 +195,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
 //            map.put("Username",email + "/" + userName);
             map.put("Username",userName);
             map.put("Password",password);
+            map.put("LoginUrl",webUrl.getUrl());
             emailUtils.sendEmailByTemplate(map,hrEmployees.getEmail(),"EmployeeAccountCreatedManually");
         }
         return hrEmployees.getEmployeeId();
@@ -275,10 +279,6 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     private void setSysRole(HrEmployees hrEmployees) {
         SysUserRole sysUserRole = new SysUserRole();
         Long roleId = Long.valueOf(hrEmployees.getAccessLevel());
-        SysRole sysRole = baseMapper.selectSysRoleById(roleId);
-        if (!sysRole.getEnterpriseId().equals(SecurityUtils.getUserEnterpriseId())) {
-            throw new ServiceException("Access Level does not exist");
-        }
         sysUserRole.setRoleId(roleId);
         sysUserRole.setUserId(hrEmployees.getUserId());
         baseMapper.insertUserRole(sysUserRole);
@@ -321,7 +321,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     /**
-     * QUERY EMPLOYEE QUANTITY
+     * Query Employee QUANTITY
      * @param userEnterpriseId
      * @return
      */
@@ -379,7 +379,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         return list;
     }
    /**
- * Query the EMPLOYEE SCHEDULING situation for the current day
+ * Query the Employee scheduling situation for the current day
  * @param userEnterpriseId
  * @return
  */
@@ -391,7 +391,7 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
     // Convert to Date
     Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     List<DailyTimeVo> list = new ArrayList<>();
-    // Query THE EMPLOYEE LIST.
+    // Query THE Employee list.
     List<HrEmployees> employeesList = baseMapper.selectEmployeesListByEid(userEnterpriseId);
     employeesList.stream().forEach(employee -> {
         HrEmpScheduling hrEmpScheduling = null;
@@ -410,7 +410,7 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
             DailyTimeVo dailyTimeVo = new DailyTimeVo();
             if (type.equals(hrEmpScheduling.getSchedulingType())){
                 // Monthly scheduling
-                // Query if there is a LEAVE APPLICATION today
+                // Query if there is a Leave Application today
                 HrLeave leave = hrLeaveMapper.selectLeaveByUserId(employee.getUserId(), date);
                 if (ObjectUtils.isNotEmpty(leave)){
                     return;
@@ -517,25 +517,29 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
     {
         HrEmployees hrEmployees = baseMapper.selectById(employeeId);
         Long userId = hrEmployees.getUserId();
-        SysUser sysUser = new SysUser();
-        sysUser.setUserId(userId);
-        sysUser.setStatus("2");
-        baseMapper.updateSysUser(sysUser);
+        baseMapper.deleteSysUserById(userId);
         return baseMapper.deleteById(employeeId);
     }
 
     @Transactional
     @Override
     public int resignEmployee(Long employeeId) {
+        return resignEmployee(employeeId,null);
+    }
+
+    public int resignEmployee(Long employeeId, Long resignationHrUserId) {
         HrEmployees hrEmployees = baseMapper.selectById(employeeId);
         Long userId = hrEmployees.getUserId();
-        Long resignationHrUserId = hrEmployees.getResignationHrUserId();
+        if (resignationHrUserId==null){
+            resignationHrUserId = hrEmployees.getResignationHrUserId();
+        }
         HrEmployees hrEmployees2 = baseMapper.selectHrEmployeesByUserId(resignationHrUserId);
         SysUser sysUser = new SysUser();
         sysUser.setUserId(userId);
         sysUser.setStatus("1");
         baseMapper.updateSysUser(sysUser);
         HrEmployees hrEmployees1 = new HrEmployees();
+        hrEmployees1.setEmployeeId(employeeId);
         hrEmployees1.setStatus("2");
         HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(hrEmployees.getEnterpriseId());
         Map<String, Object> map = new HashMap<>();
@@ -544,6 +548,13 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
         map.put("HrEmail",hrEmployees2.getEmail());
         map.put("CompanyName",hrEnterprise.getEnterpriseName());
         emailUtils.sendEmailByTemplate(map,hrEmployees.getEmail(),"TerminationComplete");
+        SysMessage sysMessage = getSysMessage(employeeId, resignationHrUserId, hrEmployees);
+        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+        return baseMapper.updateById(hrEmployees1);
+    }
+
+    @NotNull
+    private static SysMessage getSysMessage(Long employeeId, Long resignationHrUserId, HrEmployees hrEmployees) {
         SysMessage sysMessage = new SysMessage();
         sysMessage.setMessageRecipient(resignationHrUserId);
         sysMessage.setMessageStatus("0");
@@ -552,50 +563,42 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
         Map<String, Object> map1 = new HashMap<>();
         Map<String, Object> map2 = new HashMap<>();
         QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("resign_employee_id",employeeId);
+        queryWrapper.eq("resign_employee_id", employeeId);
         queryWrapper.eq("name",OFFBOARDING_TARGET_HR);
-        List<HrTargets> list = targetsService.list(queryWrapper);
         map1.put("fullName", hrEmployees.getFullName());
-        if (!list.isEmpty()) {
-            map2.put("id", list.get(0).getId());
-        }
         sysMessage.setMap1(map1);
         sysMessage.setMap2(map2);
-        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-        return baseMapper.updateById(hrEmployees1);
+        return sysMessage;
     }
 
     @Transactional
     @Override
     public int resignEmployees(HrEmployees employees) {
         Long employeeId = employees.getEmployeeId();
-        HrEmployees hrEmployees = baseMapper.selectById(employeeId);
         Long userId1 = SecurityUtils.getUserId();
         HrEmployees hrEmployees2 = baseMapper.selectHrEmployeesByUserId(userId1);
-        Long userId = hrEmployees.getUserId();
 //        SysUser sysUser = new SysUser();
 //        sysUser.setUserId(userId);
 //        sysUser.setStatus("1");
 //        baseMapper.updateSysUser(sysUser);
         Date resignationDate = employees.getResignationDate();
-        HrTargets hrTargets = new HrTargets();
-        hrTargets.setName(OFFBOARDING_TARGET_HR);
-        hrTargets.setType("Individual Goal");
-        hrTargets.setCreateTime(resignationDate);
-        hrTargets.setHead(userId1);
-        hrTargets.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        hrTargets.setStatus("Not Started");
-        hrTargets.setResignEmployeeId(employeeId);
-        hrTargets.setEmployeeIds(new Long[]{hrEmployees2.getEmployeeId()});
+        String systemAccess = employees.getSystemAccess();
+        if (systemAccess==null|| "2".equals(systemAccess)) {
+            return this.resignEmployee(employeeId,SecurityUtils.getUserId());
+        }else {
+            Long employeeId1 = hrEmployees2.getEmployeeId();
+            createTargets(employeeId,employeeId1,userId1,resignationDate);
+        }
+        HrEmployees hrEmployees1 = getHrEmployees(employees);
+        return baseMapper.updateById(hrEmployees1);
+    }
+
+    private void createTargets(Long employeeId, Long employeeId1, Long userId, Date resignationDate) {
+        HrEmployees hrEmployees = baseMapper.selectById(employeeId);
+        HrTargets hrTargets = createTarget(employeeId, userId, resignationDate, OFFBOARDING_TARGET_HR);
+        hrTargets.setEmployeeIds(new Long[]{employeeId1});
         targetsService.insertHrTargets(hrTargets);
-        HrTargets hrTargets1 = new HrTargets();
-        hrTargets1.setName(OFFBOARDING_TARGET_STAFF);
-        hrTargets1.setType("Individual Goal");
-        hrTargets1.setCreateTime(resignationDate);
-        hrTargets1.setHead(userId);
-        hrTargets1.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        hrTargets1.setStatus("Not Started");
-        hrTargets1.setResignEmployeeId(employeeId);
+        HrTargets hrTargets1 = createTarget(employeeId, userId, resignationDate, OFFBOARDING_TARGET_STAFF);
         hrTargets1.setEmployeeIds(new Long[]{employeeId});
         targetsService.insertHrTargets(hrTargets1);
         List<String> list = new ArrayList<>();
@@ -614,16 +617,21 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
         list1.add("Complete handover of tasks");
         list1.add("Sign separation form");
         this.insertHrTargetTasks(hrTargets1.getId(),list1);
-        HrEmployees hrEmployees1 = getHrEmployees(employees, resignationDate);
         HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(SecurityUtils.getUserEnterpriseId());
         Map<String, Object> map = new HashMap<>();
         map.put("FullName",hrEmployees.getFullName());
         map.put("HrisToolName","Shiftcare HR");
-        map.put("OffboardingUrl","http://xz-ai.info:9084/targets/detail?id="+hrTargets1.getId());
+        map.put("OffboardingUrl", webUrl.getUrl() +"/targets/detail?id="+hrTargets1.getId());
         map.put("CompanyName",hrEnterprise.getEnterpriseName());
         emailUtils.sendEmailByTemplate(map,hrEmployees.getEmail(),"OffboardingInitiated");
+        SysMessage sysMessage = buildMessage(hrEmployees, hrTargets);
+        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+    }
+
+    @NotNull
+    private static SysMessage buildMessage(HrEmployees hrEmployees, HrTargets hrTargets) {
         SysMessage sysMessage = new SysMessage();
-        sysMessage.setMessageRecipient((hrEmployees.getUserId()));
+        sysMessage.setMessageRecipient(SecurityUtils.getUserId());
         sysMessage.setMessageStatus("0");
         sysMessage.setMessageType(19);
         sysMessage.setCreateTime(DateUtils.getNowDate());
@@ -633,8 +641,21 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
         map2.put("id", hrTargets.getId());
         sysMessage.setMap1(map1);
         sysMessage.setMap2(map2);
-        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-        return baseMapper.updateById(hrEmployees1);
+        return sysMessage;
+    }
+
+    private HrTargets createTarget(Long employeeId, Long userId, Date resignationDate, String offboardingTargetHr) {
+        HrTargets hrTargets = new HrTargets();
+        hrTargets.setName(offboardingTargetHr);
+        hrTargets.setDescription(offboardingTargetHr);
+        hrTargets.setType("Individual Goal");
+        hrTargets.setStartTime(DateUtils.getNowDate());
+        hrTargets.setEndTime(resignationDate);
+        hrTargets.setHead(userId);
+        hrTargets.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        hrTargets.setStatus("Not Started");
+        hrTargets.setResignEmployeeId(employeeId);
+        return hrTargets;
     }
 
     @Override
@@ -656,20 +677,21 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
             hrTargetTasks.setStatus("Not Started");
             hrTargetTasks.setPriority(1);
             hrTargetTasks.setName(task);
+            hrTargetTasks.setDescription(task);
             hrTargetTasks.setProgress(0);
             targetTasksService.insertHrTargetTasks(hrTargetTasks);
         }
     }
 
     @NotNull
-    private static HrEmployees getHrEmployees(HrEmployees employees, Date resignationDate) {
+    private static HrEmployees getHrEmployees(HrEmployees employees) {
         HrEmployees hrEmployees1 = new HrEmployees();
         hrEmployees1.setEmployeeId(employees.getEmployeeId());
         hrEmployees1.setResignationAttachment(employees.getResignationAttachment());
-        hrEmployees1.setResignationDate(resignationDate);
+        hrEmployees1.setResignationDate(employees.getResignationDate()==null?DateUtils.getNowDate():employees.getResignationDate());
         hrEmployees1.setResignationReason(employees.getResignationReason());
         hrEmployees1.setRehireEligibility(employees.getRehireEligibility());
-        hrEmployees1.setSystemAccess(employees.getSystemAccess());
+        hrEmployees1.setSystemAccess(employees.getSystemAccess()==null?"2":employees.getSystemAccess());
         hrEmployees1.setResignationHrUserId(SecurityUtils.getUserId());
         hrEmployees1.setStatus("3");
         return hrEmployees1;
@@ -752,17 +774,22 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
     }
 
     @Override
-    public void resignComplete(HrEmployees employees) {
+    public void resignComplete(Long employeeId, Long hrUserId) {
+        HrEmployees employees = selectHrEmployeesById(employeeId);
+        if (employees==null){
+            return;
+        }
         HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(SecurityUtils.getUserEnterpriseId());
         Map<String, Object> params = new HashMap<>();
         params.put("FullName", employees.getFullName());
         params.put("CompanyName", hrEnterprise.getEnterpriseName());
         emailUtils.sendEmailByTemplate(params, employees.getEmail(), "offboardingComplete");
         Map<String, Object> map1 = new HashMap<>();
+        map1.put("fullName",employees.getFullName());
         List<HrTargets> hrOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_HR);
         // Build system message
         SysMessage sysMessage = buildSysMessage(
-                employees.getUserId(),
+                hrUserId,
                 25,
                 map1,
                 buildMessageMap2(hrOffboardingTargets)
@@ -781,7 +808,7 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
     // HRIS tool name used in email templates
     private static final String HRIS_TOOL_NAME = "Shiftcare HR";
     // Template for offboarding task detail URL (format with target ID)
-    private static final String OFFBOARDING_URL_TEMPLATE = "http://xz-ai.info:9084/targets/detail?id=%s";
+    private static final String OFFBOARDING_URL_TEMPLATE = "/targets/detail?id=%s";
     // System message status: 0 = Unread
     private static final String MESSAGE_STATUS_UNREAD = "0";
 
@@ -865,7 +892,7 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
 
         // Add offboarding task URL if targets exist
         if (!offboardingTargets.isEmpty()) {
-            params.put("OffboardingUrl", String.format(OFFBOARDING_URL_TEMPLATE, offboardingTargets.get(0).getId()));
+            params.put("OffboardingUrl", webUrl.getUrl() + String.format(OFFBOARDING_URL_TEMPLATE, offboardingTargets.get(0).getId()));
         }
         return params;
     }
@@ -886,7 +913,7 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
 
         // Add offboarding task URL if targets exist (fixed bug: used correct target list)
         if (!offboardingTargets.isEmpty()) {
-            params.put("OffboardingUrl", String.format(OFFBOARDING_URL_TEMPLATE, offboardingTargets.get(0).getId()));
+            params.put("OffboardingUrl",webUrl.getUrl() +  String.format(OFFBOARDING_URL_TEMPLATE, offboardingTargets.get(0).getId()));
         }
         return params;
     }

@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrKnowledgeBaseSort;
 import org.apache.ibatis.annotations.*;
 
 /**
- *  KNOWLEDGE BASE  CLASSIFICATION  Mapper Interface
+ *  Knowledge base classification Mapper Interface
  *
  * @author ys
  * @date 2025-06-04
@@ -14,18 +14,18 @@ import org.apache.ibatis.annotations.*;
 public interface HrKnowledgeBaseSortMapper extends BaseMapper<HrKnowledgeBaseSort>
 {
     /**
-     * Query  KNOWLEDGE BASE  CLASSIFICATION 
+     * Query Knowledge base classification
      *
-     * @param id  KNOWLEDGE BASE  CLASSIFICATION  primary key
-     * @return  KNOWLEDGE BASE  CLASSIFICATION 
+     * @param id  Knowledge base classification primary key
+     * @return  Knowledge base classification
      */
     public HrKnowledgeBaseSort selectHrKnowledgeBaseSortById(Long id);
 
     /**
-     * Query  KNOWLEDGE BASE  CLASSIFICATION  list
+     * Query Knowledge base classification list
      *
-     * @param hrKnowledgeBaseSort  KNOWLEDGE BASE  CLASSIFICATION 
-     * @return  KNOWLEDGE BASE  CLASSIFICATION  collection
+     * @param hrKnowledgeBaseSort  Knowledge base classification
+     * @return  Knowledge base classification collection
      */
     public List<HrKnowledgeBaseSort> selectHrKnowledgeBaseSortList(HrKnowledgeBaseSort hrKnowledgeBaseSort);
 

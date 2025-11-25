@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrMaturityContract;
 import java.util.List;
 
 /**
- *  THE CONTRACT EXPIRES  Service Interface
+ *  Contract expiration Service Interface
  *
  * @author ys
  * @date 2025-06-20
@@ -14,49 +14,49 @@ import java.util.List;
 public interface IHrMaturityContractService extends IService<HrMaturityContract>
 {
     /**
-     * Query  THE CONTRACT EXPIRES
+     * Query Contract expiration
      *
-     * @param id  THE CONTRACT EXPIRES  primary key
-     * @return  THE CONTRACT EXPIRES
+     * @param id  Contract expiration primary key
+     * @return  Contract expiration
      */
     public HrMaturityContract selectHrMaturityContractById(Long id);
 
     /**
-     * Query  THE CONTRACT EXPIRES  list
+     * Query Contract expiration list
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES
-     * @return  THE CONTRACT EXPIRES  collection
+     * @param hrMaturityContract  Contract expiration
+     * @return  Contract expiration collection
      */
     public List<HrMaturityContract> selectHrMaturityContractList(HrMaturityContract hrMaturityContract);
 
     /**
-     * Add  THE CONTRACT EXPIRES
+     * Add Contract expiration
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES
+     * @param hrMaturityContract  Contract expiration
      * @return Result
      */
     public int insertHrMaturityContract(HrMaturityContract hrMaturityContract);
 
     /**
-     * Update  THE CONTRACT EXPIRES
+     * Update Contract expiration
      *
-     * @param hrMaturityContract  THE CONTRACT EXPIRES
+     * @param hrMaturityContract  Contract expiration
      * @return Result
      */
     public int updateHrMaturityContract(HrMaturityContract hrMaturityContract);
 
     /**
-     * Batch delete  THE CONTRACT EXPIRES
+     * Batch delete  Contract expiration
      *
-     * @param ids  THE CONTRACT EXPIRES  primary keys to be deleted
+     * @param ids  Contract expiration primary keys to be deleted
      * @return Result
      */
     public int deleteHrMaturityContractByIds(String[] ids);
 
     /**
-     * Delete  THE CONTRACT EXPIRES  information
+     * Delete Contract expiration information
      *
-     * @param id  THE CONTRACT EXPIRES  primary key
+     * @param id  Contract expiration primary key
      * @return Result
      */
     public int deleteHrMaturityContractById(String id);

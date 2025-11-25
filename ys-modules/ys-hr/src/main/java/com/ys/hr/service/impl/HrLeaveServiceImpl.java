@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * LEAVE APPLICATION ServiceBusiness layer processing
+ * Leave Application ServiceBusiness layer processing
  *
  * @author ys
  * @date 2025-05-21
@@ -51,11 +51,11 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
     private HrHolidayServiceImpl hrHolidayService;
 
     /**
-     * QUERY LEAVE APPLICATION LIST
+     * Query Leave Application list
      *
      *
-     * @param hrLeave LEAVE APPLICATION
-     * @return LEAVE APPLICATION
+     * @param hrLeave Leave Application
+     * @return Leave Application
      */
     @Override
     public List<HrLeave> selectHrLeaveList(HrLeave hrLeave) {
@@ -267,7 +267,7 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
         return hashMap;
     }
     /**
-     * QUERY EMPLOYEE LEAVE APPLICATION TIME
+     * Query Employee Leave Application time
      *
      * @param userEnterpriseId
      * @return

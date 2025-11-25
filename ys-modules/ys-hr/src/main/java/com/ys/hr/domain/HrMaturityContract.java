@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- *  THE CONTRACT EXPIRES  entity hr_maturity_contract
+ *  Contract expiration entity hr_maturity_contract
  *
  * @author ys
  * @date 2025-06-20

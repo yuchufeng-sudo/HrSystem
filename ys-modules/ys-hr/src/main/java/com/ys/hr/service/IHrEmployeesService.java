@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  EMPLOYEE Service Interface
+ *  Employee Service Interface
  *
  * @author ys
  * @date 2025-05-21
@@ -19,10 +19,10 @@ public interface IHrEmployeesService extends IService<HrEmployees>
 {
 
     /**
-     * QUERY THE EMPLOYEE LIST.
+     * Query THE Employee list.
      *
-     * @param hrEmployees  EMPLOYEE
-     * @return  EMPLOYEE Set
+     * @param hrEmployees  Employee
+     * @return  Employee Set
      */
     List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees);
 
@@ -41,14 +41,14 @@ public interface IHrEmployeesService extends IService<HrEmployees>
     List<BirthdayReportVo> selectBirthdayReportVoReportVo(HrEmployees hrEmployees);
 
     /**
-     * Statistical data of EMPLOYEES under different Statuses.
+     * Statistical data of EmployeeS under different Statuses.
      * @param userEnterpriseId
      * @return
      */
     Map<String, Object> getEmployeeStatusCount(String userEnterpriseId);
 
     /**
-     * QUERY EMPLOYEE QUANTITY
+     * Query Employee QUANTITY
      * @param userEnterpriseId
      * @return
      */
@@ -62,7 +62,7 @@ public interface IHrEmployeesService extends IService<HrEmployees>
     List<BirthdayReportVo> selectEmployeeBirthday(HrEmployees hrEmployees);
 
     /**
-     * Query current day EMPLOYEE SCHEDULING status
+     * Query current day Employee scheduling status
      * @param userEnterpriseId
      * @return
      */
@@ -108,5 +108,6 @@ public interface IHrEmployeesService extends IService<HrEmployees>
     void resignEmployeeOneWeekAgo(HrEmployees employees);
 
     void resignEmployeeOneDayAgo(HrEmployees employees);
-    void resignComplete(HrEmployees employees);
+
+    void resignComplete(Long employeeId, Long hrUserId);
 }

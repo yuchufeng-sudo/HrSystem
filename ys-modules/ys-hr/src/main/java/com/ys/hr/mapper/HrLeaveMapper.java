@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * LEAVE APPLICATION Mapper Interface
+ * Leave Application Mapper Interface
  *
  * @author ys
  * @date 2025-05-21
  */
 public interface HrLeaveMapper extends BaseMapper<HrLeave> {
     /**
-     * QUERY LEAVE APPLICATION LIST
+     * Query Leave Application list
      *
-     * @param hrLeave LEAVE APPLICATION
-     * @return LEAVE APPLICATION Set
+     * @param hrLeave Leave Application
+     * @return Leave Application Set
      */
     public List<HrLeave> selectHrLeaveList(HrLeave hrLeave);
 
@@ -38,7 +38,7 @@ public interface HrLeaveMapper extends BaseMapper<HrLeave> {
     List<HrHoliday> selectLeaveDaysByEid(String userEnterpriseId);
 
     /**
-     * QUERYAttendance INFORMATION
+     * QUERYAttendance Information
      *
      * @param userId
      * @param attendanceTime
