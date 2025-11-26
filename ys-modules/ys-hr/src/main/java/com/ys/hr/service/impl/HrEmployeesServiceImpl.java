@@ -44,18 +44,6 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
 {
 
     @Resource
-    private HrSettingsMapper hrSettingsMapper;
-
-    @Resource
-    private HrSchedulingEmpMapper hrSchedulingEmpMapper;
-
-    @Resource
-    private HrEmpSchedulingMapper hrEmpSchedulingMapper;
-
-    @Resource
-    private HrLeaveMapper hrLeaveMapper;
-
-    @Resource
     private HrEmpHolidayMapper hrEmpHolidayMapper;
 
     @Resource
@@ -90,7 +78,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
      *
      *
      * @param hrEmployees  Employee
-     * @return  Employee
+     * @return Employee
      */
     @Override
     public List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees)
@@ -190,9 +178,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
             Map<String, Object> map = new HashMap<>();
             map.put("FirstName",hrEmployees.getFullName());
             map.put("CompanyName",companyName);
-//            String email = hrEmployees.getEmail();
             String userName = hrEmployees.getUsername();
-//            map.put("Username",email + "/" + userName);
             map.put("Username",userName);
             map.put("Password",password);
             map.put("LoginUrl",webUrl.getUrl());
@@ -348,8 +334,10 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
             // (this - last) / last * 100
             BigDecimal diff = thisMonth.subtract(lastMonth);
             BigDecimal ratio = diff
-                    .divide(lastMonth, 2, RoundingMode.HALF_UP)  // Calculate the ratio first, keep 2 decimal places
-                    .multiply(BigDecimal.valueOf(100));          // Multiply by 100 to get the percentage
+                    .divide(lastMonth, 2, RoundingMode.HALF_UP)
+                    // Calculate the ratio first, keep 2 decimal places
+                    .multiply(BigDecimal.valueOf(100));
+            // Multiply by 100 to get the percentage
             map.put("ratio", ratio);
         }
         return map;
@@ -378,84 +366,6 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         });
         return list;
     }
-   /**
- * Query the Employee scheduling situation for the current day
- * @param userEnterpriseId
- * @return
- */
-@Override
-public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, String formattedDate) {
-    Character type = '1';
-    // Parse into LocalDate
-    LocalDate localDate = LocalDate.parse(formattedDate);
-    // Convert to Date
-    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    List<DailyTimeVo> list = new ArrayList<>();
-    // Query THE Employee list.
-    List<HrEmployees> employeesList = baseMapper.selectEmployeesListByEid(userEnterpriseId);
-    employeesList.stream().forEach(employee -> {
-        HrEmpScheduling hrEmpScheduling = null;
-        // Query the employee's scheduling situation
-        HrSchedulingEmp schedulingEmp = hrSchedulingEmpMapper.selectSchedulingEmpByUserIdAndDate(employee.getUserId(), formattedDate);
-        if (ObjectUtils.isNotEmpty(schedulingEmp)){
-            // Employee scheduling
-            hrEmpScheduling = hrEmpSchedulingMapper.selectHrEmpSchedulingBySchedulingId(schedulingEmp.getSchedulingId());
-        }else {
-            HrSettings hrSettings = hrSettingsMapper.selectHrSettingsByEid(userEnterpriseId);
-            if (ObjectUtils.isNotEmpty(hrSettings)){
-                hrEmpScheduling = hrEmpSchedulingMapper.selectHrEmpSchedulingBySchedulingId(hrSettings.getSchedulingId());
-            }
-        }
-        if (ObjectUtils.isNotEmpty(hrEmpScheduling)){
-            DailyTimeVo dailyTimeVo = new DailyTimeVo();
-            if (type.equals(hrEmpScheduling.getSchedulingType())){
-                // Monthly scheduling
-                // Query if there is a Leave Application today
-                HrLeave leave = hrLeaveMapper.selectLeaveByUserId(employee.getUserId(), date);
-                if (ObjectUtils.isNotEmpty(leave)){
-                    return;
-                }
-                // Query if it's a holiday today
-                HrEmpHoliday hrEmpHoliday = hrEmpHolidayMapper.selectHolidayByUserId(employee.getUserId(), date);
-                if (ObjectUtils.isNotEmpty(hrEmpHoliday)){
-                    return;
-                }
-                dailyTimeVo.setEmployeeId(employee.getEmployeeId());
-                dailyTimeVo.setFullName(employee.getFullName());
-                dailyTimeVo.setAvatarUrl(employee.getAvatarUrl());
-                dailyTimeVo.setPunchTime(StringUtils.formatTime(hrEmpScheduling.getDefaultStartTime()));
-                long seconds = Duration.between(hrEmpScheduling.getDefaultStartTime(), hrEmpScheduling.getDefaultEndTime()).getSeconds();
-                // If the difference is negative, it means crossing days, add 24 hours
-                if (seconds < 0) {
-                    seconds += 24 * 60 * 60;
-                }
-                double hours = seconds / 3600.0;
-                dailyTimeVo.setWorkingHours(BigDecimal.valueOf(hours).setScale(1, RoundingMode.HALF_UP));
-                list.add(dailyTimeVo);
-            }else {
-                // Weekly scheduling
-                String weekDays = hrEmpScheduling.getWeekDays();
-                String chineseWeek = StringUtils.getChineseWeek(localDate.getDayOfWeek());
-                if (!weekDays.contains(chineseWeek)){
-                    return;
-                }
-                dailyTimeVo.setEmployeeId(employee.getEmployeeId());
-                dailyTimeVo.setFullName(employee.getFullName());
-                dailyTimeVo.setAvatarUrl(employee.getAvatarUrl());
-                dailyTimeVo.setPunchTime(StringUtils.formatTime(hrEmpScheduling.getDefaultStartTime()));
-                long seconds = Duration.between(hrEmpScheduling.getDefaultStartTime(), hrEmpScheduling.getDefaultEndTime()).getSeconds();
-                // If the difference is negative, it means crossing days, add 24 hours
-                if (seconds < 0) {
-                    seconds += 24 * 60 * 60;
-                }
-                double hours = seconds / 3600.0;
-                dailyTimeVo.setWorkingHours(BigDecimal.valueOf(hours).setScale(1, RoundingMode.HALF_UP));
-                list.add(dailyTimeVo);
-            }
-        }
-    });
-    return list;
-}
 
     /**
      * Celebration
@@ -500,16 +410,6 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
             });
         }
         return list;
-    }
-
-    /**
-     * Get a list of employees who are not included in the candidate list
-     * @param userEnterpriseId
-     * @return
-     */
-    @Override
-    public List<HrEmployees> getEmployeeList(String userEnterpriseId) {
-        return baseMapper.selectEmployeeList(userEnterpriseId);
     }
 
     @Override
@@ -724,22 +624,6 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
         return baseMapper.updateById(employees);
     }
 
-    @Override
-    public List<AddressReportVo> selectAddressReportVoReportVo(HrEmployees hrEmployees) {
-        return baseMapper.selectAddressReportVo(hrEmployees);
-    }
-
-    /**
-     * Query information based on employee ID
-     * @param jobnumber
-     * @param userEnterpriseId
-     * @return
-     */
-    @Override
-    public HrEmployees selectEmployeeByWorkNo(String jobnumber, String userEnterpriseId) {
-        return baseMapper.selectEmployeeByWorkNo(jobnumber, userEnterpriseId);
-    }
-
     /**
      * Send offboarding reminders to HR and resigned employee one week before resignation date
      * Handles both email notifications and system messages with target task links
@@ -838,7 +722,6 @@ public List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, St
         Map<String, Object> emailParams = buildHrEmailParams(resignedEmployee, resignationHr, offboardingTargets);
         // Send email notification to HR
         emailUtils.sendEmailByTemplate(emailParams, resignationHr.getEmail(), emailType);
-
         // Build system message
         SysMessage sysMessage = buildSysMessage(
                 resignationHr.getUserId(),

@@ -33,12 +33,6 @@ public class TbCandidateInfoController extends BaseController
     @Autowired
     private ITbCandidateInfoService tbCandidateInfoService;
 
-    @Autowired
-    private IHrEmployeesService hrEmployeesService;
-
-    @Resource
-    private EmailUtils emailUtils;
-
     @Resource
     private IHrQuestionAnswerService questionAnswerService;
 
@@ -48,11 +42,11 @@ public class TbCandidateInfoController extends BaseController
      */
     @RequiresPermissions("hr:candidateInfo:list")
     @GetMapping("/list")
-    public TableDataInfo list(HrCandidateInfo tbCandidateInfo)
+    public TableDataInfo list(HrCandidateInfo hrCandidateInfo)
     {
-        tbCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        hrCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         startPage();
-        List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(tbCandidateInfo);
+        List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(hrCandidateInfo);
         return getDataTable(list);
     }
 
@@ -74,9 +68,9 @@ public class TbCandidateInfoController extends BaseController
     @RequiresPermissions("hr:candidateInfo:export")
     @Log(title = "Candidate Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, HrCandidateInfo tbCandidateInfo)
+    public void export(HttpServletResponse response, HrCandidateInfo hrCandidateInfo)
     {
-        List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(tbCandidateInfo);
+        List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(hrCandidateInfo);
         ExcelUtil<HrCandidateInfo> util = new ExcelUtil<HrCandidateInfo>(HrCandidateInfo.class);
         util.exportExcel(response, list, "Candidate Information Data");
     }
@@ -87,9 +81,9 @@ public class TbCandidateInfoController extends BaseController
     @RequiresPermissions("hr:candidateInfo:add")
     @Log(title = "Candidate Information", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody HrCandidateInfo tbCandidateInfo) {
-        tbCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        boolean save = tbCandidateInfoService.insertHrCandidateInfo(tbCandidateInfo);
+    public AjaxResult add(@Validated @RequestBody HrCandidateInfo hrCandidateInfo) {
+        hrCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        boolean save = tbCandidateInfoService.insertHrCandidateInfo(hrCandidateInfo);
         return toAjax(save);
     }
 
@@ -99,55 +93,21 @@ public class TbCandidateInfoController extends BaseController
     @RequiresPermissions("hr:candidateInfo:edit")
     @Log(title = "Candidate Information", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody HrCandidateInfo tbCandidateInfo) {
-        return toAjax(tbCandidateInfoService.updateHrCandidateInfo(tbCandidateInfo));
+    public AjaxResult edit(@RequestBody HrCandidateInfo hrCandidateInfo) {
+        return toAjax(tbCandidateInfoService.updateHrCandidateInfo(hrCandidateInfo));
     }
 
 
     @PutMapping("/sendEmailHired")
-    public AjaxResult sendEmailHired(@RequestBody HrCandidateInfo tbCandidateInfo) {
-//        HrCandidateInfo candidateInfo = new HrCandidateInfo();
-//        candidateInfo.setCandidateId(tbCandidateInfo.getCandidateId());
-//        List<HrCandidateInfo> hrCandidateInfos1 = tbCandidateInfoService.selectTbCandidateInfoList(candidateInfo);
-//        if(ObjectUtils.isEmpty(hrCandidateInfos1)){
-//            return AjaxResult.warn("The Candidate anomalies!");
-//        }
-            Map<String, Object> map = new HashMap<>();
-            HrEnterprise Company = tbCandidateInfoService.selectEid(SecurityUtils.getUserEnterpriseId());
-            HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(SecurityUtils.getUserId());
-            if(ObjectUtils.isNotEmpty( Company)){
-                map.put("CompanyName",Company.getEnterpriseName());
-                map.put("SupportEmail",Company.getContactEmail());
-            }else{
-                map.put("CompanyName","No details yet");
-                map.put("SupportEmail","No details yet");
-            }
-            if(ObjectUtils.isNotEmpty( hrEmployees)){
-                map.put("HrName",hrEmployees.getFullName());
-                map.put("HrEmail",hrEmployees.getEmail());
-            }else{
-                map.put("HrName","No details yet");
-                map.put("HrEmail","No details yet");
-            }
-            map.put("FirstName",tbCandidateInfo.getCandidateName());
-            emailUtils.sendEmailByTemplate(map,tbCandidateInfo.getContactEmail(),"CandidateHired");
-        return toAjax(1);
+    public AjaxResult sendEmailHired(@RequestBody HrCandidateInfo hrCandidateInfo) {
+        tbCandidateInfoService.sendEmailHired(hrCandidateInfo);
+        return success();
     }
 
     @PutMapping("/sendEmail")
-    public AjaxResult sendEmail(@RequestBody HrCandidateInfo tbCandidateInfo) {
-                Map<String, Object> map = new HashMap<>();
-                HrEnterprise Company = tbCandidateInfoService.selectEid(SecurityUtils.getUserEnterpriseId());
-                if(ObjectUtils.isNotEmpty( Company)){
-                    map.put("CompanyName",Company.getEnterpriseName());
-                }else{
-                    map.put("CompanyName","No details yet");
-                }
-                map.put("FirstName",tbCandidateInfo.getCandidateName());
-                map.put("InviteUrl",tbCandidateInfo.getInviteUrl());
-                map.put("HrisToolName","Shiftcare HR");
-        emailUtils.sendEmailByTemplate(map, tbCandidateInfo.getContactEmail(), "Invite");
-        return toAjax(1);
+    public AjaxResult sendEmail(@RequestBody HrCandidateInfo hrCandidateInfo) {
+        tbCandidateInfoService.sendEmail(hrCandidateInfo);
+        return success();
     }
 
     /**
@@ -164,9 +124,9 @@ public class TbCandidateInfoController extends BaseController
     @GetMapping("/candidateCount")
     public AjaxResult candidateCount()
     {
-        HrCandidateInfo tbCandidateInfo = new HrCandidateInfo();
-        tbCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        return AjaxResult.success(tbCandidateInfoService.candidateCount(tbCandidateInfo));
+        HrCandidateInfo hrCandidateInfo = new HrCandidateInfo();
+        hrCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        return AjaxResult.success(tbCandidateInfoService.candidateCount(hrCandidateInfo));
     }
 
     @GetMapping("/answer")

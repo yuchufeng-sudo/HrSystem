@@ -13,18 +13,18 @@ import com.ys.hr.domain.HrTrainingPrograms;
 public interface HrTrainingProgramsMapper extends BaseMapper<HrTrainingPrograms>
 {
     /**
-     * Query Training Management 
+     * Query Training Management
      *
      * @param programId  Training Management primary key
-     * @return  Training Management 
+     * @return Training Management
      */
     public HrTrainingPrograms selectHrTrainingProgramsByProgramId(Long programId);
-    
+
     /**
      * Query Training Management list
      *
-     * @param hrTrainingPrograms  Training Management 
-     * @return  Training Management collection
+     * @param hrTrainingPrograms Training Management
+     * @return Training Management collection
      */
     public List<HrTrainingPrograms> selectHrTrainingProgramsList(HrTrainingPrograms hrTrainingPrograms);
 

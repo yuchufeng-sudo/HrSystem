@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.HrEmployeeContract;
+import com.ys.hr.service.IHrContractTemplateService;
 import com.ys.hr.service.IHrEmployeeContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +23,11 @@ import com.ys.common.log.annotation.Log;
 import com.ys.common.log.enums.BusinessType;
 import com.ys.common.core.web.controller.BaseController;
 import com.ys.common.core.web.page.TableDataInfo;
-import com.ys.common.security.annotation.RequiresPermissions;
 import com.ys.hr.domain.HrContractTemplate;
-import com.ys.hr.service.IHrContractTemplateService;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * CONTRACT TEMPLATE Information Controller
+ * Contract template Information Controller
  *
  * @author ys
  * @date 2025-05-28
@@ -44,9 +43,8 @@ public class HrContractTemplateController extends BaseController
     private IHrEmployeeContractService hrEmployeeContractService;
 
     /**
-     * Query CONTRACT TEMPLATE Information list
+     * Query Contract template Information list
      */
-//    @RequiresPermissions("hr:contractTemplate:list")
     @GetMapping("/list")
     public TableDataInfo list(HrContractTemplate hrContractTemplate)
     {
@@ -57,61 +55,55 @@ public class HrContractTemplateController extends BaseController
     }
 
     /**
-     * Export CONTRACT TEMPLATE Information list
+     * Export Contract template Information list
      */
-//    @RequiresPermissions("hr:contractTemplate:export")
-    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.EXPORT)
+    @Log(title = "Contract template Information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrContractTemplate hrContractTemplate)
     {
         List<HrContractTemplate> list = hrContractTemplateService.selectHrContractTemplateList(hrContractTemplate);
         ExcelUtil<HrContractTemplate> util = new ExcelUtil<HrContractTemplate>(HrContractTemplate.class);
-        util.exportExcel(response, list, "CONTRACT TEMPLATE Information Data");
+        util.exportExcel(response, list, "Contract template Information Data");
     }
 
     /**
-     * Get CONTRACT TEMPLATE Information details
+     * Get Contract template Information details
      */
-//    @RequiresPermissions("hr:contractTemplate:query")
     @GetMapping(value = "/{templateId}")
     public AjaxResult getInfo(@PathVariable("templateId") Long templateId) {
         return success(hrContractTemplateService.selectHrContractTemplateByTemplateId(templateId));
     }
 
     /**
-     * Add CONTRACT TEMPLATE Information
+     * Add Contract template Information
      */
-//    @RequiresPermissions("hr:contractTemplate:add")
-    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.INSERT)
+    @Log(title = "Contract template Information", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrContractTemplate hrContractTemplate) {
         return toAjax(hrContractTemplateService.insertHrContractTemplate(hrContractTemplate));
     }
 
     /**
-     * Update CONTRACT TEMPLATE Information
+     * Update Contract template Information
      */
-//    @RequiresPermissions("hr:contractTemplate:edit")
-    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.UPDATE)
+    @Log(title = "Contract template Information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrContractTemplate hrContractTemplate) {
         return toAjax(hrContractTemplateService.updateHrContractTemplate(hrContractTemplate));
     }
 
     /**
-     * Delete CONTRACT TEMPLATE Information
+     * Delete Contract template Information
      */
-//    @RequiresPermissions("hr:contractTemplate:remove")
-    @Log(title = "CONTRACT TEMPLATE Information", businessType = BusinessType.DELETE)
+    @Log(title = "Contract template Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{templateIds}")
     public AjaxResult remove(@PathVariable Long[] templateIds) {
         return toAjax(hrContractTemplateService.removeByIds(Arrays.asList(templateIds)));
     }
 
     /**
-     * Query CONTRACT TEMPLATE Information list
+     * Query Contract template Information list
      */
-//    @RequiresPermissions("hr:contractTemplate:list")
     @GetMapping("/templateList")
     public AjaxResult templateList(HrContractTemplate hrContractTemplate)
     {

@@ -17,7 +17,7 @@ public interface IHrMaturityContractService extends IService<HrMaturityContract>
      * Query Contract expiration
      *
      * @param id  Contract expiration primary key
-     * @return  Contract expiration
+     * @return Contract expiration
      */
     public HrMaturityContract selectHrMaturityContractById(Long id);
 
@@ -25,7 +25,7 @@ public interface IHrMaturityContractService extends IService<HrMaturityContract>
      * Query Contract expiration list
      *
      * @param hrMaturityContract  Contract expiration
-     * @return  Contract expiration collection
+     * @return Contract expiration collection
      */
     public List<HrMaturityContract> selectHrMaturityContractList(HrMaturityContract hrMaturityContract);
 

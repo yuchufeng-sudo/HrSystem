@@ -1,7 +1,6 @@
 package com.ys.hr.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ys.hr.domain.HrAttendance;
 import com.ys.hr.domain.HrEmployees;
 import com.ys.hr.domain.vo.*;
 import com.ys.system.api.domain.SysRole;
@@ -26,7 +25,6 @@ public interface HrEmployeesMapper extends BaseMapper<HrEmployees> {
      * @return Employee Set
      */
     public List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees);
-    public List<HrEmployees> selectHrEmployeesExcelList(HrEmployees hrEmployees);
 
     List<SysUser> selectSysUserCountByUsername(@Param("username") String username);
 
@@ -52,16 +50,7 @@ public interface HrEmployeesMapper extends BaseMapper<HrEmployees> {
 
     int deleteUserRoleByUserId(Long userId);
 
-    Map<String, Object> getCount(HrEmployees hrEmployees);
-
     List<HrEmployees> selectHrEmployeesListByEid(String enterpriseId);
-
-    HrEmployees selectHrEmployeesListByUserId2(Long userId);
-
-    HrEmployees selectHrEmployeesByPhone(@Param("jobnumber") String jobnumber,
-                                         @Param("enterpriseId") String enterpriseId);
-
-    Map<String, Object> getCountByWeekly(HrAttendance hrAttendance);
 
     List<EmergencyContactsReportVo> selectEmergencyContactsReportVo(HrEmployees hrEmployees);
 

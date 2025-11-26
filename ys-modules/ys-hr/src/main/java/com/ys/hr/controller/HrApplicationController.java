@@ -37,7 +37,6 @@ public class HrApplicationController extends BaseController
     public TableDataInfo list(HrApplication hrApplication)
     {
         startPage();
-//        hrApplication.setStatus("1");
         List<HrApplication> list = hrApplicationService.selectHrApplicationList(hrApplication);
         return getDataTable(list);
     }

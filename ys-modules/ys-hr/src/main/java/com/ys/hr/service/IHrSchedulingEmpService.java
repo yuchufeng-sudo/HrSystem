@@ -45,21 +45,5 @@ public interface IHrSchedulingEmpService extends IService<HrSchedulingEmp>
      */
     public int updateHrSchedulingEmp(HrSchedulingEmp hrSchedulingEmp);
 
-    /**
-     * Batch delete    Employee scheduling
-     *
-     * @param schedulingEmpIds    Employee scheduling primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrSchedulingEmpBySchedulingEmpIds(String[] schedulingEmpIds);
-
-    /**
-     * Delete Employee scheduling information
-     *
-     * @param schedulingEmpId    Employee scheduling primary key
-     * @return Result
-     */
-    public int deleteHrSchedulingEmpBySchedulingEmpId(String schedulingEmpId);
-
     HrSchedulingEmp getUserInfo(Long userId);
 }

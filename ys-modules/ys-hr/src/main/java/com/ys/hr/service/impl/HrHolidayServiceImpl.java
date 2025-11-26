@@ -10,7 +10,7 @@ import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- *  Holiday   Service Implementation
+ *  Holiday Service Implementation
  *
  * @author ys
  * @date 2025-06-18
@@ -20,10 +20,10 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
 {
 
     /**
-     * Query Holiday  
+     * Query Holiday
      *
-     * @param holidayId  Holiday   primary key
-     * @return  Holiday  
+     * @param holidayId  Holiday primary key
+     * @return Holiday
      */
     @Override
     public HrHoliday selectHrHolidayByHolidayId(Long holidayId)
@@ -32,10 +32,10 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Query Holiday   list
+     * Query Holiday list
      *
-     * @param hrHoliday  Holiday  
-     * @return  Holiday  
+     * @param hrHoliday  Holiday
+     * @return Holiday
      */
     @Override
     public List<HrHoliday> selectHrHolidayList(HrHoliday hrHoliday)
@@ -44,9 +44,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Add Holiday  
+     * Add Holiday
      *
-     * @param hrHoliday  Holiday  
+     * @param hrHoliday  Holiday
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Update Holiday  
+     * Update Holiday
      *
-     * @param hrHoliday  Holiday  
+     * @param hrHoliday  Holiday
      * @return Result
      */
     @Override
@@ -70,9 +70,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Batch delete  Holiday  
+     * Batch delete  Holiday
      *
-     * @param holidayIds  Holiday   primary keys to be deleted
+     * @param holidayIds  Holiday primary keys to be deleted
      * @return Result
      */
     @Override
@@ -82,9 +82,9 @@ public class HrHolidayServiceImpl extends ServiceImpl<HrHolidayMapper, HrHoliday
     }
 
     /**
-     * Delete Holiday   information
+     * Delete Holiday information
      *
-     * @param holidayId  Holiday   primary key
+     * @param holidayId  Holiday primary key
      * @return Result
      */
     @Override

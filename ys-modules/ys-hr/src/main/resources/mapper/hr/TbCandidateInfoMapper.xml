@@ -104,39 +104,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-
-    <resultMap type="HrCandidateInfo" id="CandidateStatusResult">
-        <result property="candidateStatus" column="status_key"/>
-        <result property="count" column="status_count"/>
-    </resultMap>
-
-    <select id="selectTbCandidateInfoListByStatus" resultMap="CandidateStatusResult">
-        WITH status_sequence AS (
-            SELECT '0' AS status_key UNION ALL
-            SELECT '1' UNION ALL
-            SELECT '2' UNION ALL
-            SELECT '3' UNION ALL
-            SELECT '4'
-        )
-        SELECT
-            ss.status_key,
-            COUNT(hci.candidate_status) AS status_count
-        FROM status_sequence ss
-                 LEFT JOIN hr_candidate_info hci
-                           ON ss.status_key::varchar = hci.candidate_status
-            AND hci.enterprise_id = #{enterpriseId}
-        GROUP BY ss.status_key
-        ORDER BY ss.status_key
-    </select>
-
-    <select id="selectCandidateInfoList" parameterType="String" resultMap="CandidateStatusResult">
-        SELECT
-            c.candidate_id,
-            c.candidate_name
-        FROM hr_candidate_info c
-        WHERE c.enterprise_id = #{userEnterpriseId}
-
-    </select>
     <select id="seleEid" resultType="com.ys.hr.domain.HrEnterprise">
         SELECT *
         FROM sys_enterprise

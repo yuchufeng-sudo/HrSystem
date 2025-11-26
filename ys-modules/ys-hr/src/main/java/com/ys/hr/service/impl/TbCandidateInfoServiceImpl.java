@@ -47,29 +47,29 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
      * Query Candidate Information list
      *
      *
-     * @param tbCandidateInfo  Candidate Information
-     * @return  Candidate Information
+     * @param hrCandidateInfo  Candidate Information
+     * @return Candidate Information
      */
     @Override
-    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo tbCandidateInfo)
+    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo hrCandidateInfo)
     {
-        return baseMapper.selectTbCandidateInfoList(tbCandidateInfo);
+        return baseMapper.selectTbCandidateInfoList(hrCandidateInfo);
     }
 
     @Override
     @Transactional
-    public Map<String, Object> candidateCount(HrCandidateInfo tbCandidateInfo) {
+    public Map<String, Object> candidateCount(HrCandidateInfo hrCandidateInfo) {
 
         // Step 1: Get basic candidate statistics
-        Map<String, Object> baseStats = getBaseCandidateStats(tbCandidateInfo);
+        Map<String, Object> baseStats = getBaseCandidateStats(hrCandidateInfo);
         Map<String, Object> resultMap = new HashMap<>(baseStats);
 
         // Step 2: Get last month's statistics
-        Map<String, Object> lastMonthStats = getLastMonthStats(tbCandidateInfo);
+        Map<String, Object> lastMonthStats = getLastMonthStats(hrCandidateInfo);
         resultMap.putAll(lastMonthStats);
 
         // Step 3: Get current month's statistics
-        Map<String, Object> currentMonthStats = getCurrentMonthStats(tbCandidateInfo);
+        Map<String, Object> currentMonthStats = getCurrentMonthStats(hrCandidateInfo);
         resultMap.putAll(currentMonthStats);
 
         // Step 4: Calculate month-to-month differences
@@ -86,11 +86,11 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
 
     /**
      * Retrieves basic candidate count statistics
-     * @param tbCandidateInfo Candidate information filter
+     * @param hrCandidateInfo Candidate information filter
      * @return Map containing total candidate count and hired count
      */
-    private Map<String, Object> getBaseCandidateStats(HrCandidateInfo tbCandidateInfo) {
-        Map<String, Object> map = baseMapper.candidateCount(tbCandidateInfo);
+    private Map<String, Object> getBaseCandidateStats(HrCandidateInfo hrCandidateInfo) {
+        Map<String, Object> map = baseMapper.candidateCount(hrCandidateInfo);
         Map<String, Object> result = new HashMap<>();
         result.put("candidatecount", map.get("candidatecount"));
         result.put("hiredcount", map.get("hiredcount"));
@@ -99,13 +99,13 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
 
     /**
      * Retrieves statistics for the previous month
-     * @param tbCandidateInfo Candidate information filter
+     * @param hrCandidateInfo Candidate information filter
      * @return Map containing last month's statistics
      */
-    private Map<String, Object> getLastMonthStats(HrCandidateInfo tbCandidateInfo) {
+    private Map<String, Object> getLastMonthStats(HrCandidateInfo hrCandidateInfo) {
         LocalDate today = LocalDate.now();
         YearMonth lastYearMonth = YearMonth.from(today).minusMonths(1);
-        return getTimeRangeStats(tbCandidateInfo,
+        return getTimeRangeStats(hrCandidateInfo,
                 lastYearMonth.atDay(1),
                 lastYearMonth.atEndOfMonth(),
                 "LastMonth"
@@ -114,12 +114,12 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
 
     /**
      * Retrieves statistics for the current month
-     * @param tbCandidateInfo Candidate information filter
+     * @param hrCandidateInfo Candidate information filter
      * @return Map containing current month's statistics
      */
-    private Map<String, Object> getCurrentMonthStats(HrCandidateInfo tbCandidateInfo) {
+    private Map<String, Object> getCurrentMonthStats(HrCandidateInfo hrCandidateInfo) {
         YearMonth currentYearMonth = YearMonth.from(LocalDate.now());
-        return getTimeRangeStats(tbCandidateInfo,
+        return getTimeRangeStats(hrCandidateInfo,
                 currentYearMonth.atDay(1),
                 currentYearMonth.atEndOfMonth(),
                 "NowMonth"
@@ -128,19 +128,19 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
 
     /**
      * Generic method to retrieve statistics for a given date range
-     * @param tbCandidateInfo Candidate information filter
+     * @param hrCandidateInfo Candidate information filter
      * @param startDate Start date of the period
      * @param endDate End date of the period
      * @param prefix Prefix for the result keys
      * @return Map containing statistics for the specified period
      */
-    private Map<String, Object> getTimeRangeStats(HrCandidateInfo tbCandidateInfo,
+    private Map<String, Object> getTimeRangeStats(HrCandidateInfo hrCandidateInfo,
                                                   LocalDate startDate, LocalDate endDate, String prefix) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        tbCandidateInfo.setStartTime(startDate.format(formatter));
-        tbCandidateInfo.setEndTime(endDate.format(formatter));
-        Map<String, Object> stats = baseMapper.candidateCountByLastMonth(tbCandidateInfo);
+        hrCandidateInfo.setStartTime(startDate.format(formatter));
+        hrCandidateInfo.setEndTime(endDate.format(formatter));
+        Map<String, Object> stats = baseMapper.candidateCountByLastMonth(hrCandidateInfo);
 
         // JDK 1.8 compatible version without Map.of()
         Map<String, Object> resultMap = new HashMap<>();
@@ -215,16 +215,6 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
     }
 
     @Override
-    public List<HrCandidateInfo> selectTbCandidateInfoListByStatus(HrCandidateInfo hrCandidateInfo) {
-        return baseMapper.selectTbCandidateInfoListByStatus(hrCandidateInfo);
-    }
-
-    @Override
-    public List<HrCandidateInfo> getCandidateInfoList(String userEnterpriseId) {
-        return baseMapper.selectCandidateInfoList(userEnterpriseId);
-    }
-
-    @Override
     public HrEnterprise selectEid(String userEnterpriseId) {
         return baseMapper.seleEid(userEnterpriseId);
     }
@@ -277,19 +267,19 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
 
     @Transactional
     @Override
-    public boolean insertHrCandidateInfo(HrCandidateInfo tbCandidateInfo) {
-        tbCandidateInfo.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
-        tbCandidateInfo.setCreateTime(DateUtils.getNowDate());
-        tbCandidateInfo.setCandidateStatus("0");
+    public boolean insertHrCandidateInfo(HrCandidateInfo hrCandidateInfo) {
+        hrCandidateInfo.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
+        hrCandidateInfo.setCreateTime(DateUtils.getNowDate());
+        hrCandidateInfo.setCandidateStatus("0");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(tbCandidateInfo.getFilesValue());
-            tbCandidateInfo.setFilesJson(json);
+            String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(hrCandidateInfo.getFilesValue());
+            hrCandidateInfo.setFilesJson(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        boolean save = save(tbCandidateInfo);
-        batchHrDocument(tbCandidateInfo,SecurityUtils.getUserId());
+        boolean save = save(hrCandidateInfo);
+        batchHrDocument(hrCandidateInfo,SecurityUtils.getUserId());
         return save;
     }
 
@@ -304,14 +294,14 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
 
     @Transactional
     @Override
-    public boolean updateHrCandidateInfo(HrCandidateInfo tbCandidateInfo) {
+    public boolean updateHrCandidateInfo(HrCandidateInfo hrCandidateInfo) {
         HrCandidateInfo candidateInfo = new HrCandidateInfo();
-        candidateInfo.setCandidateId(tbCandidateInfo.getCandidateId());
+        candidateInfo.setCandidateId(hrCandidateInfo.getCandidateId());
         List<HrCandidateInfo> hrCandidateInfos1 = selectTbCandidateInfoList(candidateInfo);
         if(ObjectUtils.isEmpty(hrCandidateInfos1)){
             throw new ServiceException("The Candidate anomalies!");
         }
-        if("1".equals(tbCandidateInfo.getCandidateStatus())){
+        if("1".equals(hrCandidateInfo.getCandidateStatus())){
                 Map<String, Object> map = new HashMap<>();
                 HrEnterprise Company = selectEid(SecurityUtils.getUserEnterpriseId());
                 HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(SecurityUtils.getUserId());
@@ -320,15 +310,15 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
                 }else{
                     map.put("CompanyName","No details yet");
                 }
-                map.put("JobTitle",tbCandidateInfo.getPostName());
-                map.put("FirstName",tbCandidateInfo.getCandidateName());
-                emailUtils.sendEmailByTemplate(map,tbCandidateInfo.getContactEmail(),"Candidate-Shortlisted");
+                map.put("JobTitle",hrCandidateInfo.getPostName());
+                map.put("FirstName",hrCandidateInfo.getCandidateName());
+                emailUtils.sendEmailByTemplate(map,hrCandidateInfo.getContactEmail(),"Candidate-Shortlisted");
         }
-        if("2".equals(tbCandidateInfo.getCandidateStatus())){
-            if(tbCandidateInfo.getContactEmail()!=null){
+        if("2".equals(hrCandidateInfo.getCandidateStatus())){
+            if(hrCandidateInfo.getContactEmail()!=null){
                 Map<String, Object> map = new HashMap<>();
                 HrCandidateInfo info = new HrCandidateInfo();
-                info.setCandidateId(tbCandidateInfo.getCandidateId());
+                info.setCandidateId(hrCandidateInfo.getCandidateId());
                 List<HrCandidateInfo> hrCandidateInfos = selectTbCandidateInfoList(info);
                 HrEnterprise Company = selectEid(SecurityUtils.getUserEnterpriseId());
                 HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(SecurityUtils.getUserId());
@@ -337,25 +327,25 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
                 }else{
                     map.put("CompanyName","No details yet");
                 }
-                if(ObjectUtils.isNotEmpty(tbCandidateInfo.getPostName())){
-                    map.put("JobTitle",tbCandidateInfo.getPostName());
+                if(ObjectUtils.isNotEmpty(hrCandidateInfo.getPostName())){
+                    map.put("JobTitle",hrCandidateInfo.getPostName());
                 }else{
                     map.put("JobTitle","No details yet");
                 }
-                Date interviewTime = tbCandidateInfo.getInterviewTime();
+                Date interviewTime = hrCandidateInfo.getInterviewTime();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                 String datePart = dateFormat.format(interviewTime);
                 String timePart = timeFormat.format(interviewTime);
-                map.put("FirstName",tbCandidateInfo.getCandidateName());
+                map.put("FirstName",hrCandidateInfo.getCandidateName());
                 map.put("InterviewDate",datePart);
                 map.put("InterviewTime",timePart);
-                map.put("InterviewLocation",tbCandidateInfo.getInterviewLocation());
-                emailUtils.sendEmailByTemplate(map,tbCandidateInfo.getContactEmail(),"Interview");
+                map.put("InterviewLocation",hrCandidateInfo.getInterviewLocation());
+                emailUtils.sendEmailByTemplate(map,hrCandidateInfo.getContactEmail(),"Interview");
             }
         }
-        if("3".equals(tbCandidateInfo.getCandidateStatus())){
-            if(tbCandidateInfo.getIsEmail()!=null&&tbCandidateInfo.getIsEmail()){
+        if("3".equals(hrCandidateInfo.getCandidateStatus())){
+            if(hrCandidateInfo.getIsEmail()!=null&&hrCandidateInfo.getIsEmail()){
                 Map<String, Object> map = new HashMap<>();
                 HrEnterprise Company = selectEid(SecurityUtils.getUserEnterpriseId());
                 HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(SecurityUtils.getUserId());
@@ -373,27 +363,65 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
                     map.put("HrName","No details yet");
                     map.put("HrEmail","No details yet");
                 }
-                map.put("FirstName",tbCandidateInfo.getCandidateName());
-                emailUtils.sendEmailByTemplate(map,tbCandidateInfo.getContactEmail(),"CandidateHired");
+                map.put("FirstName",hrCandidateInfo.getCandidateName());
+                emailUtils.sendEmailByTemplate(map,hrCandidateInfo.getContactEmail(),"CandidateHired");
             }
         }
-        tbCandidateInfo.setUpdateBy(String.valueOf(SecurityUtils.getUserId()));
+        hrCandidateInfo.setUpdateBy(String.valueOf(SecurityUtils.getUserId()));
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            if (tbCandidateInfo.getFilesValue()!=null) {
-                String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(tbCandidateInfo.getFilesValue());
-                tbCandidateInfo.setFilesJson(json);
+            if (hrCandidateInfo.getFilesValue()!=null) {
+                String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(hrCandidateInfo.getFilesValue());
+                hrCandidateInfo.setFilesJson(json);
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        batchHrDocument(tbCandidateInfo,SecurityUtils.getUserId());
-        return updateById(tbCandidateInfo);
+        batchHrDocument(hrCandidateInfo,SecurityUtils.getUserId());
+        return updateById(hrCandidateInfo);
     }
 
-    private void batchHrDocument(HrCandidateInfo tbCandidateInfo,Long userId) {
-        List<HrDocument> filesValue = tbCandidateInfo.getFilesValue();
-        Long candidateId = tbCandidateInfo.getCandidateId();
+    @Override
+    public void sendEmailHired(HrCandidateInfo hrCandidateInfo) {
+        Map<String, Object> map = new HashMap<>();
+        HrEnterprise Company = selectEid(SecurityUtils.getUserEnterpriseId());
+        HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(SecurityUtils.getUserId());
+        if(ObjectUtils.isNotEmpty( Company)){
+            map.put("CompanyName",Company.getEnterpriseName());
+            map.put("SupportEmail",Company.getContactEmail());
+        }else{
+            map.put("CompanyName","No details yet");
+            map.put("SupportEmail","No details yet");
+        }
+        if(ObjectUtils.isNotEmpty( hrEmployees)){
+            map.put("HrName",hrEmployees.getFullName());
+            map.put("HrEmail",hrEmployees.getEmail());
+        }else{
+            map.put("HrName","No details yet");
+            map.put("HrEmail","No details yet");
+        }
+        map.put("FirstName",hrCandidateInfo.getCandidateName());
+        emailUtils.sendEmailByTemplate(map,hrCandidateInfo.getContactEmail(),"CandidateHired");
+    }
+
+    @Override
+    public void sendEmail(HrCandidateInfo hrCandidateInfo) {
+        Map<String, Object> map = new HashMap<>();
+        HrEnterprise Company = selectEid(SecurityUtils.getUserEnterpriseId());
+        if(ObjectUtils.isNotEmpty( Company)){
+            map.put("CompanyName",Company.getEnterpriseName());
+        }else{
+            map.put("CompanyName","No details yet");
+        }
+        map.put("FirstName",hrCandidateInfo.getCandidateName());
+        map.put("InviteUrl",hrCandidateInfo.getInviteUrl());
+        map.put("HrisToolName","Shiftcare HR");
+        emailUtils.sendEmailByTemplate(map, hrCandidateInfo.getContactEmail(), "Invite");
+    }
+
+    private void batchHrDocument(HrCandidateInfo hrCandidateInfo,Long userId) {
+        List<HrDocument> filesValue = hrCandidateInfo.getFilesValue();
+        Long candidateId = hrCandidateInfo.getCandidateId();
         if (filesValue!=null){
             documentShareService.deleteByUploadCandidateId(candidateId);
             QueryWrapper<HrDocument> queryWrapper = new QueryWrapper<>();
@@ -401,7 +429,7 @@ public class TbCandidateInfoServiceImpl extends ServiceImpl<TbCandidateInfoMappe
             documentService.remove(queryWrapper);
             if (!filesValue.isEmpty()) {
                 for (HrDocument hrDocument : filesValue) {
-                    hrDocument.setEnterpriseId(tbCandidateInfo.getEnterpriseId());
+                    hrDocument.setEnterpriseId(hrCandidateInfo.getEnterpriseId());
                     hrDocument.setUploadDate(DateUtils.getNowDate());
                     hrDocument.setUploadCandidateId(candidateId);
                     hrDocument.setUploadUserId(userId);

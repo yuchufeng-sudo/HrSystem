@@ -23,7 +23,7 @@ public class HrEmpSchedulingServiceImpl extends ServiceImpl<HrEmpSchedulingMappe
      * Query Employee Scheduling
      *
      * @param schedulingId  Employee Scheduling primary key
-     * @return  Employee Scheduling
+     * @return Employee Scheduling
      */
     @Override
     public HrEmpScheduling selectHrEmpSchedulingBySchedulingId(String schedulingId)
@@ -35,7 +35,7 @@ public class HrEmpSchedulingServiceImpl extends ServiceImpl<HrEmpSchedulingMappe
      * Query Employee Scheduling list
      *
      * @param hrEmpScheduling Employee Scheduling
-     * @return  Employee Scheduling
+     * @return Employee Scheduling
      */
     @Override
     public List<HrEmpScheduling> selectHrEmpSchedulingList(HrEmpScheduling hrEmpScheduling)

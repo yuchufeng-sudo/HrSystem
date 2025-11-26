@@ -16,13 +16,7 @@ import java.util.Map;
 public interface IHrLeaveService extends IService<HrLeave>
 {
 
-    /**
-     * Query Leave Application   list
-     *
-     * @param hrLeave  Leave Application
-     * @return  Leave Application Set
-     */
-    public List<HrLeave> selectHrLeaveList(HrLeave hrLeave);
+    List<HrLeave> selectHrLeaveList(HrLeave hrLeave);
 
     HrLeave selectHrLeaveLastTime(Long userId, Date stateTime , String leaveType);
 
@@ -34,10 +28,5 @@ public interface IHrLeaveService extends IService<HrLeave>
 
     Map leaveCountByUser(HrLeave hrLeave);
 
-    /**
-     * Count the number of days of Employee Leave Application
-     * @param userEnterpriseId
-     * @return
-     */
     Map<String, Object> selectLeaveTotal(String userEnterpriseId);
 }

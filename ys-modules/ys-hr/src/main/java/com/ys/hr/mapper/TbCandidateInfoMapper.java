@@ -19,18 +19,14 @@ public interface TbCandidateInfoMapper extends BaseMapper<HrCandidateInfo>
     /**
      * Query Candidate Information list
      *
-     * @param tbCandidateInfo  Candidate Information
-     * @return  Candidate INFORMATIONSet
+     * @param hrCandidateInfo  Candidate Information
+     * @return Candidate INFORMATIONSet
      */
-    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo tbCandidateInfo);
+    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo hrCandidateInfo);
 
-    Map<String,Object> candidateCount(HrCandidateInfo tbCandidateInfo);
+    Map<String,Object> candidateCount(HrCandidateInfo hrCandidateInfo);
 
-    Map<String,Object> candidateCountByLastMonth(HrCandidateInfo tbCandidateInfo);
-
-    List<HrCandidateInfo> selectTbCandidateInfoListByStatus(HrCandidateInfo hrCandidateInfo);
-
-    List<HrCandidateInfo> selectCandidateInfoList(String userEnterpriseId);
+    Map<String,Object> candidateCountByLastMonth(HrCandidateInfo hrCandidateInfo);
 
     HrEnterprise seleEid(@Param("userEnterpriseId") String userEnterpriseId);
 }

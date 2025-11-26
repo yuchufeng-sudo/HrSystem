@@ -3,6 +3,7 @@ package com.ys.hr.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ys.hr.domain.HrTargetEmployee;
 import com.ys.hr.domain.HrTargets;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,10 @@ public interface IHrTargetsService extends IService<HrTargets>
      * @return Main table storing all target information
      */
     public HrTargets selectHrTargetsById(Long id);
+    public HrTargets selectHrTargetsInfo(Long id);
+
+    @Transactional
+    void completeTargets(Long id);
 
     /**
      * Query Main table storing all target information list
@@ -55,4 +60,18 @@ public interface IHrTargetsService extends IService<HrTargets>
     public int deleteHrTargetsById(Long id);
 
     List<HrTargetEmployee> selectHrTargets(HrTargets hrTargets);
+
+    int startTask(HrTargetEmployee hrTargetEmployee);
+
+    void checkHead(Long id);
+
+    void checkParticipants(Long id);
+
+    boolean isAdmin();
+
+    boolean isParticipants(Long id);
+
+    void checkHeadByTasks(Long id);
+
+    void checkParticipantsByTasks(Long id);
 }

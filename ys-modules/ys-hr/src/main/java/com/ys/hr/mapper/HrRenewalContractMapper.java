@@ -17,7 +17,7 @@ public interface HrRenewalContractMapper extends BaseMapper<HrRenewalContract>
      * Query renewal contract
      *
      * @param id  renewal contract primary key
-     * @return  renewal contract
+     * @return renewal contract
      */
     public HrRenewalContract selectHrRenewalContractById(String id);
 
@@ -25,7 +25,7 @@ public interface HrRenewalContractMapper extends BaseMapper<HrRenewalContract>
      * Query renewal contract list
      *
      * @param hrRenewalContract  renewal contract
-     * @return  renewal contract collection
+     * @return renewal contract collection
      */
     public List<HrRenewalContract> selectHrRenewalContractList(HrRenewalContract hrRenewalContract);
 

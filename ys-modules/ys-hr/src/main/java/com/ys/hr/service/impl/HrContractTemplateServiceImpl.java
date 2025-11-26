@@ -3,15 +3,15 @@ package com.ys.hr.service.impl;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ys.common.security.utils.SecurityUtils;
+import com.ys.hr.service.IHrContractTemplateService;
 import org.springframework.stereotype.Service;
 import com.ys.hr.mapper.HrContractTemplateMapper;
 import com.ys.hr.domain.HrContractTemplate;
-import com.ys.hr.service.IHrContractTemplateService;
 import com.ys.common.core.utils.DateUtils;
 import java.util.Arrays;
 
 /**
- * CONTRACT TEMPLATE Information Service Implementation
+ * Contract template Information Service Implementation
  *
  * @author ys
  * @date 2025-05-28
@@ -21,10 +21,10 @@ public class HrContractTemplateServiceImpl extends ServiceImpl<HrContractTemplat
 {
 
     /**
-     * Query CONTRACT TEMPLATE Information
+     * Query Contract template Information
      *
-     * @param templateId CONTRACT TEMPLATE Information primary key
-     * @return CONTRACT TEMPLATE Information
+     * @param templateId Contract template Information primary key
+     * @return Contract template Information
      */
     @Override
     public HrContractTemplate selectHrContractTemplateByTemplateId(Long templateId)
@@ -33,10 +33,10 @@ public class HrContractTemplateServiceImpl extends ServiceImpl<HrContractTemplat
     }
 
     /**
-     * Query CONTRACT TEMPLATE Information list
+     * Query Contract template Information list
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE Information
-     * @return CONTRACT TEMPLATE Information
+     * @param hrContractTemplate Contract template Information
+     * @return Contract template Information
      */
     @Override
     public List<HrContractTemplate> selectHrContractTemplateList(HrContractTemplate hrContractTemplate)
@@ -45,9 +45,9 @@ public class HrContractTemplateServiceImpl extends ServiceImpl<HrContractTemplat
     }
 
     /**
-     * Add CONTRACT TEMPLATE Information
+     * Add Contract template Information
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE Information
+     * @param hrContractTemplate Contract template Information
      * @return Result
      */
     @Override
@@ -59,9 +59,9 @@ public class HrContractTemplateServiceImpl extends ServiceImpl<HrContractTemplat
     }
 
     /**
-     * Update CONTRACT TEMPLATE Information
+     * Update Contract template Information
      *
-     * @param hrContractTemplate CONTRACT TEMPLATE Information
+     * @param hrContractTemplate Contract template Information
      * @return Result
      */
     @Override
@@ -72,9 +72,9 @@ public class HrContractTemplateServiceImpl extends ServiceImpl<HrContractTemplat
     }
 
     /**
-     * Batch delete CONTRACT TEMPLATE Information
+     * Batch delete Contract template Information
      *
-     * @param templateIds CONTRACT TEMPLATE Information primary keys to be deleted
+     * @param templateIds Contract template Information primary keys to be deleted
      * @return Result
      */
     @Override
@@ -84,9 +84,9 @@ public class HrContractTemplateServiceImpl extends ServiceImpl<HrContractTemplat
     }
 
     /**
-     * Delete CONTRACT TEMPLATE Information information
+     * Delete Contract template Information information
      *
-     * @param templateId CONTRACT TEMPLATE Information primary key
+     * @param templateId Contract template Information primary key
      * @return Result
      */
     @Override

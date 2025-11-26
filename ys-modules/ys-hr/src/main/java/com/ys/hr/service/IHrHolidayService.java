@@ -6,7 +6,7 @@ import com.ys.hr.domain.HrHoliday;
 import java.util.List;
 
 /**
- *  Holiday   Service Interface
+ *  Holiday Service Interface
  *
  * @author ys
  * @date 2025-06-18
@@ -16,16 +16,16 @@ public interface IHrHolidayService extends IService<HrHoliday>
     /**
      * Query Holiday
      *
-     * @param holidayId  Holiday   primary key
-     * @return  Holiday
+     * @param holidayId  Holiday primary key
+     * @return Holiday
      */
     public HrHoliday selectHrHolidayByHolidayId(Long holidayId);
 
     /**
-     * Query Holiday   list
+     * Query Holiday list
      *
      * @param hrHoliday  Holiday
-     * @return  Holiday   collection
+     * @return Holiday collection
      */
     public List<HrHoliday> selectHrHolidayList(HrHoliday hrHoliday);
 
@@ -48,15 +48,15 @@ public interface IHrHolidayService extends IService<HrHoliday>
     /**
      * Batch delete  Holiday
      *
-     * @param holidayIds  Holiday   primary keys to be deleted
+     * @param holidayIds  Holiday primary keys to be deleted
      * @return Result
      */
     public int deleteHrHolidayByHolidayIds(Long[] holidayIds);
 
     /**
-     * Delete Holiday   information
+     * Delete Holiday information
      *
-     * @param holidayId  Holiday   primary key
+     * @param holidayId  Holiday primary key
      * @return Result
      */
     public int deleteHrHolidayByHolidayId(Long holidayId);

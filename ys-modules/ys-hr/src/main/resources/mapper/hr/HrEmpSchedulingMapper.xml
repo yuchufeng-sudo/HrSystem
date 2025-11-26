@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectHrEmpSchedulingVo">
-        select scheduling_id, scheduling_type, week_days, month_days_off, daily_schedule, paid_vacation_days, create_by, create_time, update_by, update_time, remark, user_id,default_start_time,default_end_time,rest_end_time,rest_start_time,scheduling_name      from hr_emp_scheduling
+        select scheduling_id, scheduling_type, week_days, month_days_off, daily_schedule, paid_vacation_days, create_by, create_time, update_by, update_time, remark, user_id,default_start_time,default_end_time,rest_end_time,rest_start_time,scheduling_name from hr_emp_scheduling
     </sql>
 
     <select id="selectHrEmpSchedulingList" parameterType="HrEmpScheduling" resultMap="HrEmpSchedulingResult">

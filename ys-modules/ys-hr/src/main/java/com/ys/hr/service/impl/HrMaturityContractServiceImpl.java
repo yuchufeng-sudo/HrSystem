@@ -20,10 +20,10 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
 {
 
     /**
-     * Query Contract expiration 
+     * Query Contract expiration
      *
      * @param id  Contract expiration primary key
-     * @return  Contract expiration 
+     * @return Contract expiration
      */
     @Override
     public HrMaturityContract selectHrMaturityContractById(Long id)
@@ -34,8 +34,8 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     /**
      * Query Contract expiration list
      *
-     * @param hrMaturityContract  Contract expiration 
-     * @return  Contract expiration 
+     * @param hrMaturityContract  Contract expiration
+     * @return Contract expiration
      */
     @Override
     public List<HrMaturityContract> selectHrMaturityContractList(HrMaturityContract hrMaturityContract)
@@ -44,9 +44,9 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Add Contract expiration 
+     * Add Contract expiration
      *
-     * @param hrMaturityContract  Contract expiration 
+     * @param hrMaturityContract  Contract expiration
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Update Contract expiration 
+     * Update Contract expiration
      *
-     * @param hrMaturityContract  Contract expiration 
+     * @param hrMaturityContract  Contract expiration
      * @return Result
      */
     @Override
@@ -70,7 +70,7 @@ public class HrMaturityContractServiceImpl extends ServiceImpl<HrMaturityContrac
     }
 
     /**
-     * Batch delete  Contract expiration 
+     * Batch delete  Contract expiration
      *
      * @param ids  Contract expiration primary keys to be deleted
      * @return Result

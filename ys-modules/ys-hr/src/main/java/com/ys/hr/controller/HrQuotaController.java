@@ -98,12 +98,12 @@ public class HrQuotaController extends BaseController
     @Log(title = "Personnel Quota Management", businessType = BusinessType.DELETE)
     @DeleteMapping("/{quotaIds}")
     public AjaxResult remove(@PathVariable Long[] quotaIds) {
-            HrCandidateInfo tbCandidateInfo = new HrCandidateInfo();
-            tbCandidateInfo.setJobInformation(quotaIds[0]);
-            List<HrCandidateInfo> hrCandidateInfos = tbCandidateInfoService.selectTbCandidateInfoList(tbCandidateInfo);
-            if(!hrCandidateInfos.isEmpty()){
-                AjaxResult.warn("Employees exist in this position");
-            }
-            return toAjax(hrQuotaService.removeByIds(Arrays.asList(quotaIds)));
+        HrCandidateInfo hrCandidateInfo = new HrCandidateInfo();
+        hrCandidateInfo.setJobInformation(quotaIds[0]);
+        List<HrCandidateInfo> hrCandidateInfos = tbCandidateInfoService.selectTbCandidateInfoList(hrCandidateInfo);
+        if(!hrCandidateInfos.isEmpty()){
+            AjaxResult.warn("Employees exist in this position");
+        }
+        return toAjax(hrQuotaService.removeByIds(Arrays.asList(quotaIds)));
     }
 }

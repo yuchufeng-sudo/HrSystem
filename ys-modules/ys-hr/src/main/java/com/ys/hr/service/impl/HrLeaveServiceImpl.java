@@ -1,13 +1,19 @@
 package com.ys.hr.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ys.common.core.constant.SecurityConstants;
+import com.ys.common.core.utils.DateUtils;
 import com.ys.common.core.utils.StringUtils;
+import com.ys.common.core.web.domain.AjaxResult;
 import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.*;
 import com.ys.hr.mapper.*;
 import com.ys.hr.service.IHrLeaveService;
+import com.ys.system.api.RemoteMessageService;
+import com.ys.system.api.domain.SysMessage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -15,6 +21,7 @@ import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -33,9 +40,6 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
     private HrEmployeesMapper hrEmployeesMapper;
 
     @Resource
-    private HrEmpSchedulingMapper hrEmpSchedulingMapper;
-
-    @Resource
     private HrSchedulingEmpMapper hrSchedulingEmpMapper;
 
     @Resource
@@ -49,6 +53,12 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
 
     @Resource
     private HrHolidayServiceImpl hrHolidayService;
+
+    @Resource
+    private HrEmpSchedulingMapper hrEmpSchedulingMapper;
+
+    @Resource
+    private RemoteMessageService remoteMessageService;
 
     /**
      * Query Leave Application list
@@ -85,38 +95,6 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
             }
         }
         if(ObjectUtils.isNotEmpty(leave)){
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-//            String formattedDate = sdf.format(stateTime);
-//            HrSchedulingEmp hrSchedulingEmp = new HrSchedulingEmp();
-//            YearMonth ym = YearMonth.parse(formattedDate, DateTimeFormatter.ofPattern("yyyy-MM"));
-//            hrSchedulingEmp.setSearchTime(ym.atDay(1).format(DateTimeFormatter.ISO_LOCAL_DATE));
-//            hrSchedulingEmp.setUserId(userId);
-//            List<HrSchedulingEmp> hrSchedulingEmps = hrSchedulingEmpMapper.selectHrSchedulingEmpByUserId(hrSchedulingEmp);
-//            HrSchedulingEmp schedulingEmp = new HrSchedulingEmp();
-//            if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(hrSchedulingEmps)) {
-//                schedulingEmp = hrSchedulingEmps.get(0);
-//            } else {
-//                HrSettings hrSettings = hrSettingsMapper.selectHrSettingsByEid(SecurityUtils.getUserEnterpriseId());
-//                HrEmpScheduling hrEmpScheduling = hrEmpSchedulingMapper
-//                        .selectHrEmpSchedulingBySchedulingId(hrSettings.getSchedulingId());
-//                com.ys.common.core.utils.bean.BeanUtils.copyProperties(hrEmpScheduling, schedulingEmp);
-//            }
-//            paidVacationDays = schedulingEmp.getPaidVacationDays();
-//            HrLeave leave1 = new HrLeave();
-//            leave1.setUserId(userId);
-//            String firstDay = getFirstDayOfMonth(formattedDate);
-//            String lastDay = getLastDayOfMonth(formattedDate);
-//            Map<String, Object> params1 = new HashMap<>();
-//            params1.put("beginCreateTime", firstDay);
-//            params1.put("endCreateTime", lastDay);
-//            leave.setParams(params1);
-//            List<HrLeave> hrLeaves = baseMapper.selectHrLeaveList(leave1);
-//            if (hrLeaves.size() >= paidVacationDays) {
-//                leave.setRemainingDays(0L);
-//            } else {
-//                paidVacationDays = paidVacationDays - hrLeaves.size();
-//                leave.setRemainingDays(paidVacationDays);
-//            }
             leave.setRemainingDays(paidVacationDays);
             return leave;
         }else{
@@ -138,18 +116,55 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
     }
 
     @Override
+    @Transactional
     public int updateByLeaveId(HrLeave hrLeave) {
-        return baseMapper.updateByLeaveId(hrLeave);
+        Long userId = SecurityUtils.getUserId();
+        hrLeave.setUpdateBy(String.valueOf(userId));
+        hrLeave.setUpdateTime(DateUtils.getNowDate());
+        int i = baseMapper.updateByLeaveId(hrLeave);
+        //1 同意 4 申请 name rejectReason
+        if(i>0){
+            HrLeave byId = getById(hrLeave.getLeaveId());
+            if(ObjectUtils.isNotEmpty(byId)){
+                HrEmployees leavePerson = hrEmployeesMapper.selectHrEmployeesByUserId(byId.getUserId());
+                if("1".equals(hrLeave.getLeaveStatus())){
+                    SysMessage sysMessage = new SysMessage();
+                    sysMessage.setMessageRecipient(byId.getUserId());
+                    sysMessage.setMessageStatus("0");
+                    sysMessage.setMessageType(5);
+                    sendMessage(byId, leavePerson, sysMessage);
+                }else if("4".equals(hrLeave.getLeaveStatus())){
+                    SysMessage sysMessage = new SysMessage();
+                    sysMessage.setMessageRecipient(byId.getUserId());
+                    sysMessage.setMessageStatus("0");
+                    sysMessage.setMessageType(6);
+                    sendMessage(byId, leavePerson, sysMessage);
+                }
+            }
+        }
+        return i;
+    }
+
+    private void sendMessage(HrLeave byId, HrEmployees leavePerson, SysMessage sysMessage) {
+        sysMessage.setCreateTime(DateUtils.getNowDate());
+        Map<String, Object> map1 = new HashMap<>();
+        Map<String, Object> map2 = new HashMap<>();
+        map1.put("name",leavePerson.getFullName());
+        if(ObjectUtils.isNotEmpty(byId.getRejectReason())){
+            map1.put("rejectReason",byId.getRejectReason());
+        }else{
+            map1.put("rejectReason","no reason");
+        }
+        sysMessage.setMap1(map1);
+        sysMessage.setMap2(map2);
+        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
     }
 
     @Override
+    @Transactional
     public Map<String, Object> leaveCount(HrLeave hrLeave) {
-        // Map<String,Object> map = baseMapper.leaveCount(hrLeave);
         HrLeave leave = new HrLeave();
         leave.setEnterpriseId(hrLeave.getEnterpriseId());
-        // Long total = (Long) map.get("total");
-        // Long approved = (Long) map.get("approved");
-        // Long pending = (Long) map.get("pending");
         HashMap<String, Object> map = new HashMap<>();
         // Obtain the current date
         LocalDate today = LocalDate.now();
@@ -197,28 +212,6 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
             String result = rate.setScale(2, RoundingMode.HALF_UP) + "%";
             map.put("refuseRate", result);
         }
-
-        // double lastMonthRate = (LastMonthApproved.doubleValue() / LastMonthTotal) *
-        // 100;
-        // double currentMonthRate = (NowApproved.doubleValue() / NowTotal) * 100;
-        // double rateChange = currentMonthRate - lastMonthRate;
-        // double absoluteChange = Math.abs(rateChange);
-        // String trend;
-        // if (LastMonthTotal == 0 || NowTotal == 0) {
-        // trend = (NowTotal > 0 && LastMonthTotal == 0) ? " " : " ";
-        // absoluteChange = 0.0;
-        // } else {
-        // if (rateChange > 0) {
-        // trend = "+";
-        // } else if (rateChange < 0) {
-        // trend = "-";
-        // } else {
-        // trend = "+";
-        // }
-        // }
-        // DecimalFormat df = new DecimalFormat("#.##");
-        // String formattedChange = df.format(absoluteChange);
-        // map.put("MonthLeaveRate",trend+formattedChange);
         return map;
     }
 
@@ -249,9 +242,9 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
         List<HrHoliday> hrHolidays = baseMapper.selectLeaveDaysByEid(SecurityUtils.getUserEnterpriseId());
         hashMap.put("AnnualLeave", hrHolidays.stream()
                 .filter(holiday -> "1".equals(holiday.getHolidayType()))
-                .findFirst()  // 取第一个匹配项（如果有）
-                .map(HrHoliday::getMaxDay)  // 如果存在，获取 maxDay
-                .orElse(0L));  // 如果不存在，返回 0
+                .findFirst()
+                .map(HrHoliday::getMaxDay)
+                .orElse(0L));
 
         hashMap.put("SickLeave", hrHolidays.stream()
                 .filter(holiday -> "2".equals(holiday.getHolidayType()))
@@ -381,64 +374,34 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
     }
 
     /**
- * Calculate the entry months
- *
- * @param hireDate
- * @return
- */
-public static List<String> getEntryMonthList(Date hireDate) {
-    List<String> result = new ArrayList<>();
+     * Calculate the entry months
+     *
+     * @param hireDate
+     * @return
+     */
+    public static List<String> getEntryMonthList(Date hireDate) {
+        List<String> result = new ArrayList<>();
 
-    LocalDate hireLocalDate;
-    if (hireDate instanceof java.sql.Date) {
-        // java.sql.Date can directly use toLocalDate (no error)
-        hireLocalDate = ((java.sql.Date) hireDate).toLocalDate();
-    } else {
-        // java.util.Date uses toInstant
-        hireLocalDate = hireDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-    }
-
-    YearMonth start = YearMonth.from(hireLocalDate);
-    YearMonth end = YearMonth.from(LocalDate.now());
-
-    while (!start.isAfter(end)) {
-        result.add(start.toString()); // Format: yyyy-MM
-        start = start.plusMonths(1);
-    }
-
-    System.out.println(result);
-    return result;
-}
-
-private DayOfWeek numberToDayOfWeek(int number) {
-    // ISO standard: DayOfWeek.MONDAY = 1, SUNDAY = 7
-    if (number < 1 || number > 7) {
-        throw new IllegalArgumentException("Working day number must be between 1-7");
-    }
-    return DayOfWeek.of(number);
-}
-
-private int calculateWorkdaysSimple(int[] weekdays, LocalDate startDate, LocalDate endDate) {
-    // 1. Convert the working day array to a Set
-    Set<DayOfWeek> workdaysSet = new HashSet<>();
-    for (int day : weekdays) {
-        workdaysSet.add(numberToDayOfWeek(day));
-    }
-
-    // 2. Traverse each day within the date range
-    int workdayCount = 0;
-    LocalDate current = startDate;
-
-    // Ensure the start date is earlier than or equal to the end date
-    while (!current.isAfter(endDate)) {
-        if (workdaysSet.contains(current.getDayOfWeek())) {
-            workdayCount++;
+        LocalDate hireLocalDate;
+        if (hireDate instanceof java.sql.Date) {
+            // java.sql.Date can directly use toLocalDate (no error)
+            hireLocalDate = ((java.sql.Date) hireDate).toLocalDate();
+        } else {
+            // java.util.Date uses toInstant
+            hireLocalDate = hireDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         }
-        current = current.plusDays(1);
-    }
 
-    return workdayCount;
-}
+        YearMonth start = YearMonth.from(hireLocalDate);
+        YearMonth end = YearMonth.from(LocalDate.now());
+
+        while (!start.isAfter(end)) {
+            result.add(start.toString()); // Format: yyyy-MM
+            start = start.plusMonths(1);
+        }
+
+        System.out.println(result);
+        return result;
+    }
 
     private String timeToWeek(DayOfWeek dayOfWeek) {
         String[] dayNames = {
@@ -455,14 +418,61 @@ private int calculateWorkdaysSimple(int[] weekdays, LocalDate startDate, LocalDa
         return dayNames[index];
     }
 
-    public static String getFirstDayOfMonth(String yearMonth) {
-        YearMonth ym = YearMonth.parse(yearMonth, DateTimeFormatter.ofPattern("yyyy-MM"));
-        return ym.atDay(1).format(DateTimeFormatter.ISO_LOCAL_DATE);
-    }
-
-    // Get the last day of the month.
-    public static String getLastDayOfMonth(String yearMonth) {
-        YearMonth ym = YearMonth.parse(yearMonth, DateTimeFormatter.ofPattern("yyyy-MM"));
-        return ym.atEndOfMonth().format(DateTimeFormatter.ISO_LOCAL_DATE);
+    @Override
+    @Transactional
+    public boolean save(HrLeave hrLeave){
+        Long leader = selectLeader(SecurityUtils.getUserId());
+        hrLeave.setManagerId(leader);
+        hrLeave.setUserId(SecurityUtils.getUserId());
+        hrLeave.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        hrLeave.setLeaveStatus("3");
+        hrLeave.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
+        hrLeave.setCreateTime(DateUtils.getNowDate());
+        HrHoliday hrHoliday = new HrHoliday();
+        hrHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
+        hrHoliday.setHolidayType(hrLeave.getLeaveType());
+        List<HrHoliday> hrHolidays = hrHolidayService.selectHrHolidayList(hrHoliday);
+        if(ObjectUtils.isNotEmpty(hrHolidays)){
+            hrLeave.setPaidLeave(hrHolidays.get(0).getPaidLeave());
+        }else{
+            hrLeave.setPaidLeave("2");
+        }
+        int i = baseMapper.insert(hrLeave);
+        if(i>0){
+            HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(leader);
+            HrEmployees leavePerson = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
+            AjaxResult info = remoteMessageService.getInfo(SecurityUtils.getUserId(), SecurityConstants.INNER);
+            Map<String,String> setting = (Map<String, String>) info.get("data");
+            String leaveRequestNotification = setting.get("leaveRequestNotification");
+            if(ObjectUtils.isNotEmpty(hrEmployees) && "1".equals(leaveRequestNotification)){
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                SysMessage sysMessage = new SysMessage();
+                sysMessage.setMessageRecipient(hrEmployees.getUserId());
+                sysMessage.setMessageStatus("0");
+                sysMessage.setMessageType(4);
+                sysMessage.setCreateTime(DateUtils.getNowDate());
+                Map<String, Object> map1 = new HashMap<>();
+                Map<String, Object> map2 = new HashMap<>();
+                Date stateTime = hrLeave.getStateTime();
+                Date endTime = hrLeave.getEndTime();
+                LocalDate stateTime2 = stateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate endTime2 = endTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                String state = stateTime2.format(formatter);
+                String end = endTime2.format(formatter);
+                Map<Integer, String> leaveTypeMap = new HashMap<>();
+                leaveTypeMap.put(1, "Annual Leave");
+                leaveTypeMap.put(2, "Sick Leave");
+                leaveTypeMap.put(3, "Maternity Leave");
+                leaveTypeMap.put(6, "Personal Leave");
+                leaveTypeMap.put(5, "Paid Leave");
+                map1.put("name",leavePerson.getFullName());
+                map1.put("laeveType",leaveTypeMap.get(Integer.valueOf(hrLeave.getLeaveType())));
+                map1.put("leaveTime",state + "~" + end);
+                sysMessage.setMap1(map1);
+                sysMessage.setMap2(map2);
+                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+            }
+        }
+        return i>0;
     }
 }

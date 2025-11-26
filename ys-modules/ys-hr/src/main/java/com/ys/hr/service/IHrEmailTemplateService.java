@@ -1,64 +1,64 @@
 package com.ys.hr.service;
 
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ys.hr.domain.HrEmailTemplate;
 
 import java.util.List;
 
 /**
- * Email Templates Service Interface
+ * Email Template Service Interface
+ *
+ * Defines business operations for email template management.
  *
  * @author ys
  * @date 2025-09-09
  */
-public interface IHrEmailTemplateService extends IService<HrEmailTemplate>
-{
-    /**
-     * Query Email Templates
-     *
-     * @param templateId Email Templates primary key
-     * @return Email Templates
-     */
-    public HrEmailTemplate selectHrEmailTemplateByTemplateId(Long templateId);
+public interface IHrEmailTemplateService extends IService<HrEmailTemplate> {
 
     /**
-     * Query Email Templates list
+     * Query email template by ID
      *
-     * @param hrEmailTemplate Email Templates
-     * @return Email Templates collection
+     * @param templateId Email template primary key
+     * @return Email template object
      */
-    public List<HrEmailTemplate> selectHrEmailTemplateList(HrEmailTemplate hrEmailTemplate);
+    HrEmailTemplate selectHrEmailTemplateByTemplateId(Long templateId);
 
     /**
-     * Add Email Templates
+     * Query email templates list based on conditions
      *
-     * @param hrEmailTemplate Email Templates
-     * @return Result
+     * @param hrEmailTemplate Email template query criteria
+     * @return List of email templates matching the criteria
      */
-    public int insertHrEmailTemplate(HrEmailTemplate hrEmailTemplate);
+    List<HrEmailTemplate> selectHrEmailTemplateList(HrEmailTemplate hrEmailTemplate);
 
     /**
-     * Update Email Templates
+     * Insert a new email template
      *
-     * @param hrEmailTemplate Email Templates
-     * @return Result
+     * @param hrEmailTemplate Email template to be inserted
+     * @return Number of rows affected
      */
-    public int updateHrEmailTemplate(HrEmailTemplate hrEmailTemplate);
+    int insertHrEmailTemplate(HrEmailTemplate hrEmailTemplate);
 
     /**
-     * Batch delete Email Templates
+     * Update an existing email template
      *
-     * @param templateIds Email Templates primary keys to be deleted
-     * @return Result
+     * @param hrEmailTemplate Email template to be updated
+     * @return Number of rows affected
      */
-    public int deleteHrEmailTemplateByTemplateIds(String[] templateIds);
+    int updateHrEmailTemplate(HrEmailTemplate hrEmailTemplate);
 
     /**
-     * Delete Email Templates information
+     * Send email using the specified template
      *
-     * @param templateId Email Templates primary key
-     * @return Result
+     * This method handles the complete email sending workflow:
+     * 1. Validates the recipient email address
+     * 2. Retrieves employee information for template variables
+     * 3. Prepares template data with employee details
+     * 4. Converts attachment paths to File objects
+     * 5. Sends the email with the template content and attachments
+     *
+     * @param hrEmailTemplate Email template containing recipient, subject, body, and attachments
+     * @throws RuntimeException if email sending fails
      */
-    public int deleteHrEmailTemplateByTemplateId(String templateId);
+    void sendEmailWithTemplate(HrEmailTemplate hrEmailTemplate);
 }

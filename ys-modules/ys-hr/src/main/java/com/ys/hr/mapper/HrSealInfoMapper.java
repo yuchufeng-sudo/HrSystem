@@ -17,7 +17,7 @@ public interface HrSealInfoMapper extends BaseMapper<HrSealInfo>
      * Query seal Information
      *
      * @param id  seal Information  primary key
-     * @return  seal Information
+     * @return seal Information
      */
     public HrSealInfo selectHrSealInfoById(Long id);
 
@@ -25,7 +25,7 @@ public interface HrSealInfoMapper extends BaseMapper<HrSealInfo>
      * Query seal Information list
      *
      * @param hrSealInfo  seal Information
-     * @return  seal Information  collection
+     * @return seal Information  collection
      */
     public List<HrSealInfo> selectHrSealInfoList(HrSealInfo hrSealInfo);
 

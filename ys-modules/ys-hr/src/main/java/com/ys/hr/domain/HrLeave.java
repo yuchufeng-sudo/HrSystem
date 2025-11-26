@@ -93,17 +93,15 @@ public class HrLeave extends BaseEntity {
     @TableField(exist = false)
     private String email;
 
-    // Determine whether it is an AND User or HR.
     @TableField(exist = false)
     private Character flag;
 
-    // Finally Leave Application time
     @TableField(exist = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date LastStateTime;
-    // Finally Leave Application time
+    private Date lastStateTime;
+
     @TableField(exist = false)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date LastEndTime;
+    private Date lastEndTime;
 
 }

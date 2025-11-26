@@ -17,7 +17,7 @@ public interface HrEmpBenefitMapper extends BaseMapper<HrEmpBenefit>
      * Query Employee Welfare Application Form
      *
      * @param benefitEmpId   Employee Welfare Application Form primary key
-     * @return   Employee Welfare Application Form
+     * @return Employee Welfare Application Form
      */
     public HrEmpBenefit selectHrEmpBenefitByBenefitEmpId(String benefitEmpId);
 
@@ -25,7 +25,7 @@ public interface HrEmpBenefitMapper extends BaseMapper<HrEmpBenefit>
      * Query Employee Welfare Application Form list
      *
      * @param hrEmpBenefit   Employee Welfare Application Form
-     * @return   Employee Welfare Application Form collection
+     * @return Employee Welfare Application Form collection
      */
     public List<HrEmpBenefit> selectHrEmpBenefitList(HrEmpBenefit hrEmpBenefit);
 

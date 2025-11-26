@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *  Holiday   Controller
+ *  Holiday Controller
  *
  * @author ys
  * @date 2025-06-18
@@ -38,7 +38,7 @@ public class HrHolidayController extends BaseController
     private HrEmployeesMapper hrEmployeesMapper;
 
     /**
-     * Query Holiday   list
+     * Query Holiday list
      */
     @GetMapping("/list")
     public TableDataInfo list(HrHoliday hrHoliday)
@@ -71,7 +71,7 @@ public class HrHolidayController extends BaseController
     }
 
     /**
-     * Export Holiday   list
+     * Export Holiday list
      */
     @RequiresPermissions("hr:holiday:export")
     @Log(title = "Holiday", businessType = BusinessType.EXPORT)
@@ -80,11 +80,11 @@ public class HrHolidayController extends BaseController
     {
         List<HrHoliday> list = hrHolidayService.selectHrHolidayList(hrHoliday);
         ExcelUtil<HrHoliday> util = new ExcelUtil<HrHoliday>(HrHoliday.class);
-        util.exportExcel(response, list, " Holiday   Data");
+        util.exportExcel(response, list, " Holiday Data");
     }
 
     /**
-     * Get Holiday   details
+     * Get Holiday details
      */
     @GetMapping(value = "/{holidayId}")
     public AjaxResult getInfo(@PathVariable("holidayId") Long holidayId) {

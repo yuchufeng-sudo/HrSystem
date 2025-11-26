@@ -3,16 +3,24 @@ package com.ys.hr.service.impl;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
+import java.util.*;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ys.common.core.constant.SecurityConstants;
 import com.ys.common.core.utils.bean.BeanUtils;
+import com.ys.common.core.web.domain.AjaxResult;
 import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.HrEmpScheduling;
+import com.ys.hr.domain.HrEmployees;
 import com.ys.hr.domain.HrSettings;
 import com.ys.hr.mapper.HrEmpSchedulingMapper;
+import com.ys.hr.mapper.HrEmployeesMapper;
 import com.ys.hr.mapper.HrSettingsMapper;
+import com.ys.system.api.RemoteMessageService;
+import com.ys.system.api.domain.SysMessage;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +29,9 @@ import com.ys.hr.mapper.HrSchedulingEmpMapper;
 import com.ys.hr.domain.HrSchedulingEmp;
 import com.ys.hr.service.IHrSchedulingEmpService;
 import com.ys.common.core.utils.DateUtils;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import javax.annotation.Resource;
 
 /**
  * Employee scheduling Service Implementation
@@ -31,14 +40,19 @@ import java.util.Arrays;
  * @date 2025-06-08
  */
 @Service
-public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMapper, HrSchedulingEmp>
-        implements IHrSchedulingEmpService {
+public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMapper, HrSchedulingEmp> implements IHrSchedulingEmpService {
 
     @Autowired
     private HrSettingsMapper hrSettingsMapper;
 
     @Autowired
     private HrEmpSchedulingMapper hrEmpSchedulingMapper;
+
+    @Resource
+    private RemoteMessageService remoteMessageService;
+
+    @Resource
+    private HrEmployeesMapper hrEmployeesMapper;
 
     /**
      * Query Employee scheduling
@@ -69,13 +83,41 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
      * @return Result
      */
     @Override
+    @Transactional
     public int insertHrSchedulingEmp(HrSchedulingEmp hrSchedulingEmp) {
         HrSchedulingEmp schedulingEmp = baseMapper.selectHrSchedulingEmpInfo(hrSchedulingEmp);
         if (!ObjectUtils.isEmpty(schedulingEmp)) {
             throw new RuntimeException("The shift already exists, please select again");
         }
         hrSchedulingEmp.setCreateTime(DateUtils.getNowDate());
-        return baseMapper.insert(hrSchedulingEmp);
+        int i = baseMapper.insert(hrSchedulingEmp);
+        if (i > 0) {
+            AjaxResult info = remoteMessageService.getInfo(hrSchedulingEmp.getUserId(), SecurityConstants.INNER);
+            Map<String,String> setting = (Map<String, String>) info.get("data");
+            String shiftScheduleUpdate = setting.get("shiftScheduleUpdate");
+            if("1".equals(shiftScheduleUpdate)){
+                HrEmployees Leader = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
+                HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesByUserId(hrSchedulingEmp.getUserId());
+                Date schedulingData = hrSchedulingEmp.getSchedulingData();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+                LocalDate schedulingData2 = schedulingData.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                String schedulingDataStr = schedulingData2.format(formatter);
+                SysMessage sysMessage = new SysMessage();
+                sysMessage.setMessageRecipient(hrSchedulingEmp.getUserId());
+                sysMessage.setMessageStatus("0");
+                sysMessage.setMessageType(7);
+                sysMessage.setCreateTime(DateUtils.getNowDate());
+                Map<String, Object> map1 = new HashMap<>();
+                Map<String, Object> map2 = new HashMap<>();
+                map1.put("arranger", Leader.getFullName());
+                map1.put("employee", hrEmployees.getFullName());
+                map1.put("month", schedulingDataStr);
+                sysMessage.setMap1(map1);
+                sysMessage.setMap2(map2);
+                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+            }
+        }
+        return i;
     }
 
     /**
@@ -85,35 +127,46 @@ public class HrSchedulingEmpServiceImpl extends ServiceImpl<HrSchedulingEmpMappe
      * @return Result
      */
     @Override
+    @Transactional
     public int updateHrSchedulingEmp(HrSchedulingEmp hrSchedulingEmp) {
         HrSchedulingEmp schedulingEmp = baseMapper.selectHrSchedulingEmpInfo(hrSchedulingEmp);
         if (!ObjectUtils.isEmpty(schedulingEmp) && !schedulingEmp.getSchedulingEmpId().equals(hrSchedulingEmp.getSchedulingEmpId())) {
             throw new RuntimeException("The shift already exists, please select again");
         }
         hrSchedulingEmp.setUpdateTime(DateUtils.getNowDate());
-        return baseMapper.updateById(hrSchedulingEmp);
-    }
+        int i = baseMapper.updateById(hrSchedulingEmp);
 
-    /**
-     * Batch delete Employee scheduling
-     *
-     * @param schedulingEmpIds Employee scheduling primary keys to be deleted
-     * @return Result
-     */
-    @Override
-    public int deleteHrSchedulingEmpBySchedulingEmpIds(String[] schedulingEmpIds) {
-        return baseMapper.deleteBatchIds(Arrays.asList(schedulingEmpIds));
-    }
-
-    /**
-     * Delete Employee scheduling information
-     *
-     * @param schedulingEmpId Employee scheduling primary key
-     * @return Result
-     */
-    @Override
-    public int deleteHrSchedulingEmpBySchedulingEmpId(String schedulingEmpId) {
-        return baseMapper.deleteById(schedulingEmpId);
+        if (i > 0) {
+            AjaxResult info = remoteMessageService.getInfo(hrSchedulingEmp.getUserId(),SecurityConstants.INNER);
+            Map<String,String> setting = (Map<String, String>) info.get("data");
+            String shiftScheduleUpdate = setting.get("shiftScheduleUpdate");
+            if("1".equals(shiftScheduleUpdate)){
+                HrEmployees Leader = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
+                HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesByUserId(hrSchedulingEmp.getUserId());
+                Date schedulingData = hrSchedulingEmp.getSchedulingData();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+                LocalDate schedulingData2 = schedulingData.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                String schedulingDataStr = schedulingData2.format(formatter);
+                SysMessage sysMessage = new SysMessage();
+                sysMessage.setMessageRecipient(hrSchedulingEmp.getUserId());
+                sysMessage.setMessageStatus("0");
+                sysMessage.setMessageType(7);
+                sysMessage.setCreateTime(DateUtils.getNowDate());
+                Map<String, Object> map1 = new HashMap<>();
+                Map<String, Object> map2 = new HashMap<>();
+                if(ObjectUtils.isNotEmpty( Leader)){
+                    map1.put("arranger", Leader.getFullName());
+                }else{
+                    map1.put("arranger", "Unknown");
+                }
+                map1.put("employee", hrEmployees.getFullName());
+                map1.put("month", schedulingDataStr);
+                sysMessage.setMap1(map1);
+                sysMessage.setMap2(map2);
+                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+            }
+        }
+        return i;
     }
 
     @Override

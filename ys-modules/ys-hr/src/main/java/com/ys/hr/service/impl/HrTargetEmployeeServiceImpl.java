@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ys.common.core.exception.ServiceException;
+import com.ys.common.core.web.domain.AjaxResult;
 import com.ys.hr.domain.HrTargets;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,8 @@ import com.ys.hr.mapper.HrTargetEmployeeMapper;
 import com.ys.hr.domain.HrTargetEmployee;
 import com.ys.hr.service.IHrTargetEmployeeService;
 import com.ys.common.core.utils.DateUtils;
+
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
@@ -88,7 +92,6 @@ public class HrTargetEmployeeServiceImpl extends ServiceImpl<HrTargetEmployeeMap
         hrTargetEmployee.setIsStart("3");
         Date executionTime = hrTargetEmployee.getExecutionTime();
         Long executionSecond = ObjectUtils.isNotEmpty(hrTargetEmployee.getExecutionSecond()) ? hrTargetEmployee.getExecutionSecond() : 0;
-//        Date nowDate = DateUtils.getNowDate();
         Date nowDate = hrTargetEmployee.getStopTime();
         String s = calculateExecutionDuration(executionTime, nowDate, executionSecond);
         Long l = calculateExecutionDurationSeconds(executionTime, nowDate);

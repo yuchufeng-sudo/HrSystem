@@ -97,7 +97,6 @@ public class HrEmpSchedulingController extends BaseController
     @Log(title = "Employee Scheduling", businessType = BusinessType.DELETE)
     @DeleteMapping("/{schedulingIds}")
     public AjaxResult remove(@PathVariable String[] schedulingIds) {
-        ArrayList<String> list = new ArrayList<>();
         for (String schedulingId : schedulingIds) {
             HrSchedulingEmp emp = new HrSchedulingEmp();
             emp.setSchedulingId(schedulingId);

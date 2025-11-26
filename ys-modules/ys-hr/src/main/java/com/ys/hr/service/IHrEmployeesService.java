@@ -22,7 +22,7 @@ public interface IHrEmployeesService extends IService<HrEmployees>
      * Query THE Employee list.
      *
      * @param hrEmployees  Employee
-     * @return  Employee Set
+     * @return Employee Set
      */
     List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees);
 
@@ -62,25 +62,11 @@ public interface IHrEmployeesService extends IService<HrEmployees>
     List<BirthdayReportVo> selectEmployeeBirthday(HrEmployees hrEmployees);
 
     /**
-     * Query current day Employee scheduling status
-     * @param userEnterpriseId
-     * @return
-     */
-    List<DailyTimeVo> selectThisDaySchedulingList(String userEnterpriseId, String formattedDate);
-
-    /**
      * Celebration
      * @param userId
      * @return
      */
     List<CelebrationVo> selectCelebrationList(Long userId);
-
-    /**
-     * Get a list of employees who are not included in the candidate list
-     * @param userEnterpriseId
-     * @return
-     */
-    List<HrEmployees> getEmployeeList(String userEnterpriseId);
 
     int deleteById(Long employeeId);
 
@@ -94,16 +80,6 @@ public interface IHrEmployeesService extends IService<HrEmployees>
     int restoreEmployees(Long employeeId);
 
     int updateAvatarUrl(HrEmployees employees);
-
-    List<AddressReportVo> selectAddressReportVoReportVo(HrEmployees hrEmployees);
-
-    /**
-     * Query information based on employee ID
-     * @param jobnumber
-     * @param userEnterpriseId
-     * @return
-     */
-    HrEmployees selectEmployeeByWorkNo(String jobnumber, String userEnterpriseId);
 
     void resignEmployeeOneWeekAgo(HrEmployees employees);
 

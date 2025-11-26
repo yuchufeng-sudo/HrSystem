@@ -19,7 +19,7 @@ public interface HrInviteRequestsMapper extends BaseMapper<HrInviteRequests>
      * Query Invitation link request   list
      *
      * @param hrInviteRequests  Invitation link request
-     * @return  Invitation link request Set
+     * @return Invitation link request Set
      */
     public List<HrInviteRequests> selectHrInviteRequestsList(HrInviteRequests hrInviteRequests);
 

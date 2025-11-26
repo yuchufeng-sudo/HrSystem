@@ -18,7 +18,7 @@ public interface HrEmployeeContractMapper extends BaseMapper<HrEmployeeContract>
      * Query Employee Contract   list
      *
      * @param employeeContract  Employee Contract
-     * @return  Employee Contract Set
+     * @return Employee Contract Set
      */
     List<HrEmployeeContract> selectTbEmpContractList(HrEmployeeContract employeeContract);
 

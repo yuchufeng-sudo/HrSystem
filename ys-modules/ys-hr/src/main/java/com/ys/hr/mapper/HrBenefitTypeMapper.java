@@ -17,7 +17,7 @@ public interface HrBenefitTypeMapper extends BaseMapper<HrBenefitType>
      * Query welfare type list
      *
      * @param benefitTypeId  welfare type list primary key
-     * @return  welfare type list
+     * @return welfare type list
      */
     public HrBenefitType selectHrBenefitTypeByBenefitTypeId(String benefitTypeId);
 
@@ -25,7 +25,7 @@ public interface HrBenefitTypeMapper extends BaseMapper<HrBenefitType>
      * Query welfare type list
      *
      * @param hrBenefitType  welfare type list
-     * @return  welfare type list collection
+     * @return welfare type list collection
      */
     public List<HrBenefitType> selectHrBenefitTypeList(HrBenefitType hrBenefitType);
 

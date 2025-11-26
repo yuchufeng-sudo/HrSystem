@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * CONTRACT TEMPLATE Information entity hr_contract_template
+ * Contract template Information entity hr_contract_template
  *
  * @author ys
  * @date 2025-05-28

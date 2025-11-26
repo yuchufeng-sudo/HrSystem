@@ -1,17 +1,22 @@
 package com.ys.hr.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ys.common.core.constant.SecurityConstants;
+import com.ys.common.core.exception.ServiceException;
 import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.HrEmployees;
 import com.ys.hr.domain.HrTargetEmployee;
-import com.ys.hr.mapper.HrEmployeesMapper;
+import com.ys.hr.domain.HrTargetTasks;
+import com.ys.hr.service.IHrEmployeesService;
 import com.ys.hr.service.IHrTargetEmployeeService;
+import com.ys.hr.service.IHrTargetTasksService;
 import com.ys.system.api.RemoteMessageService;
 import com.ys.system.api.domain.SysMessage;
+import com.ys.system.api.model.LoginUser;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -38,7 +43,10 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
     private IHrTargetEmployeeService hrTargetEmployeeService;
 
     @Resource
-    private HrEmployeesMapper hrEmployeesMapper;
+    private IHrEmployeesService hrEmployeesService;
+
+    @Resource
+    private IHrTargetTasksService hrTargetTasksService;
 
     @Resource
     private RemoteMessageService remoteMessageService;
@@ -52,6 +60,101 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
     @Override
     public HrTargets selectHrTargetsById(Long id) {
         return baseMapper.selectHrTargetsById(id);
+    }
+
+    @Override
+    @Transactional
+    public HrTargets selectHrTargetsInfo(Long id) {
+        checkParticipants(id);
+        HrTargets data = selectHrTargetsById(id);
+        String enterpriseId = data.getEnterpriseId();
+        if (!enterpriseId.equals(SecurityUtils.getUserEnterpriseId())) {
+            throw new ServiceException("No authority to access this data");
+        }
+        QueryWrapper<HrTargetTasks> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("target_id",id);
+        long count = hrTargetTasksService.count(queryWrapper);
+        QueryWrapper<HrTargetTasks> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("target_id",id);
+        queryWrapper1.in("status","Complete","Confirm");
+        long count1 = hrTargetTasksService.count(queryWrapper1);
+        if (count!=0){
+            data.setProgress((int) (((double) count1 / (double) count) * 100));
+        }else {
+            data.setProgress(0);
+        }
+        Integer progress = data.getProgress();
+        String status = data.getStatus();
+        if (progress>0&&progress!=100&&"Not Started".equals(status)){
+            data.setStatus("In Progress");
+            this.updateHrTargets(data);
+        }
+        if (progress==100&&!"Complete".equals(status)){
+            data.setStatus("Complete");
+            completeTargets(id);
+        }
+        return data;
+    }
+
+    @Transactional
+    @Override
+    public void completeTargets(Long id) {
+        checkParticipants(id);
+        HrTargets hrTargets = new HrTargets();
+        hrTargets.setId(id);
+        hrTargets.setStatus("Complete");
+        hrTargets.setCompleteTime(DateUtils.getNowDate());
+        HrTargets hrTargets1 = selectHrTargetsById(id);
+        HrTargetEmployee hrTargetEmployee = new HrTargetEmployee();
+        hrTargetEmployee.setTargetId(id);
+        List<HrTargetEmployee> hrTargetEmployees = hrTargetEmployeeService.selectHrTargetEmployeeList(hrTargetEmployee);
+        if(ObjectUtils.isNotEmpty(hrTargetEmployees)){
+            //使用stream留将 员工id变成数组
+            for (HrTargetEmployee employeeId : hrTargetEmployees) {
+                HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesById(employeeId.getEmployeeId());
+                HrEmployees leader = hrEmployeesService.selectHrEmployeesByUserId(hrTargets1.getHead());
+                SysMessage sysMessage = new SysMessage();
+                sysMessage.setMessageRecipient(hrEmployees.getUserId());
+                sysMessage.setMessageStatus("0");
+                sysMessage.setMessageType(17);
+                sysMessage.setCreateTime(DateUtils.getNowDate());
+                Map<String, Object> map1 = new HashMap<>();
+                Map<String, Object> map2 = new HashMap<>();
+                map2.put("id", id);
+                if(ObjectUtils.isNotEmpty(leader)){
+                    map1.put("HrName", leader.getFullName());
+                }else{
+                    map1.put("HrName", "The leader is not indicated");
+                }
+                map1.put("title", hrTargets1.getName());
+                Date startTime = DateUtils.getNowDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = dateFormat.format(startTime);
+                map1.put("data", formattedDate);
+                sysMessage.setMap1(map1);
+                sysMessage.setMap2(map2);
+                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+            }
+        }
+        Long resignEmployeeId = hrTargets1.getResignEmployeeId();
+        if (resignEmployeeId!=null){
+            QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("resign_employee_id",resignEmployeeId);
+            queryWrapper.orderByDesc("create_time");
+            queryWrapper.select("status");
+            queryWrapper.last("limit 2");
+            List<HrTargets> list = list(queryWrapper);
+            int count = 0;
+            for (HrTargets targets : list) {
+                if (targets.getStatus().equals("Complete")) {
+                    count++;
+                }
+            }
+            if (count==1){
+                hrEmployeesService.resignComplete(resignEmployeeId,hrTargets1.getHead());
+            }
+        }
+        updateHrTargets(hrTargets);
     }
 
     /**
@@ -81,7 +184,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
             Long[] employeeIds = hrTargets.getEmployeeIds();
             if (ObjectUtils.isNotEmpty(employeeIds)) {
                 for (Long employeeId : employeeIds) {
-                    HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(employeeId);
+                    HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesById(employeeId);
                     SysMessage sysMessage = new SysMessage();
                     sysMessage.setMessageRecipient(hrEmployees.getUserId());
                     sysMessage.setMessageStatus("0");
@@ -161,7 +264,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
             QueryWrapper<HrEmployees> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", SecurityUtils.getUserId());
             queryWrapper.select("employee_id");
-            HrEmployees hrEmployees = hrEmployeesMapper.selectOne(queryWrapper);
+            HrEmployees hrEmployees = hrEmployeesService.getOne(queryWrapper);
             hrTargets.setUserId(hrEmployees.getEmployeeId());
             hrTargets.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
             hrTargetEmployees  = hrTargetEmployeeService.selectEmployeeTargetsByAdmin(hrTargets);
@@ -169,7 +272,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
             QueryWrapper<HrEmployees> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", SecurityUtils.getUserId());
             queryWrapper.select("employee_id");
-            HrEmployees hrEmployees = hrEmployeesMapper.selectOne(queryWrapper);
+            HrEmployees hrEmployees = hrEmployeesService.getOne(queryWrapper);
             hrTargets.setUserId(hrEmployees.getEmployeeId());
             hrTargetEmployees  = hrTargetEmployeeService.selectEmployeeTargets(hrTargets);
         }
@@ -191,4 +294,110 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
         return hrTargetEmployees;
     }
 
+    @Override
+    public int startTask(HrTargetEmployee hrTargetEmployee) {
+        HrTargetEmployee targetEmployee = hrTargetEmployeeService.selectHrTargetEmployeeById(hrTargetEmployee.getId());
+        hrTargetEmployee.setIsStart("1");
+        //Determine whether the current task is started
+        if ("1".equals(targetEmployee.getIsStart())) {
+            HrTargets targets = selectHrTargetsById(hrTargetEmployee.getTargetId());
+            throw new ServiceException(targets.getName() + " executing");
+        }
+        HrTargetEmployee hrTargetEmployee1 = new HrTargetEmployee();
+        hrTargetEmployee1.setEmployeeId(hrTargetEmployee.getEmployeeId());
+        hrTargetEmployee1.setIsStart("1");
+        List<HrTargetEmployee> hrTargetEmployees = hrTargetEmployeeService.selectHrTargetEmployeeList(hrTargetEmployee1);
+        if (!hrTargetEmployees.isEmpty()) {
+            throw new ServiceException("There is an start task, please stop it first");
+        }
+        return hrTargetEmployeeService.updateHrTargetEmployee(hrTargetEmployee);
+    }
+
+    @Override
+    public void checkHead(Long id){
+        if (isAdmin()){
+            return;
+        }
+        if (isNotHr() &&!isHead(id)){
+            throw new ServiceException("Non target creators have no authority to operate");
+        }
+    }
+
+    @Override
+    public void checkParticipants(Long id){
+        if (isAdmin()){
+            return;
+        }
+        boolean b = isParticipants(id);
+        boolean head = isHead(id);
+        if (isNotHr() && !head && !b){
+            throw new ServiceException("Non target participants have no authority to operate");
+        }
+    }
+
+    @Override
+    public boolean isAdmin(){
+        return "01".equals(SecurityUtils.getUserType()) || "00".equals(SecurityUtils.getUserType()) || SecurityUtils.getLoginUser().getRoles().contains("hr");
+    }
+
+    public boolean isNotHr(){
+        return !SecurityUtils.getLoginUser().getRoles().contains("hr");
+    }
+
+    public boolean isHead(Long id){
+        HrTargets hrTargets = selectHrTargetsById(id);
+        if (ObjectUtils.isNotEmpty(hrTargets)){
+            Long head = hrTargets.getHead();
+            if (ObjectUtils.isNotEmpty(head)) {
+                return SecurityUtils.getUserId().equals(head);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isParticipants(Long id){
+        QueryWrapper<HrTargetEmployee> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("target_id",id);
+        Long userId = SecurityUtils.getUserId();
+        HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(userId);
+        queryWrapper.eq("employee_id", hrEmployees.getEmployeeId());
+        long count = hrTargetEmployeeService.count(queryWrapper);
+        return count != 0;
+    }
+
+    @Override
+    public void checkHeadByTasks(Long id) {
+        if (isAdmin()){
+            return;
+        }
+        if (isNotHr() &&!isHeadByTasks(id)){
+            throw new ServiceException("Non target creators have no authority to operate");
+        }
+    }
+
+    @Override
+    public void checkParticipantsByTasks(Long id) {
+        if (isAdmin()){
+            return;
+        }
+        boolean isParticipants = isParticipantsByTasks(id);
+        boolean isHead = isHeadByTasks(id);
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        System.out.println(loginUser.getRoles().contains("hr"));
+        if (isNotHr() && !isHead && !isParticipants){
+            throw new ServiceException("Non target participants have no authority to operate");
+        }
+    }
+
+    public boolean isHeadByTasks(Long id){
+        HrTargetTasks data = hrTargetTasksService.selectHrTargetTasksById(id);
+        return isHead(data.getTargetId());
+    }
+
+    public boolean isParticipantsByTasks(Long id){
+        HrTargetTasks data = hrTargetTasksService.selectHrTargetTasksById(id);
+        Long targetId = data.getTargetId();
+        return isParticipants(targetId);
+    }
 }

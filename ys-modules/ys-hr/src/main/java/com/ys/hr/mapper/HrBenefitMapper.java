@@ -17,7 +17,7 @@ public interface HrBenefitMapper extends BaseMapper<HrBenefit>
      * Query welfare benefits
      *
      * @param benefitId  welfare benefits primary key
-     * @return  welfare benefits
+     * @return welfare benefits
      */
     public HrBenefit selectHrBenefitByBenefitId(String benefitId);
 
@@ -25,7 +25,7 @@ public interface HrBenefitMapper extends BaseMapper<HrBenefit>
      * Query welfare benefits list
      *
      * @param hrBenefit  welfare benefits
-     * @return  welfare benefits collection
+     * @return welfare benefits collection
      */
     public List<HrBenefit> selectHrBenefitList(HrBenefit hrBenefit);
 

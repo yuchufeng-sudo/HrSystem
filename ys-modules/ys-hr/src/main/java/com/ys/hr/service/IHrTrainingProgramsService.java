@@ -17,22 +17,22 @@ public interface IHrTrainingProgramsService extends IService<HrTrainingPrograms>
      * Query Training Management
      *
      * @param programId  Training Management primary key
-     * @return  Training Management
+     * @return Training Management
      */
     public HrTrainingPrograms selectHrTrainingProgramsByProgramId(Long programId);
 
     /**
      * Query Training Management list
      *
-     * @param hrTrainingPrograms  Training Management
-     * @return  Training Management collection
+     * @param hrTrainingPrograms Training Management
+     * @return Training Management collection
      */
     public List<HrTrainingPrograms> selectHrTrainingProgramsList(HrTrainingPrograms hrTrainingPrograms);
 
     /**
      * Add Training Management
      *
-     * @param hrTrainingPrograms  Training Management
+     * @param hrTrainingPrograms Training Management
      * @return Result
      */
     public int insertHrTrainingPrograms(HrTrainingPrograms hrTrainingPrograms);
@@ -40,7 +40,7 @@ public interface IHrTrainingProgramsService extends IService<HrTrainingPrograms>
     /**
      * Update Training Management
      *
-     * @param hrTrainingPrograms  Training Management
+     * @param hrTrainingPrograms Training Management
      * @return Result
      */
     public int updateHrTrainingPrograms(HrTrainingPrograms hrTrainingPrograms);

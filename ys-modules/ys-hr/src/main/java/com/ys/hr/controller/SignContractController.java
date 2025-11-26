@@ -39,9 +39,6 @@ public class SignContractController extends BaseController {
     private IHrEmployeeContractService hrEmployeeContractService;
 
     @Resource
-    private SignApiStrategyFactory signApiStrategyFactory;
-
-    @Resource
     private IHrSignConfigService hrSignConfigService;
 
     @Autowired
@@ -202,43 +199,13 @@ public class SignContractController extends BaseController {
      */
     @PostMapping("/updateStatus")
     public AjaxResult updateStatus(@RequestBody HrEmployeeContract employeeContract){
-        employeeContract.setCompanyId(SecurityUtils.getUserEnterpriseId());
-        employeeContract.setBUserId(Long.parseLong(employeeContract.getUserId().toString()));
-        employeeContract.setUserId(null);
-        List<HrEmployeeContract> hrEmployeeContracts =
-                hrEmployeeContractService.selectTbEmpContracts(employeeContract);
-        if (hrEmployeeContracts.isEmpty()){
-            return AjaxResult.warn("No electronic signing information");
-        }
-        HrEmployeeContract employeeContract1 = hrEmployeeContracts.get(0);
-        SignType type = SignType.fromCode(employeeContract1.getPlatformType());
-        SignApiStrategy<Object, Object> strategy = signApiStrategyFactory.createStrategy(type);
-        HrSignConfig config = hrSignConfigService.selectConfigInfo(employeeContract1.getSignaturePlatformId());
-        SignVo signVo = new SignVo();
-        signVo.setEmployeeContract(employeeContract1);
-        signVo.setUrl(config.getApiUrl());
-        signVo.setConfig(JSON.parseObject(config.getSignConfig()));
-        ResponseEntity<Object> responseEntity = strategy.getSignDetail(signVo);
-        if (responseEntity.getStatusCode() != 200){
-            return AjaxResult.error(responseEntity.getErrorMessage());
-        }
-        JSONObject jsonObject = JSONObject.parseObject(responseEntity.getBody().toString());
-        employeeContract.setId(employeeContract1.getId());
-        employeeContract.setSignUrl2(jsonObject.getString("companyUrl"));
-        employeeContract.setEnterpriseSign(jsonObject.getString("enterpriseSign"));
-        employeeContract.setSignUrl1(jsonObject.getString("userUrl"));
-        employeeContract.setUserSign(jsonObject.getString("userSign"));
-        if ("1".equals(employeeContract.getEnterpriseSign()) && "1".equals(employeeContract.getUserSign())){
-            employeeContract.setSignStatu("2");
-        }
-        return toAjax(hrEmployeeContractService.updateById(employeeContract));
+        return toAjax(hrEmployeeContractService.updateStatus(employeeContract));
     }
 
     @GetMapping("/getPositionList")
     public AjaxResult getPositionList(){
         HrPosition position = new HrPosition();
-        position.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        List<HrPosition> hrPositions = hrPositionService.selectHrPositionList(position);
+        List<HrPosition> hrPositions = hrPositionService.selectHrPositionList(position, SecurityUtils.getUserEnterpriseId());
         return AjaxResult.success(hrPositions);
     }
 

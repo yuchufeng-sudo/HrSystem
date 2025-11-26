@@ -209,9 +209,7 @@ public class HrEmployeesController extends BaseController
             LocalDate resignationLocalDate = resignationDate.toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate();
-
             LocalDate currentLocalDate = LocalDate.now();
-
             if (currentLocalDate.isAfter(resignationLocalDate)) {
                 return AjaxResult.error("Resignation Date not immediate");
             }

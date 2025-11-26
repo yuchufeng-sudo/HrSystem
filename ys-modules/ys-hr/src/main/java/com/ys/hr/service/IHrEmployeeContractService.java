@@ -85,4 +85,6 @@ public interface IHrEmployeeContractService extends IService<HrEmployeeContract>
      * @param empContract
      */
     void renewalContract(HrEmployeeContract empContract);
+
+    boolean updateStatus(HrEmployeeContract employeeContract);
 }

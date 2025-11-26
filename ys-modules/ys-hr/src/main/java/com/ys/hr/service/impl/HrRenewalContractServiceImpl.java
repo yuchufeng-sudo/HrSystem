@@ -20,10 +20,10 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
 {
 
     /**
-     * Query renewal contract 
+     * Query renewal contract
      *
      * @param id  renewal contract primary key
-     * @return  renewal contract 
+     * @return renewal contract
      */
     @Override
     public HrRenewalContract selectHrRenewalContractById(String id)
@@ -34,8 +34,8 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     /**
      * Query renewal contract list
      *
-     * @param hrRenewalContract  renewal contract 
-     * @return  renewal contract 
+     * @param hrRenewalContract  renewal contract
+     * @return renewal contract
      */
     @Override
     public List<HrRenewalContract> selectHrRenewalContractList(HrRenewalContract hrRenewalContract)
@@ -44,9 +44,9 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Add renewal contract 
+     * Add renewal contract
      *
-     * @param hrRenewalContract  renewal contract 
+     * @param hrRenewalContract  renewal contract
      * @return Result
      */
     @Override
@@ -57,9 +57,9 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Update renewal contract 
+     * Update renewal contract
      *
-     * @param hrRenewalContract  renewal contract 
+     * @param hrRenewalContract  renewal contract
      * @return Result
      */
     @Override
@@ -70,7 +70,7 @@ public class HrRenewalContractServiceImpl extends ServiceImpl<HrRenewalContractM
     }
 
     /**
-     * Batch delete  renewal contract 
+     * Batch delete  renewal contract
      *
      * @param ids  renewal contract primary keys to be deleted
      * @return Result

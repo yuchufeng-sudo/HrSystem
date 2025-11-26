@@ -77,57 +77,14 @@ public class HrEmpHolidayController extends BaseController
     @Log(title = "Employee Holiday", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody HrEmpHoliday hrEmpHoliday) {
-        HrEmpHoliday holiday = new HrEmpHoliday();
-        Date stateTime = hrEmpHoliday.getStateTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = sdf.format(stateTime);
-        holiday.setTime(formattedDate);
-        holiday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        List<HrEmpHoliday> hrEmpHolidays = hrEmpHolidayService.selectHrEmpHolidayList(holiday);
-        if(ObjectUtils.isNotEmpty(hrEmpHolidays)){
-            return  AjaxResult.warn("Holidays already exist under this date");
-        }
-        hrEmpHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        hrEmpHoliday.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
-        hrEmpHoliday.setUserId(SecurityUtils.getUserId());
-        hrEmpHoliday.setCreateTime(DateUtils.getNowDate());
-        hrEmpHoliday.setEndTime(hrEmpHoliday.getStateTime());
-        return toAjax(hrEmpHolidayService.save(hrEmpHoliday));
+        return toAjax(hrEmpHolidayService.insertHrEmpHoliday(hrEmpHoliday));
     }
 
     @Log(title = "Employee Holiday", businessType = BusinessType.INSERT)
     @PostMapping("/addHolidays")
     public AjaxResult addHolidays(@RequestBody HrEmpHoliday hrEmpHoliday) {
-        Date stateTime = hrEmpHoliday.getStateTime();
-        Date endTime = hrEmpHoliday.getEndTime();
-        LocalDate startDate = stateTime.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate endDate = endTime.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            Date currentDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            HrEmpHoliday holiday = new HrEmpHoliday();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String formattedDate = sdf.format(currentDate);
-            holiday.setTime(formattedDate);
-            holiday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-            List<HrEmpHoliday> hrEmpHolidays = hrEmpHolidayService.selectHrEmpHolidayList(holiday);
-            if(ObjectUtils.isNotEmpty(hrEmpHolidays)){
-                continue;
-            }
-            HrEmpHoliday hrHoliday = new HrEmpHoliday();
-            BeanUtils.copyProperties(hrEmpHoliday,hrHoliday);
-            hrHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-            hrHoliday.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
-            hrHoliday.setUserId(SecurityUtils.getUserId());
-            hrHoliday.setStateTime(currentDate);
-            hrHoliday.setCreateTime(DateUtils.getNowDate());
-            hrHoliday.setEndTime(hrHoliday.getStateTime());
-            hrEmpHolidayService.save(hrHoliday);
-        }
-        return toAjax(1);
+        hrEmpHolidayService.addHolidays(hrEmpHoliday);
+        return success();
     }
 
     /**

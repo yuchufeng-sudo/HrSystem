@@ -33,7 +33,7 @@ public class HrInviteRequestsServiceImpl extends ServiceImpl<HrInviteRequestsMap
      *
      *
      * @param hrInviteRequests  Invitation link request
-     * @return  Invitation link request
+     * @return Invitation link request
      */
     @Override
     public List<HrInviteRequests> selectHrInviteRequestsList(HrInviteRequests hrInviteRequests)

@@ -23,16 +23,12 @@ public interface ITbCandidateInfoService extends IService<HrCandidateInfo>
     /**
      * Query Candidate Information list
      *
-     * @param tbCandidateInfo  Candidate Information
-     * @return  Candidate INFORMATIONSet
+     * @param hrCandidateInfo  Candidate Information
+     * @return Candidate INFORMATIONSet
      */
-    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo tbCandidateInfo);
+    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo hrCandidateInfo);
 
-    Map<String,Object> candidateCount(HrCandidateInfo tbCandidateInfo);
-
-    List<HrCandidateInfo> selectTbCandidateInfoListByStatus(HrCandidateInfo hrCandidateInfo);
-
-    List<HrCandidateInfo> getCandidateInfoList(String userEnterpriseId);
+    Map<String,Object> candidateCount(HrCandidateInfo hrCandidateInfo);
 
     HrEnterprise selectEid(String userEnterpriseId);
 
@@ -43,4 +39,10 @@ public interface ITbCandidateInfoService extends IService<HrCandidateInfo>
 
     @Transactional
     boolean updateHrCandidateInfo(HrCandidateInfo candidateInfo);
+
+    @Transactional
+    void sendEmailHired(HrCandidateInfo hrCandidateInfo);
+
+    @Transactional
+    void sendEmail(HrCandidateInfo hrCandidateInfo);
 }

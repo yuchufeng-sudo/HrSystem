@@ -40,10 +40,6 @@ import java.util.*;
 public class HrSchedulingEmpController extends BaseController {
     @Resource
     private IHrSchedulingEmpService hrSchedulingEmpService;
-    @Resource
-    private HrEmployeesMapper hrEmployeesMapper;
-    @Resource
-    private RemoteMessageService remoteMessageService;
 
 
     /**
@@ -90,32 +86,6 @@ public class HrSchedulingEmpController extends BaseController {
     @PostMapping
     public AjaxResult add(@Validated @RequestBody HrSchedulingEmp hrSchedulingEmp) {
         int i = hrSchedulingEmpService.insertHrSchedulingEmp(hrSchedulingEmp);
-        if (i > 0) {
-            AjaxResult info = remoteMessageService.getInfo(hrSchedulingEmp.getUserId(),SecurityConstants.INNER);
-            Map<String,String> setting = (Map<String, String>) info.get("data");
-            String shiftScheduleUpdate = setting.get("shiftScheduleUpdate");
-            if("1".equals(shiftScheduleUpdate)){
-                HrEmployees Leader = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
-                HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesByUserId(hrSchedulingEmp.getUserId());
-                Date schedulingData = hrSchedulingEmp.getSchedulingData();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-                LocalDate schedulingData2 = schedulingData.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                String schedulingDataStr = schedulingData2.format(formatter);
-                SysMessage sysMessage = new SysMessage();
-                sysMessage.setMessageRecipient(hrSchedulingEmp.getUserId());
-                sysMessage.setMessageStatus("0");
-                sysMessage.setMessageType(7);
-                sysMessage.setCreateTime(DateUtils.getNowDate());
-                Map<String, Object> map1 = new HashMap<>();
-                Map<String, Object> map2 = new HashMap<>();
-                map1.put("arranger", Leader.getFullName());
-                map1.put("employee", hrEmployees.getFullName());
-                map1.put("month", schedulingDataStr);
-                sysMessage.setMap1(map1);
-                sysMessage.setMap2(map2);
-                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-            }
-        }
         return toAjax(i);
     }
 
@@ -126,36 +96,6 @@ public class HrSchedulingEmpController extends BaseController {
     @PutMapping
     public AjaxResult edit(@RequestBody HrSchedulingEmp hrSchedulingEmp) {
         int i = hrSchedulingEmpService.updateHrSchedulingEmp(hrSchedulingEmp);
-        if (i > 0) {
-            AjaxResult info = remoteMessageService.getInfo(hrSchedulingEmp.getUserId(),SecurityConstants.INNER);
-            Map<String,String> setting = (Map<String, String>) info.get("data");
-            String shiftScheduleUpdate = setting.get("shiftScheduleUpdate");
-            if("1".equals(shiftScheduleUpdate)){
-                HrEmployees Leader = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
-                HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesByUserId(hrSchedulingEmp.getUserId());
-                Date schedulingData = hrSchedulingEmp.getSchedulingData();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-                LocalDate schedulingData2 = schedulingData.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                String schedulingDataStr = schedulingData2.format(formatter);
-                SysMessage sysMessage = new SysMessage();
-                sysMessage.setMessageRecipient(hrSchedulingEmp.getUserId());
-                sysMessage.setMessageStatus("0");
-                sysMessage.setMessageType(7);
-                sysMessage.setCreateTime(DateUtils.getNowDate());
-                Map<String, Object> map1 = new HashMap<>();
-                Map<String, Object> map2 = new HashMap<>();
-                if(ObjectUtils.isNotEmpty( Leader)){
-                    map1.put("arranger", Leader.getFullName());
-                }else{
-                    map1.put("arranger", "Unknown");
-                }
-                map1.put("employee", hrEmployees.getFullName());
-                map1.put("month", schedulingDataStr);
-                sysMessage.setMap1(map1);
-                sysMessage.setMap2(map2);
-                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-            }
-        }
         return toAjax(i);
     }
 

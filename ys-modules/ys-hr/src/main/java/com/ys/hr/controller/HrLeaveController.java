@@ -41,9 +41,6 @@ public class HrLeaveController extends BaseController
     @Resource
     private IHrLeaveService hrLeaveService;
 
-//    @Resource
-//    private ISyncLeaveService syncLeaveService;
-
     @Resource
     private HrEmployeesMapper hrEmployeesMapper;
 
@@ -111,61 +108,7 @@ public class HrLeaveController extends BaseController
     @Log(title = "Leave Application", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody HrLeave hrLeave) {
-        Long leader =  hrLeaveService.selectLeader(SecurityUtils.getUserId());
-        hrLeave.setManagerId(leader);
-        hrLeave.setUserId(SecurityUtils.getUserId());
-        hrLeave.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        hrLeave.setLeaveStatus("3");
-        hrLeave.setCreateBy(String.valueOf(SecurityUtils.getUserId()));
-        hrLeave.setCreateTime(DateUtils.getNowDate());
-        HrHoliday hrHoliday = new HrHoliday();
-        hrHoliday.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        hrHoliday.setHolidayType(hrLeave.getLeaveType());
-        List<HrHoliday> hrHolidays = hrHolidayService.selectHrHolidayList(hrHoliday);
-        if(ObjectUtils.isNotEmpty(hrHolidays)){
-            hrLeave.setPaidLeave(hrHolidays.get(0).getPaidLeave());
-        }else{
-            hrLeave.setPaidLeave("2");
-        }
-//        LeaveResponse leaveResponse = syncLeaveService.createLeave("940257", "test", hrLeave.getStateTime(), hrLeave.getEndTime(), hrLeave.getLeaveReason());
-//        hrLeave.setSyncId(leaveResponse.getId());
-        boolean save = hrLeaveService.save(hrLeave);
-        if(save){
-            HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(leader);
-            HrEmployees leavePerson = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
-            AjaxResult info = remoteMessageService.getInfo(SecurityUtils.getUserId(),SecurityConstants.INNER);
-            Map<String,String> setting = (Map<String, String>) info.get("data");
-            String leaveRequestNotification = setting.get("leaveRequestNotification");
-            if(ObjectUtils.isNotEmpty(hrEmployees) && "1".equals(leaveRequestNotification)){
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                SysMessage sysMessage = new SysMessage();
-                sysMessage.setMessageRecipient(hrEmployees.getUserId());
-                sysMessage.setMessageStatus("0");
-                sysMessage.setMessageType(4);
-                sysMessage.setCreateTime(DateUtils.getNowDate());
-                Map<String, Object> map1 = new HashMap<>();
-                Map<String, Object> map2 = new HashMap<>();
-                Date stateTime = hrLeave.getStateTime();
-                Date endTime = hrLeave.getEndTime();
-                LocalDate stateTime2 = stateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                LocalDate endTime2 = endTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                String state = stateTime2.format(formatter);
-                String end = endTime2.format(formatter);
-                Map<Integer, String> leaveTypeMap = new HashMap<>();
-                leaveTypeMap.put(1, "Annual Leave");
-                leaveTypeMap.put(2, "Sick Leave");
-                leaveTypeMap.put(3, "Maternity Leave");
-                leaveTypeMap.put(6, "Personal Leave");
-                leaveTypeMap.put(5, "Paid Leave");
-                map1.put("name",leavePerson.getFullName());
-                map1.put("laeveType",leaveTypeMap.get(Integer.valueOf(hrLeave.getLeaveType())));
-                map1.put("leaveTime",state + "~" + end);
-                sysMessage.setMap1(map1);
-                sysMessage.setMap2(map2);
-                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-            }
-        }
-        return toAjax(save);
+        return toAjax(hrLeaveService.save(hrLeave));
     }
 
     /**
@@ -175,55 +118,7 @@ public class HrLeaveController extends BaseController
     @Log(title = "Leave Application", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrLeave hrLeave) {
-        Long userId = SecurityUtils.getUserId();
-        hrLeave.setUpdateBy(String.valueOf(userId));
-        hrLeave.setUpdateTime(DateUtils.getNowDate());
-        int i = hrLeaveService.updateByLeaveId(hrLeave);
-        //1 同意 4 申请 name rejectReason
-        if(i>0){
-            HrLeave byId = hrLeaveService.getById(hrLeave.getLeaveId());
-            if(ObjectUtils.isNotEmpty(byId)){
-                HrEmployees leavePerson = hrEmployeesMapper.selectHrEmployeesByUserId(byId.getUserId());
-                if("1".equals(hrLeave.getLeaveStatus())){
-                    SysMessage sysMessage = new SysMessage();
-                    sysMessage.setMessageRecipient(byId.getUserId());
-                    sysMessage.setMessageStatus("0");
-                    sysMessage.setMessageType(5);
-                    sysMessage.setCreateTime(DateUtils.getNowDate());
-                    Map<String, Object> map1 = new HashMap<>();
-                    Map<String, Object> map2 = new HashMap<>();
-                    map1.put("name",leavePerson.getFullName());
-                    if(ObjectUtils.isNotEmpty(byId.getRejectReason())){
-                        map1.put("rejectReason",byId.getRejectReason());
-                    }else{
-                        map1.put("rejectReason","no reason");
-                    }
-                    sysMessage.setMap1(map1);
-                    sysMessage.setMap2(map2);
-                    remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-//                    syncLeaveService.updateLeave(byId.getSyncId(),null,null,null,null,null,DateUtils.getNowDate(),leavePerson.getFullName(),null,null,null );
-                }else if("4".equals(hrLeave.getLeaveStatus())){
-                    SysMessage sysMessage = new SysMessage();
-                    sysMessage.setMessageRecipient(byId.getUserId());
-                    sysMessage.setMessageStatus("0");
-                    sysMessage.setMessageType(6);
-                    sysMessage.setCreateTime(DateUtils.getNowDate());
-                    Map<String, Object> map1 = new HashMap<>();
-                    Map<String, Object> map2 = new HashMap<>();
-                    map1.put("name",leavePerson.getFullName());
-                    if(ObjectUtils.isNotEmpty(byId.getRejectReason())){
-                        map1.put("rejectReason",byId.getRejectReason());
-                    }else{
-                        map1.put("rejectReason","no reason");
-                    }
-                    sysMessage.setMap1(map1);
-                    sysMessage.setMap2(map2);
-                    remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-//                    syncLeaveService.updateLeave(byId.getSyncId(),null,null,null,null,null,null,null,DateUtils.getNowDate(),byId.getRejectReason(),null );
-                }
-            }
-        }
-        return toAjax( i );
+        return toAjax(hrLeaveService.updateByLeaveId(hrLeave));
     }
 
     /**

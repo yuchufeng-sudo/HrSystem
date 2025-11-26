@@ -18,11 +18,15 @@ public interface IHrEmpHolidayService extends IService<HrEmpHoliday>
      * Query Employee Holiday list
      *
      * @param hrEmpHoliday  Employee Holiday
-     * @return  Employee Holiday  Set
+     * @return Employee Holiday  Set
      */
     public List<HrEmpHoliday> selectHrEmpHolidayList(HrEmpHoliday hrEmpHoliday);
 
     HrEmpHoliday selectHrEmpHolidayById(Long empleHolidayId);
+
+    boolean insertHrEmpHoliday(HrEmpHoliday hrEmpHoliday);
+
+    void addHolidays(HrEmpHoliday hrEmpHoliday);
 
     int updateByHrEmpHolidayById(HrEmpHoliday hrEmpHoliday);
 }

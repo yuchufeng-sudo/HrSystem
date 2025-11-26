@@ -42,10 +42,6 @@ public class HrTargetTasksController extends BaseController
     private IHrTargetTasksService hrTargetTasksService;
     @Autowired
     private IHrTargetsService hrTargetsService;
-    @Resource
-    private IHrTargetEmployeeService hrTargetEmployeeService;
-    @Resource
-    private IHrEmployeesService hrEmployeesService;
 
     /**
      * Query Targets Manages list
@@ -65,7 +61,7 @@ public class HrTargetTasksController extends BaseController
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         HrTargetTasks data = hrTargetTasksService.selectHrTargetTasksById(id);
-        checkParticipants(data.getId());
+        hrTargetsService.checkParticipantsByTasks(data.getId());
         return success(data);
     }
 
@@ -86,13 +82,13 @@ public class HrTargetTasksController extends BaseController
     @Log(title = "Targets Manages", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrTargetTasks hrTargetTasks) {
-        checkParticipants(hrTargetTasks.getId());
+        hrTargetsService.checkParticipantsByTasks(hrTargetTasks.getId());
         return toAjax(hrTargetTasksService.updateHrTargetTasks(hrTargetTasks));
     }
 
     @PutMapping("complete")
     public AjaxResult complete(@RequestBody HrTargetTasks hrTargetTasks) {
-        checkParticipants(hrTargetTasks.getId());
+        hrTargetsService.checkParticipantsByTasks(hrTargetTasks.getId());
         hrTargetTasks.setStatus("Complete");
         hrTargetTasks.setCompleteTime(DateUtils.getNowDate());
         return toAjax(hrTargetTasksService.updateHrTargetTasks(hrTargetTasks));
@@ -100,7 +96,7 @@ public class HrTargetTasksController extends BaseController
 
     @PutMapping("confirm/{id}")
     public AjaxResult confirm(@PathVariable Long id) {
-        checkHead(id);
+        hrTargetsService.checkHeadByTasks(id);
         HrTargetTasks hrTargetTasks = new HrTargetTasks();
         hrTargetTasks.setId(id);
         hrTargetTasks.setStatus("Confirm");
@@ -110,7 +106,7 @@ public class HrTargetTasksController extends BaseController
 
     @PutMapping("refuse/{id}")
     public AjaxResult refuse(@PathVariable Long id) {
-        checkHead(id);
+        hrTargetsService.checkHeadByTasks(id);
         HrTargetTasks hrTargetTasks = new HrTargetTasks();
         hrTargetTasks.setId(id);
         hrTargetTasks.setStatus("Refuse");
@@ -127,58 +123,4 @@ public class HrTargetTasksController extends BaseController
         return toAjax(hrTargetTasksService.removeByIds(Arrays.asList(ids)));
     }
 
-
-    public void checkHead(Long id){
-        if (isAdmin()){
-            return;
-        }
-        if (isNotHr() &&!isHead(id)){
-            throw new ServiceException("Non target creators have no authority to operate");
-        }
-    }
-
-    public void checkParticipants(Long id){
-        if (isAdmin()){
-            return;
-        }
-        boolean isParticipants = isParticipants(id);
-        boolean isHead = isHead(id);
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        System.out.println(loginUser.getRoles().contains("hr"));
-        if (isNotHr() && !isHead && !isParticipants){
-            throw new ServiceException("Non target participants have no authority to operate");
-        }
-    }
-
-    public boolean isAdmin(){
-        return "01".equals(SecurityUtils.getUserType()) || "00".equals(SecurityUtils.getUserType()) || SecurityUtils.getLoginUser().getRoles().contains("hr") || SecurityUtils.getLoginUser().getRoles().contains("admin");
-    }
-
-    public boolean isNotHr(){
-        return !SecurityUtils.getLoginUser().getRoles().contains("hr");
-    }
-
-    public boolean isHead(Long id){
-        HrTargetTasks data = hrTargetTasksService.selectHrTargetTasksById(id);
-        HrTargets hrTargets = hrTargetsService.selectHrTargetsById(data.getTargetId());
-        if (ObjectUtils.isNotEmpty(hrTargets)){
-            Long head = hrTargets.getHead();
-            if (ObjectUtils.isNotEmpty(head)) {
-                return SecurityUtils.getUserId().equals(head);
-            }
-        }
-        return false;
-    }
-
-    public boolean isParticipants(Long id){
-        HrTargetTasks data = hrTargetTasksService.selectHrTargetTasksById(id);
-        Long targetId = data.getTargetId();
-        QueryWrapper<HrTargetEmployee> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("target_id",targetId);
-        Long userId = SecurityUtils.getUserId();
-        HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(userId);
-        queryWrapper.eq("employee_id", hrEmployees.getEmployeeId());
-        long count = hrTargetEmployeeService.count(queryWrapper);
-        return count != 0;
-    }
 }

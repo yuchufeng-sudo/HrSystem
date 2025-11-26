@@ -17,7 +17,7 @@ public interface IHrEmpSchedulingService extends IService<HrEmpScheduling>
      * Query Employee Scheduling
      *
      * @param schedulingId  Employee Scheduling primary key
-     * @return  Employee Scheduling
+     * @return Employee Scheduling
      */
     public HrEmpScheduling selectHrEmpSchedulingBySchedulingId(String schedulingId);
 
@@ -25,7 +25,7 @@ public interface IHrEmpSchedulingService extends IService<HrEmpScheduling>
      * Query Employee Scheduling list
      *
      * @param hrEmpScheduling Employee Scheduling
-     * @return  Employee Scheduling collection
+     * @return Employee Scheduling collection
      */
     public List<HrEmpScheduling> selectHrEmpSchedulingList(HrEmpScheduling hrEmpScheduling);
 

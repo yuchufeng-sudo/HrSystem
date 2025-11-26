@@ -91,17 +91,6 @@ public class HrSealInfoController extends BaseController
     @Log(title = "seal Information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public AjaxResult remove(@PathVariable Long id) {
-//        HrSealInfo hrSealInfo = hrSealInfoService.selectHrSealInfoById(id);
-//        ContractUtils contractUtils = new ContractUtils();
-//        if (ObjectUtils.isNotEmpty(hrSealInfo)) {
-//            UserSealInput userSealInput = new UserSealInput();
-//            userSealInput.setAccount(hrSealInfo.getAccount());
-//            userSealInput.setSealNo(hrSealInfo.getSealNo());
-//            ApiRespBody apiRespBody = contractUtils.removeSeal(userSealInput);
-//            if (apiRespBody.getCode() != 100000){
-//                throw new RuntimeException(apiRespBody.getMsg());
-//            }
-//        }
         return toAjax(hrSealInfoService.removeById(id));
     }
 }

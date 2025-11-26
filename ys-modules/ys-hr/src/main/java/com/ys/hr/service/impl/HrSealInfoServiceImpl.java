@@ -29,10 +29,10 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     private RemoteFileService remoteFileService;
 
     /**
-     * Query seal Information 
+     * Query seal Information
      *
      * @param id  seal Information  primary key
-     * @return  seal Information 
+     * @return seal Information
      */
     @Override
     public HrSealInfo selectHrSealInfoById(Long id)
@@ -43,8 +43,8 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     /**
      * Query seal Information list
      *
-     * @param hrSealInfo  seal Information 
-     * @return  seal Information 
+     * @param hrSealInfo  seal Information
+     * @return seal Information
      */
     @Override
     public List<HrSealInfo> selectHrSealInfoList(HrSealInfo hrSealInfo)
@@ -53,9 +53,9 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Add seal Information 
+     * Add seal Information
      *
-     * @param hrSealInfo  seal Information 
+     * @param hrSealInfo  seal Information
      * @return Result
      */
     @Override
@@ -69,9 +69,9 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Update seal Information 
+     * Update seal Information
      *
-     * @param hrSealInfo  seal Information 
+     * @param hrSealInfo  seal Information
      * @return Result
      */
     @Override
@@ -82,7 +82,7 @@ public class HrSealInfoServiceImpl extends ServiceImpl<HrSealInfoMapper, HrSealI
     }
 
     /**
-     * Batch delete  seal Information 
+     * Batch delete  seal Information
      *
      * @param ids  seal Information  primary keys to be deleted
      * @return Result

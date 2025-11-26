@@ -63,13 +63,12 @@ public class HrTargetsController extends BaseController
     /**
      * Query Main table storing all target information list
      */
-//    @RequiresPermissions("hr:targets:list")
     @GetMapping("/list")
     public TableDataInfo list(HrTargets hrTargets)
     {
         startPage();
         hrTargets.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
-        if (!isAdmin()) {
+        if (!hrTargetsService.isAdmin()) {
             hrTargets.setUserId(SecurityUtils.getUserId());
         }
         List<HrTargets> list = hrTargetsService.selectHrTargetsList(hrTargets);
@@ -95,35 +94,7 @@ public class HrTargetsController extends BaseController
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
-        checkParticipants(id);
-        HrTargets data = hrTargetsService.selectHrTargetsById(id);
-        String enterpriseId = data.getEnterpriseId();
-        if (!enterpriseId.equals(SecurityUtils.getUserEnterpriseId())) {
-            return AjaxResult.error("No authority to access this data");
-        }
-        QueryWrapper<HrTargetTasks> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("target_id",id);
-        long count = hrTargetTasksService.count(queryWrapper);
-        QueryWrapper<HrTargetTasks> queryWrapper1 = new QueryWrapper<>();
-        queryWrapper1.eq("target_id",id);
-        queryWrapper1.in("status","Complete","Confirm");
-        long count1 = hrTargetTasksService.count(queryWrapper1);
-        if (count!=0){
-            data.setProgress((int) (((double) count1 / (double) count) * 100));
-        }else {
-            data.setProgress(0);
-        }
-        Integer progress = data.getProgress();
-        String status = data.getStatus();
-        if (progress>0&&progress!=100&&"Not Started".equals(status)){
-            data.setStatus("In Progress");
-            hrTargetsService.updateHrTargets(data);
-        }
-        if (progress==100&&!"Complete".equals(status)){
-            data.setStatus("Complete");
-            completeTargets(id);
-        }
-        return success(data);
+        return success(hrTargetsService.selectHrTargetsInfo(id));
     }
 
     /**
@@ -148,7 +119,7 @@ public class HrTargetsController extends BaseController
     @Log(title = "Main table storing all target information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrTargets hrTargets) {
-        checkParticipants(hrTargets.getId());
+        hrTargetsService.checkParticipants(hrTargets.getId());
         hrTargets.setStatus(null);
         HrTargets hrTargets1 = hrTargetsService.updateHrTargets(hrTargets);
         return toAjax(hrTargets1!=null);
@@ -157,73 +128,14 @@ public class HrTargetsController extends BaseController
     @RequiresPermissions("hr:targets:list")
     @PutMapping("complete/{id}")
     public AjaxResult complete(@PathVariable Long id) {
-        completeTargets(id);
+        hrTargetsService.completeTargets(id);
         return AjaxResult.success();
-    }
-
-    public void completeTargets(Long id) {
-        checkParticipants(id);
-        HrTargets hrTargets = new HrTargets();
-        hrTargets.setId(id);
-        hrTargets.setStatus("Complete");
-        hrTargets.setCompleteTime(DateUtils.getNowDate());
-        HrTargets hrTargets1 = hrTargetsService.selectHrTargetsById(id);
-        HrTargetEmployee hrTargetEmployee = new HrTargetEmployee();
-        hrTargetEmployee.setTargetId(id);
-        List<HrTargetEmployee> hrTargetEmployees = hrTargetEmployeeService.selectHrTargetEmployeeList(hrTargetEmployee);
-        if(ObjectUtils.isNotEmpty(hrTargetEmployees)){
-            //使用stream留将 员工id变成数组
-            for (HrTargetEmployee employeeId : hrTargetEmployees) {
-                HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(employeeId.getEmployeeId());
-                HrEmployees leader = hrEmployeesMapper.selectHrEmployeesByUserId(hrTargets1.getHead());
-                SysMessage sysMessage = new SysMessage();
-                sysMessage.setMessageRecipient(hrEmployees.getUserId());
-                sysMessage.setMessageStatus("0");
-                sysMessage.setMessageType(17);
-                sysMessage.setCreateTime(DateUtils.getNowDate());
-                Map<String, Object> map1 = new HashMap<>();
-                Map<String, Object> map2 = new HashMap<>();
-                map2.put("id", id);
-                if(ObjectUtils.isNotEmpty(leader)){
-                    map1.put("HrName", leader.getFullName());
-                }else{
-                    map1.put("HrName", "The leader is not indicated");
-                }
-                map1.put("title", hrTargets1.getName());
-                Date startTime = DateUtils.getNowDate();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String formattedDate = dateFormat.format(startTime);
-                map1.put("data", formattedDate);
-                sysMessage.setMap1(map1);
-                sysMessage.setMap2(map2);
-                remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
-            }
-        }
-        Long resignEmployeeId = hrTargets1.getResignEmployeeId();
-        if (resignEmployeeId!=null){
-            QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("resign_employee_id",resignEmployeeId);
-            queryWrapper.orderByDesc("create_time");
-            queryWrapper.select("status");
-            queryWrapper.last("limit 2");
-            List<HrTargets> list = hrTargetsService.list(queryWrapper);
-            int count = 0;
-            for (HrTargets targets : list) {
-                if (targets.getStatus().equals("Complete")) {
-                    count++;
-                }
-            }
-            if (count==1){
-                hrEmployeesService.resignComplete(resignEmployeeId,hrTargets1.getHead());
-            }
-        }
-        hrTargetsService.updateHrTargets(hrTargets);
     }
 
     @RequiresPermissions("hr:targets:list")
     @PutMapping("confirm/{id}")
     public AjaxResult confirm(@PathVariable Long id) {
-        checkHead(id);
+        hrTargetsService.checkHead(id);
         HrTargets hrTargets = new HrTargets();
         hrTargets.setId(id);
         hrTargets.setStatus("Confirm");
@@ -238,28 +150,14 @@ public class HrTargetsController extends BaseController
     @Log(title = "Main table storing all target information", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public AjaxResult remove(@PathVariable Long id) {
-        checkHead(id);
+        hrTargetsService.checkHead(id);
         return toAjax(hrTargetsService.deleteHrTargetsById(id));
     }
 
     @PostMapping("/startTask")
     public AjaxResult startTask(@RequestBody HrTargetEmployee hrTargetEmployee) {
-        HrTargetEmployee targetEmployee = hrTargetEmployeeService.selectHrTargetEmployeeById(hrTargetEmployee.getId());
-        hrTargetEmployee.setIsStart("1");
-        //Determine whether the current task is started
-        if ("1".equals(targetEmployee.getIsStart())) {
-            HrTargets targets = hrTargetsService.selectHrTargetsById(hrTargetEmployee.getTargetId());
-            return AjaxResult.warn(targets.getName() + " executing");
-        }
-        HrTargetEmployee hrTargetEmployee1 = new HrTargetEmployee();
-        hrTargetEmployee1.setEmployeeId(hrTargetEmployee.getEmployeeId());
-        hrTargetEmployee1.setIsStart("1");
-        List<HrTargetEmployee> hrTargetEmployees = hrTargetEmployeeService.selectHrTargetEmployeeList(hrTargetEmployee1);
-        if (!hrTargetEmployees.isEmpty()) {
-            return AjaxResult.warn("There is an start task, please stop it first");
-        }
-//        hrTargetEmployee.setExecutionTime(DateUtils.getNowDate());
-        return toAjax(hrTargetEmployeeService.updateHrTargetEmployee(hrTargetEmployee));
+
+        return toAjax(hrTargetsService.startTask(hrTargetEmployee));
     }
 
     @GetMapping("/getExecutionTarget")
@@ -291,57 +189,6 @@ public class HrTargetsController extends BaseController
         targetEmployee.setIsStart("3");
         return toAjax(hrTargetEmployeeService.finish(targetEmployee));
     }
-
-    public void checkHead(Long id){
-        if (isAdmin()){
-            return;
-        }
-        if (isNotHr() &&!isHead(id)){
-            throw new ServiceException("Non target creators have no authority to operate");
-        }
-    }
-
-    public void checkParticipants(Long id){
-        if (isAdmin()){
-            return;
-        }
-        boolean b = isParticipants(id);
-        boolean head = isHead(id);
-        if (isNotHr() && !head && !b){
-            throw new ServiceException("Non target participants have no authority to operate");
-        }
-    }
-
-    public boolean isAdmin(){
-        return "01".equals(SecurityUtils.getUserType()) || "00".equals(SecurityUtils.getUserType()) || SecurityUtils.getLoginUser().getRoles().contains("hr");
-    }
-
-    public boolean isNotHr(){
-        return !SecurityUtils.getLoginUser().getRoles().contains("hr");
-    }
-
-    public boolean isHead(Long id){
-        HrTargets hrTargets = hrTargetsService.selectHrTargetsById(id);
-        if (ObjectUtils.isNotEmpty(hrTargets)){
-            Long head = hrTargets.getHead();
-            if (ObjectUtils.isNotEmpty(head)) {
-                return SecurityUtils.getUserId().equals(head);
-            }
-        }
-        return false;
-    }
-
-    public boolean isParticipants(Long id){
-        QueryWrapper<HrTargetEmployee> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("target_id",id);
-        Long userId = SecurityUtils.getUserId();
-        HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(userId);
-        queryWrapper.eq("employee_id", hrEmployees.getEmployeeId());
-        long count = hrTargetEmployeeService.count(queryWrapper);
-        return count != 0;
-    }
-
-
 
     /**
      * Query Main table storing all target information list

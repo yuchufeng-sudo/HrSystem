@@ -23,7 +23,7 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
      * Query welfare benefits
      *
      * @param benefitId  welfare benefits primary key
-     * @return  welfare benefits
+     * @return welfare benefits
      */
     @Override
     public HrBenefit selectHrBenefitByBenefitId(String benefitId)
@@ -35,7 +35,7 @@ public class HrBenefitServiceImpl extends ServiceImpl<HrBenefitMapper, HrBenefit
      * Query welfare benefits list
      *
      * @param hrBenefit  welfare benefits
-     * @return  welfare benefits
+     * @return welfare benefits
      */
     @Override
     public List<HrBenefit> selectHrBenefitList(HrBenefit hrBenefit)

@@ -1,14 +1,18 @@
 package com.ys.hr.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ys.common.core.constant.SecurityConstants;
+import com.ys.common.core.exception.ServiceException;
 import com.ys.common.core.utils.DateUtils;
 import com.ys.common.core.web.domain.AjaxResult;
+import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.*;
 import com.ys.hr.mapper.*;
 import com.ys.hr.service.IHrEmployeeContractService;
+import com.ys.hr.service.IHrSignConfigService;
 import com.ys.hr.sign.entiry.ResponseEntity;
 import com.ys.hr.sign.entiry.SignType;
 import com.ys.hr.sign.entiry.SignVo;
@@ -54,15 +58,13 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
     private HrEmployeesMapper employeesMapper;
 
     @Resource
-    private RemoteUserService remoteUserService;
-
-    @Resource
     private HrMaturityContractMapper maturityContractMapper;
 
     @Resource
     private HrRenewalContractMapper renewalContractMapper;
 
-    private HrSignConfigMapper signConfigMapper;
+    @Resource
+    private IHrSignConfigService hrSignConfigService;
 
     /**
      * Query Employee Contract list
@@ -208,6 +210,39 @@ public class HrEmployeeContractServiceImpl extends ServiceImpl<HrEmployeeContrac
             hrRenewalContract.setCreateTime(DateUtils.getNowDate());
             renewalContractMapper.insert(hrRenewalContract);
         }
+    }
+
+    @Override
+    public boolean updateStatus(HrEmployeeContract employeeContract) {
+        employeeContract.setCompanyId(SecurityUtils.getUserEnterpriseId());
+        employeeContract.setBUserId(Long.parseLong(employeeContract.getUserId().toString()));
+        employeeContract.setUserId(null);
+        List<HrEmployeeContract> hrEmployeeContracts = selectTbEmpContracts(employeeContract);
+        if (hrEmployeeContracts.isEmpty()){
+            throw new ServiceException("No electronic signing information");
+        }
+        HrEmployeeContract employeeContract1 = hrEmployeeContracts.get(0);
+        SignType type = SignType.fromCode(employeeContract1.getPlatformType());
+        SignApiStrategy<Object, Object> strategy = signApiStrategyFactory.createStrategy(type);
+        HrSignConfig config = hrSignConfigService.selectConfigInfo(employeeContract1.getSignaturePlatformId());
+        SignVo signVo = new SignVo();
+        signVo.setEmployeeContract(employeeContract1);
+        signVo.setUrl(config.getApiUrl());
+        signVo.setConfig(JSON.parseObject(config.getSignConfig()));
+        ResponseEntity<Object> responseEntity = strategy.getSignDetail(signVo);
+        if (responseEntity.getStatusCode() != 200){
+            throw new ServiceException(responseEntity.getErrorMessage());
+        }
+        JSONObject jsonObject = JSONObject.parseObject(responseEntity.getBody().toString());
+        employeeContract.setId(employeeContract1.getId());
+        employeeContract.setSignUrl2(jsonObject.getString("companyUrl"));
+        employeeContract.setEnterpriseSign(jsonObject.getString("enterpriseSign"));
+        employeeContract.setSignUrl1(jsonObject.getString("userUrl"));
+        employeeContract.setUserSign(jsonObject.getString("userSign"));
+        if ("1".equals(employeeContract.getEnterpriseSign()) && "1".equals(employeeContract.getUserSign())){
+            employeeContract.setSignStatu("2");
+        }
+        return updateById(employeeContract);
     }
 
     private final Random random = new Random();
