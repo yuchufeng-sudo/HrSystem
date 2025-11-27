@@ -3,6 +3,7 @@ package com.ys.hr.service.impl;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ys.hr.domain.HrCandidateInfo;
+import com.ys.hr.service.IHrCandidateInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ys.hr.mapper.HrQuotaMapper;
@@ -22,7 +23,7 @@ public class HrQuotaServiceImpl extends ServiceImpl<HrQuotaMapper, HrQuota> impl
 {
 
     @Autowired
-    private HrCandidateInfoServiceImpl candidateInfoService;
+    private IHrCandidateInfoService candidateInfoService;
 
     /**
      * Query Personnel Quota Management

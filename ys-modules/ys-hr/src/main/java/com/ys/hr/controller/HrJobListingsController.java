@@ -60,7 +60,7 @@ public class HrJobListingsController extends BaseController
     {
         hrJobListings.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         List<HrJobListings> list = hrJobListingsService.selectHrJobListingsList(hrJobListings);
-        ExcelUtil<HrJobListings> util = new ExcelUtil<HrJobListings>(HrJobListings.class);
+        ExcelUtil<HrJobListings> util = new ExcelUtil<>(HrJobListings.class);
         util.exportExcel(response, list, "Job Listings Data");
     }
 
