@@ -11,6 +11,7 @@ import com.ys.hr.WebUrl;
 import com.ys.hr.domain.*;
 import com.ys.hr.domain.excel.HrEmployeesExcel;
 import com.ys.hr.domain.vo.*;
+import com.ys.hr.enums.EmployeeStatus;
 import com.ys.hr.mapper.*;
 import com.ys.hr.service.*;
 import com.ys.system.api.RemoteMessageService;
@@ -441,7 +442,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         baseMapper.updateSysUser(sysUser);
         HrEmployees hrEmployees1 = new HrEmployees();
         hrEmployees1.setEmployeeId(employeeId);
-        hrEmployees1.setStatus("2");
+        hrEmployees1.setStatus(EmployeeStatus.RESIGNED.getCode());
         HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(hrEmployees.getEnterpriseId());
         Map<String, Object> map = new HashMap<>();
         map.put("FullName",hrEmployees.getFullName());
@@ -564,7 +565,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         Long employeeId = employees.getEmployeeId();
         HrEmployees employees1 = new HrEmployees();
         employees1.setEmployeeId(employeeId);
-        employees1.setStatus("1");
+        employees1.setStatus(EmployeeStatus.ACTIVE.getCode());
         QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("resign_employee_id",employeeId);
         targetsService.remove(queryWrapper);
@@ -594,7 +595,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         hrEmployees1.setRehireEligibility(employees.getRehireEligibility());
         hrEmployees1.setSystemAccess(employees.getSystemAccess()==null?"2":employees.getSystemAccess());
         hrEmployees1.setResignationHrUserId(SecurityUtils.getUserId());
-        hrEmployees1.setStatus("3");
+        hrEmployees1.setStatus(EmployeeStatus.OFFBOARDING.getCode());
         return hrEmployees1;
     }
 
@@ -608,7 +609,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         baseMapper.updateSysUser(sysUser);
         HrEmployees hrEmployees1 = new HrEmployees();
         hrEmployees1.setEmployeeId(employeeId);
-        hrEmployees1.setStatus("1");
+        hrEmployees1.setStatus(EmployeeStatus.ACTIVE.getCode());
         return baseMapper.updateById(hrEmployees1);
     }
 

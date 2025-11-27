@@ -59,4 +59,6 @@ public interface IHrCareersService extends IService<HrCareers>
      * @return Result
      */
     public int deleteHrCareersById(String id);
+
+    HrCareers getOrCreateEnterpriseCareer(String enterpriseId);
 }

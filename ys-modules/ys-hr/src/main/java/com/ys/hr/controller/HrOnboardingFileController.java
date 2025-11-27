@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ys.common.security.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ import org.springframework.validation.annotation.Validated;
  * @author ys
  * @date 2025-10-13
  */
+@Slf4j
 @RestController
 @RequestMapping("/onboardingFile")
 public class HrOnboardingFileController extends BaseController
@@ -66,7 +68,16 @@ public class HrOnboardingFileController extends BaseController
      */
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") String id) {
-        return success(hrOnboardingFileService.selectHrOnboardingFileById(id));
+        try {
+            HrOnboardingFile file = hrOnboardingFileService.selectHrOnboardingFileById(id);
+            if (file == null) {
+                return AjaxResult.error("Onboarding file not found");
+            }
+            return success(file);
+        } catch (Exception e) {
+            log.error("Error retrieving onboarding file: {}", id, e);
+            return AjaxResult.error("Failed to retrieve onboarding file");
+        }
     }
 
     /**

@@ -41,15 +41,6 @@ public class HrLeaveController extends BaseController
     @Resource
     private IHrLeaveService hrLeaveService;
 
-    @Resource
-    private HrEmployeesMapper hrEmployeesMapper;
-
-    @Resource
-    private RemoteMessageService remoteMessageService;
-
-    @Resource
-    private HrHolidayServiceImpl hrHolidayService;
-
     /**
      * Query Leave Application list
      */

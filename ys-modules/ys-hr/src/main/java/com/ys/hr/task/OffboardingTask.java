@@ -2,6 +2,7 @@ package com.ys.hr.task;
 
 import com.ys.common.core.utils.DateUtils;
 import com.ys.hr.domain.HrEmployees;
+import com.ys.hr.enums.EmployeeStatus;
 import com.ys.hr.service.IHrEmployeesService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,7 +29,7 @@ public class OffboardingTask {
     @Scheduled(cron = "0 01 00 * * ?")
     public void offboarding() {
         HrEmployees hrEmployees = new HrEmployees();
-        hrEmployees.setStatus("3");
+        hrEmployees.setStatus(EmployeeStatus.OFFBOARDING.getCode());
         hrEmployees.setSystemAccess("1");
         hrEmployees.setResignationDate(DateUtils.getNowDate());
         List<HrEmployees> hrEmployees1 = hrEmployeesService.selectHrEmployeesList(hrEmployees);

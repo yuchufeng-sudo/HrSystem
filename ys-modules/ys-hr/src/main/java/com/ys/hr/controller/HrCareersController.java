@@ -33,28 +33,14 @@ public class HrCareersController extends BaseController
     @Autowired
     private IHrCareersService hrCareersService;
 
-    @Autowired
-    private EnterpriseService enterpriseService;
-
     /**
      * Get Company careers information details
      */
     @GetMapping()
     public AjaxResult getInfo() {
-        HrCareers hrCareers = new HrCareers();
-        String userEnterpriseId = SecurityUtils.getUserEnterpriseId();
-        hrCareers.setEnterpriseId(userEnterpriseId);
-        List<HrCareers> hrCareers1 = hrCareersService.selectHrCareersList(hrCareers);
-        if (hrCareers1.isEmpty()) {
-            String enterpriseName = SecurityUtils.getLoginUser().getEnterpriseName();
-            String enterpriseLogo = SecurityUtils.getLoginUser().getEnterpriseLogo();
-            hrCareers.setCareersName(enterpriseName);
-            hrCareers.setLogo(enterpriseLogo);
-            hrCareersService.insertHrCareers(hrCareers);
-            return success(hrCareers);
-        }else {
-            return success(hrCareers1.get(0));
-        }
+        String enterpriseId = SecurityUtils.getUserEnterpriseId();
+        HrCareers careers = hrCareersService.getOrCreateEnterpriseCareer(enterpriseId);
+        return success(careers);
     }
 
     /**
@@ -77,6 +63,16 @@ public class HrCareersController extends BaseController
     @Log(title = "Company careers information", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody HrCareers hrCareers) {
+        String userEnterpriseId = SecurityUtils.getUserEnterpriseId();
+        HrCareers existing = hrCareersService.selectHrCareersById(hrCareers.getId());
+
+        if (existing == null) {
+            return error("Career information not found");
+        }
+        if (!existing.getEnterpriseId().equals(userEnterpriseId)) {
+            return error("Unauthorized access");
+        }
+
         return toAjax(hrCareersService.updateHrCareers(hrCareers));
     }
 }

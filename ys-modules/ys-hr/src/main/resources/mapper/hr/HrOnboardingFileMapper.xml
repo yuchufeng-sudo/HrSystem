@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
             <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
-            <if test="isMandatory != null  and isMandatory != ''"> and is_mandatory = #{isMandatory}</if>
+            <if test="isMandatory != null">and is_mandatory = #{isMandatory}</if>
             <if test="step != null  and step != ''"> and step = #{step}</if>
             <if test="enterpriseId != null  and enterpriseId != ''"> and enterprise_id = #{enterpriseId}</if>
         </where>
@@ -40,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectHrOnboardingFileVo"/>
         where id = #{id}
     </select>
+
     <select id="selectHrOnboardingFileListByEmp" resultType="com.ys.hr.domain.HrOnboardingFile">
         select a.*,(CASE WHEN b.result IS NULL THEN 0 ELSE 1 END) isResult,b.result,b.id resultId
         from hr_onboarding_file a

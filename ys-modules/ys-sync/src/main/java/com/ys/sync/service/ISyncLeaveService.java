@@ -11,35 +11,35 @@ import java.util.Date;
 public interface ISyncLeaveService {
 
     /**
-     * 创建请假记录
+     * Create leave record
      *
-     * @param userId         用户ID（必填）
-     * @param title          请假标题（必填）
-     * @param startAt        开始时间（必填，ISO 8601带时区）
-     * @param endAt          结束时间（必填，ISO 8601带时区）
-     * @param reason         请假原因（必填）
-     * @return 接口返回的请假信息
+     * @param userId         User ID (required)
+     * @param title          Leave title (required)
+     * @param startAt        Start time (required, ISO 8601 with time zone)
+     * @param endAt          End time (required, ISO 8601 with time zone)
+     * @param reason         Leave reason (required)
+     * @return Leave information returned by the interface
      */
     public LeaveResponse createLeave(String userId, String title, Date startAt, Date endAt, String reason);
 
     /**
-     * 更新请假记录（对应Update a leave接口）
+     * Update leave record (corresponding to the Update a leave interface)
      *
-     * @param id              请假ID（必填，用于定位要更新的记录）
-     * @param title           可选：请假标题
-     * @param startAt         可选：开始时间（ISO 8601带时区）
-     * @param endAt           可选：结束时间（ISO 8601带时区）
-     * @param reason          可选：请假原因
-     * @param allDay          可选：是否全天
-     * @param approvedAt      可选：批准时间
-     * @param approvedBy      可选：批准人
-     * @param declinedAt      可选：拒绝时间
-     * @param declinedReason  可选：拒绝原因
-     * @param isUnavailability 可选：是否为不可用状态（默认false）
-     * @return 更新后的请假信息
+     * @param id              Leave ID (required, used to locate the record to be updated)
+     * @param title           Optional: Leave title
+     * @param startAt         Optional: Start time (ISO 8601 with time zone)
+     * @param endAt           Optional: End time (ISO 8601 with time zone)
+     * @param reason          Optional: Leave reason
+     * @param allDay          Optional: Whether it is all day
+     * @param approvedAt      Optional: Approval time
+     * @param approvedBy      Optional: Approver
+     * @param declinedAt      Optional: Rejection time
+     * @param declinedReason  Optional: Rejection reason
+     * @param isUnavailability Optional: Whether it is in unavailable state (default false)
+     * @return Updated leave information
      */
     LeaveResponse updateLeave(
-            String id, // 唯一必填参数
+            String id, // Unique required parameter
             String title,
             Date startAt,
             Date endAt,

@@ -3,6 +3,7 @@ package com.ys.hr.service.impl;
 import java.util.Collections;
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.ys.hr.mapper.HrOnboardingFileMapper;
 import com.ys.hr.domain.HrOnboardingFile;
@@ -16,6 +17,7 @@ import java.util.Arrays;
  * @author ys
  * @date 2025-10-13
  */
+@Slf4j
 @Service
 public class HrOnboardingFileServiceImpl extends ServiceImpl<HrOnboardingFileMapper, HrOnboardingFile> implements IHrOnboardingFileService
 {
@@ -66,8 +68,18 @@ public class HrOnboardingFileServiceImpl extends ServiceImpl<HrOnboardingFileMap
     @Override
     public int updateHrOnboardingFile(HrOnboardingFile hrOnboardingFile)
     {
+        if (hrOnboardingFile == null || hrOnboardingFile.getId() == null) {
+            throw new IllegalArgumentException("Invalid onboarding file");
+        }
+
+        log.info("Updating onboarding file: {}", hrOnboardingFile.getId());
         hrOnboardingFile.setUpdateTime(DateUtils.getNowDate());
-        return baseMapper.updateById(hrOnboardingFile);
+
+        int result = baseMapper.updateById(hrOnboardingFile);
+        if (result == 0) {
+            log.warn("No onboarding file found with id: {}", hrOnboardingFile.getId());
+        }
+        return result;
     }
 
     /**

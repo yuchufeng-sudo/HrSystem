@@ -39,10 +39,12 @@ public class HrJobListingsServiceImpl extends ServiceImpl<HrJobListingsMapper, H
     public HrJobListings selectHrJobListingsById(String id)
     {
         HrJobListings hrJobListings = baseMapper.selectHrJobListingsById(id);
-        HrJobListingsQuestion question = new HrJobListingsQuestion();
-        question.setJobListingsId(id);
-        List<HrJobListingsQuestion> hrJobListingsQuestions = hrJobListingsQuestionService.selectHrJobListingsQuestionList(question);
-        hrJobListings.setQuestions(hrJobListingsQuestions);
+        if (hrJobListings!=null) {
+            HrJobListingsQuestion question = new HrJobListingsQuestion();
+            question.setJobListingsId(id);
+            List<HrJobListingsQuestion> hrJobListingsQuestions = hrJobListingsQuestionService.selectHrJobListingsQuestionList(question);
+            hrJobListings.setQuestions(hrJobListingsQuestions);
+        }
         return hrJobListings;
     }
 
@@ -70,7 +72,7 @@ public class HrJobListingsServiceImpl extends ServiceImpl<HrJobListingsMapper, H
     {
         hrJobListings.setCreateTime(DateUtils.getNowDate());
         int insert = baseMapper.insert(hrJobListings);
-        if (hrJobListings.getQuestions().isEmpty()) {
+        if (!hrJobListings.getQuestions().isEmpty()) {
             batchQuestion(hrJobListings);
         }
         return insert;
@@ -105,29 +107,5 @@ public class HrJobListingsServiceImpl extends ServiceImpl<HrJobListingsMapper, H
             i++;
         }
         hrJobListingsQuestionService.saveBatch(questions);
-    }
-
-    /**
-     * Batch delete Job Listings
-     *
-     * @param ids Job Listings primary keys to be deleted
-     * @return Result
-     */
-    @Override
-    public int deleteHrJobListingsByIds(String[] ids)
-    {
-        return baseMapper.deleteBatchIds(Arrays.asList(ids));
-    }
-
-    /**
-     * Delete Job Listings information
-     *
-     * @param id Job Listings primary key
-     * @return Result
-     */
-    @Override
-    public int deleteHrJobListingsById(String id)
-    {
-        return baseMapper.deleteById(id);
     }
 }

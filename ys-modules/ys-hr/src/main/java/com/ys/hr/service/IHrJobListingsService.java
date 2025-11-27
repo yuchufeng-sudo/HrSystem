@@ -43,20 +43,4 @@ public interface IHrJobListingsService extends IService<HrJobListings>
      * @return Result
      */
     public int updateHrJobListings(HrJobListings hrJobListings);
-
-    /**
-     * Batch delete Job Listings
-     *
-     * @param ids Job Listings primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrJobListingsByIds(String[] ids);
-
-    /**
-     * Delete Job Listings information
-     *
-     * @param id Job Listings primary key
-     * @return Result
-     */
-    public int deleteHrJobListingsById(String id);
 }

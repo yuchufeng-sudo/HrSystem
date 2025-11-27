@@ -2,6 +2,8 @@ package com.ys.hr.service.impl;
 
 import java.util.List;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ys.common.security.utils.SecurityUtils;
+import com.ys.system.api.model.LoginUser;
 import org.springframework.stereotype.Service;
 import com.ys.hr.mapper.HrCareersMapper;
 import com.ys.hr.domain.HrCareers;
@@ -91,5 +93,27 @@ public class HrCareersServiceImpl extends ServiceImpl<HrCareersMapper, HrCareers
     public int deleteHrCareersById(String id)
     {
         return baseMapper.deleteById(id);
+    }
+
+    @Override
+
+
+    // In HrCareersServiceImpl
+    public HrCareers getOrCreateEnterpriseCareer(String enterpriseId) {
+        HrCareers query = new HrCareers();
+        query.setEnterpriseId(enterpriseId);
+        List<HrCareers> existing = selectHrCareersList(query);
+
+        if (existing.isEmpty()) {
+            LoginUser user = SecurityUtils.getLoginUser();
+            HrCareers newCareer = HrCareers.builder()
+                    .enterpriseId(enterpriseId)
+                    .careersName(user.getEnterpriseName())
+                    .logo(user.getEnterpriseLogo())
+                    .build();
+            insertHrCareers(newCareer);
+            return newCareer;
+        }
+        return existing.get(0);
     }
 }

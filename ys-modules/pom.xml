@@ -12,6 +12,7 @@
         <module>ys-system</module>
         <module>ys-file</module>
         <module>ys-hr</module>
+        <module>ys-sync</module>
     </modules>
 
     <artifactId>ys-modules</artifactId>

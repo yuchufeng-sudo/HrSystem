@@ -9,6 +9,8 @@ import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.*;
 import com.ys.hr.mapper.*;
 import com.ys.hr.service.IHrLeaveService;
+import com.ys.sync.domain.LeaveResponse;
+import com.ys.sync.service.ISyncLeaveService;
 import com.ys.system.api.RemoteMessageService;
 import com.ys.system.api.domain.SysMessage;
 import org.apache.commons.lang3.ObjectUtils;
@@ -59,6 +61,9 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
 
     @Resource
     private RemoteMessageService remoteMessageService;
+
+    @Resource
+    private ISyncLeaveService syncLeaveService;
 
     /**
      * Query Leave Application list
@@ -133,12 +138,14 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
                     sysMessage.setMessageStatus("0");
                     sysMessage.setMessageType(5);
                     sendMessage(byId, leavePerson, sysMessage);
+                    syncLeaveService.updateLeave(byId.getSyncId(),null,null,null,null,null,DateUtils.getNowDate(),leavePerson.getFullName(),null,null,null );
                 }else if("4".equals(hrLeave.getLeaveStatus())){
                     SysMessage sysMessage = new SysMessage();
                     sysMessage.setMessageRecipient(byId.getUserId());
                     sysMessage.setMessageStatus("0");
                     sysMessage.setMessageType(6);
                     sendMessage(byId, leavePerson, sysMessage);
+                    syncLeaveService.updateLeave(byId.getSyncId(),null,null,null,null,null,null,null,DateUtils.getNowDate(),byId.getRejectReason(),null );
                 }
             }
         }
@@ -437,6 +444,8 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
         }else{
             hrLeave.setPaidLeave("2");
         }
+        LeaveResponse leaveResponse = syncLeaveService.createLeave("940257", "", hrLeave.getStateTime(), hrLeave.getEndTime(), hrLeave.getLeaveReason());
+        hrLeave.setSyncId(leaveResponse.getId());
         int i = baseMapper.insert(hrLeave);
         if(i>0){
             HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(leader);
