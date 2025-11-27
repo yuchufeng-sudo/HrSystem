@@ -44,21 +44,5 @@ public interface IHrCareersService extends IService<HrCareers>
      */
     public int updateHrCareers(HrCareers hrCareers);
 
-    /**
-     * Batch delete Company careers information
-     *
-     * @param ids Company careers information primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrCareersByIds(String[] ids);
-
-    /**
-     * Delete Company careers information information
-     *
-     * @param id Company careers information primary key
-     * @return Result
-     */
-    public int deleteHrCareersById(String id);
-
     HrCareers getOrCreateEnterpriseCareer(String enterpriseId);
 }
