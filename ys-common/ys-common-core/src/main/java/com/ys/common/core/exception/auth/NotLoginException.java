@@ -3,7 +3,7 @@ package com.ys.common.core.exception.auth;
 /**
  * Login authentication exception that fails to pass
  * 
- * @author ruoyi
+ * @author ys
  */
 public class NotLoginException extends RuntimeException
 {

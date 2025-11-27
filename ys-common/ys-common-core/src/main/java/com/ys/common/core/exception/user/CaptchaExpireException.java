@@ -3,7 +3,7 @@ package com.ys.common.core.exception.user;
 /**
  * Verification Code Expired Exception Class
  * 
- * @author ruoyi
+ * @author ys
  */
 public class CaptchaExpireException extends UserException
 {

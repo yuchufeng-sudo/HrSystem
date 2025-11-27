@@ -3,9 +3,9 @@ package com.ys.common.security.annotation;
 import java.lang.annotation.*;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ * Internal authentication annotation
+ * @author ys
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -13,6 +13,7 @@ import java.lang.annotation.*;
 public @interface InnerAuth
 {
     /**
+     * Verify user information
      */
     boolean isUser() default false;
 }

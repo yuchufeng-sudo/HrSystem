@@ -3,7 +3,7 @@ package com.ys.common.core.exception;
 /**
  * Business Exception
  * 
- * @author ruoyi
+ * @author ys
  */
 public final class ServiceException extends RuntimeException
 {

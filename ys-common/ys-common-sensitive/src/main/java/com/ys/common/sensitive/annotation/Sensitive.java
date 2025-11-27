@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 
 /**
  *
- *
- * @author ruoyi
+ * Data Masking Annotation
+ * @author ys
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

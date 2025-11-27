@@ -3,7 +3,7 @@ package com.ys.common.core.exception.job;
 /**
  *Planning Strategy Exception
  * 
- * @author ruoyi
+ * @author ys
  */
 public class TaskException extends Exception
 {

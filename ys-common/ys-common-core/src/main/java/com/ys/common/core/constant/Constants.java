@@ -1,9 +1,9 @@
 package com.ys.common.core.constant;
 
 /**
- * General constant INFORMATION
+ * General constant Information
  *
- * @author ruoyi
+ * @author ys
  */
 public class Constants
 {

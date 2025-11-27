@@ -15,7 +15,7 @@ public interface ISysUserService
      *Query User list by Conditions with Pagination
      *
      * @param user  User Information
-     * @return  User INFORMATIONSet Information
+     * @return User INFORMATIONSet Information
      */
     public List<SysUser> selectUserList(SysUser user);
 
@@ -23,7 +23,7 @@ public interface ISysUserService
      * Query Assigned User role list by Conditions with Pagination
      *
      * @param user  User Information
-     * @return  User INFORMATIONSet Information
+     * @return User INFORMATIONSet Information
      */
     public List<SysUser> selectAllocatedList(SysUser user);
 
@@ -31,7 +31,7 @@ public interface ISysUserService
      * Query Unassigned User role list by Conditions with Pagination
      *
      * @param user  User Information
-     * @return  User INFORMATIONSet Information
+     * @return User INFORMATIONSet Information
      */
     public List<SysUser> selectUnallocatedList(SysUser user);
 

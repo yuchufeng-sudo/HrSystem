@@ -55,7 +55,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
      * OBTAIN menu Data Permission
      *
      * @param userId User Id
-     * @return  menu Permission Information
+     * @return menu Permission Information
      */
     @Override
     public Set<String> getMenuPermission(SysUser user)

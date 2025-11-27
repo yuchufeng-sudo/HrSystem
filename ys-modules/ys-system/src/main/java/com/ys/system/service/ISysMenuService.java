@@ -18,7 +18,7 @@ public interface ISysMenuService
      * According to User Query System menu   list
      *
      * @param userId User ID
-     * @return  menu   list
+     * @return menu   list
      */
     public List<SysMenu> selectMenuList(Long userId);
 
@@ -27,7 +27,7 @@ public interface ISysMenuService
      *
      * @param menu  menu  Information
      * @param userId User ID
-     * @return  menu   list
+     * @return menu   list
      */
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId);
 
@@ -51,7 +51,7 @@ public interface ISysMenuService
      * According to the user ID, query the menu tree information.
      *
      * @param userId User ID
-     * @return  menu   list
+     * @return menu   list
      */
     public List<SysMenu> selectMenuTreeByUserId(Long userId);
 
@@ -83,7 +83,7 @@ public interface ISysMenuService
      * Construct the DROP-DOWN TREE STRUCTURE required for the front end.
      *
      * @param menus  menu   list
-     * @return  DROP-DOWN TREE STRUCTURE   list
+     * @return DROP-DOWN TREE STRUCTURE   list
      */
     public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus);
 
@@ -91,7 +91,7 @@ public interface ISysMenuService
      * According to  menu IDQUERY Information
      *
      * @param menuId  menu ID
-     * @return  menu  Information
+     * @return menu  Information
      */
     public SysMenu selectMenuById(Long menuId);
 

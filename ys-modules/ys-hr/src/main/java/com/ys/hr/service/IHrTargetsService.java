@@ -22,6 +22,7 @@ public interface IHrTargetsService extends IService<HrTargets>
      * @return Main table storing all target information
      */
     public HrTargets selectHrTargetsById(Long id);
+
     public HrTargets selectHrTargetsInfo(Long id);
 
     @Transactional

@@ -68,7 +68,7 @@ public class SysEnterpriseServiceImpl extends ServiceImpl<SysEnterpriseMapper, S
      *
      *
      * @param sysEnterprise  Enterprise management
-     * @return  Enterprise management
+     * @return Enterprise management
      */
     @Override
     public List<SysEnterprise> selectSysEnterpriseList(SysEnterprise sysEnterprise)

@@ -22,7 +22,7 @@ public class HrQuotaServiceImpl extends ServiceImpl<HrQuotaMapper, HrQuota> impl
 {
 
     @Autowired
-    private TbCandidateInfoServiceImpl candidateInfoService;
+    private HrCandidateInfoServiceImpl candidateInfoService;
 
     /**
      * Query Personnel Quota Management
@@ -50,7 +50,7 @@ public class HrQuotaServiceImpl extends ServiceImpl<HrQuotaMapper, HrQuota> impl
             HrCandidateInfo info = new HrCandidateInfo();
             info.setJobInformation(temp.getPostId());
             info.setCandidateStatus("3");
-            List<HrCandidateInfo> hrCandidateInfos = candidateInfoService.selectTbCandidateInfoList(info);
+            List<HrCandidateInfo> hrCandidateInfos = candidateInfoService.selectHrCandidateInfoList(info);
             temp.setQuotaNumberExist((long) hrCandidateInfos.size());
         });
         return hrQuotas;

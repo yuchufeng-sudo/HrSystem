@@ -17,7 +17,7 @@ import java.util.Map;
  * @author ys
  * @date 2025-05-20
  */
-public interface ITbCandidateInfoService extends IService<HrCandidateInfo>
+public interface IHrCandidateInfoService extends IService<HrCandidateInfo>
 {
 
     /**
@@ -26,7 +26,7 @@ public interface ITbCandidateInfoService extends IService<HrCandidateInfo>
      * @param hrCandidateInfo  Candidate Information
      * @return Candidate INFORMATIONSet
      */
-    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo hrCandidateInfo);
+    public List<HrCandidateInfo> selectHrCandidateInfoList(HrCandidateInfo hrCandidateInfo);
 
     Map<String,Object> candidateCount(HrCandidateInfo hrCandidateInfo);
 

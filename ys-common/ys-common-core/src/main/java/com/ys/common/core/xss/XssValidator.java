@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public class XssValidator implements ConstraintValidator<Xss, String>
 {

@@ -2,8 +2,8 @@ package com.ys.common.core.constant;
 
 /**
  * Constant for Token's Key
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class TokenConstants
 {
@@ -13,7 +13,7 @@ public class TokenConstants
     public static final String AUTHENTICATION = "Authorization";
 
     /**
-     * Token Prefix 
+     * Token Prefix
      */
     public static final String PREFIX = "Bearer ";
 

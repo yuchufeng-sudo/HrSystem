@@ -2,8 +2,8 @@ package com.ys.common.core.exception;
 
 /**
  * Global Exception
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class GlobalException extends RuntimeException
 {

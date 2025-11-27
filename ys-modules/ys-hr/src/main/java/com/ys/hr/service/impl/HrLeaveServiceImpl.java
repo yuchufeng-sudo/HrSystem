@@ -182,7 +182,7 @@ public class HrLeaveServiceImpl extends ServiceImpl<HrLeaveMapper, HrLeave> impl
         Long LastMonthApproved = (Long) LastMonthMap.get("approved");
         Long LastMonthPending = (Long) LastMonthMap.get("pending");
         Long LastMonthRefuse = (Long) LastMonthMap.get("refuse");
-        // OBTAIN this month's data
+        // Obtain this month's data
         YearMonth currentYearMonth = YearMonth.from(today);
         LocalDate firstDayOfMonth = currentYearMonth.atDay(1);
         LocalDate lastDayOfMonth = currentYearMonth.atEndOfMonth();

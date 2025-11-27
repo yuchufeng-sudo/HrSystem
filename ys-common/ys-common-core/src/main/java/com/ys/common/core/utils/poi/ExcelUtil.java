@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public class ExcelUtil<T>
 {
@@ -76,17 +76,17 @@ public class ExcelUtil<T>
     private Sheet sheet;
 
     /**
-     * Style LIST
+     * Style list
      */
     private Map<String, CellStyle> styles;
 
     /**
-     * Import-EXPORT Data LIST
+     * Import-Export Data list
      */
     private List<T> list;
 
     /**
-     * Annotation LIST
+     * Annotation list
      */
     private List<Object[]> fields;
 
@@ -445,7 +445,7 @@ public class ExcelUtil<T>
     {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
-        this.init(list, sheetName, title, Type.EXPORT);
+        this.init(list, sheetName, title, Type.Export);
         exportExcel(response);
     }
 
@@ -489,7 +489,7 @@ public class ExcelUtil<T>
         }
         catch (Exception e)
         {
-            log.error("EXPORT Excel Exception{}", e.getMessage());
+            log.error("Export Excel Exception{}", e.getMessage());
         }
         finally
         {
@@ -529,7 +529,7 @@ public class ExcelUtil<T>
                     this.createHeadCell(excel, row, column++);
                 }
             }
-            if (Type.EXPORT.equals(type))
+            if (Type.Export.equals(type))
             {
                 fillExcelData(index);
                 addStatisticsRow();
@@ -611,7 +611,7 @@ public class ExcelUtil<T>
      *
      *
      * @param wb Workbook Object
-     * @return Style LIST
+     * @return Style list
      */
     private Map<String, CellStyle> createStyles(Workbook wb)
     {
@@ -666,7 +666,7 @@ public class ExcelUtil<T>
      *
      *
      * @param wb Workbook Object
-     * @return Custom Style LIST
+     * @return Custom Style list
      */
     private Map<String, CellStyle> annotationHeaderStyles(Workbook wb, Map<String, CellStyle> styles)
     {
@@ -702,7 +702,7 @@ public class ExcelUtil<T>
      *
      *
      * @param wb Workbook Object
-     * @return Custom Style LIST
+     * @return Custom Style list
      */
     private Map<String, CellStyle> annotationDataStyles(Workbook wb)
     {
@@ -733,7 +733,7 @@ public class ExcelUtil<T>
     /**
      *
      *
-     * @param styles Custom Style LIST
+     * @param styles Custom Style list
      * @param field
      * @param excel
      */
@@ -797,7 +797,7 @@ public class ExcelUtil<T>
      *
      * @param value
      * @param attr
-     * @param cell INFORMATION
+     * @param cell Information
      */
     public void setCellVo(Object value, Excel attr, Cell cell)
     {

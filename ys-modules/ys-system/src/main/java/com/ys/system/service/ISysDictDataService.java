@@ -15,7 +15,7 @@ public interface ISysDictDataService
      * According to the conditions for pagination, Query Dictionary Data.
      *
      * @param dictData  Dictionary Data  Information
-     * @return  Dictionary Data Set Information
+     * @return Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataList(SysDictData dictData);
 
@@ -32,7 +32,7 @@ public interface ISysDictDataService
      * According to  Dictionary Data IDQUERY Information
      *
      * @param dictCode  Dictionary Data ID
-     * @return  Dictionary Data
+     * @return Dictionary Data
      */
     public SysDictData selectDictDataById(Long dictCode);
 

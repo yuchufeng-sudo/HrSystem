@@ -5,14 +5,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * Excel Data Format Processing Adapter
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public interface ExcelHandlerAdapter
 {
     /**
      * Formatting
-     * 
+     *
      * @param value Cell data value
      * @param The args parameter of the Excel annotation is an array.
      * @param cell The cell object.

@@ -1,25 +1,32 @@
 package com.ys.common.security.utils;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import com.ys.common.core.constant.CacheConstants;
+import com.ys.common.redis.service.RedisService;
+import com.ys.system.api.domain.SysUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ys.common.core.constant.SecurityConstants;
 import com.ys.common.core.constant.TokenConstants;
 import com.ys.common.core.context.SecurityContextHolder;
 import com.ys.common.core.utils.ServletUtils;
 import com.ys.common.core.utils.StringUtils;
-import com.ys.system.api.domain.SysUser;
 import com.ys.system.api.model.LoginUser;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
- * PermissionOBTAIN
+ * Security Utility Class
+ * Provides utility methods for retrieving user information and handling authentication
  *
  * @author ruoyi
  */
 public class SecurityUtils
 {
     /**
-     * OBTAIN USER ID
+     * Get user ID
+     *
+     * @return User ID
      */
     public static Long getUserId()
     {
@@ -27,7 +34,9 @@ public class SecurityUtils
     }
 
     /**
-     * OBTAIN USER Name
+     * Get username
+     *
+     * @return Username
      */
     public static String getUsername()
     {
@@ -35,7 +44,9 @@ public class SecurityUtils
     }
 
     /**
-     * OBTAIN USER key
+     * Get user key
+     *
+     * @return User key
      */
     public static String getUserKey()
     {
@@ -43,7 +54,9 @@ public class SecurityUtils
     }
 
     /**
-     * OBTAIN Login  USER INFORMATION
+     * Get logged-in user information
+     *
+     * @return Login user object
      */
     public static LoginUser getLoginUser()
     {
@@ -51,7 +64,9 @@ public class SecurityUtils
     }
 
     /**
-     * OBTAIN  Requesttoken
+     * Get request token
+     *
+     * @return Token string
      */
     public static String getToken()
     {
@@ -59,21 +74,27 @@ public class SecurityUtils
     }
 
     /**
-     * According to requestOBTAIN  Requesttoken
+     * Get request token from HTTP request
+     *
+     * @param request HTTP request
+     * @return Token string
      */
     public static String getToken(HttpServletRequest request)
     {
-
+        // Get token identifier from header
         String token = request.getHeader(TokenConstants.AUTHENTICATION);
         return replaceTokenPrefix(token);
     }
 
     /**
+     * Remove token prefix
      *
+     * @param token Token with possible prefix
+     * @return Token without prefix
      */
     public static String replaceTokenPrefix(String token)
     {
-
+        // If frontend sets token prefix, remove the prefix
         if (StringUtils.isNotEmpty(token) && token.startsWith(TokenConstants.PREFIX))
         {
             token = token.replaceFirst(TokenConstants.PREFIX, "");
@@ -82,10 +103,10 @@ public class SecurityUtils
     }
 
     /**
+     * Check if user is administrator
      *
-     *
-     * @param userId USER ID
-     * @return Result
+     * @param userId User ID
+     * @return true if administrator, false otherwise
      */
     public static boolean isAdmin(Long userId)
     {
@@ -93,10 +114,10 @@ public class SecurityUtils
     }
 
     /**
-     * GenerateBCryptPasswordEncoderPassword
+     * Generate BCrypt encrypted password
      *
-     * @param password Password
-     * @return  Character string
+     * @param password Plain text password
+     * @return Encrypted password string
      */
     public static String encryptPassword(String password)
     {
@@ -105,11 +126,11 @@ public class SecurityUtils
     }
 
     /**
+     * Check if password matches
      *
-     *
-     * @param rawPassword
-     * @param encodedPassword
-     * @return Result
+     * @param rawPassword Plain text password
+     * @param encodedPassword Encrypted password
+     * @return true if passwords match, false otherwise
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword)
     {
@@ -118,16 +139,20 @@ public class SecurityUtils
     }
 
     /**
+     * Set user's associated enterprise ID
      *
-     * */
+     * @param enterpriseId Enterprise ID to set
+     */
     public static void setUserEnterpriseId(String enterpriseId)
     {
         SecurityContextHolder.setEnterpriseId(enterpriseId);
     }
 
     /**
+     * Get user's associated enterprise ID
      *
-     * */
+     * @return Enterprise ID
+     */
     public static String getUserEnterpriseId()
     {
         SysUser user = getLoginUser().getSysUser();
@@ -138,6 +163,11 @@ public class SecurityUtils
         }
     }
 
+    /**
+     * Get user type
+     *
+     * @return User type
+     */
     public static String getUserType() {
         return getLoginUser().getSysUser().getUserType();
     }

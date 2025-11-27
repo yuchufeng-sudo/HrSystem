@@ -16,7 +16,7 @@ import java.net.URLConnection;
 /**
  * General HTTP sending method
  *
- * @author ruoyi
+ * @author ys
  */
 public class HttpUtils {
     private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);

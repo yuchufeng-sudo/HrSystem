@@ -1,85 +1,50 @@
 package com.ys.common.core.web.page;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * 
- * 
- * @author ruoyi
+ * @author ys
  */
+
+@Data
+@AllArgsConstructor
 public class TableDataInfo implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-   
+
     private long total;
 
 
     private List<?> rows;
 
-   
+
     private int code;
 
     /** Message Content  */
     private String msg;
 
     /**
-     * 
+     *
      */
     public TableDataInfo()
     {
     }
 
     /**
-     * 
-     * 
-     * @param list   
-     * @param total 
+     *
+     *
+     * @param list
+     * @param total
      */
     public TableDataInfo(List<?> list, int total)
     {
         this.rows = list;
         this.total = total;
-    }
-
-    public long getTotal()
-    {
-        return total;
-    }
-
-    public void setTotal(long total)
-    {
-        this.total = total;
-    }
-
-    public List<?> getRows()
-    {
-        return rows;
-    }
-
-    public void setRows(List<?> rows)
-    {
-        this.rows = rows;
-    }
-
-    public int getCode()
-    {
-        return code;
-    }
-
-    public void setCode(int code)
-    {
-        this.code = code;
-    }
-
-    public String getMsg()
-    {
-        return msg;
-    }
-
-    public void setMsg(String msg)
-    {
-        this.msg = msg;
     }
 }

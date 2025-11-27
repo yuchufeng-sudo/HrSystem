@@ -6,7 +6,7 @@ import com.ys.common.core.utils.StringUtils;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author ruoyi
+ * @author ys
  */
 public class Seq
 {

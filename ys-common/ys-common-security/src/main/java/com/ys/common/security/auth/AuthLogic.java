@@ -1,5 +1,9 @@
 package com.ys.common.security.auth;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import org.springframework.util.PatternMatchUtils;
 import com.ys.common.core.context.SecurityContextHolder;
 import com.ys.common.core.exception.auth.NotLoginException;
 import com.ys.common.core.exception.auth.NotPermissionException;
@@ -13,29 +17,25 @@ import com.ys.common.security.annotation.RequiresRoles;
 import com.ys.common.security.service.TokenService;
 import com.ys.common.security.utils.SecurityUtils;
 import com.ys.system.api.model.LoginUser;
-import org.springframework.util.PatternMatchUtils;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * Token Permission
+ * Token Permission Validation Logic Implementation
+ * Core logic for authentication and authorization operations
  *
  * @author ruoyi
  */
 public class AuthLogic
 {
-    /**  all Permission */
+    /** All permissions identifier */
     private static final String ALL_PERMISSION = "*:*:*";
 
-
+    /** Administrator role permission identifier */
     private static final String SUPER_ADMIN = "admin";
 
     public TokenService tokenService = SpringUtils.getBean(TokenService.class);
 
     /**
-     * Logout
+     * Session logout
      */
     public void logout()
     {
@@ -48,7 +48,9 @@ public class AuthLogic
     }
 
     /**
-     * Logout
+     * Session logout by specified token
+     *
+     * @param token Token to logout
      */
     public void logoutByToken(String token)
     {
@@ -56,7 +58,7 @@ public class AuthLogic
     }
 
     /**
-     *
+     * Verify if user is logged in, throws exception if not logged in
      */
     public void checkLogin()
     {
@@ -64,16 +66,16 @@ public class AuthLogic
     }
 
     /**
+     * Get current user cache information, throws exception if not logged in
      *
-     *
-     * @return
+     * @return User cache information
      */
     public LoginUser getLoginUser()
     {
         String token = SecurityUtils.getToken();
         if (token == null)
         {
-            throw new NotLoginException("No token provided");
+            throw new NotLoginException("Token not provided");
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
         if (loginUser == null)
@@ -84,10 +86,10 @@ public class AuthLogic
     }
 
     /**
+     * Get current user cache information by token, throws exception if not logged in
      *
-     *
-     * @param token
-     * @return
+     * @param token Authentication token from frontend
+     * @return User cache information
      */
     public LoginUser getLoginUser(String token)
     {
@@ -95,9 +97,9 @@ public class AuthLogic
     }
 
     /**
+     * Validate current user's validity period, automatically refreshes cache if less than 120 minutes remaining
      *
-     *
-     * @param loginUser
+     * @param loginUser Current user information
      */
     public void verifyLoginUserExpire(LoginUser loginUser)
     {
@@ -105,10 +107,10 @@ public class AuthLogic
     }
 
     /**
+     * Verify if user has a specific permission
      *
-     *
-     * @param permission Permission Character string
-     * @return
+     * @param permission Permission string
+     * @return Whether user has the permission
      */
     public boolean hasPermi(String permission)
     {
@@ -116,10 +118,9 @@ public class AuthLogic
     }
 
     /**
+     * Verify if user has a specific permission, throws NotPermissionException if validation fails
      *
-     *
-     * @param permission Permission Character string
-     * @return
+     * @param permission Permission string
      */
     public void checkPermi(String permission)
     {
@@ -130,9 +131,9 @@ public class AuthLogic
     }
 
     /**
+     * Authorize based on annotation (@RequiresPermissions), throws NotPermissionException if validation fails
      *
-     *
-     * @param requiresPermissions
+     * @param requiresPermissions Annotation object
      */
     public void checkPermi(RequiresPermissions requiresPermissions)
     {
@@ -148,9 +149,9 @@ public class AuthLogic
     }
 
     /**
+     * Verify if user has all specified permissions (AND logic)
      *
-     *
-     * @param permissions Permission  LIST
+     * @param permissions Permission list
      */
     public void checkPermiAnd(String... permissions)
     {
@@ -165,9 +166,9 @@ public class AuthLogic
     }
 
     /**
+     * Verify if user has any of the specified permissions (OR logic)
      *
-     *
-     * @param permissions
+     * @param permissions Permission code array
      */
     public void checkPermiOr(String... permissions)
     {
@@ -186,10 +187,10 @@ public class AuthLogic
     }
 
     /**
+     * Check if user has a specific role
      *
-     *
-     * @param role
-     * @return
+     * @param role Role identifier
+     * @return Whether user has the role
      */
     public boolean hasRole(String role)
     {
@@ -197,9 +198,9 @@ public class AuthLogic
     }
 
     /**
+     * Check if user has a specific role, throws NotRoleException if validation fails
      *
-     *
-     * @param role
+     * @param role Role identifier
      */
     public void checkRole(String role)
     {
@@ -210,9 +211,9 @@ public class AuthLogic
     }
 
     /**
+     * Authorize based on annotation (@RequiresRoles)
      *
-     *
-     * @param requiresRoles
+     * @param requiresRoles Annotation object
      */
     public void checkRole(RequiresRoles requiresRoles)
     {
@@ -227,9 +228,9 @@ public class AuthLogic
     }
 
     /**
+     * Verify if user has all specified roles (AND logic)
      *
-     *
-     * @param roles
+     * @param roles Role identifier array
      */
     public void checkRoleAnd(String... roles)
     {
@@ -244,9 +245,9 @@ public class AuthLogic
     }
 
     /**
+     * Verify if user has any of the specified roles (OR logic)
      *
-     *
-     * @param roles
+     * @param roles Role identifier array
      */
     public void checkRoleOr(String... roles)
     {
@@ -265,9 +266,9 @@ public class AuthLogic
     }
 
     /**
+     * Authorize based on annotation (@RequiresLogin)
      *
-     *
-     * @param at
+     * @param at Annotation object
      */
     public void checkByAnnotation(RequiresLogin at)
     {
@@ -275,9 +276,9 @@ public class AuthLogic
     }
 
     /**
+     * Authorize based on annotation (@RequiresRoles)
      *
-     *
-     * @param at
+     * @param at Annotation object
      */
     public void checkByAnnotation(RequiresRoles at)
     {
@@ -293,9 +294,9 @@ public class AuthLogic
     }
 
     /**
+     * Authorize based on annotation (@RequiresPermissions)
      *
-     *
-     * @param at
+     * @param at Annotation object
      */
     public void checkByAnnotation(RequiresPermissions at)
     {
@@ -311,9 +312,9 @@ public class AuthLogic
     }
 
     /**
+     * Get current account's role list
      *
-     *
-     * @return
+     * @return Role list
      */
     public Set<String> getRoleList()
     {
@@ -329,9 +330,9 @@ public class AuthLogic
     }
 
     /**
+     * Get current account's permission list
      *
-     *
-     * @return
+     * @return Permission list
      */
     public Set<String> getPermiList()
     {
@@ -347,11 +348,11 @@ public class AuthLogic
     }
 
     /**
+     * Check if permission is contained
      *
-     *
-     * @param authorities Permission  LIST
-     * @param permission Permission Character string
-     * @return
+     * @param authorities Permission list
+     * @param permission Permission string
+     * @return Whether user has the permission
      */
     public boolean hasPermi(Collection<String> authorities, String permission)
     {
@@ -360,11 +361,11 @@ public class AuthLogic
     }
 
     /**
+     * Check if role is contained
      *
-     *
-     * @param roles ROLE  LIST
-     * @param role ROLE
-     * @return
+     * @param roles Role list
+     * @param role Role identifier
+     * @return Whether user has the role permission
      */
     public boolean hasRole(Collection<String> roles, String role)
     {

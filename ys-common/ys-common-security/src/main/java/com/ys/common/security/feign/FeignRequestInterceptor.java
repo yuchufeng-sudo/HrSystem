@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * feign  Request
+ * feign  request interceptor
  *
- * @author ruoyi
+ * @author ys
  */
 @Component
 public class FeignRequestInterceptor implements RequestInterceptor
@@ -26,7 +26,7 @@ public class FeignRequestInterceptor implements RequestInterceptor
         if (StringUtils.isNotNull(httpServletRequest))
         {
             Map<String, String> headers = ServletUtils.getHeaders(httpServletRequest);
-            //
+            // Transmitting user information request headers to prevent loss
             String userId = headers.get(SecurityConstants.DETAILS_USER_ID);
             if (StringUtils.isNotEmpty(userId))
             {
@@ -53,7 +53,7 @@ public class FeignRequestInterceptor implements RequestInterceptor
                 requestTemplate.header(SecurityConstants.AUTHORIZATION_HEADER, authentication);
             }
 
-            //
+            // Configure client IP
             requestTemplate.header("X-Forwarded-For", IpUtils.getIpAddr());
         }
     }

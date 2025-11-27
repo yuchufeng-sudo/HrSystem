@@ -12,7 +12,7 @@ import com.ys.hr.domain.vo.AnnualPayrollStatisticsVo;
 import com.ys.hr.domain.vo.BirthdayReportVo;
 import com.ys.hr.domain.vo.EmergencyContactsReportVo;
 import com.ys.hr.service.IHrEmployeesService;
-import com.ys.hr.service.ITbCandidateInfoService;
+import com.ys.hr.service.IHrCandidateInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

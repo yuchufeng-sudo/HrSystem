@@ -1,13 +1,13 @@
 package com.ys.common.core.enums;
 
 /**
- * USER Status
- * 
- * @author ruoyi
+ * User Status
+ *
+ * @author ys
  */
 public enum UserStatus
 {
-    OK("0", "Normal "), DISABLE("1", "Disable"), DELETED("2", "DELETE");
+    OK("0", "Normal "), DISABLE("1", "Disable"), DELETED("2", "Delete");
 
     private final String code;
     private final String info;

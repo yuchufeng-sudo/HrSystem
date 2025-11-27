@@ -3,9 +3,9 @@ package com.ys.common.core.exception.file;
 import com.ys.common.core.exception.base.BaseException;
 
 /**
- * File INFORMATION Exception Class
- * 
- * @author ruoyi
+ * File Information Exception Class
+ *
+ * @author ys
  */
 public class FileException extends BaseException
 {

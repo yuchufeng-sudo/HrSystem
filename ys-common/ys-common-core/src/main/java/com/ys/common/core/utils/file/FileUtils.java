@@ -16,7 +16,7 @@ import com.ys.common.core.utils.StringUtils;
 /**
  * 文件处理工具类
  *
- * @author ruoyi
+ * @author ys
  */
 public class FileUtils
 {
@@ -139,7 +139,7 @@ public class FileUtils
      */
     public static String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException
     {
-        final String agent = request.getHeader("USER-AGENT");
+        final String agent = request.getHeader("User-AGENT");
         String filename = fileName;
         if (agent.contains("MSIE"))
         {

@@ -6,9 +6,9 @@ import com.ys.common.log.enums.OperatorType;
 import java.lang.annotation.*;
 
 /**
- * Custom OPERATION LOG Record Annotation
+ * Custom Operation Log Record Annotation
  *
- * @author ruoyi
+ * @author ys
  *
  */
 @Target({ ElementType.PARAMETER, ElementType.METHOD })

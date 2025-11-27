@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ * Login authentication: This method can only be accessed after logging in
+ * @author ys
  *
  */
 @Retention(RetentionPolicy.RUNTIME)

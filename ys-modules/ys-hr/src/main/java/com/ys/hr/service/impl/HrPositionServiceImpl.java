@@ -10,7 +10,7 @@ import com.ys.hr.enums.CandidateStatus;
 import com.ys.hr.mapper.HrPositionMapper;
 import com.ys.hr.service.IHrPositionService;
 import com.ys.hr.service.IHrQuotaService;
-import com.ys.hr.service.ITbCandidateInfoService;
+import com.ys.hr.service.IHrCandidateInfoService;
 import com.ys.hr.service.PositionValidationService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class HrPositionServiceImpl extends ServiceImpl<HrPositionMapper, HrPosit
     private IHrQuotaService hrQuotaService;  // ✓ Fixed: Inject interface, not implementation
 
     @Autowired
-    private ITbCandidateInfoService candidateInfoService;
+    private IHrCandidateInfoService candidateInfoService;
 
     @Autowired
     private PositionValidationService validationService;
@@ -269,7 +269,7 @@ public class HrPositionServiceImpl extends ServiceImpl<HrPositionMapper, HrPosit
     /**
      * Count number of shortlisted candidates for a position
      *
-     * Only counts candidates with SHORTLISTED status.
+     * Only counts candidates with HIRED status.
      *
      * @param positionId Position ID
      * @return Number of shortlisted candidates
@@ -277,10 +277,10 @@ public class HrPositionServiceImpl extends ServiceImpl<HrPositionMapper, HrPosit
     private long countShortlistedCandidates(Long positionId) {
         HrCandidateInfo queryParam = new HrCandidateInfo();
         queryParam.setJobInformation(positionId);
-        queryParam.setCandidateStatus(CandidateStatus.SHORTLISTED.getCode());
+        queryParam.setCandidateStatus(CandidateStatus.HIRED.getCode());
 
         List<HrCandidateInfo> candidates =
-                candidateInfoService.selectTbCandidateInfoList(queryParam);
+                candidateInfoService.selectHrCandidateInfoList(queryParam);
 
         return candidates.size();
     }

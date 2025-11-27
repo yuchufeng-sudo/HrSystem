@@ -6,12 +6,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  *
- *
- * @author ruoyi
+ * Interceptor configuration
+ * @author ys
  */
 public class WebMvcConfig implements WebMvcConfigurer
 {
-
+    /** No need to intercept the address */
     public static final String[] excludeUrls = { "/login", "/logout", "/refresh" };
 
     @Override
@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer
     }
 
     /**
-     *
+     * Custom request header interceptor
      */
     public HeaderInterceptor getHeaderInterceptor()
     {

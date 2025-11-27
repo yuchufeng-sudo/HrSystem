@@ -1,5 +1,7 @@
 package com.ys.common.security.utils;
 
+import java.util.Collection;
+import java.util.List;
 import com.alibaba.fastjson2.JSONArray;
 import com.ys.common.core.constant.CacheConstants;
 import com.ys.common.core.utils.SpringUtils;
@@ -7,21 +9,19 @@ import com.ys.common.core.utils.StringUtils;
 import com.ys.common.redis.service.RedisService;
 import com.ys.system.api.domain.SysDictData;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
- *
+ * Dictionary Utility Class
+ * Manages dictionary data caching operations
  *
  * @author ruoyi
  */
 public class DictUtils
 {
     /**
+     * Set dictionary cache
      *
-     *
-     * @param key Parameters key
-     * @param dictDatas  DICTIONARY DATA   LIST
+     * @param key Dictionary key
+     * @param dictDatas Dictionary data list
      */
     public static void setDictCache(String key, List<SysDictData> dictDatas)
     {
@@ -29,10 +29,10 @@ public class DictUtils
     }
 
     /**
+     * Get dictionary cache
      *
-     *
-     * @param key Parameters key
-     * @return dictDatas  DICTIONARY DATA   LIST
+     * @param key Dictionary key
+     * @return Dictionary data list
      */
     public static List<SysDictData> getDictCache(String key)
     {
@@ -45,9 +45,9 @@ public class DictUtils
     }
 
     /**
+     * Remove specified dictionary cache
      *
-     *
-     * @param key Dictionary
+     * @param key Dictionary key
      */
     public static void removeDictCache(String key)
     {
@@ -55,7 +55,7 @@ public class DictUtils
     }
 
     /**
-     * CLEAR Dictionary
+     * Clear all dictionary cache
      */
     public static void clearDictCache()
     {
@@ -64,10 +64,10 @@ public class DictUtils
     }
 
     /**
-     * Set cache key
+     * Generate cache key for dictionary
      *
-     * @param configKey Parameters key
-     * @return Cache key
+     * @param configKey Dictionary key
+     * @return Full cache key
      */
     public static String getCacheKey(String configKey)
     {

@@ -1,9 +1,9 @@
 package com.ys.common.core.constant;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
 public class HttpStatus
 {
@@ -43,7 +43,7 @@ public class HttpStatus
     public static final int NOT_MODIFIED = 304;
 
     /**
-     * Parameters LIST error (missing, format mismatch)
+     * Parameters list error (missing, format mismatch)
      */
     public static final int BAD_REQUEST = 400;
 
@@ -88,7 +88,7 @@ public class HttpStatus
     public static final int NOT_IMPLEMENTED = 501;
 
     /**
-     *  System warning message 
+     *  System warning message
      */
     public static final int WARN = 601;
 }

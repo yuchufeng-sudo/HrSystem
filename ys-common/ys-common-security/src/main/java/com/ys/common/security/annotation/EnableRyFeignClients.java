@@ -5,8 +5,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import java.lang.annotation.*;
 
 /**
- *
- * @author ruoyi
+ * Customize feature annotations
+ * Add basePackages path
+ * @author ys
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

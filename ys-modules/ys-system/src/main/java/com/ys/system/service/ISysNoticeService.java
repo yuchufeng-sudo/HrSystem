@@ -16,7 +16,7 @@ public interface ISysNoticeService extends IService<SysNotice>
      * Query Announcement Information
      *
      * @param noticeId  Announcement ID
-     * @return  Announcement Information
+     * @return Announcement Information
      */
     public SysNotice selectNoticeById(Long noticeId);
 
@@ -24,7 +24,7 @@ public interface ISysNoticeService extends IService<SysNotice>
      * Query Announcement  list
      *
      * @param notice  Announcement Information
-     * @return  Announcement Set
+     * @return Announcement Set
      */
     public List<SysNotice> selectNoticeList(SysNotice notice);
 

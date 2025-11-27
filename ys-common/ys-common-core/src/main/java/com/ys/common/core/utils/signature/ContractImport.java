@@ -76,19 +76,19 @@ public class ContractImport extends BaseEntity {
     private String perform;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "Contract Start TIME ", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "Contract Start time ", width = 30, dateFormat = "yyyy-MM-dd")
     private String contractstarttimestr;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "Contract End TIME ", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "Contract End time ", width = 30, dateFormat = "yyyy-MM-dd")
     private String contractendtimestr;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "Probation Period Start TIME ", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "Probation Period Start time ", width = 30, dateFormat = "yyyy-MM-dd")
     private String trystartdatestring;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "Probation Period End TIME ", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "Probation Period End time ", width = 30, dateFormat = "yyyy-MM-dd")
     private String tryenddatestring;
 
     @Excel(name = " POSITION ")
@@ -100,10 +100,10 @@ public class ContractImport extends BaseEntity {
     @Excel(name = "Work Mode")
     private String workway;
 
-    @Excel(name = " SALARY ")
+    @Excel(name = " salary ")
     private BigDecimal salary;
 
-    @Excel(name = "Probation Period SALARY")
+    @Excel(name = "Probation Period salary")
     private BigDecimal trysalary;
 
     @Excel(name = "Payday")

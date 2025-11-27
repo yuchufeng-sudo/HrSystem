@@ -62,7 +62,7 @@ public class OssUtils {
      * @return execution result
      */
     public static File multipartFileToFile(String outFilePath, MultipartFile multiFile) {
-        // OBTAIN file name
+        // Obtain file name
         if (null == multiFile) {
             return null;
         }

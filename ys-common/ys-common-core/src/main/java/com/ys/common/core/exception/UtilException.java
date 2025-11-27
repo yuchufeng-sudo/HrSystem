@@ -2,8 +2,8 @@ package com.ys.common.core.exception;
 
 /**
  * Utility Class Exception
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class UtilException extends RuntimeException
 {

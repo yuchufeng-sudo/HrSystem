@@ -11,6 +11,7 @@ import com.ys.hr.domain.HrEmployees;
 import com.ys.hr.domain.HrTargetEmployee;
 import com.ys.hr.domain.HrTargets;
 import com.ys.hr.mapper.HrEmployeesMapper;
+import com.ys.hr.mapper.HrTargetsMapper;
 import com.ys.system.api.RemoteMessageService;
 import com.ys.system.api.domain.SysMessage;
 import com.ys.system.api.model.LoginUser;
@@ -41,7 +42,7 @@ public class HrTargetTasksServiceImpl extends ServiceImpl<HrTargetTasksMapper, H
     private RemoteMessageService remoteMessageService;
 
     @Resource
-    private HrTargetsServiceImpl hrTargetsService;
+    private HrTargetsMapper hrTargetsMapper;
 
     /**
      * Query Targets Manages
@@ -80,7 +81,7 @@ public class HrTargetTasksServiceImpl extends ServiceImpl<HrTargetTasksMapper, H
         hrTargetTasks.setCreateBy(SecurityUtils.getUsername());
         hrTargetTasks.setCreateTime(DateUtils.getNowDate());
         int insert = baseMapper.insert(hrTargetTasks);
-        HrTargets hrTargets = hrTargetsService.selectHrTargetsById(hrTargetTasks.getTargetId());
+        HrTargets hrTargets = hrTargetsMapper.selectHrTargetsById(hrTargetTasks.getTargetId());
         if (insert > 0 && ObjectUtils.isNotEmpty(hrTargets)) {
             HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesByUserId(SecurityUtils.getUserId());
             SysMessage sysMessage = new SysMessage();

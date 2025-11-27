@@ -1,9 +1,9 @@
 package com.ys.common.core.exception.user;
 
 /**
- * USER Password Incorrect or Non - compliant Exception Class
+ * User Password Incorrect or Non - compliant Exception Class
  * 
- * @author ruoyi
+ * @author ys
  */
 public class UserPasswordNotMatchException extends UserException
 {

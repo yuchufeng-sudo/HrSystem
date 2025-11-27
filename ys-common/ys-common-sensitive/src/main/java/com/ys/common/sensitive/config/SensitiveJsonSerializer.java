@@ -16,8 +16,8 @@ import java.util.Objects;
 
 /**
  *
- *
- * @author ruoyi
+ * Data desensitization serialization filtering
+ * @author ys
  */
 public class SensitiveJsonSerializer extends JsonSerializer<String> implements ContextualSerializer
 {
@@ -50,14 +50,14 @@ public class SensitiveJsonSerializer extends JsonSerializer<String> implements C
     }
 
     /**
-     *
+     * Do you need desensitization treatment
      */
     private boolean desensitization()
     {
         try
         {
             LoginUser securityUser = SecurityUtils.getLoginUser();
-
+            // Administrators are not desensitized
             return !securityUser.getSysUser().isAdmin();
         }
         catch (Exception e)

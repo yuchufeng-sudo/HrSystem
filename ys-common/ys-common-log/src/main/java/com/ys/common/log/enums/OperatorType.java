@@ -2,17 +2,17 @@ package com.ys.common.log.enums;
 
 /**
  * OPERATION Category
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public enum OperatorType
 {
- 
+
     OTHER,
 
-  
+
     MANAGE,
 
-    
+
     MOBILE
 }

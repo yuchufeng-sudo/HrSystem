@@ -11,7 +11,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 
+ * Spring Redis Utility Class
+ * Provides convenient methods for caching and retrieving various data types in Redis
  *
  * @author ys
  **/
@@ -23,10 +24,10 @@ public class RedisCache
     public RedisTemplate redisTemplate;
 
     /**
-     * 
+     * Cache basic objects such as Integer, String, entity classes, etc.
      *
-     * @param key Cache key-value 
-     * @param value 
+     * @param key Cache key
+     * @param value Cache value
      */
     public <T> void setCacheObject(final String key, final T value)
     {
@@ -35,11 +36,11 @@ public class RedisCache
 
 
     /**
-     * 
+     * Cache basic objects with expiration time
      *
-     * @param key Cache key-value 
-     * @param value 
-     * @param timeout  TIME 
+     * @param key Cache key
+     * @param value Cache value
+     * @param timeout Expiration time in seconds
      */
     public <T> void setCacheObject(final String key, final T value, final Integer timeout)
     {
@@ -47,12 +48,12 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Cache basic objects with custom expiration time unit
      *
-     * @param key Cache key-value 
-     * @param value 
-     * @param timeout  TIME 
-     * @param timeUnit  
+     * @param key Cache key
+     * @param value Cache value
+     * @param timeout Expiration time
+     * @param timeUnit Time unit
      */
     public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
     {
@@ -60,11 +61,11 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Set expiration time for a key (in seconds)
      *
-     * @param key 
-     * @param timeout 
-     * @return 
+     * @param key Redis key
+     * @param timeout Timeout value in seconds
+     * @return true if successful, false otherwise
      */
     public boolean expire(final String key, final long timeout)
     {
@@ -72,12 +73,12 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Set expiration time for a key with custom time unit
      *
-     * @param key 
-     * @param timeout 
-     * @param unit  
-     * @return 
+     * @param key Redis key
+     * @param timeout Timeout value
+     * @param unit Time unit
+     * @return true if successful, false otherwise
      */
     public boolean expire(final String key, final long timeout, final TimeUnit unit)
     {
@@ -85,10 +86,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get cached basic object
      *
-     * @param key 
-     * @return 
+     * @param key Cache key
+     * @return Cached value corresponding to the key
      */
     public <T> T getCacheObject(final String key)
     {
@@ -97,9 +98,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Delete a single cached object
      *
-     * @param key
+     * @param key Cache key to delete
+     * @return true if successful, false otherwise
      */
     public boolean deleteObject(final String key)
     {
@@ -107,10 +109,10 @@ public class RedisCache
     }
 
     /**
-     * DELETESetObject
+     * Delete multiple cached objects
      *
-     * @param collection 
-     * @return
+     * @param collection Collection of keys to delete
+     * @return Number of keys deleted
      */
     public long deleteObject(final Collection collection)
     {
@@ -118,11 +120,11 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Cache List data
      *
-     * @param key Cache key-value 
-     * @param dataList 
-     * @return 
+     * @param key Cache key
+     * @param dataList List data to cache
+     * @return Number of elements added to the list
      */
     public <T> long setCacheList(final String key, final List<T> dataList)
     {
@@ -131,10 +133,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get cached List object
      *
-     * @param key Cache key-value 
-     * @return 
+     * @param key Cache key
+     * @return Cached List corresponding to the key
      */
     public <T> List<T> getCacheList(final String key)
     {
@@ -142,11 +144,11 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Cache Set data
      *
-     * @param key 
-     * @param dataSet 
-     * @return 
+     * @param key Cache key
+     * @param dataSet Set data to cache
+     * @return BoundSetOperations for the cached Set
      */
     public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet)
     {
@@ -160,10 +162,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get cached Set
      *
-     * @param key
-     * @return
+     * @param key Cache key
+     * @return Cached Set corresponding to the key
      */
     public <T> Set<T> getCacheSet(final String key)
     {
@@ -171,10 +173,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Cache Map data
      *
-     * @param key
-     * @param dataMap
+     * @param key Cache key
+     * @param dataMap Map data to cache
      */
     public <T> void setCacheMap(final String key, final Map<String, T> dataMap)
     {
@@ -184,10 +186,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get cached Map
      *
-     * @param key
-     * @return
+     * @param key Cache key
+     * @return Cached Map corresponding to the key
      */
     public <T> Map<String, T> getCacheMap(final String key)
     {
@@ -195,11 +197,11 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Store data in Hash
      *
-     * @param key 
-     * @param hKey 
-     * @param value 
+     * @param key Redis key
+     * @param hKey Hash key
+     * @param value Value to store
      */
     public <T> void setCacheMapValue(final String key, final String hKey, final T value)
     {
@@ -207,11 +209,11 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get data from Hash
      *
-     * @param key 
-     * @param hKey 
-     * @return 
+     * @param key Redis key
+     * @param hKey Hash key
+     * @return Object from Hash
      */
     public <T> T getCacheMapValue(final String key, final String hKey)
     {
@@ -220,11 +222,11 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get multiple values from Hash
      *
-     * @param key 
-     * @param hKeys Set
-     * @return HashObjectSet
+     * @param key Redis key
+     * @param hKeys Collection of Hash keys
+     * @return List of objects from Hash
      */
     public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys)
     {
@@ -232,10 +234,10 @@ public class RedisCache
     }
 
     /**
-     * 
+     * Get list of cached keys matching a pattern
      *
-     * @param pattern  
-     * @return Object  LIST
+     * @param pattern String pattern (prefix or wildcard pattern)
+     * @return Collection of matching keys
      */
     public Collection<String> keys(final String pattern)
     {

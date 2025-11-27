@@ -31,9 +31,9 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * OPERATION LOG Record
+ * Operation Log Record
  *
- * @author ruoyi
+ * @author ys
  */
 @Aspect
 @Component
@@ -44,7 +44,7 @@ public class LogAspect
 
     public static final String[] EXCLUDE_PROPERTIES = { "password", "oldPassword", "newPassword", "confirmPassword" };
 
-    /** OPERATIONConsumption TIME  */
+    /** OPERATIONConsumption time  */
     private static final ThreadLocal<Long> TIME_THREADLOCAL = new NamedThreadLocal<Long>("Cost Time");
 
     @Autowired
@@ -133,7 +133,7 @@ public class LogAspect
      *
      *
      * @param log  LOG
-     * @param operLog OPERATION LOG
+     * @param operLog Operation Log
      * @throws Exception
      */
     public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception
@@ -160,7 +160,7 @@ public class LogAspect
     /**
      *
      *
-     * @param operLog OPERATION LOG
+     * @param operLog Operation Log
      * @throws Exception
      */
     private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog, String[] excludeParamNames) throws Exception
@@ -215,7 +215,7 @@ public class LogAspect
     /**
      *
      *
-     * @param o Object INFORMATION。
+     * @param o Object Information。
      * @return
      */
     @SuppressWarnings("rawtypes")

@@ -11,7 +11,7 @@ import com.ys.common.security.utils.SecurityUtils;
 import com.ys.hr.domain.HrCandidateInfo;
 import com.ys.hr.domain.HrQuota;
 import com.ys.hr.service.IHrQuotaService;
-import com.ys.hr.service.ITbCandidateInfoService;
+import com.ys.hr.service.IHrCandidateInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class HrQuotaController extends BaseController
     private IHrQuotaService hrQuotaService;
 
     @Autowired
-    private ITbCandidateInfoService tbCandidateInfoService;
+    private IHrCandidateInfoService tbCandidateInfoService;
 
     /**
      * Query Personnel Quota Management list
@@ -100,7 +100,7 @@ public class HrQuotaController extends BaseController
     public AjaxResult remove(@PathVariable Long[] quotaIds) {
         HrCandidateInfo hrCandidateInfo = new HrCandidateInfo();
         hrCandidateInfo.setJobInformation(quotaIds[0]);
-        List<HrCandidateInfo> hrCandidateInfos = tbCandidateInfoService.selectTbCandidateInfoList(hrCandidateInfo);
+        List<HrCandidateInfo> hrCandidateInfos = tbCandidateInfoService.selectHrCandidateInfoList(hrCandidateInfo);
         if(!hrCandidateInfos.isEmpty()){
             AjaxResult.warn("Employees exist in this position");
         }

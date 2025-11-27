@@ -21,7 +21,7 @@ import java.util.List;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 @Aspect
 @Component
@@ -84,7 +84,7 @@ public class DataScopeAspect
      * Data Range
      *
      * @param joinPoint Cutpoint
-     * @param user USER
+     * @param user User
      * @param deptAlias
      * @param userAlias
      * @param permission Permission Character

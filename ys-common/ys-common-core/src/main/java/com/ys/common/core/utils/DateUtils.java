@@ -9,9 +9,9 @@ import java.time.*;
 import java.util.Date;
 
 /**
- *  TIME Utility Class
+ * time Utility Class
  *
- * @author ruoyi
+ * @author ys
  */
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils
 {
@@ -134,7 +134,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     /**
      * Calculate the time difference
      *
-     * @param endDate Finally  TIME
+     * @param endDate Finally time
      * @param start Time
      * @return Time difference (days/hours/minutes)
      */

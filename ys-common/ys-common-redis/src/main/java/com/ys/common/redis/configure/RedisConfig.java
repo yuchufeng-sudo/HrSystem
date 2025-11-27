@@ -11,9 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * 
- * 
- * @author ruoyi
+ * Redis configuration
+ *
+ * @author ys
  */
 @Configuration
 @EnableCaching
@@ -29,11 +29,11 @@ public class RedisConfig extends CachingConfigurerSupport
 
         FastJson2JsonRedisSerializer serializer = new FastJson2JsonRedisSerializer(Object.class);
 
-        
+
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(serializer);
 
-        
+
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(serializer);
 

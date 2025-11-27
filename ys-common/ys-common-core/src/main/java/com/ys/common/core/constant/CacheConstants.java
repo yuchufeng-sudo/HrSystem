@@ -1,9 +1,9 @@
 package com.ys.common.core.constant;
 
 /**
- * Cache constant INFORMATION
+ * Cache constant Information
  *
- * @author ruoyi
+ * @author ys
  */
 public class CacheConstants
 {
@@ -13,7 +13,7 @@ public class CacheConstants
     public final static long EXPIRATION = 720;
 
     /**
-     * Cache refresh TIME, Default 120 (minutes)
+     * Cache refresh time, Default 120 (minutes)
      */
     public final static long REFRESH_TIME = 120;
 
@@ -23,19 +23,19 @@ public class CacheConstants
     public final static int PASSWORD_MAX_RETRY_COUNT = 5;
 
     /**
-     * Password lockout TIME, Default 10 (minutes)
+     * Password lockout time, Default 10 (minutes)
      */
     public final static long PASSWORD_LOCK_TIME = 10;
 
     /**
-     * 
+     *
      */
     public final static String LOGIN_TOKEN_KEY = "login_tokens:";
 
     /**
-     * Login MANAGEMENT staff USER's selected Enterprise Number.
+     * Login management staff User's selected Enterprise Number.
      */
-    public static final String LOGIN_SELECT_ENTERPRISE_ID = "login_select_enterprise_id:";
+    public static final String LOGIN_SELECT_Enterprise_ID = "login_select_enterprise_id:";
 
     /**
      * Verification code redis key
@@ -43,17 +43,17 @@ public class CacheConstants
     public static final String CAPTCHA_CODE_KEY = "captcha_codes:";
 
     /**
-     * Parameters MANAGEMENT   cache key
+     * Parameters management   cache key
      */
     public static final String SYS_CONFIG_KEY = "sys_config:";
 
     /**
-     * Dictionary  MANAGEMENT   cache key
+     * Dictionary  management   cache key
      */
     public static final String SYS_DICT_KEY = "sys_dict:";
 
     /**
-     * 
+     *
      */
     public static final String CIPHER_ERR_CNT_KEY = "pwd_err_cnt:";
 

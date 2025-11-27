@@ -5,9 +5,9 @@ import com.ys.common.core.constant.Constants;
 import java.io.Serializable;
 
 /**
- * Response INFORMATION Body
+ * Response Information Body
  *
- * @author ruoyi
+ * @author ys
  */
 public class R<T> implements Serializable
 {

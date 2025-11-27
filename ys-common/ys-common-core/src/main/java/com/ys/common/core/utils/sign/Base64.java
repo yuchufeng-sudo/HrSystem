@@ -1,9 +1,9 @@
 package com.ys.common.core.utils.sign;
 
 /**
- * 
  *
- * @author ruoyi
+ *
+ * @author ys
  */
 public final class Base64
 {

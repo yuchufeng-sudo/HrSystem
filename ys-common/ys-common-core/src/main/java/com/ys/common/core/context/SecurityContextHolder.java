@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *Obtain the USER id, USER Name, Token and other INFORMATION from the current thread variables
+ *Obtain the User id, User Name, Token and other Information from the current thread variables
  * Note: It must be passed in through the method of the Request header in the gateway, and the value must be set in the HeaderInterceptor interceptor. Otherwise, it cannot be OBTAINED here
  *
- * @author ruoyi
+ * @author ys
  */
 public class SecurityContextHolder
 {

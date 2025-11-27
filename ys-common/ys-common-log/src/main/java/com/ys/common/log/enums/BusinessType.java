@@ -2,12 +2,12 @@ package com.ys.common.log.enums;
 
 /**
  * BusinessOPERATION Type
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public enum BusinessType
 {
-   
+
     OTHER,
 
     /**
@@ -16,20 +16,20 @@ public enum BusinessType
     INSERT,
 
     /**
-     * MODIFY
+     * Update
      */
     UPDATE,
 
     /**
-     * DELETE
+     * Delete
      */
     DELETE,
 
-    
+
     GRANT,
 
     /**
-     * EXPORT
+     * Export
      */
     EXPORT,
 
@@ -38,7 +38,7 @@ public enum BusinessType
      */
     IMPORT,
 
-    
+
     FORCE,
 
     /**
@@ -46,6 +46,6 @@ public enum BusinessType
      */
     GENCODE,
 
-   
+
     CLEAN,
 }

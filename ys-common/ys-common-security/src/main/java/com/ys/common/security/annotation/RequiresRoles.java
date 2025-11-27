@@ -6,8 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
- * 
+ * Role Authentication Annotation
+ * User must have specified role identifiers to access the annotated method
+ *
  * @author ruoyi
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,12 +16,12 @@ import java.lang.annotation.Target;
 public @interface RequiresRoles
 {
     /**
-     * 
+     * Role identifiers that need to be validated
      */
     String[] value() default {};
 
     /**
-     * 
+     * Validation logic: AND | OR, default is AND
      */
     Logical logical() default Logical.AND;
 }

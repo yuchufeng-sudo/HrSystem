@@ -23,7 +23,7 @@ public interface ISysPermissionService
      * OBTAIN menu Data Permission
      *
      * @param userId User Id
-     * @return  menu Permission Information
+     * @return menu Permission Information
      */
     public Set<String> getMenuPermission(SysUser user);
 }

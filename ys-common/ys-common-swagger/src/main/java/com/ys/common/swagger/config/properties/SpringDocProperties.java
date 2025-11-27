@@ -1,12 +1,13 @@
 package com.ys.common.swagger.config.properties;
 
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.License;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.License;
 
 /**
- * Swagger
+ * Swagger Configuration Properties
+ * Configuration class for SpringDoc/Swagger API documentation settings
  *
  * @author ruoyi
  */
@@ -14,51 +15,52 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class SpringDocProperties
 {
     /**
-     *
+     * Gateway URL
      */
     private String gatewayUrl;
 
     /**
-     *
+     * Basic information for the API documentation
      */
     @NestedConfigurationProperty
     private InfoProperties info = new InfoProperties();
 
     /**
      * <p>
-     *
+     * Basic properties for API documentation information
      * </p>
      *
      * @see io.swagger.v3.oas.models.info.Info
      *
-     *
+     * This class is duplicated here to enable Spring Boot auto-configuration
+     * to generate configuration hints and suggestions
      */
     public static class InfoProperties
     {
         /**
-         * title
+         * API documentation title
          */
         private String title = null;
 
         /**
-         * Description
+         * API documentation description
          */
         private String description = null;
 
         /**
-         *
+         * Contact information
          */
         @NestedConfigurationProperty
         private Contact contact = null;
 
         /**
-         *
+         * License information
          */
         @NestedConfigurationProperty
         private License license = null;
 
         /**
-         *
+         * API version
          */
         private String version = null;
 

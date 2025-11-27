@@ -56,7 +56,7 @@ public class SysUserServiceImpl implements ISysUserService
      *Query User list by Conditions with Pagination
      *
      * @param user  User Information
-     * @return  User INFORMATIONSet Information
+     * @return User INFORMATIONSet Information
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
@@ -69,7 +69,7 @@ public class SysUserServiceImpl implements ISysUserService
      * Query Assigned User role list by Conditions with Pagination
      *
      * @param user  User Information
-     * @return  User INFORMATIONSet Information
+     * @return User INFORMATIONSet Information
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
@@ -82,7 +82,7 @@ public class SysUserServiceImpl implements ISysUserService
      * Query Unassigned User role list by Conditions with Pagination
      *
      * @param user  User Information
-     * @return  User INFORMATIONSet Information
+     * @return User INFORMATIONSet Information
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")

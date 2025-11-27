@@ -17,7 +17,7 @@ public interface SysMessageTemplateMapper extends BaseMapper<SysMessageTemplate>
      * Query Message Template management
      *
      * @param id  Message Template management Primary Key
-     * @return  Message Template management
+     * @return Message Template management
      */
     public SysMessageTemplate selectSysMessageTemplateById(Integer id);
 
@@ -25,7 +25,7 @@ public interface SysMessageTemplateMapper extends BaseMapper<SysMessageTemplate>
      * Query Message Template management list
      *
      * @param sysMessageTemplate  Message Template management
-     * @return  Message Template management Set
+     * @return Message Template management Set
      */
     public List<SysMessageTemplate> selectSysMessageTemplateList(SysMessageTemplate sysMessageTemplate);
 

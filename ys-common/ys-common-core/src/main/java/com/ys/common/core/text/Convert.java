@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public class Convert
 {
@@ -757,7 +757,7 @@ public class Convert
      *
      *
      * @param obj Object
-     * @return  Character string
+     * @return Character string
      */
     public static String utf8Str(Object obj)
     {
@@ -770,7 +770,7 @@ public class Convert
      *
      * @param obj Object
      * @param charsetName  Character set
-     * @return  Character string
+     * @return Character string
      */
     public static String str(Object obj, String charsetName)
     {
@@ -783,7 +783,7 @@ public class Convert
      *
      * @param obj Object
      * @param charset  Character set
-     * @return  Character string
+     * @return Character string
      */
     public static String str(Object obj, Charset charset)
     {
@@ -826,7 +826,7 @@ public class Convert
      *
      * @param bytes byte Array
      * @param charset  Character set
-     * @return  Character string
+     * @return Character string
      */
     public static String str(byte[] bytes, String charset)
     {
@@ -859,7 +859,7 @@ public class Convert
      *
      * @param data
      * @param charset
-     * @return  Character string
+     * @return Character string
      */
     public static String str(ByteBuffer data, String charset)
     {
@@ -876,7 +876,7 @@ public class Convert
      *
      * @param data
      * @param charset
-     * @return  Character string
+     * @return Character string
      */
     public static String str(ByteBuffer data, Charset charset)
     {

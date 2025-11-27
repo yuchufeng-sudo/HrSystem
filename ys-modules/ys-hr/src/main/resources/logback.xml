@@ -28,9 +28,9 @@
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- Filter Level -->
             <level>INFO</level>
-            <!-- OPERATION during matching: Record (Receive) -->
+            <!-- Operation during matching: Record (Receive) -->
             <onMatch>ACCEPT</onMatch>
-            <!-- OPERATION when not matching: Reject (Do not Record) -->
+            <!-- Operation when not matching: Reject (Do not Record) -->
             <onMismatch>DENY</onMismatch>
         </filter>
 	</appender>
@@ -50,9 +50,9 @@
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- Filter Level -->
             <level>ERROR</level>
-			<!-- OPERATION during matching: Record (Receive) -->
+			<!-- Operation during matching: Record (Receive) -->
             <onMatch>ACCEPT</onMatch>
-			<!-- OPERATION when not matching: Reject (Do not Record) -->
+			<!-- Operation when not matching: Reject (Do not Record) -->
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>

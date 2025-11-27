@@ -16,14 +16,14 @@ public interface ISysDictTypeService
      * Query dictionary types with pagination based on conditions.
      *
      * @param dictType  Dictionary type  Information
-     * @return  Dictionary type Set Information
+     * @return Dictionary type Set Information
      */
     public List<SysDictType> selectDictTypeList(SysDictType dictType);
 
     /**
      * According to  all  Dictionary type
      *
-     * @return  Dictionary type Set Information
+     * @return Dictionary type Set Information
      */
     public List<SysDictType> selectDictTypeAll();
 
@@ -31,7 +31,7 @@ public interface ISysDictTypeService
      * ACCORDING TO THE Dictionary type  Query Dictionary Data
      *
      * @param dictType  Dictionary type
-     * @return  Dictionary Data Set Information
+     * @return Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataByType(String dictType);
 
@@ -39,7 +39,7 @@ public interface ISysDictTypeService
      * ACCORDING TO THE Dictionary type  IDQUERY Information
      *
      * @param dictId  Dictionary type ID
-     * @return  Dictionary type
+     * @return Dictionary type
      */
     public SysDictType selectDictTypeById(Long dictId);
 
@@ -47,7 +47,7 @@ public interface ISysDictTypeService
      * ACCORDING TO THE Dictionary type  Query Information
      *
      * @param dictType  Dictionary type
-     * @return  Dictionary type
+     * @return Dictionary type
      */
     public SysDictType selectDictTypeByType(String dictType);
 

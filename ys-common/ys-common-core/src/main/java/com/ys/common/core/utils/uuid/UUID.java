@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public final class UUID implements java.io.Serializable, Comparable<UUID>
 {

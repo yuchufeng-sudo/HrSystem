@@ -10,7 +10,7 @@ import com.ys.hr.domain.HrQuestionAnswer;
 import com.ys.hr.service.IHrCareersService;
 import com.ys.hr.service.IHrJobListingsService;
 import com.ys.hr.service.IHrQuestionAnswerService;
-import com.ys.hr.service.ITbCandidateInfoService;
+import com.ys.hr.service.IHrCandidateInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/recruitmentExternal")
 public class HrRecruitmentExternalController extends BaseController {
     @Resource
-    private ITbCandidateInfoService candidateInfoService;
+    private IHrCandidateInfoService candidateInfoService;
     @Resource
     private IHrJobListingsService jobListingsService;
     @Resource

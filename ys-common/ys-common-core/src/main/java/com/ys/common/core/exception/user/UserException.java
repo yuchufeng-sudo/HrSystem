@@ -3,9 +3,9 @@ package com.ys.common.core.exception.user;
 import com.ys.common.core.exception.base.BaseException;
 
 /**
- *  USER INFORMATION Exception Class
- * 
- * @author ruoyi
+ *  User Information Exception Class
+ *
+ * @author ys
  */
 public class UserException extends BaseException
 {

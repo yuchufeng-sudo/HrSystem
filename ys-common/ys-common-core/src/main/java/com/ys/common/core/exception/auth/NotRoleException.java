@@ -3,9 +3,9 @@ package com.ys.common.core.exception.auth;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *ROLE authentication exception that fails to pass
- * 
- * @author ruoyi
+ *role authentication exception that fails to pass
+ *
+ * @author ys
  */
 public class NotRoleException extends RuntimeException
 {

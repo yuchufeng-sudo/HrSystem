@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Permission authentication exception that fails to pass
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class NotPermissionException extends RuntimeException
 {

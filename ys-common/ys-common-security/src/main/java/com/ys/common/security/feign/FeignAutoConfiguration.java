@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  *
- *
- * @author ruoyi
+ * Configure registration
+ * @author ys
  **/
 @Configuration
 public class FeignAutoConfiguration

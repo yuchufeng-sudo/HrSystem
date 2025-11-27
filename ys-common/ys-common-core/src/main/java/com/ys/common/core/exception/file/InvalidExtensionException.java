@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 /**
  * File Upload Error Exception Class
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class InvalidExtensionException extends FileUploadException
 {
@@ -67,7 +67,7 @@ public class InvalidExtensionException extends FileUploadException
             super(allowedExtension, extension, filename);
         }
     }
-    
+
     public static class InvalidVideoExtensionException extends InvalidExtensionException
     {
         private static final long serialVersionUID = 1L;

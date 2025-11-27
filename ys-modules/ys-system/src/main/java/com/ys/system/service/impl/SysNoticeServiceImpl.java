@@ -40,7 +40,7 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
      * Query Announcement Information
      *
      * @param noticeId  Announcement ID
-     * @return  Announcement Information
+     * @return Announcement Information
      */
     @Override
     public SysNotice selectNoticeById(Long noticeId)
@@ -52,7 +52,7 @@ public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice
      * Query Announcement list
      *
      * @param notice  Announcement Information
-     * @return  Announcement Set
+     * @return Announcement Set
      */
     @Override
     public List<SysNotice> selectNoticeList(SysNotice notice)

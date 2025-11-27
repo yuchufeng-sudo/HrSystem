@@ -3,7 +3,7 @@ package com.ys.common.core.constant;
 /**
  *  ServiceName
  *
- * @author ruoyi
+ * @author ys
  */
 public class ServiceNameConstants
 {

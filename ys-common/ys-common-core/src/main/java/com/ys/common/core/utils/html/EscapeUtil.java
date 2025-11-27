@@ -3,9 +3,9 @@ package com.ys.common.core.utils.html;
 import com.ys.common.core.utils.StringUtils;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
 public class EscapeUtil
 {
@@ -21,18 +21,18 @@ public class EscapeUtil
         }
 
         // special HTML characters
-        TEXT['\''] = "&#039;".toCharArray(); // 
-        TEXT['"'] = "&#34;".toCharArray(); // 
-        TEXT['&'] = "&#38;".toCharArray(); // 
-        TEXT['<'] = "&#60;".toCharArray(); // 
-        TEXT['>'] = "&#62;".toCharArray(); // 
+        TEXT['\''] = "&#039;".toCharArray(); //
+        TEXT['"'] = "&#34;".toCharArray(); //
+        TEXT['&'] = "&#38;".toCharArray(); //
+        TEXT['<'] = "&#60;".toCharArray(); //
+        TEXT['>'] = "&#62;".toCharArray(); //
     }
 
     /**
-     * 
-     * 
-     * @param text 
-     * @return 
+     *
+     *
+     * @param text
+     * @return
      */
     public static String escape(String text)
     {
@@ -40,10 +40,10 @@ public class EscapeUtil
     }
 
     /**
-     * 
-     * 
-     * @param content 
-     * @return  
+     *
+     *
+     * @param content
+     * @return
      */
     public static String unescape(String content)
     {
@@ -51,10 +51,10 @@ public class EscapeUtil
     }
 
     /**
-     *  
-     * 
-     * @param content 
-     * @return 
+     *
+     *
+     * @param content
+     * @return
      */
     public static String clean(String content)
     {
@@ -62,10 +62,10 @@ public class EscapeUtil
     }
 
     /**
-     * 
-     * 
-     * @param text 
-     * @return 
+     *
+     *
+     * @param text
+     * @return
      */
     private static String encode(String text)
     {
@@ -103,10 +103,10 @@ public class EscapeUtil
     }
 
     /**
-     * 
-     * 
-     * @param content 
-     * @return 
+     *
+     *
+     * @param content
+     * @return
      */
     public static String decode(String content)
     {

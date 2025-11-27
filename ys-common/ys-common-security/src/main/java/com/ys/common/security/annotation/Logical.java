@@ -1,20 +1,20 @@
 package com.ys.common.security.annotation;
 
 /**
- * 
- * 
- * @author ruoyi
+ * Verification mode of permission annotation
+ *
+ * @author ys
  *
  */
 public enum Logical
 {
     /**
-     * 
+     * Must have all elements
      */
     AND,
 
     /**
-     * 
+     * Just need to have one of the elements
      */
     OR
 }

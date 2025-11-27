@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public class JwtUtils
 {
@@ -57,7 +57,7 @@ public class JwtUtils
      *
      *
      * @param claims
-     * @return USER ID
+     * @return User ID
      */
     public static String getUserKey(Claims claims)
     {
@@ -68,7 +68,7 @@ public class JwtUtils
      *
      *
      * @param token
-     * @return USER ID
+     * @return User ID
      */
     public static String getUserId(String token)
     {
@@ -80,7 +80,7 @@ public class JwtUtils
      *
      *
      * @param claims
-     * @return USER ID
+     * @return User ID
      */
     public static String getUserId(Claims claims)
     {
@@ -108,7 +108,7 @@ public class JwtUtils
      *
      *
      * @param token
-     * @return USER Name
+     * @return User Name
      */
     public static String getUserName(String token)
     {
@@ -120,7 +120,7 @@ public class JwtUtils
      *
      *
      * @param claims
-     * @return USER Name
+     * @return User Name
      */
     public static String getUserName(Claims claims)
     {

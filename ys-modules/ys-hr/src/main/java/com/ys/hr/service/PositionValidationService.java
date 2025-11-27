@@ -31,7 +31,7 @@ public class PositionValidationService {
     private IHrEmployeesService employeesService;
 
     @Autowired
-    private ITbCandidateInfoService candidateInfoService;
+    private IHrCandidateInfoService candidateInfoService;
 
     @Autowired
     private IHrQuotaService quotaService;

@@ -2,8 +2,8 @@ package com.ys.common.core.constant;
 
 /**
  * General Constants for Task Scheduling
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class ScheduleConstants
 {
@@ -27,7 +27,7 @@ public class ScheduleConstants
     public enum Status
     {
         /**
-         * Normal 
+         * Normal
          */
         NORMAL("0"),
         /**

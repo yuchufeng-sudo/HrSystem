@@ -43,7 +43,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      * According to User Query System menu   list
      *
      * @param userId User ID
-     * @return  menu   list
+     * @return menu   list
      */
     @Override
     public List<SysMenu> selectMenuList(Long userId)
@@ -55,7 +55,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      * Query System menu   list
      *
      * @param menu  menu  Information
-     * @return  menu   list
+     * @return menu   list
      */
     @Override
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId)
@@ -126,7 +126,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      * According to User IDQUERY menu
      *
      * @param userId User Name
-     * @return  menu   list
+     * @return menu   list
      */
     @Override
     public List<SysMenu> selectMenuTreeByUserId(Long userId)
@@ -246,7 +246,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      * Construct the DROP-DOWN TREE STRUCTURE required for the front end.
      *
      * @param menus  menu   list
-     * @return  DROP-DOWN TREE STRUCTURE   list
+     * @return DROP-DOWN TREE STRUCTURE   list
      */
     @Override
     public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus)
@@ -259,7 +259,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      * According to  menu IDQUERY Information
      *
      * @param menuId  menu ID
-     * @return  menu  Information
+     * @return menu  Information
      */
     @Override
     public SysMenu selectMenuById(Long menuId)
@@ -408,7 +408,7 @@ public class SysMenuServiceImpl implements ISysMenuService
      * Get Component  Information
      *
      * @param menu  menu  Information
-     * @return  Component  Information
+     * @return Component  Information
      */
     public String getComponent(SysMenu menu)
     {

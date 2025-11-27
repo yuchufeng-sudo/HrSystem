@@ -2,8 +2,8 @@ package com.ys.common.core.exception;
 
 /**
  * Verification Code Error Exception Class
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class CaptchaException extends RuntimeException
 {

@@ -17,7 +17,7 @@ public interface SysEnterpriseMapper extends BaseMapper<SysEnterprise>
      * Query Enterprise management   list
      *
      * @param sysEnterprise  Enterprise management
-     * @return  Enterprise management Set
+     * @return Enterprise management Set
      */
     public List<SysEnterprise> selectSysEnterpriseList(SysEnterprise sysEnterprise);
 

@@ -7,13 +7,13 @@ import java.util.TimeZone;
 
 /**
  *
- *
- * @author ruoyi
+ * System Configuration
+ * @author ys
  */
 public class ApplicationConfig
 {
     /**
-     *
+     * Timezone configuration
      */
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization()

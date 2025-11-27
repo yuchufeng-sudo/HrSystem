@@ -84,6 +84,4 @@ public interface IHrEmployeesService extends IService<HrEmployees>
     void resignEmployeeOneWeekAgo(HrEmployees employees);
 
     void resignEmployeeOneDayAgo(HrEmployees employees);
-
-    void resignComplete(Long employeeId, Long hrUserId);
 }

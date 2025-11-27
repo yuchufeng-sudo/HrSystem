@@ -3,7 +3,7 @@ package com.ys.common.core.exception;
 /**
  * Permission Exception
  * 
- * @author ruoyi
+ * @author ys
  */
 public class PreAuthorizeException extends RuntimeException
 {

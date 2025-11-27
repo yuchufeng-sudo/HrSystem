@@ -2,8 +2,8 @@ package com.ys.common.core.exception.file;
 
 /**
  * File Name Size Limit Exception Class
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class FileSizeLimitExceededException extends FileException
 {

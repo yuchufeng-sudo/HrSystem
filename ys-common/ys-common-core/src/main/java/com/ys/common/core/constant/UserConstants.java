@@ -1,9 +1,9 @@
 package com.ys.common.core.constant;
 
 /**
- * USER constant INFORMATION
- * 
- * @author ruoyi
+ * User constant Information
+ *
+ * @author ys
  */
 public class UserConstants
 {
@@ -18,20 +18,20 @@ public class UserConstants
     /** Abnormal Status */
     public static final String EXCEPTION = "1";
 
-    /** USER Blocked Status */
+    /** User Blocked Status */
     public static final String USER_DISABLE = "1";
 
-    /** ROLENormal Status */
+    /** role Normal Status */
     public static final String ROLE_NORMAL = "0";
 
-    /**ROLE ban status */
+    /**role ban status */
     public static final String ROLE_DISABLE = "1";
 
-    /**  DEPARTMENT 
+    /**  DEPARTMENT
 Normal Status */
     public static final String DEPT_NORMAL = "0";
 
-    /**  DEPARTMENT 
+    /**  DEPARTMENT
 Inactive Status */
     public static final String DEPT_DISABLE = "1";
 
@@ -41,19 +41,19 @@ Inactive Status */
     /** Whether it is SystemDefault (Yes) */
     public static final String YES = "Y";
 
-    /** Whether it is a MENU external link (Yes) */
+    /** Whether it is a menu external link (Yes) */
     public static final String YES_FRAME = "0";
 
-    /** Whether it is a MENU external link (No) */
+    /** Whether it is a menu external link (No) */
     public static final String NO_FRAME = "1";
 
-    /**  MENU Type (Directory) */
+    /**  menu Type (Directory) */
     public static final String TYPE_DIR = "M";
 
-    /**  MENU  Type（ MENU ） */
-    public static final String TYPE_MENU = "C";
+    /**  menu  Type（ menu ） */
+    public static final String TYPE_menu = "C";
 
-    /**  MENU  Type（BUTTON） */
+    /**  menu  Type（Button） */
     public static final String TYPE_BUTTON = "F";
 
     /** Layout Component identifier*/
@@ -70,14 +70,14 @@ Inactive Status */
     public final static boolean NOT_UNIQUE = false;
 
     /**
-     * USER Name LENGTH restriction
+     * username length restriction
      */
     public static final int USERNAME_MIN_LENGTH = 2;
 
     public static final int USERNAME_MAX_LENGTH = 20;
 
     /**
-     * Password LENGTH restriction
+     * Password length restriction
      */
     public static final int PASSWORD_MIN_LENGTH = 5;
 

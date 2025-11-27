@@ -16,7 +16,7 @@ public interface SysDictDataMapper
      * According to the conditions for pagination, Query Dictionary Data.
      *
      * @param dictData  Dictionary Data  Information
-     * @return  Dictionary Data Set Information
+     * @return Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataList(SysDictData dictData);
 
@@ -24,7 +24,7 @@ public interface SysDictDataMapper
      * ACCORDING TO THE Dictionary type  Query Dictionary Data
      *
      * @param dictType  Dictionary type
-     * @return  Dictionary Data Set Information
+     * @return Dictionary Data Set Information
      */
     public List<SysDictData> selectDictDataByType(String dictType);
 
@@ -41,7 +41,7 @@ public interface SysDictDataMapper
      * According to  Dictionary Data IDQUERY Information
      *
      * @param dictCode  Dictionary Data ID
-     * @return  Dictionary Data
+     * @return Dictionary Data
      */
     public SysDictData selectDictDataById(Long dictCode);
 
@@ -49,7 +49,7 @@ public interface SysDictDataMapper
      * Query Dictionary Data
      *
      * @param dictType  Dictionary type
-     * @return  Dictionary Data
+     * @return Dictionary Data
      */
     public int countDictDataByType(String dictType);
 

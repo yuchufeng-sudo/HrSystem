@@ -2,8 +2,8 @@ package com.ys.common.log.enums;
 
 /**
  * OPERATIONStatus
- * 
- * @author ruoyi
+ *
+ * @author ys
  *
  */
 public enum BusinessStatus

@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 /**
  * OBTAIN IP
  *
- * @author ruoyi
+ * @author ys
  */
 public class IpUtils
 {
@@ -24,7 +24,7 @@ public class IpUtils
     /**
      * Obtain the client IP.
      *
-     * @return IPAddress
+     * @return IP Address
      */
     public static String getIpAddr()
     {
@@ -35,7 +35,7 @@ public class IpUtils
      * Obtain the client IP.
      *
      * @param request  RequestObject
-     * @return IPAddress
+     * @return IP Address
      */
     public static String getIpAddr(HttpServletRequest request)
     {
@@ -72,7 +72,7 @@ public class IpUtils
     /**
      * Check if it is an internal IP address.
      *
-     * @param ip IPAddress
+     * @param ip IP Address
      * @return Result
      */
     public static boolean internalIp(String ip)
@@ -224,7 +224,7 @@ public class IpUtils
     }
 
     /**
-     * OBTAIN IPAddress
+     * OBTAIN IP Address
      *
      * @return Local IP address
      */

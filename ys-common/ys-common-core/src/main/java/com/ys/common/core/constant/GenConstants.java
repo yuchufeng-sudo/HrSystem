@@ -3,7 +3,7 @@ package com.ys.common.core.constant;
 /**
  * Code Generate General Constants
  *
- * @author ruoyi
+ * @author ys
  */
 public class GenConstants
 {
@@ -25,11 +25,11 @@ public class GenConstants
     /** The tree name field */
     public static final String TREE_NAME = "treeName";
 
-    /** Parent MENU ID field */
-    public static final String PARENT_MENU_ID = "parentMenuId";
+    /** Parent menu ID field */
+    public static final String PARENT_menu_ID = "parentMenuId";
 
-    /** Parent MENU Name field */
-    public static final String PARENT_MENU_NAME = "parentMenuName";
+    /** Parent menu Name field */
+    public static final String PARENT_menu_NAME = "parentMenuName";
 
     /** Text box */
     public static final String HTML_INPUT = "input";
@@ -73,13 +73,13 @@ public class GenConstants
     /** High Precision Calculation Type */
     public static final String TYPE_BIGDECIMAL = "BigDecimal";
 
-    /**  TIME  Type */
+    /** time  Type */
     public static final String TYPE_DATE = "Date";
 
-    /** Fuzzy QUERY */
+    /** Fuzzy Query */
     public static final String QUERY_LIKE = "LIKE";
 
-    /** Equal QUERY */
+    /** Equal Query */
     public static final String QUERY_EQ = "EQ";
 
     /** Need */

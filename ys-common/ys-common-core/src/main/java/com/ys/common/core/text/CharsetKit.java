@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public class CharsetKit
 {
@@ -43,7 +43,7 @@ public class CharsetKit
      * @param source  Character string
      * @param srcCharset Source character set, default ISO-8859-1.
      * @param destCharset Target character set, default UTF-8.
-     * @return  The converted character set.
+     * @return The converted character set.
      */
     public static String convert(String source, String srcCharset, String destCharset)
     {
@@ -56,7 +56,7 @@ public class CharsetKit
      * @param source  Character string
      * @param srcCharset Source character set, default ISO-8859-1.
      * @param destCharset Target character set, default UTF-8.
-     * @return  The converted character set.
+     * @return The converted character set.
      */
     public static String convert(String source, Charset srcCharset, Charset destCharset)
     {
@@ -78,7 +78,7 @@ public class CharsetKit
     }
 
     /**
-     * @return  System character set encoding
+     * @return System character set encoding
      */
     public static String systemCharset()
     {

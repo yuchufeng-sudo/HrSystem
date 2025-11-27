@@ -18,7 +18,7 @@ public interface ISysMessageTemplateService extends IService<SysMessageTemplate>
      * Query Message Template management
      *
      * @param id  Message Template management Primary Key
-     * @return  Message Template management
+     * @return Message Template management
      */
     public SysMessageTemplate selectSysMessageTemplateById(Integer id);
 
@@ -26,7 +26,7 @@ public interface ISysMessageTemplateService extends IService<SysMessageTemplate>
      * Query Message Template management list
      *
      * @param SysMessageTemplate  Message Template management
-     * @return  Message Template management Set
+     * @return Message Template management Set
      */
     public List<SysMessageTemplate> selectSysMessageTemplateList(SysMessageTemplate SysMessageTemplate);
 

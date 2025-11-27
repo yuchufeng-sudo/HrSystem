@@ -1,14 +1,6 @@
 package com.ys.common.security.handler;
 
-import com.ys.common.core.constant.HttpStatus;
-import com.ys.common.core.exception.DemoModeException;
-import com.ys.common.core.exception.InnerAuthException;
-import com.ys.common.core.exception.ServiceException;
-import com.ys.common.core.exception.auth.NotPermissionException;
-import com.ys.common.core.exception.auth.NotRoleException;
-import com.ys.common.core.text.Convert;
-import com.ys.common.core.utils.StringUtils;
-import com.ys.common.core.web.domain.AjaxResult;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -18,11 +10,19 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import javax.servlet.http.HttpServletRequest;
+import com.ys.common.core.constant.HttpStatus;
+import com.ys.common.core.exception.DemoModeException;
+import com.ys.common.core.exception.InnerAuthException;
+import com.ys.common.core.exception.ServiceException;
+import com.ys.common.core.exception.auth.NotPermissionException;
+import com.ys.common.core.exception.auth.NotRoleException;
+import com.ys.common.core.text.Convert;
+import com.ys.common.core.utils.StringUtils;
+import com.ys.common.core.web.domain.AjaxResult;
 
 /**
- * Global Exception
+ * Global Exception Handler
+ * Centralized exception handling for the application
  *
  * @author ruoyi
  */
@@ -32,40 +32,40 @@ public class GlobalExceptionHandler
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     *
+     * Permission code exception handler
      */
     @ExceptionHandler(NotPermissionException.class)
     public AjaxResult handleNotPermissionException(NotPermissionException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error(" RequestAddress'{}', VerifyFailure'{}'", requestURI, e.getMessage());
-        return AjaxResult.error(HttpStatus.FORBIDDEN, "No access permission. Please contact the management staff for authorization");
+        log.error("Request URI '{}', permission code validation failed '{}'", requestURI, e.getMessage());
+        return AjaxResult.error(HttpStatus.FORBIDDEN, "No access permission, please contact administrator for authorization");
     }
 
     /**
-     * ROLEPermission
+     * Role permission exception handler
      */
     @ExceptionHandler(NotRoleException.class)
     public AjaxResult handleNotRoleException(NotRoleException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error(" RequestAddress'{}',ROLEPermission VerifyFailure'{}'", requestURI, e.getMessage());
-        return AjaxResult.error(HttpStatus.FORBIDDEN, "No access permission. Please contact the management staff for authorization");
+        log.error("Request URI '{}', role permission validation failed '{}'", requestURI, e.getMessage());
+        return AjaxResult.error(HttpStatus.FORBIDDEN, "No access permission, please contact administrator for authorization");
     }
 
     /**
-     * Request Method Not supported
+     * HTTP request method not supported exception handler
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public AjaxResult handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error(" RequestAddress'{}',Not supported'{}' Request", requestURI, e.getMethod());
+        log.error("Request URI '{}', does not support '{}' request method", requestURI, e.getMethod());
         return AjaxResult.error(e.getMessage());
     }
 
     /**
-     * Business Exception
+     * Business exception handler
      */
     @ExceptionHandler(ServiceException.class)
     public AjaxResult handleServiceException(ServiceException e, HttpServletRequest request)
@@ -76,18 +76,18 @@ public class GlobalExceptionHandler
     }
 
     /**
-     *  The required path variable is missing in the request path
+     * Missing required path variable in request path exception handler
      */
     @ExceptionHandler(MissingPathVariableException.class)
     public AjaxResult handleMissingPathVariableException(MissingPathVariableException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error(" The required path variable is missing in the request path'{}',A system exception has occurred.", requestURI, e);
-        return AjaxResult.error(String.format(" The required path variable is missing in the request path[%s]", e.getVariableName()));
+        log.error("Missing required path variable in request path '{}', system exception occurred.", requestURI, e);
+        return AjaxResult.error(String.format("Missing required path variable [%s] in request path", e.getVariableName()));
     }
 
     /**
-     * Request Parameters Type
+     * Request parameter type mismatch exception handler
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public AjaxResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request)
@@ -98,31 +98,35 @@ public class GlobalExceptionHandler
 //        {
 //            value = EscapeUtil.clean(value);
 //        }
-        log.error("The request parameter types do not match '{}', and a system exception has occurred.", requestURI, e);
-        return AjaxResult.error(String.format("The request parameter types do not match. Parameter [%s] requires the type: '%s', but the input value is: '%s'.", e.getName(), e.getRequiredType().getName(), value));
+        log.error("Request parameter type mismatch '{}', system exception occurred.", requestURI, e);
+        return AjaxResult.error(String.format("Request parameter type mismatch, parameter [%s] requires type: '%s', but input value is: '%s'", e.getName(), e.getRequiredType().getName(), value));
     }
 
     /**
-     *
+     * Intercept unknown runtime exceptions
      */
     @ExceptionHandler(RuntimeException.class)
     public AjaxResult handleRuntimeException(RuntimeException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error(" RequestAddress'{}',An unknown exception has occurred.", requestURI, e);
+        log.error("Request URI '{}', unknown exception occurred.", requestURI, e);
         return AjaxResult.error(e.getMessage());
     }
 
-
+    /**
+     * System exception handler
+     */
     @ExceptionHandler(Exception.class)
     public AjaxResult handleException(Exception e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
-        log.error(" RequestAddress'{}',An unknown exception has occurred.", requestURI, e);
+        log.error("Request URI '{}', system exception occurred.", requestURI, e);
         return AjaxResult.error(e.getMessage());
     }
 
-
+    /**
+     * Custom validation exception handler (BindException)
+     */
     @ExceptionHandler(BindException.class)
     public AjaxResult handleBindException(BindException e)
     {
@@ -131,7 +135,9 @@ public class GlobalExceptionHandler
         return AjaxResult.error(message);
     }
 
-
+    /**
+     * Custom validation exception handler (MethodArgumentNotValidException)
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
     {
@@ -141,7 +147,7 @@ public class GlobalExceptionHandler
     }
 
     /**
-     * Internal Authentication Exception
+     * Internal authentication exception handler
      */
     @ExceptionHandler(InnerAuthException.class)
     public AjaxResult handleInnerAuthException(InnerAuthException e)
@@ -150,11 +156,11 @@ public class GlobalExceptionHandler
     }
 
     /**
-     * Demo Mode Exception
+     * Demo mode exception handler
      */
     @ExceptionHandler(DemoModeException.class)
     public AjaxResult handleDemoModeException(DemoModeException e)
     {
-        return AjaxResult.error("Demo mode. Operations are not allowed");
+        return AjaxResult.error("Demo mode, operation not allowed");
     }
 }

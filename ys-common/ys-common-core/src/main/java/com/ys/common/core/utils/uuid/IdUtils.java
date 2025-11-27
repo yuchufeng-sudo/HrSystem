@@ -3,7 +3,7 @@ package com.ys.common.core.utils.uuid;
 /**
  * 
  * 
- * @author ruoyi
+ * @author ys
  */
 public class IdUtils
 {

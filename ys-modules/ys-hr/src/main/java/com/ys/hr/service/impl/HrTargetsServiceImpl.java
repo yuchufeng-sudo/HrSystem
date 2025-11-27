@@ -8,21 +8,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ys.common.core.constant.SecurityConstants;
 import com.ys.common.core.exception.ServiceException;
 import com.ys.common.security.utils.SecurityUtils;
-import com.ys.hr.domain.HrEmployees;
-import com.ys.hr.domain.HrTargetEmployee;
-import com.ys.hr.domain.HrTargetTasks;
-import com.ys.hr.service.IHrEmployeesService;
+import com.ys.hr.domain.*;
+import com.ys.hr.mapper.HrEmployeesMapper;
+import com.ys.hr.mapper.HrCandidateInfoMapper;
 import com.ys.hr.service.IHrTargetEmployeeService;
 import com.ys.hr.service.IHrTargetTasksService;
 import com.ys.system.api.RemoteMessageService;
 import com.ys.system.api.domain.SysMessage;
 import com.ys.system.api.model.LoginUser;
+import com.ys.utils.email.EmailUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import com.ys.hr.mapper.HrTargetsMapper;
-import com.ys.hr.domain.HrTargets;
 import com.ys.hr.service.IHrTargetsService;
 import com.ys.common.core.utils.DateUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,13 +43,19 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
     private IHrTargetEmployeeService hrTargetEmployeeService;
 
     @Resource
-    private IHrEmployeesService hrEmployeesService;
+    private HrEmployeesMapper hrEmployeesMapper;
 
     @Resource
     private IHrTargetTasksService hrTargetTasksService;
 
     @Resource
     private RemoteMessageService remoteMessageService;
+
+    @Resource
+    private EmailUtils emailUtils;
+
+    @Resource
+    private HrCandidateInfoMapper candidateInfoMapper;
 
     /**
      * Query Main table storing all target information
@@ -109,10 +115,10 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
         hrTargetEmployee.setTargetId(id);
         List<HrTargetEmployee> hrTargetEmployees = hrTargetEmployeeService.selectHrTargetEmployeeList(hrTargetEmployee);
         if(ObjectUtils.isNotEmpty(hrTargetEmployees)){
-            //使用stream留将 员工id变成数组
+            //Use streams to convert employee IDs into an array.
             for (HrTargetEmployee employeeId : hrTargetEmployees) {
-                HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesById(employeeId.getEmployeeId());
-                HrEmployees leader = hrEmployeesService.selectHrEmployeesByUserId(hrTargets1.getHead());
+                HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(employeeId.getEmployeeId());
+                HrEmployees leader = hrEmployeesMapper.selectHrEmployeesByUserId(hrTargets1.getHead());
                 SysMessage sysMessage = new SysMessage();
                 sysMessage.setMessageRecipient(hrEmployees.getUserId());
                 sysMessage.setMessageStatus("0");
@@ -151,10 +157,62 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
                 }
             }
             if (count==1){
-                hrEmployeesService.resignComplete(resignEmployeeId,hrTargets1.getHead());
+                resignComplete(resignEmployeeId,hrTargets1.getHead());
             }
         }
         updateHrTargets(hrTargets);
+    }
+
+    public void resignComplete(Long employeeId, Long hrUserId) {
+        HrEmployees employees = hrEmployeesMapper.selectHrEmployeesById(employeeId);
+        if (employees==null){
+            return;
+        }
+        HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(SecurityUtils.getUserEnterpriseId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("FullName", employees.getFullName());
+        params.put("CompanyName", hrEnterprise.getEnterpriseName());
+        emailUtils.sendEmailByTemplate(params, employees.getEmail(), "offboardingComplete");
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("fullName",employees.getFullName());
+
+        QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("resign_employee_id", employees.getEmployeeId())
+                .eq("name", "Complete offboarding - HR");
+        List<HrTargets> hrOffboardingTargets = list(queryWrapper);
+        Map<String, Object> map2 = new HashMap<>();
+        if (!hrOffboardingTargets.isEmpty()) {
+            map2.put("id", hrOffboardingTargets.get(0).getId());
+        }
+        // Build system message
+        SysMessage sysMessage = buildSysMessage(
+                hrUserId,
+                25,
+                map1,
+                map2
+        );
+        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+    }
+
+    /**
+     * Generic method to build system message object with common properties
+     *
+     * @param recipientId User ID of the message recipient
+     * @param messageType Type of the system message (see MESSAGE_TYPE_* constants)
+     * @param map1        Additional message parameters (basic info)
+     * @param map2        Additional message parameters (target task info)
+     * @return Constructed SysMessage object
+     */
+    private SysMessage buildSysMessage(Long recipientId, int messageType, Map<String, Object> map1, Map<String, Object> map2) {
+        SysMessage sysMessage = new SysMessage();
+        sysMessage.setMessageSender(0L);
+        sysMessage.setMessageRecipient(recipientId);
+        sysMessage.setMessageStatus("0");
+        sysMessage.setMessageType(messageType);
+        sysMessage.setCreateTime(DateUtils.getNowDate());
+        sysMessage.setMap1(map1);
+        sysMessage.setMap2(map2);
+        return sysMessage;
     }
 
     /**
@@ -184,23 +242,29 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
             Long[] employeeIds = hrTargets.getEmployeeIds();
             if (ObjectUtils.isNotEmpty(employeeIds)) {
                 for (Long employeeId : employeeIds) {
-                    HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesById(employeeId);
-                    SysMessage sysMessage = new SysMessage();
-                    sysMessage.setMessageRecipient(hrEmployees.getUserId());
-                    sysMessage.setMessageStatus("0");
-                    sysMessage.setMessageType(15);
-                    sysMessage.setCreateTime(DateUtils.getNowDate());
-                    Map<String, Object> map1 = new HashMap<>();
-                    Map<String, Object> map2 = new HashMap<>();
-                    map2.put("id", hrTargets.getId());
-                    map1.put("title", hrTargets.getName());
-                    sysMessage.setMap1(map1);
-                    sysMessage.setMap2(map2);
+                    HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesById(employeeId);
+                    SysMessage sysMessage = buildMessage(hrTargets, hrEmployees);
                     remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
                 }
             }
         }
         return hrTargets;
+    }
+
+    @NotNull
+    private static SysMessage buildMessage(HrTargets hrTargets, HrEmployees hrEmployees) {
+        SysMessage sysMessage = new SysMessage();
+        sysMessage.setMessageRecipient(hrEmployees.getUserId());
+        sysMessage.setMessageStatus("0");
+        sysMessage.setMessageType(15);
+        sysMessage.setCreateTime(DateUtils.getNowDate());
+        Map<String, Object> map1 = new HashMap<>();
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("id", hrTargets.getId());
+        map1.put("title", hrTargets.getName());
+        sysMessage.setMap1(map1);
+        sysMessage.setMap2(map2);
+        return sysMessage;
     }
 
     private void batchSaveTargetEmployee(HrTargets hrTargets) {
@@ -264,7 +328,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
             QueryWrapper<HrEmployees> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", SecurityUtils.getUserId());
             queryWrapper.select("employee_id");
-            HrEmployees hrEmployees = hrEmployeesService.getOne(queryWrapper);
+            HrEmployees hrEmployees = hrEmployeesMapper.selectOne(queryWrapper);
             hrTargets.setUserId(hrEmployees.getEmployeeId());
             hrTargets.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
             hrTargetEmployees  = hrTargetEmployeeService.selectEmployeeTargetsByAdmin(hrTargets);
@@ -272,7 +336,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
             QueryWrapper<HrEmployees> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", SecurityUtils.getUserId());
             queryWrapper.select("employee_id");
-            HrEmployees hrEmployees = hrEmployeesService.getOne(queryWrapper);
+            HrEmployees hrEmployees = hrEmployeesMapper.selectOne(queryWrapper);
             hrTargets.setUserId(hrEmployees.getEmployeeId());
             hrTargetEmployees  = hrTargetEmployeeService.selectEmployeeTargets(hrTargets);
         }
@@ -360,7 +424,7 @@ public class HrTargetsServiceImpl extends ServiceImpl<HrTargetsMapper, HrTargets
         QueryWrapper<HrTargetEmployee> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("target_id",id);
         Long userId = SecurityUtils.getUserId();
-        HrEmployees hrEmployees = hrEmployeesService.selectHrEmployeesByUserId(userId);
+        HrEmployees hrEmployees = hrEmployeesMapper.selectHrEmployeesByUserId(userId);
         queryWrapper.eq("employee_id", hrEmployees.getEmployeeId());
         long count = hrTargetEmployeeService.count(queryWrapper);
         return count != 0;

@@ -2,8 +2,8 @@ package com.ys.common.core.exception;
 
 /**
  * Internal Authentication Exception
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class InnerAuthException extends RuntimeException
 {

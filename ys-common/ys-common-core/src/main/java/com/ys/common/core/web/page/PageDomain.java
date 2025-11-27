@@ -3,9 +3,9 @@ package com.ys.common.core.web.page;
 import com.ys.common.core.utils.StringUtils;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
 public class PageDomain
 {
@@ -18,10 +18,10 @@ public class PageDomain
     /** Sorting column */
     private String orderByColumn;
 
-   
+
     private String isAsc = "asc";
 
-   
+
     private Boolean reasonable = true;
 
     public String getOrderBy()
@@ -72,7 +72,7 @@ public class PageDomain
     {
         if (StringUtils.isNotEmpty(isAsc))
         {
-            
+
             if ("ascending".equals(isAsc))
             {
                 isAsc = "asc";

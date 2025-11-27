@@ -4,27 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
 public class TreeEntity extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-   
+
     private String parentName;
 
-  
+
     private Long parentId;
 
     /** Display Order */
     private Integer orderNum;
 
-    /** Ancestor-level LIST */
+    /** Ancestor-level list */
     private String ancestors;
 
-    /** Sub DEPARTMENT 
+    /** Sub DEPARTMENT
  */
     private List<?> children = new ArrayList<>();
 

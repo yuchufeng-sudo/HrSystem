@@ -8,14 +8,14 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
 @Component
 public final class SpringUtils implements BeanFactoryPostProcessor
 {
-    
+
     private static ConfigurableListableBeanFactory beanFactory;
 
     @Override
@@ -28,7 +28,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
      * OBTAIN Object
      *
      * @param name
-     * @return 
+     * @return
      * @throws org.springframework.beans.BeansException
      *
      */
@@ -39,7 +39,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
     }
 
     /**
-     * 
+     *
      *
      * @param clz
      * @return
@@ -53,7 +53,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
     }
 
     /**
-     * 
+     *
      *
      * @param name
      * @return boolean
@@ -64,7 +64,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
     }
 
     /**
-     * 
+     *
      *
      * @param name
      * @return boolean
@@ -78,7 +78,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
 
     /**
      * @param name
-     * @return 
+     * @return
      * @throws org.springframework.beans.factory.NoSuchBeanDefinitionException
      *
      */
@@ -88,7 +88,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
     }
 
     /**
-     * 
+     *
      *
      * @param name
      * @return
@@ -101,8 +101,8 @@ public final class SpringUtils implements BeanFactoryPostProcessor
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param invoker
      * @return
      */

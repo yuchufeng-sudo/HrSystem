@@ -28,10 +28,10 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/candidateInfo")
-public class TbCandidateInfoController extends BaseController
+public class HrCandidateInfoController extends BaseController
 {
     @Autowired
-    private ITbCandidateInfoService tbCandidateInfoService;
+    private IHrCandidateInfoService tbCandidateInfoService;
 
     @Resource
     private IHrQuestionAnswerService questionAnswerService;
@@ -46,7 +46,7 @@ public class TbCandidateInfoController extends BaseController
     {
         hrCandidateInfo.setEnterpriseId(SecurityUtils.getUserEnterpriseId());
         startPage();
-        List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(hrCandidateInfo);
+        List<HrCandidateInfo> list = tbCandidateInfoService.selectHrCandidateInfoList(hrCandidateInfo);
         return getDataTable(list);
     }
 
@@ -70,7 +70,7 @@ public class TbCandidateInfoController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, HrCandidateInfo hrCandidateInfo)
     {
-        List<HrCandidateInfo> list = tbCandidateInfoService.selectTbCandidateInfoList(hrCandidateInfo);
+        List<HrCandidateInfo> list = tbCandidateInfoService.selectHrCandidateInfoList(hrCandidateInfo);
         ExcelUtil<HrCandidateInfo> util = new ExcelUtil<HrCandidateInfo>(HrCandidateInfo.class);
         util.exportExcel(response, list, "Candidate Information Data");
     }

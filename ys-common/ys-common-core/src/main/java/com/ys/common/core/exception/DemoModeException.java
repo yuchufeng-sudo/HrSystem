@@ -2,8 +2,8 @@ package com.ys.common.core.exception;
 
 /**
  * Demo Mode Exception
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class DemoModeException extends RuntimeException
 {

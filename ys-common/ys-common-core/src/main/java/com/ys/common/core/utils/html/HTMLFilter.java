@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  *HTML filter, used to remove potential XSS vulnerabilities.
  *
- * @author ruoyi
+ * @author ys
  */
 public final class HTMLFilter
 {

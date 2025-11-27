@@ -4,9 +4,9 @@ import com.ys.common.core.text.Convert;
 import com.ys.common.core.utils.ServletUtils;
 
 /**
- * 
- * 
- * @author ruoyi
+ *
+ *
+ * @author ys
  */
 public class TableSupport
 {
@@ -31,12 +31,12 @@ public class TableSupport
     public static final String IS_ASC = "isAsc";
 
     /**
-     * 
+     *
      */
     public static final String REASONABLE = "reasonable";
 
     /**
-     * 
+     *
      */
     public static PageDomain getPageDomain()
     {

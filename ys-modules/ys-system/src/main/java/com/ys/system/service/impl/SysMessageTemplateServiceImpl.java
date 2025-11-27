@@ -26,7 +26,7 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
      * Query Message Template management
      *
      * @param id  Message Template management Primary Key
-     * @return  Message Template management
+     * @return Message Template management
      */
     @Override
     public SysMessageTemplate selectSysMessageTemplateById(Integer id)
@@ -38,7 +38,7 @@ public class SysMessageTemplateServiceImpl extends ServiceImpl<SysMessageTemplat
      * Query Message Template management list
      *
      * @param sysMessageTemplate  Message Template management
-     * @return  Message Template management
+     * @return Message Template management
      */
     @Override
     public List<SysMessageTemplate> selectSysMessageTemplateList(SysMessageTemplate sysMessageTemplate)

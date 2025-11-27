@@ -4,8 +4,8 @@ import com.ys.common.core.utils.StringUtils;
 
 /**
  *  Character string formatting
- * 
- * @author ruoyi
+ *
+ * @author ys
  */
 public class StrFormatter
 {
@@ -15,16 +15,16 @@ public class StrFormatter
     public static final char C_DELIM_END = '}';
 
     /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
      *
-     * 
-     * @param strPattern  
-     * @param argArray Parameters  LIST
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * @param strPattern
+     * @param argArray Parameters  list
      * @return Result
      */
     public static String format(final String strPattern, final Object... argArray)
@@ -35,7 +35,7 @@ public class StrFormatter
         }
         final int strPatternLength = strPattern.length();
 
-        // Initialize the defined LENGTH for better performance.
+        // Initialize the defined length for better performance.
         StringBuilder sbuf = new StringBuilder(strPatternLength + 50);
 
         int handledPosition = 0;
@@ -84,7 +84,7 @@ public class StrFormatter
                 }
             }
         }
-        // After adding a placeholder in Finally, all characters 
+        // After adding a placeholder in Finally, all characters
         sbuf.append(strPattern, handledPosition, strPattern.length());
 
         return sbuf.toString();

@@ -14,7 +14,7 @@ import java.util.Map;
  * @author ys
  * @date 2025-05-20
  */
-public interface TbCandidateInfoMapper extends BaseMapper<HrCandidateInfo>
+public interface HrCandidateInfoMapper extends BaseMapper<HrCandidateInfo>
 {
     /**
      * Query Candidate Information list
@@ -22,7 +22,7 @@ public interface TbCandidateInfoMapper extends BaseMapper<HrCandidateInfo>
      * @param hrCandidateInfo  Candidate Information
      * @return Candidate INFORMATIONSet
      */
-    public List<HrCandidateInfo> selectTbCandidateInfoList(HrCandidateInfo hrCandidateInfo);
+    public List<HrCandidateInfo> selectHrCandidateInfoList(HrCandidateInfo hrCandidateInfo);
 
     Map<String,Object> candidateCount(HrCandidateInfo hrCandidateInfo);
 

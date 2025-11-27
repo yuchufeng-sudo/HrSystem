@@ -26,27 +26,22 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
 
+/**
+ * Email utility class for sending various types of emails including verification codes,
+ * template-based notifications, and custom email templates with attachments.
+ */
 @Component
 @Slf4j
 @Data
 public class EmailUtils {
 
-//    @Value("${spring.mail.username}")
     private String mailUserName = "2729623478@qq.com";
-    // 邮件协议
+    // Email protocol
     private static final String emailProtocol = "smtp";
-    // 发件人的SMTP服务器地址（企业邮箱）
+    // SMTP server address for sender (enterprise email)
     private static final String emailSMTPHost = "smtp.qq.com";
-    // 端口
+    // SMTP port
     private static final String emailPort = "465";
-//    // 发件人邮箱地址
-//    private static final String emailAccount = "2795051032@qq.com";
-//    // 发件人邮箱授权码
-//    private static final String emailPassword = "hkyindmkligudfcb";
-    // 发件人邮箱地址
-    private static final String emailAccount = "2729623478@qq.com";
-    // 发件人邮箱授权码
-    private static final String emailPassword = "shhcrwocaykxdghc";
 
     @Resource
     private JavaMailSender mailSender;
@@ -58,13 +53,19 @@ public class EmailUtils {
     private RedisCache redisCache;
 
 
+    /**
+     * Send verification code email for password reset or two-factor authentication
+     * @param email Recipient email address
+     * @param type Email type: "1" for password reset, other values for 2FA
+     * @return true if email sent successfully, false otherwise
+     */
     public Boolean sendEmail(String email,String type) {
         try {
             Properties props = new Properties();
             props.setProperty("mail.transport.protocol", emailProtocol);
             props.setProperty("mail.smtp.host", emailSMTPHost);
             props.setProperty("mail.smtp.port", emailPort);
-            // 使用smtp身份验证
+            // Enable SMTP authentication
             props.setProperty("mail.smtp.auth", "true");
             props.put("mail.smtp.ssl.enable", "true");
             props.put("mail.smtp.ssl.protocols", "TLSv1.2");
@@ -98,7 +99,6 @@ public class EmailUtils {
             }
 
             // 3. Build MIME message
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessage mimeMessage = new MimeMessage(session);
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
@@ -116,7 +116,7 @@ public class EmailUtils {
             mailSender.send(mimeMessage);
             System.out.println(code);
 
-            // 5. Log verification code (建议改为Logger.debug)
+            // 5. Log verification code (recommended to use Logger.debug)
             log.debug("Sent verification code {} to {}", code, email);
             return true;
 
@@ -129,6 +129,13 @@ public class EmailUtils {
         }
     }
 
+    /**
+     * Send email using predefined templates for various scenarios
+     * @param map Data map containing template variables
+     * @param email Recipient email address
+     * @param type Template type identifier (e.g., "Candidate-Application", "EmployeeAccountCreatedManually")
+     * @return true if email sent successfully, false otherwise
+     */
     @Async
     public Boolean sendEmailByTemplate(Map<String, Object> map, String email , String type) {
         try {
@@ -136,7 +143,7 @@ public class EmailUtils {
             props.setProperty("mail.transport.protocol", emailProtocol);
             props.setProperty("mail.smtp.host", emailSMTPHost);
             props.setProperty("mail.smtp.port", emailPort);
-            // 使用smtp身份验证
+            // Enable SMTP authentication
             props.setProperty("mail.smtp.auth", "true");
             props.put("mail.smtp.ssl.enable", "true");
             props.put("mail.smtp.ssl.protocols", "TLSv1.2");
@@ -178,289 +185,227 @@ public class EmailUtils {
                     context.setVariable("CompanyName", map.get("CompanyName"));
                     context.setVariable("Username", map.get("Username"));
                     context.setVariable("Password", map.get("Password"));
+                    context.setVariable("LoginUrl", map.get("LoginUrl"));
                     htmlContent = templateEngine.process("employee-account.html", context);
-//                    htmlContent = stringEngine.process(dbTemplate, context);
                     break;
                 case "CandidateHired":
                     String companyName2 = Objects.toString(map.get("CompanyName"), "");
-                    Subject = "Congratulations – You’ve Been Hired at " + companyName2 + "!";
-                    context.setVariable("SupportEmail", map.get("SupportEmail"));
-                    context.setVariable("CompanyName", map.get("CompanyName"));
-                    context.setVariable("HrName", map.get("HrName"));
-                    context.setVariable("HrEmail", map.get("HrEmail"));
+                    Subject = "Congratulations! You've Been Hired at " + companyName2;
                     context.setVariable("FirstName", map.get("FirstName"));
+                    context.setVariable("JobTitle", map.get("JobTitle"));
+                    context.setVariable("CompanyName", map.get("CompanyName"));
+                    context.setVariable("StartDate", map.get("StartDate"));
+                    context.setVariable("HrisToolName", "Shiftcare HR");
                     htmlContent = templateEngine.process("candidate-hired.html", context);
                     break;
-                case "Interview":
-                    String JobTitle = Objects.toString(map.get("JobTitle"), "");
-                    Subject = "Invitation to Interview for " + JobTitle;
-                    context.setVariable("CompanyName", map.get("CompanyName"));
+                case "InterviewScheduled":
+                    Subject = "Interview Scheduled for " + map.get("JobTitle");
                     context.setVariable("FirstName", map.get("FirstName"));
                     context.setVariable("JobTitle", map.get("JobTitle"));
                     context.setVariable("InterviewDate", map.get("InterviewDate"));
                     context.setVariable("InterviewTime", map.get("InterviewTime"));
                     context.setVariable("InterviewLocation", map.get("InterviewLocation"));
-                    htmlContent = templateEngine.process("candidate-invite.html", context);
-                    break;
-                case "Invite":
-                    String companyName3 = Objects.toString(map.get("CompanyName"), "");
-                    Subject = "You're Invited to Join " + companyName3 + "'s HR Platform!";
+                    context.setVariable("InterviewerName", map.get("InterviewerName"));
                     context.setVariable("CompanyName", map.get("CompanyName"));
-                    context.setVariable("FirstName", map.get("FirstName"));
-                    context.setVariable("InviteUrl", map.get("InviteUrl"));
-                    context.setVariable("HrisToolName", map.get("HrisToolName"));
-                    htmlContent = templateEngine.process("Invite.html", context);
+                    htmlContent = templateEngine.process("interview-scheduled.html", context);
                     break;
-                case "Application":
-                    String companyName4 = Objects.toString(map.get("CompanyName"), "");
-                    Subject = "New Company Onboarding Request Received - " + companyName4 + " !";
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("EmailAddress",map.get("EmailAddress"));
-                    context.setVariable("PhoneNumber",map.get("PhoneNumber"));
-                    context.setVariable("SubmissionDate",map.get("SubmissionDate"));
-                    context.setVariable("PendingApprovalsUrl",map.get("PendingApprovalsUrl"));
-                    htmlContent = templateEngine.process("application.html", context);
+                case "LeaveRequestApproved":
+                    Subject = "Your Leave Request Has Been Approved";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("LeaveType", map.get("LeaveType"));
+                    context.setVariable("StartDate", map.get("StartDate"));
+                    context.setVariable("EndDate", map.get("EndDate"));
+                    context.setVariable("ApproverName", map.get("ApproverName"));
+                    context.setVariable("HrisToolName", "Shiftcare HR");
+                    htmlContent = templateEngine.process("leave-request-approved.html", context);
                     break;
-                case "NewCompany":
-                    String companyName5 = Objects.toString(map.get("CompanyName"), "");
-                    Subject = "Welcome to " + companyName5 + " – Let’s Get You Started!";
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    context.setVariable("LoginUrl",map.get("LoginUrl"));
-                    context.setVariable("UserName",map.get("UserName"));
-                    context.setVariable("PassWord",map.get("PassWord"));
-                    htmlContent = templateEngine.process("new-company.html", context);
+                case "LeaveRequestRejected":
+                    Subject = "Your Leave Request Has Been Rejected";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("LeaveType", map.get("LeaveType"));
+                    context.setVariable("StartDate", map.get("StartDate"));
+                    context.setVariable("EndDate", map.get("EndDate"));
+                    context.setVariable("RejectionReason", map.get("RejectionReason"));
+                    context.setVariable("ApproverName", map.get("ApproverName"));
+                    htmlContent = templateEngine.process("leave-request-rejected.html", context);
                     break;
-                case "OffboardingInitiated":
-                    Subject = "Offboarding Checklist Initiated";
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("OffboardingUrl",map.get("OffboardingUrl"));
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    htmlContent = templateEngine.process("offboarding-initiated.html", context);
+                case "OnboardingWelcome":
+                    Subject = "Welcome to " + map.get("CompanyName") + "! Let's Get Started";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("CompanyName", map.get("CompanyName"));
+                    context.setVariable("StartDate", map.get("StartDate"));
+                    context.setVariable("HRContactName", map.get("HRContactName"));
+                    context.setVariable("HRContactEmail", map.get("HRContactEmail"));
+                    htmlContent = templateEngine.process("onboarding-welcome.html", context);
                     break;
-                case "TerminationComplete":
-                    Subject = "Termination Notice – Account Deactivated";
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("HrEmail",map.get("HrEmail"));
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    htmlContent = templateEngine.process("termination-complete.html", context);
+                case "PasswordResetRequest":
+                    Subject = "Password Reset Request";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("ResetLink", map.get("ResetLink"));
+                    context.setVariable("HrisToolName", "Shiftcare HR");
+                    htmlContent = templateEngine.process("password-reset-request.html", context);
                     break;
-                case "offboardingReminderWeekHr":
-                    Subject = "Reminder: Offboarding for "+map.get("FullName")+" Due in 1 Week";
-                    context.setVariable("HrFullName",map.get("HrFullName"));
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("OffboardingUrl",map.get("OffboardingUrl"));
-                    htmlContent = templateEngine.process("offboarding-reminder-week-hr.html", context);
+                case "PayrollProcessed":
+                    Subject = "Your Payroll Has Been Processed";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("PayPeriod", map.get("PayPeriod"));
+                    context.setVariable("NetPay", map.get("NetPay"));
+                    context.setVariable("PayDate", map.get("PayDate"));
+                    context.setVariable("ViewPayslipLink", map.get("ViewPayslipLink"));
+                    htmlContent = templateEngine.process("payroll-processed.html", context);
                     break;
-                case "offboardingReminderWeekEmployee":
-                    Subject = "Reminder: Complete Your Offboarding Tasks";
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    context.setVariable("OffboardingUrl",map.get("OffboardingUrl"));
-                    htmlContent = templateEngine.process("offboarding-reminder-week-employee.html", context);
+                case "PerformanceReviewReminder":
+                    Subject = "Reminder: Upcoming Performance Review";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("ReviewDate", map.get("ReviewDate"));
+                    context.setVariable("ReviewerName", map.get("ReviewerName"));
+                    context.setVariable("HrisToolName", "Shiftcare HR");
+                    htmlContent = templateEngine.process("performance-review-reminder.html", context);
                     break;
-                case "offboardingReminderDayHr":
-                    Subject = "Final Reminder: Offboarding for "+map.get("FullName")+" Due Tomorrow";
-                    context.setVariable("HrFullName",map.get("HrFullName"));
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("OffboardingUrl",map.get("OffboardingUrl"));
-                    htmlContent = templateEngine.process("offboarding-reminder-day-hr.html", context);
+                case "ShiftScheduleUpdate":
+                    Subject = "Your Shift Schedule Has Been Updated";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("ShiftDate", map.get("ShiftDate"));
+                    context.setVariable("ShiftTime", map.get("ShiftTime"));
+                    context.setVariable("Location", map.get("Location"));
+                    context.setVariable("ManagerName", map.get("ManagerName"));
+                    htmlContent = templateEngine.process("shift-schedule-update.html", context);
                     break;
-                case "offboardingReminderDayEmployee":
-                    Subject = "Final Reminder: Offboarding Tasks Due Tomorrow";
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("HrisToolName",map.get("HrisToolName"));
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    context.setVariable("OffboardingUrl",map.get("OffboardingUrl"));
-                    htmlContent = templateEngine.process("offboarding-reminder-day-employee.html", context);
+                case "TrainingAssigned":
+                    Subject = "New Training Assigned: " + map.get("TrainingName");
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("TrainingName", map.get("TrainingName"));
+                    context.setVariable("TrainingDate", map.get("TrainingDate"));
+                    context.setVariable("TrainingTime", map.get("TrainingTime"));
+                    context.setVariable("TrainingLocation", map.get("TrainingLocation"));
+                    htmlContent = templateEngine.process("training-assigned.html", context);
                     break;
-                case "offboardingComplete":
-                    Subject = "Offboarding Checklist Completed";
-                    context.setVariable("FullName",map.get("FullName"));
-                    context.setVariable("CompanyName",map.get("CompanyName"));
-                    htmlContent = templateEngine.process("offboarding-complete.html", context);
+                case "WorkAnniversary":
+                    Subject = "Happy Work Anniversary!";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("YearsOfService", map.get("YearsOfService"));
+                    context.setVariable("CompanyName", map.get("CompanyName"));
+                    context.setVariable("ManagerName", map.get("ManagerName"));
+                    htmlContent = templateEngine.process("work-anniversary.html", context);
+                    break;
+                case "GoalSetReminder":
+                    Subject = "It's Time to Set Your Goals for the Quarter";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("Quarter", map.get("Quarter"));
+                    context.setVariable("DeadlineDate", map.get("DeadlineDate"));
+                    context.setVariable("HrisToolName", "Shiftcare HR");
+                    htmlContent = templateEngine.process("goal-set-reminder.html", context);
+                    break;
+                case "TimesheetApprovalPending":
+                    Subject = "Timesheet Approval Pending";
+                    context.setVariable("ManagerName", map.get("ManagerName"));
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("TimePeriod", map.get("TimePeriod"));
+                    context.setVariable("TotalHours", map.get("TotalHours"));
+                    context.setVariable("HrisToolName", "Shiftcare HR");
+                    htmlContent = templateEngine.process("timesheet-approval-pending.html", context);
+                    break;
+                case "BenefitsEnrollmentReminder":
+                    Subject = "Reminder: Enroll in Your Benefits";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("EnrollmentDeadline", map.get("EnrollmentDeadline"));
+                    context.setVariable("EnrollmentLink", map.get("EnrollmentLink"));
+                    context.setVariable("HRContactName", map.get("HRContactName"));
+                    htmlContent = templateEngine.process("benefits-enrollment-reminder.html", context);
+                    break;
+                case "ComplianceTrainingDue":
+                    Subject = "Compliance Training Due Soon";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("TrainingName", map.get("TrainingName"));
+                    context.setVariable("DueDate", map.get("DueDate"));
+                    context.setVariable("TrainingLink", map.get("TrainingLink"));
+                    htmlContent = templateEngine.process("compliance-training-due.html", context);
+                    break;
+                case "EmployeeReferralBonus":
+                    Subject = "You've Earned a Referral Bonus!";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("ReferredCandidateName", map.get("ReferredCandidateName"));
+                    context.setVariable("BonusAmount", map.get("BonusAmount"));
+                    context.setVariable("CompanyName", map.get("CompanyName"));
+                    htmlContent = templateEngine.process("employee-referral-bonus.html", context);
+                    break;
+                case "OffboardingChecklist":
+                    Subject = "Important: Your Offboarding Checklist";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("LastWorkingDay", map.get("LastWorkingDay"));
+                    context.setVariable("HRContactName", map.get("HRContactName"));
+                    context.setVariable("HRContactEmail", map.get("HRContactEmail"));
+                    htmlContent = templateEngine.process("offboarding-checklist.html", context);
+                    break;
+                case "SurveyRequest":
+                    Subject = "We Value Your Feedback - Quick Survey";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("SurveyName", map.get("SurveyName"));
+                    context.setVariable("SurveyLink", map.get("SurveyLink"));
+                    context.setVariable("Deadline", map.get("Deadline"));
+                    htmlContent = templateEngine.process("survey-request.html", context);
+                    break;
+                case "CompanyAnnouncementImportant":
+                    Subject = "Important Company Announcement";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("AnnouncementTitle", map.get("AnnouncementTitle"));
+                    context.setVariable("AnnouncementBody", map.get("AnnouncementBody"));
+                    context.setVariable("CompanyName", map.get("CompanyName"));
+                    htmlContent = templateEngine.process("company-announcement-important.html", context);
+                    break;
+                case "ProbationReviewScheduled":
+                    Subject = "Your Probation Review is Scheduled";
+                    context.setVariable("EmployeeName", map.get("EmployeeName"));
+                    context.setVariable("ReviewDate", map.get("ReviewDate"));
+                    context.setVariable("ReviewTime", map.get("ReviewTime"));
+                    context.setVariable("ManagerName", map.get("ManagerName"));
+                    htmlContent = templateEngine.process("probation-review-scheduled.html", context);
                     break;
                 default:
-                    log.error("Failed to send email to {}", email);
+                    log.warn("Unknown email template type: {}", type);
                     return false;
             }
 
-            // 3. Build MIME message
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            // Build MIME message
             MimeMessage mimeMessage = new MimeMessage(session);
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
             message.setFrom(mailUserName);
             message.setTo(email);
             message.setSubject(Subject);
             message.setSentDate(new Date());
             message.setText(htmlContent, true);
 
-            // 4. Send email
+            // Send email
             mailSender.send(mimeMessage);
 
+            log.debug("Sent template email '{}' to {}", type, email);
             return true;
 
         } catch (MessagingException e) {
-            log.error("Failed to send email to {}", email, e);
+            log.error("Failed to send template email to {}", email, e);
             return false;
         } catch (Exception e) {
-            log.error("Unexpected error when sending email", e);
+            log.error("Unexpected error when sending template email", e);
             return false;
         }
     }
 
+    /**
+     * Send email for customer onboarding workflow
+     * @param params Map containing email parameters
+     * @param email Recipient email address
+     * @param type Email type: 1=signup confirmation, 2=admin notification, 3=approval, 4=rejection, 5=disabled, 6=password reset, 7=invitation, 8=user rejection
+     * @return true if email sent successfully, false otherwise
+     */
     @Async
-    public Boolean sendEmailByEmailTemplate(Map<String, Object> map, String email, String dbTemplate,Map<String, Object> subjectParams, String subjectTemplate) {
-        try {
-            // 1. 邮件配置
-            Properties props = new Properties();
-            props.setProperty("mail.transport.protocol", emailProtocol);
-            props.setProperty("mail.smtp.host", emailSMTPHost);
-            props.setProperty("mail.smtp.port", emailPort);
-            props.setProperty("mail.smtp.auth", "true");
-            props.put("mail.smtp.ssl.enable", "true");
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.setProperty("mail.smtp.connectiontimeout", "10000");
-            props.setProperty("mail.smtp.timeout", "10000");
-            props.setProperty("mail.smtp.writetimeout", "10000");
-
-            Session session = Session.getDefaultInstance(props);
-            session.setDebug(false);
-
-            // 2. 用 Mustache 渲染数据库模板
-            MustacheFactory mf = new DefaultMustacheFactory();
-            Mustache mustache = mf.compile(new StringReader(dbTemplate), "emailTemplate");
-
-            StringWriter writer = new StringWriter();
-            mustache.execute(writer, map).flush();
-            String htmlContent = writer.toString();
-
-            // 3. 主题可以从 map 或者另一个字段里取，这里先写死
-//            String subject = map.getOrDefault("subject", "系统通知").toString();
-            String subject = fillTemplate(subjectTemplate,subjectParams);
-
-            // 4. 构建 MIME 邮件
-            MimeMessage mimeMessage = new MimeMessage(session);
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            message.setFrom(mailUserName);
-            message.setTo(email);
-            message.setSubject(subject);
-            message.setSentDate(new Date());
-            message.setText(htmlContent, true);
-            // 5. 发送
-            mailSender.send(mimeMessage);
-            return true;
-        } catch (MessagingException e) {
-            log.error("Failed to send email to {}", email, e);
-            return false;
-        } catch (Exception e) {
-            log.error("Unexpected error when sending email", e);
-            return false;
-        }
-    }
-
-    @Async
-    public Boolean sendEmailByEmailTemplate(
-            Map<String, Object> map,
-            String email,
-            String dbTemplate,
-            Map<String, Object> subjectParams,
-            String subjectTemplate,
-            String type,               // 新增参数：TO / CC / BCC
-            String[] ccEmails,         // 抄送列表，可为空
-            String[] bccEmails         // 密送列表，可为空
-    ) {
-        try {
-            // 1. 邮件配置
-            Properties props = new Properties();
-            props.setProperty("mail.transport.protocol", emailProtocol);
-            props.setProperty("mail.smtp.host", emailSMTPHost);
-            props.setProperty("mail.smtp.port", emailPort);
-            props.setProperty("mail.smtp.auth", "true");
-            props.put("mail.smtp.ssl.enable", "true");
-            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.setProperty("mail.smtp.connectiontimeout", "10000");
-            props.setProperty("mail.smtp.timeout", "10000");
-            props.setProperty("mail.smtp.writetimeout", "10000");
-
-            Session session = Session.getDefaultInstance(props);
-            session.setDebug(false);
-
-            // 2. 用 Mustache 渲染数据库模板
-            MustacheFactory mf = new DefaultMustacheFactory();
-            Mustache mustache = mf.compile(new StringReader(dbTemplate), "emailTemplate");
-
-            StringWriter writer = new StringWriter();
-            mustache.execute(writer, map).flush();
-            String htmlContent = writer.toString();
-
-            // 3. 主题渲染
-            String subject = fillTemplate(subjectTemplate, subjectParams);
-
-            // 4. 构建 MIME 邮件
-            MimeMessage mimeMessage = new MimeMessage(session);
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            message.setFrom(mailUserName);
-            message.setSubject(subject);
-            message.setSentDate(new Date());
-            message.setText(htmlContent, true);
-
-            // 5. 根据 type 设置收件人、抄送、密送
-            switch ((type != null ? type.toUpperCase() : "TO")) {
-                case "CC":
-                    if (ccEmails != null && ccEmails.length > 0) {
-                        message.setTo(ccEmails);   // CC 也可以作为主要收件人
-                    } else {
-                        message.setTo(email);
-                    }
-                    break;
-                case "BCC":
-                    if (bccEmails != null && bccEmails.length > 0) {
-                        message.setTo(bccEmails);  // BCC 也作为收件人
-                    } else {
-                        message.setTo(email);
-                    }
-                    break;
-                default:
-                    message.setTo(email);
-                    break;
-            }
-
-            // 6. 设置附加抄送/密送列表
-            if (ccEmails != null && ccEmails.length > 0) {
-                message.setCc(ccEmails);
-            }
-            if (bccEmails != null && bccEmails.length > 0) {
-                message.setBcc(bccEmails);
-            }
-
-            // 7. 发送
-            mailSender.send(mimeMessage);
-            return true;
-        } catch (MessagingException e) {
-            log.error("Failed to send email to {}", email, e);
-            return false;
-        } catch (Exception e) {
-            log.error("Unexpected error when sending email", e);
-            return false;
-        }
-    }
-
-    public Boolean sendStaticEmail(String email, int type, Map<String, Object> params) {
+    public Boolean sendCustomerEmail(Map<String, Object> params, String email , Integer type) {
         try {
             Properties props = new Properties();
             props.setProperty("mail.transport.protocol", emailProtocol);
             props.setProperty("mail.smtp.host", emailSMTPHost);
             props.setProperty("mail.smtp.port", emailPort);
-            // 使用smtp身份验证
+            // Enable SMTP authentication
             props.setProperty("mail.smtp.auth", "true");
             props.put("mail.smtp.ssl.enable", "true");
             props.put("mail.smtp.ssl.protocols", "TLSv1.2");
@@ -477,7 +422,7 @@ public class EmailUtils {
             message.setFrom(mailUserName);
             message.setTo(email);
             if(type == 1){
-                message.setSubject("Thanks for signing up – we’re reviewing your request");
+                message.setSubject("Thanks for signing up – we're reviewing your request");
                 context.setVariable("fullName",params.get("fullName"));
                 String text = templateEngine.process("customer-sign-up.html", context);
                 message.setText(text, true);
@@ -518,7 +463,7 @@ public class EmailUtils {
                 message.setText(text, true);
             }
             if (type == 7){
-                message.setSubject("You’re invited to join TeohCRM");
+                message.setSubject("You're invited to join TeohCRM");
                 context.setVariable("customerName",params.get("customerName"));
                 context.setVariable("code",params.get("code"));
                 context.setVariable("type",params.get("type"));
@@ -550,6 +495,18 @@ public class EmailUtils {
         }
     }
 
+    /**
+     * Send email using custom database template with support for multiple recipients, CC, BCC, and attachments
+     * @param map Data map for template variables
+     * @param toEmails Array of recipient email addresses
+     * @param dbTemplate HTML content template
+     * @param subjectParams Parameters for subject template (currently unused)
+     * @param subjectTemplate Email subject
+     * @param ccEmails Array of CC email addresses
+     * @param bccEmails Array of BCC email addresses
+     * @param attachments List of file attachments
+     * @return true if email sent successfully, false otherwise
+     */
     @Async
     public Boolean sendEmailByEmailTemplate(
             Map<String, Object> map,
@@ -562,7 +519,7 @@ public class EmailUtils {
             List<File> attachments
     ) {
         try {
-            // 1. 邮件配置
+            // 1. Email configuration
             Properties props = new Properties();
             props.setProperty("mail.transport.protocol", emailProtocol);
             props.setProperty("mail.smtp.host", emailSMTPHost);
@@ -578,26 +535,25 @@ public class EmailUtils {
             Session session = Session.getDefaultInstance(props);
             session.setDebug(false);
 
-            // 2. 渲染数据库模板 (HTML 内容)
-//            MustacheFactory mf = new DefaultMustacheFactory();
-//            Mustache mustache = mf.compile(new StringReader(dbTemplate), "emailTemplate");
+            // 2. Render database template (HTML content) - commented out Mustache rendering
+            // MustacheFactory mf = new DefaultMustacheFactory();
+            // Mustache mustache = mf.compile(new StringReader(dbTemplate), "emailTemplate");
+            // StringWriter writer = new StringWriter();
+            // mustache.execute(writer, map).flush();
+            // String htmlContent = writer.toString();
 
-//            StringWriter writer = new StringWriter();
-//            mustache.execute(writer, map).flush();
-//            String htmlContent = writer.toString();
+            // 3. Render email subject - commented out template rendering
+            // String subject = fillTemplate(subjectTemplate, subjectParams);
 
-            // 3. 渲染邮件主题
-//            String subject = fillTemplate(subjectTemplate, subjectParams);
-
-            // 4. 构建 MIME 邮件
+            // 4. Build MIME message
             MimeMessage mimeMessage = new MimeMessage(session);
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8"); // true 表示 multipart
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8"); // true indicates multipart
             message.setFrom(mailUserName);
             message.setSubject(subjectTemplate);
             message.setSentDate(new Date());
             message.setText(dbTemplate, true);
 
-            // 5. 设置收件人、抄送、密送
+            // 5. Set recipients, CC, BCC
             if (toEmails != null && toEmails.length > 0) {
                 message.setTo(toEmails);
             }
@@ -608,7 +564,7 @@ public class EmailUtils {
                 message.setBcc(bccEmails);
             }
 
-            // 6. 添加附件
+            // 6. Add attachments
             if (attachments != null && !attachments.isEmpty()) {
                 for (File file : attachments) {
                     if (file != null && file.exists()) {
@@ -617,7 +573,7 @@ public class EmailUtils {
                 }
             }
 
-            // 7. 发送
+            // 7. Send email
             mailSender.send(mimeMessage);
             return true;
         } catch (MessagingException e) {
@@ -630,6 +586,13 @@ public class EmailUtils {
     }
 
 
+    /**
+     * Fill template string with parameters using Mustache template engine
+     * @param template Template string with Mustache placeholders
+     * @param params Map of parameters to fill into template
+     * @return Rendered template string
+     * @throws IOException if template processing fails
+     */
     public static String fillTemplate(String template, Map<String, Object> params) throws IOException {
         MustacheFactory mf = new DefaultMustacheFactory();
         Mustache mustache = mf.compile(new StringReader(template), "template");
@@ -641,6 +604,10 @@ public class EmailUtils {
     }
 
 
+    /**
+     * Generate a random 4-digit verification code
+     * @return String containing 4-digit code (1000-9999)
+     */
     public static String getNewcode() {
         return String.valueOf((new Random().nextInt(8999) + 1000));
     }

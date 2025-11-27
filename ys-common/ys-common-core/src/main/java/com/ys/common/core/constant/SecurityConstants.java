@@ -3,27 +3,27 @@ package com.ys.common.core.constant;
 /**
  * General Constants Related to Permission
  *
- * @author ruoyi
+ * @author ys
  */
 public class SecurityConstants
 {
     /**
-     * USER ID field
+     * User ID field
      */
     public static final String DETAILS_USER_ID = "user_id";
 
     /**
-     * 
+     * Enterprise ID field
      */
     public static final String DETAILS_ENTERPRISE_ID = "enterprise_id";
 
     /**
-     * USER Name field
+     * UserName field
      */
     public static final String DETAILS_USERNAME = "username";
 
     /**
-     * Authorization INFORMATION field
+     * Authorization Information field
      */
     public static final String AUTHORIZATION_HEADER = "authorization";
 
@@ -38,17 +38,17 @@ public class SecurityConstants
     public static final String INNER = "inner";
 
     /**
-     * USER identifier
+     * User identifier
      */
     public static final String USER_KEY = "user_key";
 
     /**
-     * Login USER 
+     * Login User
      */
     public static final String LOGIN_USER = "login_user";
 
     /**
-     * ROLEPermission
+     * role Permission
      */
     public static final String ROLE_PERMISSION = "role_permission";
 }

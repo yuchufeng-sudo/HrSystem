@@ -12,34 +12,29 @@ package com.ys.hr.enums;
 public enum CandidateStatus {
 
     /**
-     * Candidate application submitted
+     * Screening status
      */
-    APPLIED("1", "Applied"),
+    SCREENING("0", "Screening"),
 
     /**
-     * Candidate under review
+     * Shortlisted status
      */
-    UNDER_REVIEW("2", "Under Review"),
+    SHORTLISTED("1", "Shortlisted"),
 
     /**
-     * Candidate shortlisted for interview
+     * Interview status
      */
-    SHORTLISTED("3", "Shortlisted"),
+    INTERVIEW("2", "Interview"),
 
     /**
-     * Candidate interviewed
+     * Hired status
      */
-    INTERVIEWED("4", "Interviewed"),
+    HIRED("3", "Hired"),
 
     /**
-     * Candidate hired
+     * Rejected status
      */
-    HIRED("5", "Hired"),
-
-    /**
-     * Candidate rejected
-     */
-    REJECTED("6", "Rejected");
+    REJECTED("4", "Rejected");
 
     /**
      * Status code stored in database
@@ -93,5 +88,15 @@ public enum CandidateStatus {
             }
         }
         return null;
+    }
+
+    /**
+     * Check if matches the specified status code
+     *
+     * @param code Status code
+     * @return Whether it matches
+     */
+    public boolean equalsCode(String code) {
+        return this.code.equals(code);
     }
 }

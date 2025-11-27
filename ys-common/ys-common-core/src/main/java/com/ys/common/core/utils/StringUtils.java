@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  *
  *
- * @author ruoyi
+ * @author ys
  */
 public class StringUtils extends org.apache.commons.lang3.StringUtils
 {
@@ -629,7 +629,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     }
 
     /**
-     *  TIME  Conversion
+     * time  Conversion
      * @param time
      * @return
      */

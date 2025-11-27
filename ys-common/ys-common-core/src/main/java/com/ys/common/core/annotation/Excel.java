@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 import java.math.BigDecimal;
 
 /**
- * Custom EXPORT Excel Data Annotation
+ * Custom Export Excel Data Annotation
  *
- * @author ruoyi
+ * @author ys
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -75,7 +75,7 @@ public @interface Excel
     public String defaultValue() default "";
 
     /**
-     * Prompt / Tip INFORMATION
+     * Prompt / Tip Information
      */
     public String prompt() default "";
 
@@ -105,7 +105,7 @@ public @interface Excel
     public boolean isStatistics() default false;
 
     /**
-     * EXPORT Type（0Digital  1 Character string）
+     * Export Type（0Digital  1 Character string）
      */
     public ColumnType cellType() default ColumnType.STRING;
 
@@ -120,12 +120,12 @@ public @interface Excel
     public IndexedColors headerColor() default IndexedColors.WHITE;
 
     /**
-     * EXPORT cell background color.
+     * Export cell background color.
      */
     public IndexedColors backgroundColor() default IndexedColors.WHITE;
 
     /**
-     * EXPORT cell font color.
+     * Export cell font color.
      */
     public IndexedColors color() default IndexedColors.BLACK;
 
@@ -145,13 +145,13 @@ public @interface Excel
     public String[] args() default {};
 
     /**
-     *Field Type (0: EXPORTImport; 1: EXPORT only; 2: Import only)
+     *Field Type (0: EXPORTImport; 1: Export only; 2: Import only)
      */
     Type type() default Type.ALL;
 
     public enum Type
     {
-        ALL(0), EXPORT(1), IMPORT(2);
+        ALL(0), Export(1), IMPORT(2);
         private final int value;
 
         Type(int value)

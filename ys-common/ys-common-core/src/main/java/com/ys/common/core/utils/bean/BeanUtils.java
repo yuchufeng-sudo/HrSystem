@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Bean 
  * 
- * @author ruoyi
+ * @author ys
  */
 public class BeanUtils extends org.springframework.beans.BeanUtils
 {
@@ -77,7 +77,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils
 
     public static List<Method> getGetterMethods(Object obj)
     {
-        // Getter method LIST
+        // Getter method list
         List<Method> getterMethods = new ArrayList<Method>();
         //
         Method[] methods = obj.getClass().getMethods();
@@ -90,7 +90,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils
                 getterMethods.add(method);
             }
         }
-        // Return Getter method LIST
+        // Return Getter method list
         return getterMethods;
     }
 

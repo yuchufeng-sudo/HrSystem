@@ -46,7 +46,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
      * Query dictionary types with pagination based on conditions.
      *
      * @param dictType  Dictionary type  Information
-     * @return  Dictionary type Set Information
+     * @return Dictionary type Set Information
      */
     @Override
     public List<SysDictType> selectDictTypeList(SysDictType dictType)
@@ -57,7 +57,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     /**
      * According to  all  Dictionary type
      *
-     * @return  Dictionary type Set Information
+     * @return Dictionary type Set Information
      */
     @Override
     public List<SysDictType> selectDictTypeAll()
@@ -69,7 +69,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
      * ACCORDING TO THE Dictionary type  Query Dictionary Data
      *
      * @param dictType  Dictionary type
-     * @return  Dictionary Data Set Information
+     * @return Dictionary Data Set Information
      */
     @Override
     public List<SysDictData> selectDictDataByType(String dictType)
@@ -92,7 +92,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
      * ACCORDING TO THE Dictionary type  IDQUERY Information
      *
      * @param dictId  Dictionary type ID
-     * @return  Dictionary type
+     * @return Dictionary type
      */
     @Override
     public SysDictType selectDictTypeById(Long dictId)
@@ -104,7 +104,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
      * ACCORDING TO THE Dictionary type  Query Information
      *
      * @param dictType  Dictionary type
-     * @return  Dictionary type
+     * @return Dictionary type
      */
     @Override
     public SysDictType selectDictTypeByType(String dictType)

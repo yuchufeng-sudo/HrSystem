@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ys.hr.mapper.TbCandidateInfoMapper">
+<mapper namespace="com.ys.hr.mapper.HrCandidateInfoMapper">
 
-    <resultMap type="com.ys.hr.domain.HrCandidateInfo" id="TbCandidateInfoResult">
+    <resultMap type="com.ys.hr.domain.HrCandidateInfo" id="HrCandidateInfoResult">
         <result property="candidateId"    column="candidate_id"    />
         <result property="candidateName"    column="candidate_name"    />
         <result property="tags"    column="tags"    />
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="jobListingsId" column="job_listings_id" />
     </resultMap>
 
-    <sql id="selectTbCandidateInfoVo">
+    <sql id="selectHrCandidateInfoVo">
         SELECT
             hci.*,hjl.title as postName
         FROM
@@ -52,8 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 LEFT JOIN hr_job_listings hjl ON hjl.id = hci.job_listings_id
     </sql>
 
-    <select id="selectTbCandidateInfoList" parameterType="com.ys.hr.domain.HrCandidateInfo" resultMap="TbCandidateInfoResult">
-        <include refid="selectTbCandidateInfoVo"/>
+    <select id="selectHrCandidateInfoList" parameterType="com.ys.hr.domain.HrCandidateInfo" resultMap="HrCandidateInfoResult">
+        <include refid="selectHrCandidateInfoVo"/>
         <where>
             <if test="jobStatus != null  and jobStatus != ''"> and hci.job_status = #{jobStatus}</if>
             <if test="candidateId != null  and candidateId != ''"> and hci.candidate_id = #{candidateId}</if>

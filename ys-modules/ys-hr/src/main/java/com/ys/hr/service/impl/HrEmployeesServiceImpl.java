@@ -65,7 +65,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     private IHrTargetTasksService targetTasksService;
 
     @Resource
-    private TbCandidateInfoMapper candidateInfoMapper;
+    private HrCandidateInfoMapper candidateInfoMapper;
 
     @Resource
     private RemoteMessageService remoteMessageService;
@@ -85,6 +85,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     {
         return baseMapper.selectHrEmployeesList(hrEmployees);
     }
+
     @Override
     public List<HrEmployeesExcel> selectHrEmployeesExcelList(HrEmployees hrEmployees)
     {
@@ -374,7 +375,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
      */
     @Override
    public List<CelebrationVo> selectCelebrationList(Long userId) {
-        // OBTAIN today's date
+        // Obtain today's date
         LocalDate today = LocalDate.now();
         List<CelebrationVo> list = new ArrayList<>();
         HrEmployees hrEmployees = baseMapper.selectHrEmployeesByUserId(userId);
@@ -655,31 +656,6 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         // Process offboarding reminders for resigned employee (email + system message)
         List<HrTargets> staffOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_STAFF);
         sendOffboardingReminderToStaff(employees, hrEnterprise, staffOffboardingTargets, "offboardingReminderDayEmployee", 24);
-    }
-
-    @Override
-    public void resignComplete(Long employeeId, Long hrUserId) {
-        HrEmployees employees = selectHrEmployeesById(employeeId);
-        if (employees==null){
-            return;
-        }
-        HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(SecurityUtils.getUserEnterpriseId());
-        Map<String, Object> params = new HashMap<>();
-        params.put("FullName", employees.getFullName());
-        params.put("CompanyName", hrEnterprise.getEnterpriseName());
-        emailUtils.sendEmailByTemplate(params, employees.getEmail(), "offboardingComplete");
-        Map<String, Object> map1 = new HashMap<>();
-        map1.put("fullName",employees.getFullName());
-        List<HrTargets> hrOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_HR);
-        // Build system message
-        SysMessage sysMessage = buildSysMessage(
-                hrUserId,
-                25,
-                map1,
-                buildMessageMap2(hrOffboardingTargets)
-        );
-        // Send system message to resigned employee (fixed bug: used correct sysMessage object)
-        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
     }
 
 
