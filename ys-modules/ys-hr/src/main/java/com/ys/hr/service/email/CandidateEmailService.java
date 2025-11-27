@@ -30,11 +30,13 @@ public class CandidateEmailService {
     @Resource
     private EmailUtils emailUtils;
 
-    @Autowired
-    private IHrEmployeesService hrEmployeesService;
+    public static final String EMAIL_TEMPLATE_INTERVIEW = "Interview";
 
-    @Autowired
-    private IHrCandidateInfoService candidateInfoService;
+    public static final String EMAIL_TEMPLATE_SHORTLISTED = "Candidate-Shortlisted";
+
+    public static final String EMAIL_TEMPLATE_HIRED = "CandidateHired";
+
+    public static final String EMAIL_TEMPLATE_INVITE = "Invite";
 
     /**
      * Send shortlisted notification email
@@ -54,7 +56,7 @@ public class CandidateEmailService {
         emailUtils.sendEmailByTemplate(
                 templateData,
                 candidateInfo.getContactEmail(),
-                "Candidate-Shortlisted"
+                EMAIL_TEMPLATE_SHORTLISTED
         );
     }
 
@@ -83,7 +85,7 @@ public class CandidateEmailService {
         emailUtils.sendEmailByTemplate(
                 templateData,
                 candidateInfo.getContactEmail(),
-                "Interview"
+                EMAIL_TEMPLATE_INTERVIEW
         );
     }
 
@@ -107,7 +109,7 @@ public class CandidateEmailService {
         emailUtils.sendEmailByTemplate(
                 templateData,
                 candidateInfo.getContactEmail(),
-                "CandidateHired"
+                EMAIL_TEMPLATE_HIRED
         );
     }
 
@@ -130,7 +132,7 @@ public class CandidateEmailService {
         emailUtils.sendEmailByTemplate(
                 templateData,
                 candidateInfo.getContactEmail(),
-                "Invite"
+                EMAIL_TEMPLATE_INVITE
         );
     }
 

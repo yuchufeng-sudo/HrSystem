@@ -149,7 +149,7 @@ public class SysEnterpriseController extends BaseController
                 userEnterpriseId = enterpriseId;
             }
         }
-        return AjaxResult.success("OPERATION SUCCESS", userEnterpriseId);
+        return AjaxResult.success("Operation SUCCESS", userEnterpriseId);
     }
 
     @PostMapping("setSelectEnterpriseId")

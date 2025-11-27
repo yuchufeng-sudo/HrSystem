@@ -33,7 +33,7 @@ import java.util.*;
 public class ServletUtils
 {
     /**
-     * OBTAIN StringParameters
+     * Obtain StringParameters
      */
     public static String getParameter(String name)
     {
@@ -41,7 +41,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN StringParameters
+     * Obtain StringParameters
      */
     public static String getParameter(String name, String defaultValue)
     {
@@ -49,7 +49,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN IntegerParameters
+     * Obtain IntegerParameters
      */
     public static Integer getParameterToInt(String name)
     {
@@ -57,7 +57,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN IntegerParameters
+     * Obtain IntegerParameters
      */
     public static Integer getParameterToInt(String name, Integer defaultValue)
     {
@@ -65,7 +65,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN BooleanParameters
+     * Obtain BooleanParameters
      */
     public static Boolean getParameterToBool(String name)
     {
@@ -73,7 +73,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN BooleanParameters
+     * Obtain BooleanParameters
      */
     public static Boolean getParameterToBool(String name, Boolean defaultValue)
     {
@@ -109,7 +109,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN request
+     * Obtain request
      */
     public static HttpServletRequest getRequest()
     {
@@ -124,7 +124,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN response
+     * Obtain response
      */
     public static HttpServletResponse getResponse()
     {
@@ -139,7 +139,7 @@ public class ServletUtils
     }
 
     /**
-     * OBTAIN session
+     * Obtain session
      */
     public static HttpSession getSession()
     {

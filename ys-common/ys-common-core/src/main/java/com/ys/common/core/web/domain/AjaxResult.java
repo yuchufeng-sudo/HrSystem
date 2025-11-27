@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * "OPERATION Message reminder"
+ * "Operation Message reminder"
  *
  * @author ys
  */
@@ -67,7 +67,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public static AjaxResult success()
     {
-        return AjaxResult.success("OPERATION SUCCESS");
+        return AjaxResult.success("Operation SUCCESS");
     }
 
     /**
@@ -77,7 +77,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public static AjaxResult success(Object data)
     {
-        return AjaxResult.success("OPERATION SUCCESS", data);
+        return AjaxResult.success("Operation SUCCESS", data);
     }
 
     /**

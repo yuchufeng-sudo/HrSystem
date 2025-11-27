@@ -133,7 +133,7 @@ public class SysDefaultRoleController extends BaseController
     }
 
     /**
-     * OBTAIN role SELECT box list
+     * Obtain role SELECT box list
      */
     @RequiresPermissions("system:defaultRole:query")
     @GetMapping("/optionselect")

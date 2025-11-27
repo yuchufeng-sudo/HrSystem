@@ -170,7 +170,7 @@ public class SysRoleServiceImpl implements ISysRoleService
     }
 
     /**
-     *  Verify whether role is allowed to perform OPERATION.
+     *  Verify whether role is allowed to perform Operation.
      *
      * @param role ROLE Information
      */

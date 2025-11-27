@@ -95,7 +95,7 @@ public @interface Excel
     public boolean isExport() default true;
 
     /**
-     * The attribute Name in another class supports multi-level OBTAIN, separated by decimal points.
+     * The attribute Name in another class supports multi-level Obtain, separated by decimal points.
      */
     public String targetAttr() default "";
 

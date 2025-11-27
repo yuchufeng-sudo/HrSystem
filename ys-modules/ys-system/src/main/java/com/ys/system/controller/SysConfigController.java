@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Parameter Configuration Information OPERATION Processing
+ * Parameter Configuration Information Operation Processing
  *
  * @author ys
  */
@@ -30,7 +30,7 @@ public class SysConfigController extends BaseController
     private ISysConfigService configService;
 
     /**
-     * OBTAIN Parameter Configuration list
+     * Obtain Parameter Configuration list
      */
     @RequiresPermissions("system:config:list")
     @GetMapping("/list")
@@ -52,7 +52,7 @@ public class SysConfigController extends BaseController
     }
 
     /**
-     * According to Parameter ID OBTAIN DETAILED Information
+     * According to Parameter ID Obtain DETAILED Information
      */
     @GetMapping(value = "/{configId}")
     public AjaxResult getInfo(@PathVariable Long configId)

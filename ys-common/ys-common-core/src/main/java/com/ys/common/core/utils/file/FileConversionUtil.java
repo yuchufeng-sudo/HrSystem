@@ -12,42 +12,44 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- *
+ * File Conversion Utility Class
+ * Provides utilities for converting files between different formats
  */
 @Slf4j
 public class FileConversionUtil {
 
-    //
+    // Initialize Chinese fonts
     static {
         try {
-            //
+            // Register Chinese fonts (using fonts provided by itext-asian)
             FontFactory.registerDirectories();
-            FontFactory.register("fonts"); //
+            FontFactory.register("fonts"); // Can add custom font directories
         } catch (Exception e) {
-            log.error("Font initialization failure", e);
+            log.error("Font initialization failed", e);
         }
     }
 
     /**
+     * Convert rich text HTML to PDF
      *
-     * @param content
-     * @return
+     * @param content HTML content to convert
+     * @return Generated PDF file
      */
     public static File convertHtmlToPdf(String content){
         String fullHtmlDocument = getFullHtmlDocument(content);
-
+        // Replace <p><br></p> with <p>&nbsp;</p>
         fullHtmlDocument = fullHtmlDocument.replaceAll("<p>\\s*(<br\\s*/?>)?\\s*</p>", "<p>&nbsp;</p>");
 
-
+        // Handle <br> tags to avoid consecutive empty tags out of context
         fullHtmlDocument = fullHtmlDocument.replaceAll("<br\\s*/?>\\s*<br\\s*/?>", "<br/>");
-
+        // Create temporary file
         File pdfFile = null;
         try {
             pdfFile = File.createTempFile("contract-" + System.currentTimeMillis(), ".pdf");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        log.info("Create  Temporary PDFFile: {}", pdfFile.getAbsolutePath());
+        log.info("Created temporary PDF file: {}", pdfFile.getAbsolutePath());
 
         Document document = new Document(PageSize.A4);
         PdfWriter writer = null;
@@ -56,7 +58,7 @@ public class FileConversionUtil {
             writer = PdfWriter.getInstance(document, os);
             document.open();
 
-
+            // Use XMLWorkerHelper to convert HTML
             XMLWorkerHelper.getInstance().parseXHtml(
                     writer, document,
                     new ByteArrayInputStream(fullHtmlDocument.getBytes(StandardCharsets.UTF_8)),
@@ -65,19 +67,19 @@ public class FileConversionUtil {
             );
 
             document.close();
-            log.info("Contract PDFFileGenerateSUCCESS: {}", pdfFile.getAbsolutePath());
+            log.info("Contract PDF file generated successfully: {}", pdfFile.getAbsolutePath());
             return pdfFile;
         } catch (Exception e) {
-            log.error("PDFFileGenerateFailure", e);
-
+            log.error("PDF file generation failed", e);
+            // Close document
             if (document.isOpen()) {
                 document.close();
             }
-
+            // Close writer
             if (writer != null) {
                 writer.close();
             }
-            // Delete Temporary File
+            // Delete temporary file (commented out)
 //            if (pdfFile.exists()) {
 //                pdfFile.delete();
 //            }
@@ -86,9 +88,10 @@ public class FileConversionUtil {
     }
 
     /**
+     * Get complete HTML document with proper structure
      *
-     * @param content
-     * @return
+     * @param content Main content body
+     * @return Complete HTML document string
      */
     private static String getFullHtmlDocument(String content) {
         return ""
@@ -102,7 +105,7 @@ public class FileConversionUtil {
                 + "    body { font-family: 'STSong-Light', SimSun, sans-serif; font-size:14px; line-height:1.6; }"
                 + "    h1, h2, h3, h4 { text-align:center; }"
                 + "    .contract-title { font-size:18px; font-weight:bold; margin:20px 0; }"
-                + "    /* …  … */"
+                + "    /* ... your other styles ... */"
                 + "    .page-break { page-break-after:always; }"
                 + "    table { width:100%; border-collapse:collapse; margin:10px 0; }"
                 + "    table, th, td { border:1px solid #000; }"

@@ -29,7 +29,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
             "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
 
     /**
-     * OBTAIN the current Date-type date.
+     * Obtain the current Date-type date.
      *
      * @return Date() current date.
      */
@@ -39,7 +39,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     }
 
     /**
-     * OBTAIN the current date, with the default format being yyyy-MM-dd
+     * Obtain the current date, with the default format being yyyy-MM-dd
      *
      * @return String
      */

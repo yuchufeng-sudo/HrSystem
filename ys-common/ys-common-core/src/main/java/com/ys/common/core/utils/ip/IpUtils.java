@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * OBTAIN IP
+ * Obtain IP
  *
  * @author ys
  */
@@ -224,7 +224,7 @@ public class IpUtils
     }
 
     /**
-     * OBTAIN IP Address
+     * Obtain IP Address
      *
      * @return Local IP address
      */

@@ -25,7 +25,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
     }
 
     /**
-     * OBTAIN Object
+     * Obtain Object
      *
      * @param name
      * @return

@@ -57,7 +57,7 @@ public class SysNotificationSettingsController extends BaseController
 
 
     /**
-     * OBTAIN Notification SettingsDETAILEDLY Information
+     * Obtain Notification SettingsDETAILEDLY Information
      */
     @GetMapping()
     public AjaxResult getInfo() {

@@ -30,7 +30,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     private ISysMenuService menuService;
 
     /**
-     * OBTAIN role Data Permission
+     * Obtain role Data Permission
      *
      * @param userId User Id
      * @return role Permission Information
@@ -52,7 +52,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     }
 
     /**
-     * OBTAIN menu Data Permission
+     * Obtain menu Data Permission
      *
      * @param userId User Id
      * @return menu Permission Information

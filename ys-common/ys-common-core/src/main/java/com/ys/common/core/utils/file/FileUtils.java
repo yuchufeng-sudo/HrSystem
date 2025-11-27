@@ -1,39 +1,39 @@
 package com.ys.common.core.utils.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import com.ys.common.core.utils.StringUtils;
 
 /**
- * 文件处理工具类
+ * File processing utility class
  *
- * @author ys
+ * @author ruoyi
  */
 public class FileUtils
 {
-    /** 字符常量：斜杠 {@code '/'} */
+    /** Character constant: slash {@code '/'} */
     public static final char SLASH = '/';
 
-    /** 字符常量：反斜杠 {@code '\\'} */
+    /** Character constant: backslash {@code '\\'} */
     public static final char BACKSLASH = '\\';
 
+    /** Filename validation regex pattern: allows letters, numbers, underscores, hyphens, pipes, dots and Chinese characters */
     public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
 
     /**
-     * 输出指定文件的byte数组
+     * Write the byte array of the specified file to the output stream
      *
-     * @param filePath 文件路径
-     * @param os 输出流
-     * @return
+     * @param filePath Path of the file to read
+     * @param os Output stream to write the file bytes
+     * @throws IOException If an I/O error occurs (e.g., file not found, stream operation failed)
      */
     public static void writeBytes(String filePath, OutputStream os) throws IOException
     {
@@ -85,16 +85,16 @@ public class FileUtils
     }
 
     /**
-     * 删除文件
+     * Delete a file
      *
-     * @param filePath 文件
-     * @return
+     * @param filePath Path of the file to delete
+     * @return true if the file is successfully deleted; false otherwise
      */
     public static boolean deleteFile(String filePath)
     {
         boolean flag = false;
         File file = new File(filePath);
-        // 路径为文件且不为空则进行删除
+        // Delete if the path points to an existing file
         if (file.isFile() && file.exists())
         {
             flag = file.delete();
@@ -103,10 +103,10 @@ public class FileUtils
     }
 
     /**
-     * 文件名称验证
+     * Validate if the filename is legal
      *
-     * @param filename 文件名称
-     * @return true 正常 false 非法
+     * @param filename Filename to validate
+     * @return true if the filename matches the allowed pattern; false otherwise
      */
     public static boolean isValidFilename(String filename)
     {
@@ -114,62 +114,66 @@ public class FileUtils
     }
 
     /**
-     * 校验文件路径合法性（安全性与扩展名）
+     * Check if the file is allowed to be downloaded
      *
-     * @param fileUrl 待校验的文件地址
-     * @return true 正常 false 非法
+     * @param resource Path of the file to download
+     * @return true if the file is allowed to download; false otherwise
+     * @note Prohibits directory traversal (contains "..") and checks if the file extension is in the allowed list
      */
-    public static boolean validateFilePath(String fileUrl)
+    public static boolean checkAllowDownload(String resource)
     {
-        // 禁止目录上跳级别
-        if (StringUtils.contains(fileUrl, ".."))
+        // Prohibit directory traversal
+        if (StringUtils.contains(resource, ".."))
         {
             return false;
         }
-        // 判断是否在允许下载的文件规则内
-        return ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(fileUrl));
+        // Check if the file extension is in the allowed list
+        return ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource));
     }
 
     /**
-     * 下载文件名重新编码
+     * Re-encode the download filename for different browsers
      *
-     * @param request 请求对象
-     * @param fileName 文件名
-     * @return 编码后的文件名
+     * @param request HttpServletRequest object
+     * @param fileName Original filename
+     * @return Encoded filename suitable for the requesting browser
+     * @throws UnsupportedEncodingException If the required encoding (utf-8, ISO8859-1) is not supported
      */
     public static String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException
     {
-        final String agent = request.getHeader("User-AGENT");
+        final String agent = request.getHeader("USER-AGENT");
         String filename = fileName;
         if (agent.contains("MSIE"))
         {
-            // IE浏览器
+            // IE browser encoding
             filename = URLEncoder.encode(filename, "utf-8");
             filename = filename.replace("+", " ");
         }
         else if (agent.contains("Firefox"))
         {
-            // 火狐浏览器
+            // Firefox browser encoding
             filename = new String(fileName.getBytes(), "ISO8859-1");
         }
         else if (agent.contains("Chrome"))
         {
-            // google浏览器
+            // Chrome browser encoding
             filename = URLEncoder.encode(filename, "utf-8");
         }
         else
         {
-            // 其它浏览器
+            // Other browsers encoding
             filename = URLEncoder.encode(filename, "utf-8");
         }
         return filename;
     }
 
     /**
-     * 返回文件名
+     * Extract the filename from the file path
      *
-     * @param filePath 文件
-     * @return 文件名
+     * @param filePath Full path of the file
+     * @return Extracted filename; null if the input path is null
+     * @note Handles paths ending with a file separator by removing the trailing separator first,
+     * then finds the last file separator ('/' or '\') to extract the filename
      */
     public static String getName(String filePath)
     {
@@ -184,7 +188,7 @@ public class FileUtils
         }
         if (isFileSeparator(filePath.charAt(len - 1)))
         {
-            // 以分隔符结尾的去掉结尾分隔符
+            // Remove trailing separator if the path ends with it
             len--;
         }
 
@@ -195,7 +199,7 @@ public class FileUtils
             c = filePath.charAt(i);
             if (isFileSeparator(c))
             {
-                // 查找最后一个路径分隔符（/或者\）
+                // Find the last file separator ('/' or '\')
                 begin = i + 1;
                 break;
             }
@@ -205,11 +209,10 @@ public class FileUtils
     }
 
     /**
-     * 是否为Windows或者Linux（Unix）文件分隔符<br>
-     * Windows平台下分隔符为\，Linux（Unix）为/
+     * Check if the character is a Windows or Linux (Unix) file separator
      *
-     * @param c 字符
-     * @return 是否为Windows或者Linux（Unix）文件分隔符
+     * @param c Character to check
+     * @return true if the character is '/' (Linux/Unix) or '\' (Windows); false otherwise
      */
     public static boolean isFileSeparator(char c)
     {
@@ -217,11 +220,12 @@ public class FileUtils
     }
 
     /**
-     * 下载文件名重新编码
+     * Set HTTP response headers for file attachment download
      *
-     * @param response 响应对象
-     * @param realFileName 真实文件名
-     * @return
+     * @param response HttpServletResponse object
+     * @param realFileName Real filename of the attachment
+     * @throws UnsupportedEncodingException If UTF-8 encoding is not supported
+     * @note Sets "Content-disposition" and "download-filename" headers with properly encoded filename
      */
     public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) throws UnsupportedEncodingException
     {
@@ -240,10 +244,12 @@ public class FileUtils
     }
 
     /**
-     * 百分号编码工具方法
+     * Percent-encode a string for HTTP headers (complies with RFC 3986)
      *
-     * @param s 需要百分号编码的字符串
-     * @return 百分号编码后的字符串
+     * @param s String to be percent-encoded
+     * @return Percent-encoded string
+     * @throws UnsupportedEncodingException If UTF-8 encoding is not supported
+     * @note Uses UTF-8 encoding and replaces '+' with '%20' to meet HTTP header standards
      */
     public static String percentEncode(String s) throws UnsupportedEncodingException
     {

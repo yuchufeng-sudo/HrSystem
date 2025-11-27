@@ -1,7 +1,7 @@
 package com.ys.common.core.utils.sign;
 
 /**
- *
+ * Base64 Utils
  *
  * @author ys
  */

@@ -1,7 +1,7 @@
 package com.ys.common.log.enums;
 
 /**
- * OPERATION Category
+ * Operation Category
  *
  * @author ys
  */

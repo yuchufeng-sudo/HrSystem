@@ -348,7 +348,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * OBTAIN Route Name
+     * Obtain Route Name
      *
      * @param menu  menu  Information
      * @return Route Name
@@ -364,7 +364,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     *OBTAIN the Route Name. If the Route Name is not configured, obtain the route Address.
+     *Obtain the Route Name. If the Route Name is not configured, obtain the route Address.
      *
      * @param routerName Route Name
      * @param path Route Address
@@ -377,7 +377,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * OBTAIN Route Address
+     * Obtain Route Address
      *
      * @param menu  menu  Information
      * @return Route Address
@@ -463,7 +463,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
-     * According to the ID of the parent node, OBTAIN all child nodes.
+     * According to the ID of the parent node, Obtain all child nodes.
      *
      * @param list classification Table
      * @param parentId The passed parent node ID.

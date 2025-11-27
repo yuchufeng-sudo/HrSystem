@@ -87,7 +87,7 @@ public interface ISysUserService
     public boolean checkEmailUnique(SysUser user);
 
     /**
-     *  Verify Whether the User Is Allowed to Perform the OPERATION
+     *  Verify Whether the User Is Allowed to Perform the Operation
      *
      * @param user  User Information
      */

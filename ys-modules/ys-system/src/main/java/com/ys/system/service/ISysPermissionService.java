@@ -12,7 +12,7 @@ import java.util.Set;
 public interface ISysPermissionService
 {
     /**
-     * OBTAIN role Data Permission
+     * Obtain role Data Permission
      *
      * @param userId User Id
      * @return role Permission Information
@@ -20,7 +20,7 @@ public interface ISysPermissionService
     public Set<String> getRolePermission(SysUser user);
 
     /**
-     * OBTAIN menu Data Permission
+     * Obtain menu Data Permission
      *
      * @param userId User Id
      * @return menu Permission Information

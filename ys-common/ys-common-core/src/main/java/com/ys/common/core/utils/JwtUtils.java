@@ -88,7 +88,7 @@ public class JwtUtils
     }
 
     /*
-    * OBTAIN Enterprise Number
+    * Obtain Enterprise Number
     * */
     public static String getEnterpriseId(String token)
     {
@@ -97,7 +97,7 @@ public class JwtUtils
     }
 
     /*
-    * OBTAIN Enterprise Number
+    * Obtain Enterprise Number
     * */
     public static String getEnterpriseId(Claims claims)
     {

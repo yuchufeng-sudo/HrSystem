@@ -5,7 +5,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import java.lang.annotation.*;
 
 /**
- * Primary Database Data Source
+ * Master Data Source
  *
  * @author ys
  */

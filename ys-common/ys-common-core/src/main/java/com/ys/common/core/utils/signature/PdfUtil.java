@@ -13,7 +13,7 @@ import java.net.URLEncoder;
 public class PdfUtil {
 
     /*
-     * Generatepdf
+     * Generate pdf
      * wmy 12:40 2019/8/9
      * @Param [guideBook, pdfPath]
      * @return java.lang.Boolean
@@ -55,7 +55,7 @@ public class PdfUtil {
     }
 
     /*
-     * File
+     * File Download
      * wmy 9:54 2019/8/12
      * @Param [request, response, inputStream, fileName]
      * @return void

@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Excel Utils
  *
  * @author ys
  */
@@ -1507,7 +1507,7 @@ public class ExcelUtil<T>
         }
         catch (Exception e)
         {
-            log.error("OBTAIN Object Exception{}", e.getMessage());
+            log.error("Obtain Object Exception{}", e.getMessage());
         }
         return method;
     }

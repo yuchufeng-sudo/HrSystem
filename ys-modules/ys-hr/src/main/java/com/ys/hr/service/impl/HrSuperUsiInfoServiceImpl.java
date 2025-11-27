@@ -1,5 +1,19 @@
 package com.ys.hr.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ys.common.core.exception.ExternalServiceException;
+import com.ys.hr.domain.HrSuperUsiInfo;
+import com.ys.hr.mapper.HrSuperUsiInfoMapper;
+import com.ys.hr.service.IHrSuperUsiInfoService;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,102 +24,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ys.common.core.utils.DateUtils;
-import com.ys.common.core.utils.StringUtils;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.springframework.stereotype.Service;
-import com.ys.hr.mapper.HrSuperUsiInfoMapper;
-import com.ys.hr.domain.HrSuperUsiInfo;
-import com.ys.hr.service.IHrSuperUsiInfoService;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.net.ssl.X509TrustManager;
-
 /**
- * USI and product information table Service Implementation
+ * USI Information Service Implementation (Optimized Version)
  *
  * @author ys
  * @date 2025-10-23
  */
+@Slf4j
 @Service
-public class HrSuperUsiInfoServiceImpl extends ServiceImpl<HrSuperUsiInfoMapper, HrSuperUsiInfo> implements IHrSuperUsiInfoService
-{
+public class HrSuperUsiInfoServiceImpl extends ServiceImpl<HrSuperUsiInfoMapper, HrSuperUsiInfo> implements IHrSuperUsiInfoService {
 
-    @Override
-    public List<HrSuperUsiInfo> selectHrSuperUsiInfoList(HrSuperUsiInfo hrSuperUsiInfo)
-    {
-        return baseMapper.selectHrSuperUsiInfoList(hrSuperUsiInfo);
-    }
+    @Value("${usi.download.url}")
+    private String usiDownloadUrl;
 
-
-    private static final String USI_DOWNLOAD_URL = "https://superfundlookup.gov.au/Tools/DownloadUsiList?download=usi";
+    @Value("${usi.download.timeout}")
+    private int downloadTimeout;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final int MAX_RETRIES = 3;
 
     @Override
-    public List<HrSuperUsiInfo> downloadAndParseUSIFile() throws IOException {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .hostnameVerifier((hostname, session) -> true)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .build();
-        Request request = new Request.Builder().url(USI_DOWNLOAD_URL).addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36").build();
-        Response response = okHttpClient.newCall(request).execute();
-
-        if (!response.isSuccessful()) {
-            throw new IOException("Failed to download USI file, response code：" + response.code());
-        }
-        if (response.body() == null) {
-            throw new IOException("The content of the USI file is empty");
-        }
-
-        List<HrSuperUsiInfo> usiInfoList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.body().byteStream(), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.length() != 481) {
-                    continue;
-                }
-                HrSuperUsiInfo dto = parseSingleLine(line);
-                if (dto != null) {
-                    usiInfoList.add(dto);
-                }
-            }
-        }
-        return usiInfoList;
-    }
-
-    private HrSuperUsiInfo parseSingleLine(String line) {
-        try {
-            HrSuperUsiInfo dto = new HrSuperUsiInfo();
-            dto.setAbn(substring(line, 0, 11));
-            dto.setFundName(substring(line, 12, 212));
-            dto.setUsi(substring(line, 213, 233));
-            dto.setProductName(substring(line, 234, 434));
-            dto.setContributionRestriction(substring(line, 435, 435));
-            String fromDateStr = substring(line, 460, 470).trim();
-            dto.setFromDate(LocalDate.parse(fromDateStr, DATE_FORMATTER));
-            String toDateStr = substring(line, 471, 481).trim();
-            dto.setToDate(StringUtils.isEmpty(toDateStr) ? null : LocalDate.parse(toDateStr, DATE_FORMATTER));
-            dto.setCreateTime(DateUtils.getNowDate());
-            if (StringUtils.isEmpty(dto.getUsi()) || StringUtils.isEmpty(dto.getAbn())) {
-                return null;
-            }
-            return dto;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private String substring(String line, int startIdx, int endIdx) {
-        if (startIdx < 0 || endIdx >= line.length()) {
-            return "";
-        }
-        return line.substring(startIdx, endIdx + 1).trim();
+    public List<HrSuperUsiInfo> selectHrSuperUsiInfoList(HrSuperUsiInfo hrSuperUsiInfo) {
+        return baseMapper.selectHrSuperUsiInfoList(hrSuperUsiInfo);
     }
 
     @Transactional
@@ -124,6 +64,237 @@ public class HrSuperUsiInfoServiceImpl extends ServiceImpl<HrSuperUsiInfoMapper,
                 baseMapper.updateById(entity);
             } else {
                 baseMapper.insert(entity);
+            }
+        }
+    }
+
+    /**
+     * Download and parse USI file (with retry mechanism)
+     */
+    @Override
+    @Retryable(
+            value = ExternalServiceException.class,
+            maxAttempts = MAX_RETRIES,
+            backoff = @Backoff(delay = 2000, multiplier = 2)
+    )
+    @Transactional(rollbackFor = Exception.class)
+    public List<HrSuperUsiInfo> downloadAndParseUSIFile() {
+
+        log.info("Starting USI file download from: {}", usiDownloadUrl);
+
+        OkHttpClient client = null;
+        Response response = null;
+        BufferedReader reader = null;
+
+        try {
+            // Create HTTP client
+            client = createHttpClient();
+
+            // Create request
+            Request request = new Request.Builder()
+                    .url(usiDownloadUrl)
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                    .build();
+
+            // Execute request
+            response = client.newCall(request).execute();
+
+            // Check response status
+            if (!response.isSuccessful()) {
+                String errorMsg = String.format("USI download failed with status code: %d",
+                        response.code());
+                log.error(errorMsg);
+                throw new ExternalServiceException("USI Lookup Service", errorMsg);
+            }
+
+            // Check response body
+            ResponseBody body = response.body();
+            if (body == null) {
+                throw new ExternalServiceException("USI Lookup Service",
+                        "Response body is empty");
+            }
+
+            // Parse file
+            reader = new BufferedReader(
+                    new InputStreamReader(body.byteStream(), StandardCharsets.UTF_8));
+
+            List<HrSuperUsiInfo> usiList = parseUsiCsvFile(reader);
+
+            log.info("Successfully downloaded and parsed {} USI records", usiList.size());
+            return usiList;
+
+        } catch (IOException e) {
+            String errorMsg = String.format("Network error while downloading USI file: %s",
+                    e.getMessage());
+            log.error(errorMsg, e);
+            throw new ExternalServiceException("USI Lookup Service", errorMsg, e);
+
+        } catch (Exception e) {
+            String errorMsg = String.format("Unexpected error during USI download: %s",
+                    e.getMessage());
+            log.error(errorMsg, e);
+            throw new ExternalServiceException("USI Lookup Service", errorMsg, e);
+
+        } finally {
+            // Ensure resources are released
+            closeQuietly(reader);
+            closeQuietly(response);
+            shutdownQuietly(client);
+        }
+    }
+
+    /**
+     * Create HTTP client
+     */
+    private OkHttpClient createHttpClient() {
+        return new OkHttpClient.Builder()
+                .hostnameVerifier((hostname, session) -> true)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(downloadTimeout, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+    }
+
+    /**
+     * Parse CSV file
+     */
+    private List<HrSuperUsiInfo> parseUsiCsvFile(BufferedReader reader) throws IOException {
+
+        List<HrSuperUsiInfo> usiList = new ArrayList<>();
+        String line;
+        int lineNumber = 0;
+        int errorCount = 0;
+
+        log.debug("Starting CSV parsing");
+
+        try {
+            // Skip header line
+            reader.readLine();
+            lineNumber++;
+
+            // Parse line by line
+            while ((line = reader.readLine()) != null) {
+                lineNumber++;
+
+                try {
+                    HrSuperUsiInfo usiInfo = parseCsvLine(line);
+                    if (usiInfo != null) {
+                        usiList.add(usiInfo);
+                    }
+                } catch (Exception e) {
+                    errorCount++;
+                    log.warn("Failed to parse line {}: {}", lineNumber, e.getMessage());
+
+                    // If too many errors, stop parsing
+                    if (errorCount > 100) {
+                        log.error("Too many parse errors ({}), stopping parse", errorCount);
+                        throw new ExternalServiceException("USI Lookup Service",
+                                "CSV file format error: too many invalid lines");
+                    }
+                }
+            }
+
+            log.info("Parsed {} lines, {} valid records, {} errors",
+                    lineNumber, usiList.size(), errorCount);
+
+            return usiList;
+
+        } catch (IOException e) {
+            log.error("IO error while parsing CSV at line {}", lineNumber, e);
+            throw e;
+        }
+    }
+
+    /**
+     * Parse single CSV line
+     */
+    private HrSuperUsiInfo parseCsvLine(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            return null;
+        }
+
+        String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+        if (fields.length < 7) {
+            log.debug("Skipping line with insufficient fields: {}", line);
+            return null;
+        }
+
+        try {
+            HrSuperUsiInfo usiInfo = new HrSuperUsiInfo();
+
+            usiInfo.setAbn(cleanField(fields[0]));
+            usiInfo.setFundName(cleanField(fields[1]));
+            usiInfo.setUsi(cleanField(fields[2]));
+            usiInfo.setProductName(cleanField(fields[3]));
+            usiInfo.setContributionRestriction(cleanField(fields[4]));
+
+            // Parse dates
+            String fromDateStr = cleanField(fields[5]);
+            if (fromDateStr != null && !fromDateStr.isEmpty()) {
+                usiInfo.setFromDate(LocalDate.parse(fromDateStr, DATE_FORMATTER));
+            }
+
+            String toDateStr = cleanField(fields[6]);
+            if (toDateStr != null && !toDateStr.isEmpty() && !"NULL".equalsIgnoreCase(toDateStr)) {
+                usiInfo.setToDate(LocalDate.parse(toDateStr, DATE_FORMATTER));
+            }
+
+            return usiInfo;
+
+        } catch (Exception e) {
+            log.debug("Error parsing CSV line: {}", line, e);
+            return null;
+        }
+    }
+
+    /**
+     * Clean CSV field (remove quotes and whitespace)
+     */
+    private String cleanField(String field) {
+        if (field == null) {
+            return null;
+        }
+        return field.trim().replaceAll("^\"|\"$", "");
+    }
+
+    /**
+     * Safely close Reader
+     */
+    private void closeQuietly(BufferedReader reader) {
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                log.debug("Error closing reader", e);
+            }
+        }
+    }
+
+    /**
+     * Safely close Response
+     */
+    private void closeQuietly(Response response) {
+        if (response != null) {
+            try {
+                response.close();
+            } catch (Exception e) {
+                log.debug("Error closing response", e);
+            }
+        }
+    }
+
+    /**
+     * Safely shutdown HTTP client
+     */
+    private void shutdownQuietly(OkHttpClient client) {
+        if (client != null) {
+            try {
+                client.dispatcher().executorService().shutdown();
+                client.connectionPool().evictAll();
+            } catch (Exception e) {
+                log.debug("Error shutting down HTTP client", e);
             }
         }
     }

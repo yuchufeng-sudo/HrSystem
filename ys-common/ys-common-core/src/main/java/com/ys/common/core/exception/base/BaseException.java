@@ -2,7 +2,7 @@ package com.ys.common.core.exception.base;
 
 /**
  * Base Exception
- * 
+ *
  * @author ys
  */
 public class BaseException extends RuntimeException
@@ -25,7 +25,7 @@ public class BaseException extends RuntimeException
     private Object[] args;
 
     /**
-     * Error Message 
+     * Error Message
      */
     private String defaultMessage;
 

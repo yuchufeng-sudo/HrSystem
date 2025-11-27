@@ -13,7 +13,7 @@ public class R<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    /** SUCCESS */
+    /** Success */
     public static final int SUCCESS = Constants.SUCCESS;
 
     /** Failure */

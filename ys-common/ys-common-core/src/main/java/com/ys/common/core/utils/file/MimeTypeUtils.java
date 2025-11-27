@@ -1,7 +1,7 @@
 package com.ys.common.core.utils.file;
 
 /**
- * 媒体类型工具类
+ * Media Type Utility
  *
  * @author ys
  */

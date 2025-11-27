@@ -408,7 +408,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID>
     }
 
     /**
-     * OBTAIN {@link SecureRandom}
+     * Obtain {@link SecureRandom}
      * @return {@link SecureRandom}
      */
     public static SecureRandom getSecureRandom()

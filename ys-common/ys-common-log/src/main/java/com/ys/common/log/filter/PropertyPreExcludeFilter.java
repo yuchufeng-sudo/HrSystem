@@ -3,8 +3,8 @@ package com.ys.common.log.filter;
 import com.alibaba.fastjson2.filter.SimplePropertyPreFilter;
 
 /**
- * 
- * 
+ * Exclude JSON sensitive attributes
+ *
  * @author ys
  */
 public class PropertyPreExcludeFilter extends SimplePropertyPreFilter

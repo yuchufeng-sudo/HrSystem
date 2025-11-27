@@ -45,7 +45,7 @@ public interface ISysRoleService
     public List<SysRole> selectRoleAll();
 
     /**
-     * According to User ID OBTAIN role SELECT list
+     * According to User ID Obtain role SELECT list
      *
      * @param userId User ID
      * @return Select role ID  list
@@ -77,7 +77,7 @@ public interface ISysRoleService
     public boolean checkRoleKeyUnique(SysRole role);
 
     /**
-     *  Verify whether ROLE is allowed to perform OPERATION.
+     *  Verify whether ROLE is allowed to perform Operation.
      *
      * @param role ROLE Information
      */

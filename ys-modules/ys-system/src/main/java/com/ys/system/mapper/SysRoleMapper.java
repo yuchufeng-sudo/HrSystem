@@ -36,7 +36,7 @@ public interface SysRoleMapper
     public List<SysRole> selectRoleAll();
 
     /**
-     * According to User ID OBTAIN role SELECT box list
+     * According to User ID Obtain role SELECT box list
      *
      * @param userId User ID
      * @return Select roleID  list

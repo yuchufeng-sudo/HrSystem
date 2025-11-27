@@ -1,7 +1,7 @@
 package com.ys.common.log.enums;
 
 /**
- * OPERATIONStatus
+ * Operating status
  *
  * @author ys
  *
@@ -9,12 +9,12 @@ package com.ys.common.log.enums;
 public enum BusinessStatus
 {
     /**
-     * SUCCESS
+     * success
      */
     SUCCESS,
 
     /**
-     * Failure
+     * failure
      */
     FAIL,
 }

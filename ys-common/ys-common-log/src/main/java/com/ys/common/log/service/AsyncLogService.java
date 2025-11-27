@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Asynchronous call to log service
  *
  * @author ys
  */
@@ -19,7 +19,7 @@ public class AsyncLogService
     private RemoteLogService remoteLogService;
 
     /**
-     * save  System LOG Record
+     * Save system log records
      */
     @Async
     public void saveSysLog(SysOperLog sysOperLog) throws Exception

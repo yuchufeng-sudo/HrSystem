@@ -198,7 +198,7 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     *  Verify Whether the User Is Allowed to Perform the OPERATION
+     *  Verify Whether the User Is Allowed to Perform the Operation
      *
      * @param user  User Information
      */
@@ -207,7 +207,7 @@ public class SysUserServiceImpl implements ISysUserService
     {
         if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
         {
-            throw new ServiceException("OPERATION by Super management Users Is Not Allowed");
+            throw new ServiceException("Operation by Super management Users Is Not Allowed");
         }
     }
 

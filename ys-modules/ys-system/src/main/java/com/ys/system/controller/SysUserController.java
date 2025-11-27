@@ -76,7 +76,7 @@ public class SysUserController extends BaseController {
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
     /**
-     * OBTAIN User   list
+     * Obtain User   list
      */
     @RequiresPermissions("system:user:list")
     @GetMapping("/list")
@@ -115,7 +115,7 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * OBTAIN current User Information
+     * Obtain current User Information
      */
     @InnerAuth
     @GetMapping("/info/{username}")

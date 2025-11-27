@@ -1,8 +1,11 @@
 package com.ys.hr.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ys.hr.domain.HrFundInformation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Comprehensive fund information Service Interface
@@ -21,6 +24,11 @@ public interface IHrFundInformationService extends IService<HrFundInformation>
      */
     public List<HrFundInformation> selectHrFundInformationList(HrFundInformation hrFundInformation);
 
+    Optional<HrFundInformation> findByEmployeeAndEnterprise(
+            String employeeId, String enterpriseId);
+
+    boolean exists(String id);
+
     /**
      * Add Comprehensive fund information
      *
@@ -35,4 +43,7 @@ public interface IHrFundInformationService extends IService<HrFundInformation>
      * @return Result
      */
     public int updateHrFundInformation(HrFundInformation hrFundInformation);
+
+    @Transactional(rollbackFor = Exception.class)
+    int deleteByIds(String[] ids);
 }

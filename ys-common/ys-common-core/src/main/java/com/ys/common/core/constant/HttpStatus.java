@@ -8,7 +8,7 @@ package com.ys.common.core.constant;
 public class HttpStatus
 {
     /**
-     * OPERATION SUCCESS
+     * Operation SUCCESS
      */
     public static final int SUCCESS = 200;
 
@@ -23,7 +23,7 @@ public class HttpStatus
     public static final int ACCEPTED = 202;
 
     /**
-     * The OPERATION has been executed successfully, but no data is returned.
+     * The Operation has been executed successfully, but no data is returned.
      */
     public static final int NO_CONTENT = 204;
 
