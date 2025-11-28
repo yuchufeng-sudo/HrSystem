@@ -34,7 +34,7 @@ public interface IHrEmployeesService extends IService<HrEmployees>
 
     Long insertEmployees(HrEmployees hrEmployees);
 
-    Long updateEmployees(HrEmployees hrEmployees);
+    HrEmployees updateEmployees(HrEmployees hrEmployees);
 
     List<EmergencyContactsReportVo> selectEmergencyContactsReportVo(HrEmployees hrEmployees);
 

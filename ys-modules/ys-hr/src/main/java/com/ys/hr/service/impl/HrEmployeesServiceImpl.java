@@ -7,7 +7,7 @@ import com.ys.common.core.exception.ServiceException;
 import com.ys.common.core.utils.DateUtils;
 import com.ys.common.core.utils.StringUtils;
 import com.ys.common.security.utils.SecurityUtils;
-import com.ys.hr.WebUrl;
+import com.ys.hr.config.WebUrl;
 import com.ys.hr.domain.*;
 import com.ys.hr.domain.excel.HrEmployeesExcel;
 import com.ys.hr.domain.vo.*;
@@ -223,7 +223,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long updateEmployees(HrEmployees hrEmployees) {
+    public HrEmployees updateEmployees(HrEmployees hrEmployees) {
         Long employeeId = hrEmployees.getEmployeeId();
         HrEmployees hrEmployees1 = baseMapper.selectHrEmployeesById(employeeId);
         boolean a = hrEmployees.getFullName() != null && !hrEmployees1.getFullName().equals(hrEmployees.getFullName());
@@ -260,7 +260,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
             hrDeptMapper.batchHrDeptEmployees(list);
         }
         baseMapper.updateById(hrEmployees);
-        return employeeId;
+        return hrEmployees;
     }
 
     private void selectSysUserCountByUsernamesOrEmailOrWorkNoWithLock(HrEmployees hrEmployees) {
