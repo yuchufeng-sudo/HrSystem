@@ -14,12 +14,16 @@ import com.ys.hr.domain.vo.*;
 import com.ys.hr.enums.EmployeeStatus;
 import com.ys.hr.mapper.*;
 import com.ys.hr.service.*;
+import com.ys.hr.service.OffboardingAuditService;
+import com.ys.hr.service.OffboardingSecurityService;
+import com.ys.hr.service.OffboardingValidationService;
 import com.ys.system.api.RemoteMessageService;
 import com.ys.system.api.domain.SysMessage;
 import com.ys.system.api.domain.SysUser;
 import com.ys.system.api.domain.SysUserRole;
 import com.ys.utils.email.EmailUtils;
 import com.ys.utils.random.RandomStringGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -35,14 +39,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- *  Employee ServiceBusiness layer processing
+ * Employee Service Business Layer Processing - Enhanced with Security
  *
  * @author ys
  * @date 2025-05-21
  */
+@Slf4j
 @Service
-public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmployees> implements IHrEmployeesService
-{
+public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmployees> implements IHrEmployeesService {
 
     @Resource
     private HrEmpHolidayMapper hrEmpHolidayMapper;
@@ -74,22 +78,50 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     @Resource
     private WebUrl webUrl;
 
+    // Security and validation services - NEW
+    @Resource
+    private OffboardingSecurityService securityService;
+
+    @Resource
+    private OffboardingValidationService validationService;
+
+    @Resource
+    private OffboardingAuditService auditService;
+
+    /**
+     * Constant definitions - Centralized management for easier maintenance
+     */
+    // Target task names for offboarding process
+    private static final String OFFBOARDING_TARGET_HR = "Complete offboarding - HR";
+    private static final String OFFBOARDING_TARGET_STAFF = "Complete offboarding - Staff";
+    // HRIS tool name used in email templates
+    private static final String HRIS_TOOL_NAME = "Shiftcare HR";
+    // Template for offboarding task detail URL (format with target ID)
+    private static final String OFFBOARDING_URL_TEMPLATE = "/targets/detail?id=%s";
+    // System message status: 0 = Unread
+    private static final String MESSAGE_STATUS_UNREAD = "0";
+
+    // Message type constants - NEW
+    private static final Integer MESSAGE_TYPE_OFFBOARDING_INITIATED = 19;
+    private static final Integer MESSAGE_TYPE_TERMINATION_COMPLETE = 21;
+    private static final Integer MESSAGE_TYPE_OFFBOARDING_REMINDER_WEEK_HR = 20;
+    private static final Integer MESSAGE_TYPE_OFFBOARDING_REMINDER_DAY_HR = 23;
+    private static final Integer MESSAGE_TYPE_OFFBOARDING_REMINDER_WEEK_STAFF = 22;
+    private static final Integer MESSAGE_TYPE_OFFBOARDING_REMINDER_DAY_STAFF = 24;
+
     /**
      * Query THE Employee list.
      *
-     *
-     * @param hrEmployees  Employee
+     * @param hrEmployees Employee
      * @return Employee
      */
     @Override
-    public List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees)
-    {
+    public List<HrEmployees> selectHrEmployeesList(HrEmployees hrEmployees) {
         return baseMapper.selectHrEmployeesList(hrEmployees);
     }
 
     @Override
-    public List<HrEmployeesExcel> selectHrEmployeesExcelList(HrEmployees hrEmployees)
-    {
+    public List<HrEmployeesExcel> selectHrEmployeesExcelList(HrEmployees hrEmployees) {
         List<HrEmployees> hrEmployees1 = baseMapper.selectHrEmployeesList(hrEmployees);
         List<HrEmployeesExcel> list = new ArrayList<>();
         for (HrEmployees employees : hrEmployees1) {
@@ -121,7 +153,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     @Override
-    public HrEmployees selectHrEmployeesById(Long id){
+    public HrEmployees selectHrEmployeesById(Long id) {
         return baseMapper.selectHrEmployeesById(id);
     }
 
@@ -133,25 +165,25 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         sysUser.setUserName(hrEmployees.getUsername());
         Long candidateId = hrEmployees.getCandidateId();
         String userEnterpriseId = SecurityUtils.getUserEnterpriseId();
-        if (hrEmployees.getEnterpriseId()==null || hrEmployees.getEnterpriseId().isEmpty()) {
+        if (hrEmployees.getEnterpriseId() == null || hrEmployees.getEnterpriseId().isEmpty()) {
             sysUser.setEnterpriseId(userEnterpriseId);
-        }else {
+        } else {
             sysUser.setEnterpriseId(hrEmployees.getEnterpriseId());
         }
         String password = "";
-        if (hrEmployees.getPassword()==null || hrEmployees.getPassword().isEmpty()){
+        if (hrEmployees.getPassword() == null || hrEmployees.getPassword().isEmpty()) {
             password = RandomStringGenerator.generate16BitRandomString();
-        }else{
+        } else {
             password = hrEmployees.getPassword();
         }
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        if (hrEmployees.getAvatarUrl()==null) {
+        if (hrEmployees.getAvatarUrl() == null) {
             hrEmployees.setAvatarUrl("https://ycfeng.oss-cn-beijing.aliyuncs.com/ycf/default-avatar.jpg");
         }
         String userType = hrEmployees.getUserType();
-        if (userType!=null) {
+        if (userType != null) {
             sysUser.setUserType(userType);
-        }else {
+        } else {
             sysUser.setUserType("02");
         }
         sysUser.setPhoneCode(hrEmployees.getPhoneCode());
@@ -175,50 +207,50 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         setSysRole(hrEmployees);
         hrEmployees.setHireDate(DateUtils.getNowDate());
         int insert = baseMapper.insert(hrEmployees);
-        if(insert>0){
+        if (insert > 0) {
             String companyName = baseMapper.seleEid(SecurityUtils.getUserEnterpriseId());
             Map<String, Object> map = new HashMap<>();
-            map.put("FirstName",hrEmployees.getFullName());
-            map.put("CompanyName",companyName);
+            map.put("FirstName", hrEmployees.getFullName());
+            map.put("CompanyName", companyName);
             String userName = hrEmployees.getUsername();
-            map.put("Username",userName);
-            map.put("Password",password);
-            map.put("LoginUrl",webUrl.getUrl());
-            emailUtils.sendEmailByTemplate(map,hrEmployees.getEmail(),"EmployeeAccountCreatedManually");
+            map.put("Username", userName);
+            map.put("Password", password);
+            map.put("LoginUrl", webUrl.getUrl());
+            emailUtils.sendEmailByTemplate(map, hrEmployees.getEmail(), "EmployeeAccountCreatedManually");
         }
         return hrEmployees.getEmployeeId();
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long updateEmployees(HrEmployees hrEmployees) {
         Long employeeId = hrEmployees.getEmployeeId();
         HrEmployees hrEmployees1 = baseMapper.selectHrEmployeesById(employeeId);
         boolean a = hrEmployees.getFullName() != null && !hrEmployees1.getFullName().equals(hrEmployees.getFullName());
         boolean b = hrEmployees.getEmail() != null && !hrEmployees1.getEmail().equals(hrEmployees.getEmail());
         boolean c = hrEmployees.getJobnumber() != null && !hrEmployees1.getJobnumber().equals(hrEmployees.getJobnumber());
-        if (a||b){
+        if (a || b) {
             SysUser sysUser = new SysUser();
             sysUser.setUserId(hrEmployees1.getUserId());
-            if (a){
+            if (a) {
                 sysUser.setNickName(hrEmployees.getFullName());
             }
-            if (b){
+            if (b) {
                 checkEmail(hrEmployees.getEmail());
                 sysUser.setEmail(hrEmployees.getEmail());
             }
             baseMapper.updateSysUser(sysUser);
         }
-        if (c){
+        if (c) {
             checkWorkNo(hrEmployees.getJobnumber());
         }
-        if (hrEmployees.getAccessLevel()!=null&&hrEmployees1.getAccessLevel().equals(hrEmployees.getAccessLevel())) {
+        if (hrEmployees.getAccessLevel() != null && hrEmployees1.getAccessLevel().equals(hrEmployees.getAccessLevel())) {
             baseMapper.deleteUserRoleByUserId(hrEmployees1.getUserId());
             setSysRole(hrEmployees);
         }
         hrEmployees.setUserId(null);
         hrEmployees.setEnterpriseId(null);
-        if (hrEmployees.getDeptId()!=null && (hrEmployees1.getDeptId() == null || !hrEmployees1.getDeptId().equals(hrEmployees.getDeptId()))) {
+        if (hrEmployees.getDeptId() != null && (hrEmployees1.getDeptId() == null || !hrEmployees1.getDeptId().equals(hrEmployees.getDeptId()))) {
             hrDeptMapper.deleteHrDeptEmployeesByEmployeesId(employeeId);
             HrDeptEmployees hrDeptEmployees = new HrDeptEmployees();
             hrDeptEmployees.setEmployeeId(employeeId);
@@ -232,34 +264,34 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     private void selectSysUserCountByUsernamesOrEmailOrWorkNoWithLock(HrEmployees hrEmployees) {
-        if (hrEmployees.getUsername()!=null){
+        if (hrEmployees.getUsername() != null) {
             checkUsername(hrEmployees.getUsername());
         }
-        if (hrEmployees.getEmail()!=null){
+        if (hrEmployees.getEmail() != null) {
             checkEmail(hrEmployees.getEmail());
         }
-        if (hrEmployees.getJobnumber()!=null){
+        if (hrEmployees.getJobnumber() != null) {
             checkWorkNo(hrEmployees.getJobnumber());
         }
     }
 
     private void checkEmail(String emails) {
         int i3 = baseMapper.selectSysUserCountByEmail(emails).size();
-        if (i3!=0){
+        if (i3 != 0) {
             throw new ServiceException("Email must be unique.");
         }
     }
 
     private void checkWorkNo(String jobnumber) {
         int i3 = baseMapper.selectEmployeeCountByWorkNo(jobnumber, SecurityUtils.getUserEnterpriseId());
-        if (i3!=0){
+        if (i3 != 0) {
             throw new ServiceException("Job number " + jobnumber + " already exists");
         }
     }
 
     private void checkUsername(String usernames) {
         int i1 = baseMapper.selectSysUserCountByUsername(usernames).size();
-        if (i1!=0){
+        if (i1 != 0) {
             throw new ServiceException("Login username must be unique.");
         }
     }
@@ -283,9 +315,10 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     /**
+     * Statistical data of employees under different statuses
      *
-     * @param userEnterpriseId
-     * @return
+     * @param userEnterpriseId Enterprise ID
+     * @return Status count map
      */
     @Override
     public Map<String, Object> getEmployeeStatusCount(String userEnterpriseId) {
@@ -293,13 +326,13 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         EmployeementStatusVo vo = baseMapper.selectEmployeeStatusCount(userEnterpriseId);
         Long totalCount = vo.getFullTime() + vo.getPartTime() + vo.getInternShip();
         List<StatusData> list = new ArrayList<>();
-        if (totalCount == 0){
+        if (totalCount == 0) {
             list.add(new StatusData("Full-time", vo.getFullTime(), df.format(0), "#FF7A2E"));
-            list.add(new StatusData("Part-time", vo.getPartTime(),  df.format(0), "#F8AF6A"));
+            list.add(new StatusData("Part-time", vo.getPartTime(), df.format(0), "#F8AF6A"));
             list.add(new StatusData("Internship", vo.getInternShip(), df.format(0), "#0CAA5E"));
-        }else {
+        } else {
             list.add(new StatusData("Full-time", vo.getFullTime(), df.format((vo.getFullTime().doubleValue() / totalCount.doubleValue()) * 100), "#FF7A2E"));
-            list.add(new StatusData("Part-time", vo.getPartTime(),  df.format((vo.getPartTime().doubleValue() / totalCount.doubleValue()) * 100), "#F8AF6A"));
+            list.add(new StatusData("Part-time", vo.getPartTime(), df.format((vo.getPartTime().doubleValue() / totalCount.doubleValue()) * 100), "#F8AF6A"));
             list.add(new StatusData("Internship", vo.getInternShip(), df.format((vo.getInternShip().doubleValue() / totalCount.doubleValue()) * 100), "#0CAA5E"));
         }
         Map<String, Object> map = new HashMap<>();
@@ -310,8 +343,9 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
 
     /**
      * Query Employee QUANTITY
-     * @param userEnterpriseId
-     * @return
+     *
+     * @param userEnterpriseId Enterprise ID
+     * @return Employee count map
      */
     @Override
     public Map<String, Object> selectEmployeeCount(String userEnterpriseId) {
@@ -330,9 +364,9 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         }
         BigDecimal thisMonth = BigDecimal.valueOf(employeeCountVo.getTotalCount());
         BigDecimal lastMonth = BigDecimal.valueOf(employeeCountVo.getLastMonthCount());
-        if (lastMonth.compareTo(BigDecimal.ZERO) == 0){
+        if (lastMonth.compareTo(BigDecimal.ZERO) == 0) {
             map.put("ratio", 100);
-        }else {
+        } else {
             // (this - last) / last * 100
             BigDecimal diff = thisMonth.subtract(lastMonth);
             BigDecimal ratio = diff
@@ -347,22 +381,23 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
 
     /**
      * Query Employee Birthdays
-     * @param hrEmployees
-     * @return
+     *
+     * @param hrEmployees Employee filter
+     * @return Birthday report list
      */
     @Override
-   public List<BirthdayReportVo> selectEmployeeBirthday(HrEmployees hrEmployees) {
+    public List<BirthdayReportVo> selectEmployeeBirthday(HrEmployees hrEmployees) {
         // 2. Define the target format: Day of week abbreviation EEE, day dd, month abbreviation MMM
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE dd MMM", Locale.ENGLISH);
 
         List<BirthdayReportVo> list = baseMapper.selectEmployeeBirthday(hrEmployees);
         list.forEach(birthdayReportVo -> {
-            if (ObjectUtils.isNotEmpty(birthdayReportVo.getDateOfBirth())){
+            if (ObjectUtils.isNotEmpty(birthdayReportVo.getDateOfBirth())) {
                 // 1. Convert to ZonedDateTime (using the system's default time zone)
                 ZonedDateTime zdt = birthdayReportVo.getDateOfBirth().toInstant()
                         .atZone(ZoneId.systemDefault());
                 birthdayReportVo.setMonth(zdt.format(formatter));
-            }else {
+            } else {
                 birthdayReportVo.setMonth("No birthday information");
             }
         });
@@ -371,19 +406,20 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
 
     /**
      * Celebration
-     * @param userId
-     * @return
+     *
+     * @param userId User ID
+     * @return Celebration list
      */
     @Override
-   public List<CelebrationVo> selectCelebrationList(Long userId) {
+    public List<CelebrationVo> selectCelebrationList(Long userId) {
         // Obtain today's date
         LocalDate today = LocalDate.now();
         List<CelebrationVo> list = new ArrayList<>();
         HrEmployees hrEmployees = baseMapper.selectHrEmployeesByUserId(userId);
-        if (ObjectUtils.isNotEmpty(hrEmployees) && StringUtils.isNotEmpty(hrEmployees.getEnterpriseId())){
+        if (ObjectUtils.isNotEmpty(hrEmployees) && StringUtils.isNotEmpty(hrEmployees.getEnterpriseId())) {
             List<HrEmployees> employeesList = baseMapper.selectEmployeesListByEid(hrEmployees.getEnterpriseId());
             employeesList.stream().forEach(employee -> {
-                if (ObjectUtils.isNotEmpty(employee.getDateOfBirth())){
+                if (ObjectUtils.isNotEmpty(employee.getDateOfBirth())) {
                     CelebrationVo celebrationVo = new CelebrationVo();
                     Date dateOfBirth = employee.getDateOfBirth();
                     // Convert Date to LocalDate
@@ -393,7 +429,7 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
                     // Determine if the month and day are the same
                     boolean isSameMonthDay = today.getMonthValue() == targetLocalDate.getMonthValue()
                             && today.getDayOfMonth() == targetLocalDate.getDayOfMonth();
-                    if (isSameMonthDay){
+                    if (isSameMonthDay) {
                         celebrationVo.setType("1");
                         celebrationVo.setTitle("Birthday celebration");
                         celebrationVo.setDescription(employee.getFullName() + " has a birthday today");
@@ -415,24 +451,31 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     @Override
-    public int deleteById(Long employeeId)
-    {
+    public int deleteById(Long employeeId) {
         HrEmployees hrEmployees = baseMapper.selectById(employeeId);
         Long userId = hrEmployees.getUserId();
         baseMapper.deleteSysUserById(userId);
         return baseMapper.deleteById(employeeId);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int resignEmployee(Long employeeId) {
-        return resignEmployee(employeeId,null);
+        return resignEmployee(employeeId, null);
     }
 
+    /**
+     * Direct employee resignation (without offboarding tasks)
+     * Used when system access is "2" or null
+     *
+     * @param employeeId Employee ID
+     * @param resignationHrUserId HR user ID handling resignation
+     * @return Number of rows affected
+     */
     public int resignEmployee(Long employeeId, Long resignationHrUserId) {
         HrEmployees hrEmployees = baseMapper.selectById(employeeId);
         Long userId = hrEmployees.getUserId();
-        if (resignationHrUserId==null){
+        if (resignationHrUserId == null) {
             resignationHrUserId = hrEmployees.getResignationHrUserId();
         }
         HrEmployees hrEmployees2 = baseMapper.selectHrEmployeesByUserId(resignationHrUserId);
@@ -445,11 +488,11 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         hrEmployees1.setStatus(EmployeeStatus.RESIGNED.getCode());
         HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(hrEmployees.getEnterpriseId());
         Map<String, Object> map = new HashMap<>();
-        map.put("FullName",hrEmployees.getFullName());
-        map.put("HrisToolName",HRIS_TOOL_NAME);
-        map.put("HrEmail",hrEmployees2.getEmail());
-        map.put("CompanyName",hrEnterprise.getEnterpriseName());
-        emailUtils.sendEmailByTemplate(map,hrEmployees.getEmail(),"TerminationComplete");
+        map.put("FullName", hrEmployees.getFullName());
+        map.put("HrisToolName", HRIS_TOOL_NAME);
+        map.put("HrEmail", hrEmployees2.getEmail());
+        map.put("CompanyName", hrEnterprise.getEnterpriseName());
+        emailUtils.sendEmailByTemplate(map, hrEmployees.getEmail(), "TerminationComplete");
         SysMessage sysMessage = getSysMessage(employeeId, resignationHrUserId, hrEmployees);
         remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
         return baseMapper.updateById(hrEmployees1);
@@ -459,74 +502,160 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     private static SysMessage getSysMessage(Long employeeId, Long resignationHrUserId, HrEmployees hrEmployees) {
         SysMessage sysMessage = new SysMessage();
         sysMessage.setMessageRecipient(resignationHrUserId);
-        sysMessage.setMessageStatus("0");
-        sysMessage.setMessageType(21);
+        sysMessage.setMessageStatus(MESSAGE_STATUS_UNREAD);
+        sysMessage.setMessageType(MESSAGE_TYPE_TERMINATION_COMPLETE);
         sysMessage.setCreateTime(DateUtils.getNowDate());
         Map<String, Object> map1 = new HashMap<>();
         Map<String, Object> map2 = new HashMap<>();
-        QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("resign_employee_id", employeeId);
-        queryWrapper.eq("name",OFFBOARDING_TARGET_HR);
         map1.put("fullName", hrEmployees.getFullName());
         sysMessage.setMap1(map1);
         sysMessage.setMap2(map2);
         return sysMessage;
     }
 
-    @Transactional
+    /**
+     * Employee Resignation - Enhanced with Security Validation
+     *
+     * @param employees Employee resignation information
+     * @return Number of rows affected
+     */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int resignEmployees(HrEmployees employees) {
-        Long employeeId = employees.getEmployeeId();
-        Long userId1 = SecurityUtils.getUserId();
-        HrEmployees hrEmployees2 = baseMapper.selectHrEmployeesByUserId(userId1);
-//        SysUser sysUser = new SysUser();
-//        sysUser.setUserId(userId);
-//        sysUser.setStatus("1");
-//        baseMapper.updateSysUser(sysUser);
-        Date resignationDate = employees.getResignationDate();
-        String systemAccess = employees.getSystemAccess();
-        if (systemAccess==null|| "2".equals(systemAccess)) {
-            return this.resignEmployee(employeeId,SecurityUtils.getUserId());
-        }else {
-            Long employeeId1 = hrEmployees2.getEmployeeId();
-            createTargets(employeeId,employeeId1,userId1,resignationDate);
+        log.info("Initiating resignation process for employee: {}", employees.getEmployeeId());
+
+        try {
+            // ===== Step 1: Get complete employee information =====
+            Long employeeId = employees.getEmployeeId();
+            HrEmployees existingEmployee = baseMapper.selectById(employeeId);
+            if (existingEmployee == null) {
+                log.error("Employee not found: {}", employeeId);
+                throw new ServiceException("Employee not found");
+            }
+
+            // ===== Step 2: Security validation =====
+            securityService.validateResignPermission(existingEmployee);
+
+            // ===== Step 3: Input validation =====
+            validationService.validateResignInput(employees);
+
+            // Validate email if employee has email
+            if (existingEmployee.getEmail() != null) {
+                validationService.validateEmail(existingEmployee.getEmail());
+            }
+
+            // ===== Step 4: Execute business logic =====
+            Long currentUserId = SecurityUtils.getUserId();
+            Date resignationDate = employees.getResignationDate();
+            String systemAccess = employees.getSystemAccess();
+
+            // Handle different system access scenarios
+            if (systemAccess == null || "2".equals(systemAccess)) {
+                // Direct resignation without offboarding tasks
+                int result = this.resignEmployee(employeeId, currentUserId);
+
+                // Record audit log
+                auditService.logResignInitiation(employees);
+
+                return result;
+            } else {
+                // Create offboarding tasks
+                HrEmployees currentHrEmployee = baseMapper.selectHrEmployeesByUserId(currentUserId);
+                Long hrEmployeeId = currentHrEmployee.getEmployeeId();
+                createTargets(employeeId, hrEmployeeId, currentUserId, resignationDate, existingEmployee);
+            }
+
+            // Update employee status to offboarding
+            HrEmployees updateEmployee = getHrEmployees(employees);
+            int result = baseMapper.updateById(updateEmployee);
+
+            // ===== Step 5: Record audit log =====
+            auditService.logResignInitiation(employees);
+
+            log.info("Resignation process completed successfully for employee: {}", employeeId);
+            return result;
+
+        } catch (ServiceException e) {
+            // Business exception, record audit log
+            auditService.logSecurityViolation(
+                    employees.getEmployeeId(),
+                    "RESIGN_FAILED",
+                    "Reason: " + e.getMessage()
+            );
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error during resignation process for employee: {}",
+                    employees.getEmployeeId(), e);
+            throw new ServiceException("Failed to process resignation: " + e.getMessage());
         }
-        HrEmployees hrEmployees1 = getHrEmployees(employees);
-        return baseMapper.updateById(hrEmployees1);
     }
 
-    private void createTargets(Long employeeId, Long employeeId1, Long userId, Date resignationDate) {
-        HrEmployees hrEmployees = baseMapper.selectById(employeeId);
-        HrTargets hrTargets = createTarget(employeeId, userId, resignationDate, OFFBOARDING_TARGET_HR);
-        hrTargets.setEmployeeIds(new Long[]{employeeId1});
-        targetsService.insertHrTargets(hrTargets);
-        HrTargets hrTargets1 = createTarget(employeeId, userId, resignationDate, OFFBOARDING_TARGET_STAFF);
-        hrTargets1.setEmployeeIds(new Long[]{employeeId});
-        targetsService.insertHrTargets(hrTargets1);
-        List<String> list = new ArrayList<>();
-        list.add("Complete clearance");
-        list.add("Return equipment");
-        list.add("Return cash on hand");
-        list.add("Management approval");
-        list.add("Coordinate access removal");
-        list.add("Confirm bond agreement");
-        list.add("Issue separation form");
-        this.insertHrTargetTasks(hrTargets.getId(),list);
-        List<String> list1 = new ArrayList<>();
-        list1.add("Complete clearance");
-        list1.add("Return equipment");
-        list1.add("Return cash on hand");
-        list1.add("Complete handover of tasks");
-        list1.add("Sign separation form");
-        this.insertHrTargetTasks(hrTargets1.getId(),list1);
+    /**
+     * Create offboarding targets for both HR and staff - Enhanced with validation
+     */
+    private void createTargets(Long employeeId, Long hrEmployeeId, Long userId, Date resignationDate, HrEmployees employee) {
+        try {
+            // Create HR target
+            HrTargets hrTargets = createTarget(employeeId, userId, resignationDate, OFFBOARDING_TARGET_HR);
+            hrTargets.setEmployeeIds(new Long[]{hrEmployeeId});
+            targetsService.insertHrTargets(hrTargets);
+
+            // Create staff target
+            HrTargets hrTargets1 = createTarget(employeeId, userId, resignationDate, OFFBOARDING_TARGET_STAFF);
+            hrTargets1.setEmployeeIds(new Long[]{employeeId});
+            targetsService.insertHrTargets(hrTargets1);
+
+            // Insert HR tasks
+            List<String> hrTasks = new ArrayList<>();
+            hrTasks.add("Complete clearance");
+            hrTasks.add("Return equipment");
+            hrTasks.add("Return cash on hand");
+            hrTasks.add("Management approval");
+            hrTasks.add("Coordinate access removal");
+            hrTasks.add("Confirm bond agreement");
+            hrTasks.add("Issue separation form");
+            this.insertHrTargetTasks(hrTargets.getId(), hrTasks);
+
+            // Insert staff tasks
+            List<String> staffTasks = new ArrayList<>();
+            staffTasks.add("Complete clearance");
+            staffTasks.add("Return equipment");
+            staffTasks.add("Return cash on hand");
+            staffTasks.add("Complete handover of tasks");
+            staffTasks.add("Sign separation form");
+            this.insertHrTargetTasks(hrTargets1.getId(), staffTasks);
+
+            // Send notifications (with exception handling)
+            try {
+                sendResignationInitiationNotifications(employee, hrTargets1);
+            } catch (Exception e) {
+                log.error("Failed to send resignation notifications for employee: {}", employeeId, e);
+                // Don't fail the entire process if notification fails
+            }
+        } catch (Exception e) {
+            log.error("Failed to create offboarding targets for employee: {}", employeeId, e);
+            throw new ServiceException("Failed to create offboarding targets: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Send resignation initiation notifications - Enhanced with validation
+     */
+    private void sendResignationInitiationNotifications(HrEmployees employee, HrTargets staffTarget) {
         HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(SecurityUtils.getUserEnterpriseId());
         Map<String, Object> map = new HashMap<>();
-        map.put("FullName",hrEmployees.getFullName());
-        map.put("HrisToolName","Shiftcare HR");
-        map.put("OffboardingUrl", webUrl.getUrl() +"/targets/detail?id="+hrTargets1.getId());
-        map.put("CompanyName",hrEnterprise.getEnterpriseName());
-        emailUtils.sendEmailByTemplate(map,hrEmployees.getEmail(),"OffboardingInitiated");
-        SysMessage sysMessage = buildMessage(hrEmployees, hrTargets);
+        map.put("FullName", employee.getFullName());
+        map.put("HrisToolName", HRIS_TOOL_NAME);
+        map.put("OffboardingUrl", webUrl.getUrl() + "/targets/detail?id=" + staffTarget.getId());
+        map.put("CompanyName", hrEnterprise.getEnterpriseName());
+
+        // Validate email before sending
+        if (employee.getEmail() != null) {
+            validationService.validateEmail(employee.getEmail());
+            emailUtils.sendEmailByTemplate(map, employee.getEmail(), "OffboardingInitiated");
+        }
+
+        SysMessage sysMessage = buildMessage(employee, staffTarget);
         remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
     }
 
@@ -534,8 +663,8 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     private static SysMessage buildMessage(HrEmployees hrEmployees, HrTargets hrTargets) {
         SysMessage sysMessage = new SysMessage();
         sysMessage.setMessageRecipient(SecurityUtils.getUserId());
-        sysMessage.setMessageStatus("0");
-        sysMessage.setMessageType(19);
+        sysMessage.setMessageStatus(MESSAGE_STATUS_UNREAD);
+        sysMessage.setMessageType(MESSAGE_TYPE_OFFBOARDING_INITIATED);
         sysMessage.setCreateTime(DateUtils.getNowDate());
         Map<String, Object> map1 = new HashMap<>();
         Map<String, Object> map2 = new HashMap<>();
@@ -546,10 +675,10 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         return sysMessage;
     }
 
-    private HrTargets createTarget(Long employeeId, Long userId, Date resignationDate, String offboardingTargetHr) {
+    private HrTargets createTarget(Long employeeId, Long userId, Date resignationDate, String offboardingTargetName) {
         HrTargets hrTargets = new HrTargets();
-        hrTargets.setName(offboardingTargetHr);
-        hrTargets.setDescription(offboardingTargetHr);
+        hrTargets.setName(offboardingTargetName);
+        hrTargets.setDescription(offboardingTargetName);
         hrTargets.setType("Individual Goal");
         hrTargets.setStartTime(DateUtils.getNowDate());
         hrTargets.setEndTime(resignationDate);
@@ -560,19 +689,61 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         return hrTargets;
     }
 
+    /**
+     * Cancel Employee Resignation - Enhanced with Security Validation
+     *
+     * @param employees Employee information
+     * @return Number of rows affected
+     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int resignCancelEmployees(HrEmployees employees) {
-        Long employeeId = employees.getEmployeeId();
-        HrEmployees employees1 = new HrEmployees();
-        employees1.setEmployeeId(employeeId);
-        employees1.setStatus(EmployeeStatus.ACTIVE.getCode());
-        QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("resign_employee_id",employeeId);
-        targetsService.remove(queryWrapper);
-        return baseMapper.updateById(employees1);
+        log.info("Initiating resignation cancellation for employee: {}", employees.getEmployeeId());
+
+        try {
+            Long employeeId = employees.getEmployeeId();
+
+            // 1. Get employee information
+            HrEmployees existingEmployee = baseMapper.selectById(employeeId);
+            if (existingEmployee == null) {
+                throw new ServiceException("Employee not found");
+            }
+
+            // 2. Security validation
+            securityService.validateResignCancelPermission(existingEmployee);
+
+            // 3. Delete resignation-related tasks
+            QueryWrapper<HrTargets> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("resign_employee_id", employeeId);
+            targetsService.remove(queryWrapper);
+
+            // 4. Update employee status to active
+            HrEmployees updateEmployee = new HrEmployees();
+            updateEmployee.setEmployeeId(employeeId);
+            updateEmployee.setStatus(EmployeeStatus.ACTIVE.getCode());
+            int result = baseMapper.updateById(updateEmployee);
+
+            // 5. Record audit log
+            auditService.logResignCancellation(existingEmployee);
+
+            log.info("Resignation cancelled successfully for employee: {}", employeeId);
+            return result;
+
+        } catch (ServiceException e) {
+            auditService.logSecurityViolation(
+                    employees.getEmployeeId(),
+                    "CANCEL_RESIGN_FAILED",
+                    "Reason: " + e.getMessage()
+            );
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error during resignation cancellation for employee: {}",
+                    employees.getEmployeeId(), e);
+            throw new ServiceException("Failed to cancel resignation: " + e.getMessage());
+        }
     }
 
-    private void insertHrTargetTasks(Long targetId,List<String> tasks){
+    private void insertHrTargetTasks(Long targetId, List<String> tasks) {
         for (String task : tasks) {
             HrTargetTasks hrTargetTasks = new HrTargetTasks();
             hrTargetTasks.setTargetId(targetId);
@@ -590,31 +761,70 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         HrEmployees hrEmployees1 = new HrEmployees();
         hrEmployees1.setEmployeeId(employees.getEmployeeId());
         hrEmployees1.setResignationAttachment(employees.getResignationAttachment());
-        hrEmployees1.setResignationDate(employees.getResignationDate()==null?DateUtils.getNowDate():employees.getResignationDate());
+        hrEmployees1.setResignationDate(employees.getResignationDate() == null ? DateUtils.getNowDate() : employees.getResignationDate());
         hrEmployees1.setResignationReason(employees.getResignationReason());
         hrEmployees1.setRehireEligibility(employees.getRehireEligibility());
-        hrEmployees1.setSystemAccess(employees.getSystemAccess()==null?"2":employees.getSystemAccess());
+        hrEmployees1.setSystemAccess(employees.getSystemAccess() == null ? "2" : employees.getSystemAccess());
         hrEmployees1.setResignationHrUserId(SecurityUtils.getUserId());
         hrEmployees1.setStatus(EmployeeStatus.OFFBOARDING.getCode());
         return hrEmployees1;
     }
 
+    /**
+     * Restore Employee - Enhanced with Security Validation
+     *
+     * @param employeeId Employee ID
+     * @return Number of rows affected
+     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int restoreEmployees(Long employeeId) {
-        HrEmployees hrEmployees = baseMapper.selectById(employeeId);
-        Long userId = hrEmployees.getUserId();
-        SysUser sysUser = new SysUser();
-        sysUser.setUserId(userId);
-        sysUser.setStatus("0");
-        baseMapper.updateSysUser(sysUser);
-        HrEmployees hrEmployees1 = new HrEmployees();
-        hrEmployees1.setEmployeeId(employeeId);
-        hrEmployees1.setStatus(EmployeeStatus.ACTIVE.getCode());
-        return baseMapper.updateById(hrEmployees1);
+        log.info("Initiating employee restoration for: {}", employeeId);
+
+        try {
+            // 1. Get employee information
+            HrEmployees employee = baseMapper.selectById(employeeId);
+            if (employee == null) {
+                throw new ServiceException("Employee not found");
+            }
+
+            // 2. Security validation
+            securityService.validateRestorePermission(employee);
+
+            // 3. Restore system user
+            Long userId = employee.getUserId();
+            SysUser sysUser = new SysUser();
+            sysUser.setUserId(userId);
+            sysUser.setStatus("0"); // Active status
+            baseMapper.updateSysUser(sysUser);
+
+            // 4. Update employee status
+            HrEmployees updateEmployee = new HrEmployees();
+            updateEmployee.setEmployeeId(employeeId);
+            updateEmployee.setStatus(EmployeeStatus.ACTIVE.getCode());
+            int result = baseMapper.updateById(updateEmployee);
+
+            // 5. Record audit log
+            auditService.logEmployeeRestore(employee);
+
+            log.info("Employee restored successfully: {}", employeeId);
+            return result;
+
+        } catch (ServiceException e) {
+            auditService.logSecurityViolation(
+                    employeeId,
+                    "RESTORE_FAILED",
+                    "Reason: " + e.getMessage()
+            );
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error during employee restoration for: {}", employeeId, e);
+            throw new ServiceException("Failed to restore employee: " + e.getMessage());
+        }
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int updateAvatarUrl(HrEmployees employees) {
         String avatarUrl = employees.getAvatarUrl();
         Long employeeId = employees.getEmployeeId();
@@ -627,51 +837,60 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     /**
-     * Send offboarding reminders to HR and resigned employee one week before resignation date
-     * Handles both email notifications and system messages with target task links
+     * Send offboarding reminders one week before resignation date
      *
-     * @param employees Resigned employee information (contains resignation details and user info)
+     * @param employees Resigned employee information
      */
-    public void resignEmployeeOneWeekAgo(HrEmployees employees) {
-        // Retrieve HR information responsible for handling the offboarding process
-        HrEmployees resignationHr = baseMapper.selectHrEmployeesByUserId(employees.getResignationHrUserId());
-        // Retrieve enterprise information (used in employee email template)
-        HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(employees.getEnterpriseId());
-        // Process offboarding reminders for HR (email + system message)
-        List<HrTargets> hrOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_HR);
-        sendOffboardingReminderToHr(employees, resignationHr, hrOffboardingTargets, "offboardingReminderWeekHr", 20);
-        // Process offboarding reminders for resigned employee (email + system message)
-        List<HrTargets> staffOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_STAFF);
-        sendOffboardingReminderToStaff(employees, hrEnterprise, staffOffboardingTargets, "offboardingReminderWeekEmployee", 22);
-}
-
     @Override
-    public void resignEmployeeOneDayAgo(HrEmployees employees) {
-        // Retrieve HR information responsible for handling the offboarding process
-        HrEmployees resignationHr = baseMapper.selectHrEmployeesByUserId(employees.getResignationHrUserId());
-        // Retrieve enterprise information (used in employee email template)
-        HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(employees.getEnterpriseId());
-        // Process offboarding reminders for HR (email + system message)
-        List<HrTargets> hrOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_HR);
-        sendOffboardingReminderToHr(employees, resignationHr, hrOffboardingTargets, "offboardingReminderDayHr", 23);
-        // Process offboarding reminders for resigned employee (email + system message)
-        List<HrTargets> staffOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_STAFF);
-        sendOffboardingReminderToStaff(employees, hrEnterprise, staffOffboardingTargets, "offboardingReminderDayEmployee", 24);
+    public void resignEmployeeOneWeekAgo(HrEmployees employees) {
+        log.info("Sending one-week offboarding reminders for employee: {}", employees.getEmployeeId());
+
+        try {
+            // Retrieve HR information responsible for handling the offboarding process
+            HrEmployees resignationHr = baseMapper.selectHrEmployeesByUserId(employees.getResignationHrUserId());
+            // Retrieve enterprise information (used in employee email template)
+            HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(employees.getEnterpriseId());
+
+            // Process offboarding reminders for HR (email + system message)
+            List<HrTargets> hrOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_HR);
+            sendOffboardingReminderToHr(employees, resignationHr, hrOffboardingTargets, "offboardingReminderWeekHr", MESSAGE_TYPE_OFFBOARDING_REMINDER_WEEK_HR);
+
+            // Process offboarding reminders for resigned employee (email + system message)
+            List<HrTargets> staffOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_STAFF);
+            sendOffboardingReminderToStaff(employees, hrEnterprise, staffOffboardingTargets, "offboardingReminderWeekEmployee", MESSAGE_TYPE_OFFBOARDING_REMINDER_WEEK_STAFF);
+        } catch (Exception e) {
+            log.error("Failed to send one-week offboarding reminders for employee: {}",
+                    employees.getEmployeeId(), e);
+        }
     }
 
-
     /**
-     * Constant definitions - Centralized management for easier maintenance
+     * Send offboarding reminders one day before resignation date
+     *
+     * @param employees Resigned employee information
      */
-    // Target task names for offboarding process
-    private static final String OFFBOARDING_TARGET_HR = "Complete offboarding - HR";
-    private static final String OFFBOARDING_TARGET_STAFF = "Complete offboarding - Staff";
-    // HRIS tool name used in email templates
-    private static final String HRIS_TOOL_NAME = "Shiftcare HR";
-    // Template for offboarding task detail URL (format with target ID)
-    private static final String OFFBOARDING_URL_TEMPLATE = "/targets/detail?id=%s";
-    // System message status: 0 = Unread
-    private static final String MESSAGE_STATUS_UNREAD = "0";
+    @Override
+    public void resignEmployeeOneDayAgo(HrEmployees employees) {
+        log.info("Sending one-day offboarding reminders for employee: {}", employees.getEmployeeId());
+
+        try {
+            // Retrieve HR information responsible for handling the offboarding process
+            HrEmployees resignationHr = baseMapper.selectHrEmployeesByUserId(employees.getResignationHrUserId());
+            // Retrieve enterprise information (used in employee email template)
+            HrEnterprise hrEnterprise = candidateInfoMapper.seleEid(employees.getEnterpriseId());
+
+            // Process offboarding reminders for HR (email + system message)
+            List<HrTargets> hrOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_HR);
+            sendOffboardingReminderToHr(employees, resignationHr, hrOffboardingTargets, "offboardingReminderDayHr", MESSAGE_TYPE_OFFBOARDING_REMINDER_DAY_HR);
+
+            // Process offboarding reminders for resigned employee (email + system message)
+            List<HrTargets> staffOffboardingTargets = getOffboardingTargets(employees.getEmployeeId(), OFFBOARDING_TARGET_STAFF);
+            sendOffboardingReminderToStaff(employees, hrEnterprise, staffOffboardingTargets, "offboardingReminderDayEmployee", MESSAGE_TYPE_OFFBOARDING_REMINDER_DAY_STAFF);
+        } catch (Exception e) {
+            log.error("Failed to send one-day offboarding reminders for employee: {}",
+                    employees.getEmployeeId(), e);
+        }
+    }
 
     /**
      * Query offboarding-related target tasks by resigned employee ID and target name
@@ -688,52 +907,75 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
     }
 
     /**
-     * Send offboarding reminder to HR (includes email and system message)
+     * Send offboarding reminder to HR (includes email and system message) - Enhanced with validation
      *
      * @param resignedEmployee   Resigned employee information
      * @param resignationHr      HR responsible for offboarding
      * @param offboardingTargets Matching offboarding target tasks
+     * @param emailType          Email template type
+     * @param messageType        System message type
      */
-    private void sendOffboardingReminderToHr(HrEmployees resignedEmployee, HrEmployees resignationHr, List<HrTargets> offboardingTargets, String emailType, Integer messageType) {
-        // Build email parameters
-        Map<String, Object> emailParams = buildHrEmailParams(resignedEmployee, resignationHr, offboardingTargets);
-        // Send email notification to HR
-        emailUtils.sendEmailByTemplate(emailParams, resignationHr.getEmail(), emailType);
-        // Build system message
-        SysMessage sysMessage = buildSysMessage(
-                resignationHr.getUserId(),
-                messageType,
-                buildMessageMap1(resignedEmployee.getFullName()),
-                buildMessageMap2(offboardingTargets)
-        );
-        // Send system message to HR
-        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+    private void sendOffboardingReminderToHr(HrEmployees resignedEmployee, HrEmployees resignationHr,
+                                             List<HrTargets> offboardingTargets, String emailType, Integer messageType) {
+        try {
+            // Build email parameters
+            Map<String, Object> emailParams = buildHrEmailParams(resignedEmployee, resignationHr, offboardingTargets);
+
+            // Validate and send email notification to HR
+            if (resignationHr != null && resignationHr.getEmail() != null) {
+                validationService.validateEmail(resignationHr.getEmail());
+                emailUtils.sendEmailByTemplate(emailParams, resignationHr.getEmail(), emailType);
+            }
+
+            // Build system message
+            SysMessage sysMessage = buildSysMessage(
+                    resignationHr.getUserId(),
+                    messageType,
+                    buildMessageMap1(resignedEmployee.getFullName()),
+                    buildMessageMap2(offboardingTargets)
+            );
+            // Send system message to HR
+            remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+        } catch (Exception e) {
+            log.error("Failed to send offboarding reminder to HR", e);
+        }
     }
 
     /**
-     * Send offboarding reminder to resigned employee (includes email and system message)
+     * Send offboarding reminder to resigned employee (includes email and system message) - Enhanced with validation
      *
      * @param resignedEmployee   Resigned employee information
      * @param hrEnterprise       Current enterprise information
      * @param offboardingTargets Matching offboarding target tasks
+     * @param emailType          Email template type
+     * @param messageType        System message type
      */
-    private void sendOffboardingReminderToStaff(HrEmployees resignedEmployee, HrEnterprise hrEnterprise, List<HrTargets> offboardingTargets, String emailType, Integer messageType) {
-        // Build email parameters
-        Map<String, Object> emailParams = buildStaffEmailParams(resignedEmployee, hrEnterprise, offboardingTargets);
-        // Validate employee email before sending
-        Assert.notNull(resignedEmployee.getEmail(), "Resigned employee's email address cannot be null");
-        // Send email notification to resigned employee
-        emailUtils.sendEmailByTemplate(emailParams, resignedEmployee.getEmail(), emailType);
-        Map<String, Object> map1 = new HashMap<>();
-        // Build system message
-        SysMessage sysMessage = buildSysMessage(
-                resignedEmployee.getUserId(),
-                messageType,
-                map1,
-                buildMessageMap2(offboardingTargets)
-        );
-        // Send system message to resigned employee (fixed bug: used correct sysMessage object)
-        remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+    private void sendOffboardingReminderToStaff(HrEmployees resignedEmployee, HrEnterprise hrEnterprise,
+                                                List<HrTargets> offboardingTargets, String emailType, Integer messageType) {
+        try {
+            // Build email parameters
+            Map<String, Object> emailParams = buildStaffEmailParams(resignedEmployee, hrEnterprise, offboardingTargets);
+
+            // Validate employee email before sending
+            Assert.notNull(resignedEmployee.getEmail(), "Resigned employee's email address cannot be null");
+            validationService.validateEmail(resignedEmployee.getEmail());
+
+            // Send email notification to resigned employee
+            emailUtils.sendEmailByTemplate(emailParams, resignedEmployee.getEmail(), emailType);
+
+            Map<String, Object> map1 = new HashMap<>();
+            // Build system message
+            SysMessage sysMessage = buildSysMessage(
+                    resignedEmployee.getUserId(),
+                    messageType,
+                    map1,
+                    buildMessageMap2(offboardingTargets)
+            );
+            // Send system message to resigned employee
+            remoteMessageService.sendMessageByTemplate(sysMessage, SecurityConstants.INNER);
+        } catch (Exception e) {
+            log.error("Failed to send offboarding reminder to staff", e);
+        }
     }
 
     /**
@@ -771,9 +1013,9 @@ public class HrEmployeesServiceImpl extends ServiceImpl<HrEmployeesMapper, HrEmp
         params.put("HrisToolName", HRIS_TOOL_NAME);
         params.put("CompanyName", hrEnterprise.getEnterpriseName());
 
-        // Add offboarding task URL if targets exist (fixed bug: used correct target list)
+        // Add offboarding task URL if targets exist
         if (!offboardingTargets.isEmpty()) {
-            params.put("OffboardingUrl",webUrl.getUrl() +  String.format(OFFBOARDING_URL_TEMPLATE, offboardingTargets.get(0).getId()));
+            params.put("OffboardingUrl", webUrl.getUrl() + String.format(OFFBOARDING_URL_TEMPLATE, offboardingTargets.get(0).getId()));
         }
         return params;
     }

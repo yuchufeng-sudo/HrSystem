@@ -1,10 +1,13 @@
 package com.ys.hr.enums;
 
+import lombok.Getter;
+
 /**
- * @description:
+ * @description: Fund Type Enum
  * @author: xz_Frank
  * @date: 2025/11/27
  */
+@Getter
 public enum FundType {
     APRA("1"),
     SMSF("2");
@@ -13,10 +16,6 @@ public enum FundType {
     }
 
     private final String code;
-
-    public String getCode() {
-        return code;
-    }
 
     public boolean equalsCode(String code) {
         return this.code.equals(code);

@@ -1,5 +1,7 @@
 package com.ys.hr.enums;
 
+import lombok.Getter;
+
 /**
  * Candidate Status Enum
  *
@@ -9,6 +11,7 @@ package com.ys.hr.enums;
  * @author ys
  * @date 2025-11-26
  */
+@Getter
 public enum CandidateStatus {
 
     /**
@@ -38,11 +41,21 @@ public enum CandidateStatus {
 
     /**
      * Status code stored in database
+     * -- GETTER --
+     *  Get the status code
+     *
+     * @return Status code string
+
      */
     private final String code;
 
     /**
      * Human-readable status description
+     * -- GETTER --
+     *  Get the status description
+     *
+     * @return Status description string
+
      */
     private final String description;
 
@@ -55,24 +68,6 @@ public enum CandidateStatus {
     CandidateStatus(String code, String description) {
         this.code = code;
         this.description = description;
-    }
-
-    /**
-     * Get the status code
-     *
-     * @return Status code string
-     */
-    public String getCode() {
-        return code;
-    }
-
-    /**
-     * Get the status description
-     *
-     * @return Status description string
-     */
-    public String getDescription() {
-        return description;
     }
 
     /**

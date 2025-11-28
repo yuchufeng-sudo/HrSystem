@@ -44,21 +44,5 @@ public interface IHrOnboardingFileService extends IService<HrOnboardingFile>
      */
     public int updateHrOnboardingFile(HrOnboardingFile hrOnboardingFile);
 
-    /**
-     * Batch delete Onboarding File
-     *
-     * @param ids Onboarding File primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrOnboardingFileByIds(String[] ids);
-
-    /**
-     * Delete Onboarding File information
-     *
-     * @param id Onboarding File primary key
-     * @return Result
-     */
-    public int deleteHrOnboardingFileById(String id);
-
     List<HrOnboardingFile> selectHrOnboardingFileListByEmp(HrOnboardingFile hrOnboardingFile);
 }
