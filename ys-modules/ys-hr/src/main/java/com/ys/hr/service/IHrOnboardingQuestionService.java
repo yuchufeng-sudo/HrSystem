@@ -44,21 +44,5 @@ public interface IHrOnboardingQuestionService extends IService<HrOnboardingQuest
      */
     public int updateHrOnboardingQuestion(HrOnboardingQuestion hrOnboardingQuestion);
 
-    /**
-     * Batch delete Job listings questions table
-     *
-     * @param ids Job listings questions table primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrOnboardingQuestionByIds(String[] ids);
-
-    /**
-     * Delete Job listings questions table information
-     *
-     * @param id Job listings questions table primary key
-     * @return Result
-     */
-    public int deleteHrOnboardingQuestionById(String id);
-
     List<HrOnboardingQuestion> selectHrOnboardingQuestionListByEmp(HrOnboardingQuestion hrOnboardingQuestion);
 }

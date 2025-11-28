@@ -43,20 +43,4 @@ public interface IHrOnboardingResultService extends IService<HrOnboardingResult>
      * @return Result
      */
     public int updateHrOnboardingResult(HrOnboardingResult hrOnboardingResult);
-
-    /**
-     * Batch delete Onboarding Result
-     *
-     * @param ids Onboarding Result primary keys to be deleted
-     * @return Result
-     */
-    public int deleteHrOnboardingResultByIds(String[] ids);
-
-    /**
-     * Delete Onboarding Result information
-     *
-     * @param id Onboarding Result primary key
-     * @return Result
-     */
-    public int deleteHrOnboardingResultById(String id);
 }
